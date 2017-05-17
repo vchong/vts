@@ -195,6 +195,21 @@ def find_files(paths, file_predicate):
     return file_list
 
 
+def iterate_files(dir_path):
+    """A generator yielding regular files in a directory recursively.
+
+    Args:
+        dir_path: A string representing the path to search.
+
+    Yields:
+        A tuple of strings (directory, file). The directory containing
+        the file and the file name.
+    """
+    for root_dir, dir_names, file_names in os.walk(dir_path):
+        for file_name in file_names:
+            yield root_dir, file_name
+
+
 def load_config(file_full_path):
     """Loads a JSON config file.
 

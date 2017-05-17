@@ -281,11 +281,8 @@ void HalHidlProfilerCodeGen::GenerateHeaderIncludeFiles(Formatter& out,
   out << "#include \"VtsProfilingInterface.h\"\n";
   out << "\n";
 
-  std::string package_path = GetPackage(message);
-  ReplaceSubString(package_path, ".", "/");
-
   // Include generated hal classes.
-  out << "#include <" << package_path << "/" << GetPackageVersion(message)
+  out << "#include <" << GetPackagePath(message) << "/" << GetVersion(message)
       << "/" << GetComponentName(message) << ".h>\n";
 
   // Include imported classes.
@@ -311,21 +308,19 @@ void HalHidlProfilerCodeGen::GenerateHeaderIncludeFiles(Formatter& out,
   out << "\n\n";
 }
 
-void HalHidlProfilerCodeGen::GenerateSourceIncludeFiles(Formatter& out,
-    const ComponentSpecificationMessage& /*message*/) {
+void HalHidlProfilerCodeGen::GenerateSourceIncludeFiles(
+    Formatter& out, const ComponentSpecificationMessage& message) {
   // Include the corresponding profiler header file.
-  out << "#include \"" << input_vts_file_path_ << ".h\"\n";
+  out << "#include \"" << GetPackagePath(message) << "/" << GetVersion(message)
+      << "/" << GetComponentBaseName(message) << ".vts.h\"\n";
   out << "\n";
 }
 
 void HalHidlProfilerCodeGen::GenerateUsingDeclaration(Formatter& out,
   const ComponentSpecificationMessage& message) {
-  std::string package_path = GetPackage(message);
-  ReplaceSubString(package_path, ".", "::");
-
   out << "using namespace ";
-  out << package_path << "::"
-      << GetVersionString(message.component_type_version(), true) << ";\n";
+  out << GetPackageNamespaceToken(message) << "::" << GetVersion(message, true)
+      << ";\n";
   out << "using namespace android::hardware;\n";
   out << "\n";
 }
@@ -338,15 +333,14 @@ void HalHidlProfilerCodeGen::GenerateMacros(Formatter& out,
 
 void HalHidlProfilerCodeGen::GenerateProfierSanityCheck(Formatter& out,
   const ComponentSpecificationMessage& message) {
-  out << "if (strcmp(package, \"" << GetPackage(message) << "\") != 0) {\n";
+  out << "if (strcmp(package, \"" << GetPackageName(message) << "\") != 0) {\n";
   out.indent();
   out << "LOG(WARNING) << \"incorrect package.\";\n";
   out << "return;\n";
   out.unindent();
   out << "}\n";
 
-  out << "if (strcmp(version, \"" << GetPackageVersion(message)
-      << "\") != 0) {\n";
+  out << "if (strcmp(version, \"" << GetVersion(message) << "\") != 0) {\n";
   out.indent();
   out << "LOG(WARNING) << \"incorrect version.\";\n";
   out << "return;\n";

@@ -1,28 +1,28 @@
 # Required packages for VTS Runner
+enum
 future
 futures
-enum
-protobuf; python_version <= "2.7"
-setuptools
-requests
-httplib2
 google-api-python-client
 google-cloud-pubsub
+httplib2
+protobuf
+requests
+setuptools
 
 # Required packages for Camera ITS tests
+# matplotlib # downloaded separately in download-pypi-packages.sh
 numpy
-scipy
-matplotlib
 Pillow
+scipy
 
 # Required packages for Kernel tests
 parse
 ply
 
 
-#############################################################################
+###################################################################
 # Packages installed as dependencies of the packages listed above
-#############################################################################
+###################################################################
 # (Package: dependency of)
 # six: protobuf
 # appdirs: setuptools

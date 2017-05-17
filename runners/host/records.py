@@ -266,6 +266,19 @@ class TestResult(object):
         self.executed.append(record)
         self.failed.append(record)
 
+    def skipClass(self, class_name, reason):
+        """Add a record to indicate all test cases in the class are skipped.
+
+        Args:
+            class_name: A string that is the name of the skipped test class.
+            reason: A string that is the reason for skipping.
+        """
+        record = TestResultRecord("unknown", class_name)
+        record.testBegin()
+        record.testSkip(signals.TestSkip(reason))
+        self.executed.append(record)
+        self.skipped.append(record)
+
     def jsonString(self):
         """Converts this test result to a string in json format.
 

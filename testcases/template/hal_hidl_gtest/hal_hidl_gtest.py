@@ -22,7 +22,6 @@ from vts.runners.host import test_runner
 from vts.testcases.template.gtest_binary_test import gtest_binary_test
 from vts.utils.python.controllers import android_device
 from vts.utils.python.cpu import cpu_frequency_scaling
-from vts.utils.python.precondition import precondition_utils
 
 
 class HidlHalGTest(gtest_binary_test.GtestBinaryTest):
@@ -39,8 +38,7 @@ class HidlHalGTest(gtest_binary_test.GtestBinaryTest):
 
     def setUpClass(self):
         """Checks precondition."""
-        if not hasattr(self, "_dut"):
-            self._dut = self.registerController(android_device)[0]
+        super(HidlHalGTest, self).setUpClass()
 
         opt_params = [keys.ConfigKeys.IKEY_SKIP_IF_THERMAL_THROTTLING]
         self.getUserParams(opt_param_names=opt_params)
@@ -49,9 +47,6 @@ class HidlHalGTest(gtest_binary_test.GtestBinaryTest):
                 keys.ConfigKeys.IKEY_SKIP_IF_THERMAL_THROTTLING,
                 default_value=False)
 
-        if not precondition_utils.CanRunHidlHalTest(self, self._dut):
-            self._skip_all_testcases = True
-
         if not self._skip_all_testcases:
             logging.info("Disable CPU frequency scaling")
             self._cpu_freq = cpu_frequency_scaling.CpuFrequencyScalingController(
@@ -59,8 +54,6 @@ class HidlHalGTest(gtest_binary_test.GtestBinaryTest):
             self._cpu_freq.DisableCpuScaling()
         else:
             self._cpu_freq = None
-
-        super(HidlHalGTest, self).setUpClass()
 
     def CreateTestCases(self):
         """Create testcases and conditionally enable passthrough mode.

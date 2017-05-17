@@ -132,3 +132,7 @@ vts_test_lib_packages += \
     libvts_func_fuzzer_utils \
     libvts_proto_fuzzer \
     libvts_proto_fuzzer_proto \
+
+# for HAL interface hash test
+vts_test_lib_packages += \
+    libhidl-gen-hash \

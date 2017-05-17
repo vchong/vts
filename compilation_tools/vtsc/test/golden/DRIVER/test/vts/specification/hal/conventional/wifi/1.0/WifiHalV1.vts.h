@@ -1,5 +1,5 @@
-#ifndef __VTS_DRIVER__WifiHalV1.driver__
-#define __VTS_DRIVER__WifiHalV1.driver__
+#ifndef __VTS_DRIVER__hal_legacy_wifi_V1_0__
+#define __VTS_DRIVER__hal_legacy_wifi_V1_0__
 
 #undef LOG_TAG
 #define LOG_TAG "FuzzerExtended_wifi"

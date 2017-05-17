@@ -27,12 +27,18 @@ import com.android.tradefed.util.CommandStatus;
 import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.IRunUtil;
 import com.android.tradefed.util.RunUtil;
+import com.android.tradefed.util.StreamUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.TreeSet;
 import java.util.Collection;
+import java.util.NoSuchElementException;
+import java.util.TreeSet;
 
 /**
  * Sets up a Python virtualenv on the host and installs packages. To activate it, the working
@@ -49,12 +55,14 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
     private static final String PATH = "PATH";
     private static final String OS_NAME = "os.name";
     private static final String WINDOWS = "Windows";
+    private static final String LOCAL_PYPI_PATH_KEY = "pypi_packages_path";
+    private static final String VENDOR_TEST_CONFIG_FILE_PATH =
+            "/config/google-tradefed-vts-config.config";
     protected static final String PYTHONPATH = "PYTHONPATH";
     protected static final String VIRTUAL_ENV_PATH = "VIRTUALENVPATH";
     private static final int BASE_TIMEOUT = 1000 * 60;
-    private static final String[] DEFAULT_DEP_MODULES = {
-            "future", "futures", "enum", "protobuf", "requests", "httplib2",
-            "google-api-python-client", "oauth2client"};
+    private static final String[] DEFAULT_DEP_MODULES = {"future", "futures", "enum", "protobuf",
+            "requests", "httplib2", "google-api-python-client", "oauth2client"};
 
     @Option(name = "venv-dir", description = "path of an existing virtualenv to use")
     private File mVenvDir = null;
@@ -70,6 +78,7 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
 
     IRunUtil mRunUtil = new RunUtil();
     String mPip = PIP;
+    String mLocalPypiPath = null;
 
     /**
      * {@inheritDoc}
@@ -78,6 +87,7 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
     public void setUp(ITestDevice device, IBuildInfo buildInfo)
             throws TargetSetupError, BuildError, DeviceNotAvailableException {
         startVirtualenv(buildInfo);
+        setLocalPypiPath();
         installDeps(buildInfo);
     }
 
@@ -91,6 +101,43 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
             FileUtil.recursiveDelete(mVenvDir);
             CLog.i("Deleted the virtual env's temp working dir, %s.", mVenvDir);
             mVenvDir = null;
+        }
+    }
+
+    /**
+     * This method sets mLocalPypiPath, the local PyPI package directory to
+     * install python packages from in the installDeps method.
+     *
+     * @throws IOException
+     * @throws JSONException
+     */
+    protected void setLocalPypiPath() throws RuntimeException {
+        CLog.i("Loading vendor test config %s", VENDOR_TEST_CONFIG_FILE_PATH);
+        InputStream config = getClass().getResourceAsStream(VENDOR_TEST_CONFIG_FILE_PATH);
+        if (config == null) {
+            CLog.i("Vendor test config file %s does not exist", VENDOR_TEST_CONFIG_FILE_PATH);
+            return;
+        }
+
+        try {
+            String content = StreamUtil.getStringFromStream(config);
+            CLog.i("Loaded vendor test config %s", content);
+            if (content != null) {
+                JSONObject vendorConfigJson = new JSONObject(content);
+                try {
+                    String pypiPath = vendorConfigJson.getString(LOCAL_PYPI_PATH_KEY);
+                    if (pypiPath.length() > 0) {
+                        mLocalPypiPath = pypiPath;
+                        CLog.i(String.format("Loaded %s: %s", LOCAL_PYPI_PATH_KEY, mLocalPypiPath));
+                    }
+                } catch (NoSuchElementException e) {
+                    CLog.i("Vendor test config file does not define %s", LOCAL_PYPI_PATH_KEY);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read vendor config json file");
+        } catch (JSONException e) {
+            throw new RuntimeException("Failed to parse vendor config json data");
         }
     }
 
@@ -118,26 +165,36 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
         }
         if (!mDepModules.isEmpty()) {
             for (String dep : mDepModules) {
-                CLog.i("Attempting installation of %s", dep);
-                CommandResult result = mRunUtil.runTimedCmd(
-                        BASE_TIMEOUT * 5, mPip, "install", dep);
-                CLog.i(String.format(
-                    "Result %s. stdout: %s, stderr: %s",
-                    result.getStatus(), result.getStdout(), result.getStderr()));
-                if (result.getStatus() != CommandStatus.SUCCESS) {
-                    CLog.e("Installing %s failed.", dep);
-                    CLog.i("Attempting to upgrade %s", dep);
-                    result = mRunUtil.runTimedCmd(
-                            BASE_TIMEOUT * 5, mPip, "install", "--upgrade", dep);
+                CommandResult result = null;
+                if (mLocalPypiPath != null) {
+                    CLog.i("Attempting installation of %s from local directory", dep);
+                    result = mRunUtil.runTimedCmd(BASE_TIMEOUT * 5, mPip, "install", dep,
+                            "--no-index", "--find-links=" + mLocalPypiPath);
+                    CLog.i(String.format("Result %s. stdout: %s, stderr: %s", result.getStatus(),
+                            result.getStdout(), result.getStderr()));
                     if (result.getStatus() != CommandStatus.SUCCESS) {
-                        throw new TargetSetupError(String.format(
-                            "Failed to install dependencies with pip. "
-                                    + "Result %s. stdout: %s, stderr: %s",
-                            result.getStatus(), result.getStdout(), result.getStderr()));
-                    } else {
-                        CLog.i(String.format(
-                            "Result %s. stdout: %s, stderr: %s",
-                            result.getStatus(), result.getStdout(), result.getStderr()));
+                        CLog.e(String.format("Installing %s from %s failed", dep, mLocalPypiPath));
+                    }
+                }
+                if (mLocalPypiPath == null || result.getStatus() != CommandStatus.SUCCESS) {
+                    CLog.i("Attempting installation of %s from PyPI", dep);
+                    result = mRunUtil.runTimedCmd(BASE_TIMEOUT * 5, mPip, "install", dep);
+                    CLog.i(String.format("Result %s. stdout: %s, stderr: %s", result.getStatus(),
+                            result.getStdout(), result.getStderr()));
+                    if (result.getStatus() != CommandStatus.SUCCESS) {
+                        CLog.e("Installing %s from PyPI failed.", dep);
+                        CLog.i("Attempting to upgrade %s", dep);
+                        result = mRunUtil.runTimedCmd(
+                                BASE_TIMEOUT * 5, mPip, "install", "--upgrade", dep);
+                        if (result.getStatus() != CommandStatus.SUCCESS) {
+                            throw new TargetSetupError(String.format(
+                                    "Failed to install dependencies with pip. "
+                                            + "Result %s. stdout: %s, stderr: %s",
+                                    result.getStatus(), result.getStdout(), result.getStderr()));
+                        } else {
+                            CLog.i(String.format("Result %s. stdout: %s, stderr: %s",
+                                    result.getStatus(), result.getStdout(), result.getStderr()));
+                        }
                     }
                 }
                 hasDependencies = true;

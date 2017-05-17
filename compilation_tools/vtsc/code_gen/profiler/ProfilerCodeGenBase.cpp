@@ -22,13 +22,6 @@
 namespace android {
 namespace vts {
 
-ProfilerCodeGenBase::ProfilerCodeGenBase(const std::string& input_vts_file_path)
-    : input_vts_file_path_(input_vts_file_path) {
-}
-
-ProfilerCodeGenBase::~ProfilerCodeGenBase() {
-}
-
 void ProfilerCodeGenBase::GenerateAll(
     Formatter& header_out, Formatter& source_out,
     const ComponentSpecificationMessage& message) {
@@ -274,19 +267,6 @@ void ProfilerCodeGenBase::GenerateCloseNameSpaces(Formatter& out,
     const ComponentSpecificationMessage& /*message*/) {
   out << "}  // namespace vts\n";
   out << "}  // namespace android\n";
-}
-
-std::string ProfilerCodeGenBase::GetPackage(
-    const ComponentSpecificationMessage& message) {
-  return message.package();
-}
-std::string ProfilerCodeGenBase::GetPackageVersion(
-    const ComponentSpecificationMessage& message) {
-  return GetVersionString(message.component_type_version());
-}
-std::string ProfilerCodeGenBase::GetComponentName(
-    const ComponentSpecificationMessage& message) {
-  return message.component_name();
 }
 
 }  // namespace vts

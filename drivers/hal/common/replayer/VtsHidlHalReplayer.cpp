@@ -16,6 +16,7 @@
 #include "replayer/VtsHidlHalReplayer.h"
 
 #include <fcntl.h>
+#include <unistd.h>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -143,7 +144,7 @@ bool VtsHidlHalReplayer::ReplayTrace(const string& spec_lib_file_path,
       continue;
     }
 
-    cout << __func__ << ": replay function: " << call_msg.DebugString();
+    cout << __func__ << ": replay function: " << call_msg.func_msg().name();
 
     // Load spec file and get fuzzer.
     if (interface != call_msg.interface()) {
@@ -177,9 +178,7 @@ bool VtsHidlHalReplayer::ReplayTrace(const string& spec_lib_file_path,
     if (!fuzzer->VerifyResults(expected_result_msg.func_msg(), result_msg)) {
       // Verification is not strict, i.e. if fail, output error message and
       // continue the process.
-      cerr << __func__ << ": verification fail.\nexpected_result: "
-          << expected_result_msg.func_msg().DebugString() << "\nactual_result: "
-          << result_msg.DebugString() << endl;
+      cerr << __func__ << ": verification fail." << endl;
     }
     call_msg.Clear();
     expected_result_msg.Clear();

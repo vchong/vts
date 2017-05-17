@@ -33,7 +33,6 @@ sed -i 's/import "ComponentSpecificationMessage.proto";/import "test\/vts\/proto
 protoc -I=proto --python_out=proto proto/ComponentSpecificationMessage.proto
 protoc -I=proto --python_out=proto proto/TestSchedulingPolicyMessage.proto
 protoc -I=proto --python_out=proto proto/VtsReportMessage.proto
-protoc -I=proto --python_out=proto proto/VtsWebStatusMessage.proto
 
 # Compiles all the python source codes.
 python -m compileall .

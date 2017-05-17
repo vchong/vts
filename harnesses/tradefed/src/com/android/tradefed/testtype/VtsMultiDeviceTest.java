@@ -743,6 +743,23 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     }
 
     /**
+     * Log a test module execution status to device logcat.
+     *
+     * @param status
+     * @return true if succesful, false otherwise
+     */
+    private boolean printToDeviceLogcatAboutTestModuleStatus(String status) {
+        try {
+            mDevice.executeShellCommand(String.format(
+                    "log -p i -t \"VTS\" \"[Test Module] %s %s\"", mTestModuleName, status));
+        } catch (DeviceNotAvailableException e) {
+            CLog.w("Device unavailable while trying to write a message to logcat.");
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * This method prepares a command for the test and runs the python file as
      * given in the arguments.
      *
@@ -793,6 +810,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
         String[] cmd;
         cmd = ArrayUtil.buildArray(baseOpts, testModule);
 
+        printToDeviceLogcatAboutTestModuleStatus("BEGIN");
         CommandResult commandResult = mRunUtil.runTimedCmd(mTestTimeout, cmd);
 
         if (commandResult != null) {
@@ -804,16 +822,18 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
                 CLog.e("Stderr: %s", commandResult.getStderr());
                 CLog.e("Stdout: %s", commandResult.getStdout());
                 printVtsLogs(vtsRunnerLogDir);
+                printToDeviceLogcatAboutTestModuleStatus("ERROR");
                 throw new RuntimeException("Failed to run VTS test");
             }
-        }
-        if (commandResult != null){
             CLog.i("Standard output is: %s", commandResult.getStdout());
             CLog.i("Parsing test result: %s", commandResult.getStderr());
+            printToDeviceLogcatAboutTestModuleStatus("END");
+        } else {
+            printToDeviceLogcatAboutTestModuleStatus("FRAMEWORK_ERROR");
         }
 
-        VtsMultiDeviceTestResultParser parser = new VtsMultiDeviceTestResultParser(listener,
-                mRunName);
+        VtsMultiDeviceTestResultParser parser =
+                new VtsMultiDeviceTestResultParser(listener, mRunName);
 
         if (mUseStdoutLogs) {
             if (commandResult.getStdout() == null) {

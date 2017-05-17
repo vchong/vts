@@ -25,13 +25,14 @@
   <option name="compatibility:include-filter" value="VtsHalDumpstateV1_0IfaceFuzzer" />
   <option name="compatibility:include-filter" value="VtsHalGnssV1_0IfaceFuzzer" />
   <option name="compatibility:include-filter" value="VtsHalGraphicsAllocatorV2_0IfaceFuzzer" />
-  <option name="compatibility:include-filter" value="VtsHalGraphicsComposerV2_1IfaceFuzzer" />
+  <!--option name="compatibility:include-filter" value="VtsHalGraphicsComposerV2_1IfaceFuzzer" /--><!-- makes device unresponsive -->
   <option name="compatibility:include-filter" value="VtsHalGraphicsMapperV2_0IfaceFuzzer" />
   <!--option name="compatibility:include-filter" value="VtsHalKeymasterV3_0IfaceFuzzer" /--><!-- can brick device -->
   <option name="compatibility:include-filter" value="VtsHalMediaOmxV1_0IfaceFuzzer" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0IfaceFuzzer" />
   <option name="compatibility:include-filter" value="VtsHalRadioV1_0IfaceFuzzer" />
   <option name="compatibility:include-filter" value="VtsHalRadioDeprecatedV1_0IfaceFuzzer" />
+  <option name="compatibility:include-filter" value="VtsHalRenderscriptV1_0IfaceFuzzer" />
   <option name="compatibility:include-filter" value="VtsHalSensorsV1_0IfaceFuzzer" />
   <option name="compatibility:include-filter" value="VtsHalSoundtriggerV2_0IfaceFuzzer" />
   <option name="compatibility:include-filter" value="VtsHalUsbV1_0IfaceFuzzer" />

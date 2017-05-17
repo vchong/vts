@@ -17,7 +17,7 @@
 
 LOCAL_PIP_PATH=$HOME/vts-pypi-packages
 
-echo "Making local dir at $HOME/vts-pypi-packages"
+echo "Making local dir at" $LOCAL_PIP_PATH
 if [ -d "$LOCAL_PIP_PATH" ]; then
   echo $LOCAL_PIP_PATH "already exists"
 else
@@ -25,4 +25,13 @@ else
 fi
 
 echo "Downloading PyPI packages to" $LOCAL_PIP_PATH
-pip download -d $LOCAL_PIP_PATH -r ./pip_requirements.txt
+pip download -d $LOCAL_PIP_PATH -r ./test/vts/script/pip_requirements.txt --no-binary protobuf,grpcio,numpy,Pillow,scipy
+# The --no-binary option is necessary for packages that have a
+# "-cp27-cp27mu-manylinux1_x86_64.whl" version that will be downloaded instead
+# if --no-binary option is not specified. This version is not compatible with
+# the python virtualenv set up by VtsPythonVirtualenvPreparer.
+
+pip download -d $LOCAL_PIP_PATH matplotlib --no-binary matplotlib,numpy
+# TODO: Downloading matplotlib fails with an error that causes pip download to
+# abort. Therefore separated temporarily. Must resolve matplotlib installation
+# error in order to run CameraITS tests.

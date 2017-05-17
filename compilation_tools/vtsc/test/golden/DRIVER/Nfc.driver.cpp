@@ -1,10 +1,10 @@
-#include "test/vts/specification/hal/Nfc.vts.h"
+#include "android/hardware/nfc/1.0/Nfc.vts.h"
 #include "vts_measurement.h"
 #include <iostream>
 #include <hidl/HidlSupport.h>
 #include <android/hardware/nfc/1.0/INfc.h>
-#include "test/vts/specification/hal/NfcClientCallback.vts.h"
-#include "test/vts/specification/hal/types.vts.h"
+#include "android/hardware/nfc/1.0/NfcClientCallback.vts.h"
+#include "android/hardware/nfc/1.0/types.vts.h"
 #include <android/hidl/base/1.0/types.h>
 
 
@@ -37,8 +37,8 @@ bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::Fuzz(
 bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::GetAttribute(
     FunctionSpecificationMessage* func_msg,
     void** result) {
-  cerr << "attribute not found" << endl;
-  return false;
+    cerr << "attribute not found" << endl;
+    return false;
 }
 bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::CallFunction(const FunctionSpecificationMessage& func_msg, const string& callback_socket_name, FunctionSpecificationMessage* result_msg) {
     const char* func_name = func_msg.name().c_str();

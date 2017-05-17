@@ -26,6 +26,7 @@ from vts.runners.host import test_runner
 from vts.utils.python.controllers import android_device
 from vts.utils.python.common import list_utils
 from vts.utils.python.os import path_utils
+from vts.utils.python.precondition import precondition_utils
 from vts.utils.python.web import feature_utils
 
 from vts.testcases.template.binary_test import binary_test_case
@@ -168,6 +169,11 @@ class BinaryTest(base_test.BaseTestClass):
 
         # TODO: only set permissive mode for userdebug and eng build.
         self.shell.Execute("setenforce 0")  # SELinux permissive mode
+
+        if not precondition_utils.CanRunHidlHalTest(self, self._dut,
+                                                    self._dut.shell.one):
+            self._skip_all_testcases = True
+
         self.testcases = []
         self.tags = set()
         self.CreateTestCases()

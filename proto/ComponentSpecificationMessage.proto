@@ -179,6 +179,10 @@ message FunctionSpecificationMessage {
   // the submodule name.
   optional bytes submodule_name = 2;
 
+  // the HIDL interface ID used to call an API of another nested interface
+  // using a VTS HAL driver (for HIDL HAL). 0 for the main interface.
+  optional int32 hidl_interface_id = 3;
+
   // data type of the return value (for legacy HALs and shared libraries).
   optional VariableSpecificationMessage return_type = 11;
 
@@ -220,7 +224,7 @@ message FunctionSpecificationMessage {
 
 // To keep the value of a scalar variable.
 message ScalarDataValueMessage {
-  optional int32 bool_t = 1;
+  optional bool bool_t = 1;
 
   optional int32 int8_t = 11;
   optional uint32 uint8_t = 12;
@@ -310,7 +314,7 @@ message VariableSpecificationMessage {
   optional StringDataValueMessage string_value = 111;
 
   // for the definition of enum type only.
-  // The value of a eunm variable is stored in scalar_value message.
+  // The value of an eunm variable is stored in scalar_value message.
   optional EnumDataValueMessage enum_value = 121;
 
   // for both TYPE_ARRAY (using size field) and TYPE_VECTOR.
@@ -348,6 +352,18 @@ message VariableSpecificationMessage {
 
   // for HIDL HAL, to use a HIDL callback instance.
   optional bytes hidl_callback_type = 231;
+
+  // for HIDL HAL, to specify the HIDL_INTERFACE ID. ID is used between
+  // a VTS driver and other modules (e.g., agent and host-side module).
+  optional int32 hidl_interface_id = 241;
+
+  // for HIDL HAL, to specify an HIDL interface's client proxy object's
+  // pointer value. Passed from a FuzzerBase instance to the VTS HAL driver
+  // framework as a return value of its CallFunction() method. Another use
+  // case is when this variable is passed to a FuzzerBase instance from the
+  // VTS HAL driver framework which can get this value from another
+  // (potentially nested or main) FuzzerBase instance.
+  optional uint64 hidl_interface_pointer = 242;
 
   // true if the argument is an input (valid only for the top-level message).
   optional bool is_input = 301 [default = true];

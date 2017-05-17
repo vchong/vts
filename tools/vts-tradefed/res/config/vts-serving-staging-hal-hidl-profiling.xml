@@ -32,6 +32,7 @@
   <option name="compatibility:include-filter" value="VtsHalGnssV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalGraphicsComposerV2_1TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalGraphicsMapperV2_0TargetProfiling" />
+  <option name="compatibility:include-filter" value="VtsHalHealthV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalIrV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalKeymasterV3_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalLightV2_0TargetProfiling" />

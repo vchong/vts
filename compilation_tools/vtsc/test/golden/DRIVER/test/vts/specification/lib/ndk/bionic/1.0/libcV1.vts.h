@@ -1,5 +1,5 @@
-#ifndef __VTS_DRIVER__libcV1.driver__
-#define __VTS_DRIVER__libcV1.driver__
+#ifndef __VTS_DRIVER__lib_shared_bionic_libc_V1_0__
+#define __VTS_DRIVER__lib_shared_bionic_libc_V1_0__
 
 #undef LOG_TAG
 #define LOG_TAG "FuzzerExtended_libc"

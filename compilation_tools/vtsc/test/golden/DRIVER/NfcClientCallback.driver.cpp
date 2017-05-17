@@ -1,9 +1,9 @@
-#include "test/vts/specification/hal/NfcClientCallback.vts.h"
+#include "android/hardware/nfc/1.0/NfcClientCallback.vts.h"
 #include "vts_measurement.h"
 #include <iostream>
 #include <hidl/HidlSupport.h>
 #include <android/hardware/nfc/1.0/INfcClientCallback.h>
-#include "test/vts/specification/hal/types.vts.h"
+#include "android/hardware/nfc/1.0/types.vts.h"
 #include <android/hidl/base/1.0/types.h>
 
 

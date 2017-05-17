@@ -1,5 +1,5 @@
-#ifndef __VTS_DRIVER__BluetoothHalV1bt_interface_t.driver__
-#define __VTS_DRIVER__BluetoothHalV1bt_interface_t.driver__
+#ifndef __VTS_DRIVER__hal_conventional_submodule_bluetooth_V1_0__
+#define __VTS_DRIVER__hal_conventional_submodule_bluetooth_V1_0__
 
 #undef LOG_TAG
 #define LOG_TAG "FuzzerExtended_bt_interface_t"

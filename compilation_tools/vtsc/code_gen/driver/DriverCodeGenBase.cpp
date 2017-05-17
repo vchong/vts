@@ -51,8 +51,17 @@ void DriverCodeGenBase::GenerateHeaderFile(
          << "\n";
     exit(-1);
   }
-  FQName component_fq_name = GetFQName(message);
-  string component_name_token = component_fq_name.tokenName();
+
+  string component_name_token;
+  if (message.component_class() == HAL_HIDL) {
+    FQName component_fq_name = GetFQName(message);
+    component_name_token = component_fq_name.tokenName();
+  } else {
+    string version = GetVersion(message, true);
+    component_name_token =
+        ComponentClassToString(message.component_class()) + "_" +
+        ComponentTypeToString(message.component_type()) + "_" + version;
+  }
   string fuzzer_extended_class_name;
   if (message.component_class() == HAL_HIDL) {
     fuzzer_extended_class_name = "FuzzerExtended_" + component_name_token;
@@ -60,18 +69,8 @@ void DriverCodeGenBase::GenerateHeaderFile(
     fuzzer_extended_class_name = "FuzzerExtended_" + GetComponentName(message);
   }
 
-  out << "#ifndef __VTS_DRIVER__";
-  if (message.component_class() == HAL_HIDL) {
-    out << component_name_token << "__" << "\n";
-  } else {
-    out << vts_name_ << "__" << "\n";
-  }
-  out << "#define __VTS_DRIVER__";
-  if (message.component_class() == HAL_HIDL) {
-    out << component_name_token << "__" << "\n";
-  } else {
-    out << vts_name_ << "__" << "\n";
-  }
+  out << "#ifndef __VTS_DRIVER__" << component_name_token << "__\n";
+  out << "#define __VTS_DRIVER__" << component_name_token << "__\n";
   out << "\n";
 
   out << "#undef LOG_TAG\n";
@@ -120,6 +119,7 @@ void DriverCodeGenBase::GenerateClassHeader(Formatter& out,
 
   out.indent();
   GenerateClassConstructionFunction(out, message, fuzzer_extended_class_name);
+  GeneratePublicFunctionDeclarations(out, message);
   out.unindent();
 
   out << " protected:" << "\n";
@@ -188,13 +188,16 @@ void DriverCodeGenBase::GenerateHeaderIncludeFiles(Formatter& out,
 
 void DriverCodeGenBase::GenerateSourceIncludeFiles(Formatter& out,
     const ComponentSpecificationMessage& message, const string&) {
-  out << "#include \"" << input_vts_file_path_ << ".h\"" << "\n";
-
-  for (auto const& header : message.header()) {
-    out << "#include " << header << "\n";
-  }
   if (message.component_class() != HAL_HIDL) {
+    out << "#include \"" << input_vts_file_path_ << ".h\"\n";
+    for (auto const& header : message.header()) {
+      out << "#include " << header << "\n";
+    }
     out << "#include \"vts_datatype.h\"" << "\n";
+  } else {
+    out << "#include \"" << GetPackagePath(message) << "/"
+        << GetVersion(message) << "/" << GetComponentBaseName(message)
+        << ".vts.h\"\n";
   }
   out << "#include \"vts_measurement.h\"" << "\n";
   out << "#include <iostream>" << "\n";
@@ -275,10 +278,8 @@ void DriverCodeGenBase::GenerateVerificationFunctionImpl(Formatter& out,
 void DriverCodeGenBase::GenerateNamespaceName(
     Formatter& out, const ComponentSpecificationMessage& message) {
   if (message.component_class() == HAL_HIDL && message.has_package()) {
-    string name = message.package();
-    ReplaceSubString(name, ".", "::");
-    out << name << "::"
-        << GetVersionString(message.component_type_version(), true);
+    out << GetPackageNamespaceToken(message)
+        << "::" << GetVersion(message, true);
   } else {
     cerr << __func__ << ":" << __LINE__ << " no namespace" << "\n";
     exit(-1);

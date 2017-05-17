@@ -32,10 +32,13 @@
   <!-- For vts-security -->
 
   <!-- For vts-system -->
-  <!-- <option name="compatibility:include-filter" value="VtsCodelabHelloWorldTest" /> -->
-  <option name="compatibility:include-filter" value="SampleShellTest" />
+  <!-- option name="compatibility:include-filter" value="VtsCodelabHelloWorldTest" / -->
+  <!-- option name="compatibility:include-filter" value="SampleShellTest" / -->
   <option name="compatibility:include-filter" value="VtsHalLightV2_0Target" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0HostBinderize" />
+
+  <!-- For vts-kernel -->
+  <option name="compatibility:include-filter" value="KernelLtpTest" />
   <!-- option name="compatibility:include-filter" value="ShellBinaryCrashTest" / -->
   <!-- option name="compatibility:include-filter" value="SampleQtaguidTest" / -->
   <!-- option name="compatibility:include-filter" value="LibcTest" / -->

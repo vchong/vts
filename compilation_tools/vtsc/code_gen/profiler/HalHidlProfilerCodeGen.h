@@ -26,8 +26,7 @@ namespace vts {
  */
 class HalHidlProfilerCodeGen : public ProfilerCodeGenBase {
  public:
-  HalHidlProfilerCodeGen(const std::string& input_vts_file_path)
-      : ProfilerCodeGenBase(input_vts_file_path) {};
+  HalHidlProfilerCodeGen() : ProfilerCodeGenBase(){};
 
  protected:
   virtual void GenerateProfilerForScalarVariable(Formatter& out,

@@ -166,7 +166,6 @@ void HalHidlCodeGen::GenerateScalarTypeInC(Formatter& out, const string& type) {
   }
 }
 
-
 void HalHidlCodeGen::GenerateCppBodyFuzzFunction(
     Formatter& out, const ComponentSpecificationMessage& /*message*/,
     const string& fuzzer_extended_class_name) {
@@ -338,10 +337,11 @@ void HalHidlCodeGen::GenerateCppBodyGetAttributeFunction(
     out << "bool " << fuzzer_extended_class_name << "::GetAttribute(" << "\n";
     out << "    FunctionSpecificationMessage* func_msg," << "\n";
     out << "    void** result) {" << "\n";
-
+    out.indent();
     // TOOD: impl
-    out << "  cerr << \"attribute not found\" << endl;" << "\n";
-    out << "  return false;" << "\n";
+    out << "cerr << \"attribute not found\" << endl;\n"
+        << "return false;\n";
+    out.unindent();
     out << "}" << "\n";
   }
 }
@@ -356,6 +356,16 @@ void HalHidlCodeGen::GenerateClassConstructionFunction(Formatter& out,
     out << "HAL_HIDL)";
   }
   out << " {}" << "\n";
+  out << "\n";
+
+  FQName fqname = GetFQName(message);
+  out << "explicit " << fuzzer_extended_class_name << "(" << fqname.cppName()
+      << "* hw_binder_proxy) : FuzzerBase("
+      << "HAL_HIDL)";
+  if (message.component_name() != "types") {
+    out << ", " << kInstanceVariableName << "(hw_binder_proxy)";
+  }
+  out << " {}\n";
 }
 
 void HalHidlCodeGen::GenerateHeaderGlobalFunctionDeclarations(Formatter& out,
@@ -454,7 +464,7 @@ void HalHidlCodeGen::GenerateClassHeader(Formatter& out,
     out.unindent();
     out << " private:" << "\n";
     out.indent();
-    out << "const string& callback_socket_name_;" << "\n";
+    out << "string callback_socket_name_;\n";
     out.unindent();
     out << "};" << "\n";
     out << "\n";
@@ -494,31 +504,27 @@ void HalHidlCodeGen::GenerateHeaderIncludeFiles(Formatter& out,
     const string& fuzzer_extended_class_name) {
   DriverCodeGenBase::GenerateHeaderIncludeFiles(out, message,
                                                 fuzzer_extended_class_name);
-
-  string package_path_self = message.package();
-  ReplaceSubString(package_path_self, ".", "/");
-  string version_self = GetVersionString(message.component_type_version());
-
-  out << "#include <" << package_path_self << "/"
-      << version_self << "/"
-      << message.component_name() << ".h>" << "\n";
+  out << "#include <" << GetPackagePath(message) << "/" << GetVersion(message)
+      << "/" << GetComponentName(message) << ".h>"
+      << "\n";
   out << "#include <hidl/HidlSupport.h>" << "\n";
 
   for (const auto& import : message.import()) {
     FQName import_name = FQName(import);
-    string package_path = import_name.package();
-    string package_version = import_name.version();
-    string component_name = import_name.name();
-    ReplaceSubString(package_path, ".", "/");
+    string import_package_path = import_name.package();
+    string import_package_version = import_name.version();
+    string import_component_name = import_name.name();
+    ReplaceSubString(import_package_path, ".", "/");
 
-    out << "#include <" << package_path << "/" << package_version << "/"
-        << component_name << ".h>\n";
-    if (package_path.find("android/hardware") != std::string::npos) {
-      if (component_name[0] == 'I') {
-        component_name = component_name.substr(1);
+    out << "#include <" << import_package_path << "/" << import_package_version
+        << "/" << import_component_name << ".h>\n";
+    if (import_package_path.find("android/hardware") != std::string::npos) {
+      if (import_component_name[0] == 'I') {
+        import_component_name = import_component_name.substr(1);
       }
-      out << "#include <" << package_path << "/" << package_version << "/"
-          << component_name << ".vts.h>\n";
+      out << "#include <" << import_package_path << "/"
+          << import_package_version << "/" << import_component_name
+          << ".vts.h>\n";
     }
   }
   out << "\n\n";
@@ -530,36 +536,27 @@ void HalHidlCodeGen::GenerateSourceIncludeFiles(Formatter& out,
   DriverCodeGenBase::GenerateSourceIncludeFiles(out, message,
                                                 fuzzer_extended_class_name);
   out << "#include <hidl/HidlSupport.h>\n";
-  string input_vfs_file_path(input_vts_file_path_);
-  string package_path = message.package();
-  ReplaceSubString(package_path, ".", "/");
-  out << "#include <" << package_path << "/"
-      << GetVersionString(message.component_type_version()) << "/"
-      << message.component_name() << ".h>" << "\n";
+  out << "#include <" << GetPackagePath(message) << "/" << GetVersion(message)
+      << "/" << GetComponentName(message) << ".h>"
+      << "\n";
   for (const auto& import : message.import()) {
     FQName import_name = FQName(import);
-    string package_name = import_name.package();
-    string package_version = import_name.version();
-    string component_name = import_name.name();
-    string package_path = package_name;
-    ReplaceSubString(package_path, ".", "/");
-    if (package_name == message.package()
-        && package_version
-            == GetVersionString(message.component_type_version())) {
-      if (component_name == "types") {
-        out << "#include \""
-            << input_vfs_file_path.substr(
-                0, input_vfs_file_path.find_last_of("\\/"))
-            << "/types.vts.h\"\n";
-      } else {
-        out << "#include \""
-            << input_vfs_file_path.substr(
-                0, input_vfs_file_path.find_last_of("\\/")) << "/"
-            << component_name.substr(1) << ".vts.h\"\n";
-      }
+    string import_package_name = import_name.package();
+    string import_package_version = import_name.version();
+    string import_component_name = import_name.name();
+    string import_package_path = import_package_name;
+    ReplaceSubString(import_package_path, ".", "/");
+    if (import_package_name == GetPackageName(message) &&
+        import_package_version == GetVersion(message)) {
+      out << "#include \"" << import_package_path << "/"
+          << import_package_version << "/"
+          << (import_component_name == "types"
+                  ? "types"
+                  : import_component_name.substr(1))
+          << ".vts.h\"\n";
     } else {
-      out << "#include <" << package_path << "/" << package_version << "/"
-          << component_name << ".h>\n";
+      out << "#include <" << import_package_path << "/"
+          << import_package_version << "/" << import_component_name << ".h>\n";
     }
   }
 }
@@ -572,6 +569,15 @@ void HalHidlCodeGen::GenerateAdditionalFuctionDeclarations(Formatter& out,
     out << "bool GetService(bool get_stub, const char* service_name);"
         << "\n\n";
   }
+}
+
+void HalHidlCodeGen::GeneratePublicFunctionDeclarations(
+    Formatter& out, const ComponentSpecificationMessage& /*message*/) {
+  out << "uint64_t GetHidlInterfaceProxy() const {\n";
+  out.indent();
+  out << "return reinterpret_cast<uintptr_t>(hw_binder_proxy_.get());\n";
+  out.unindent();
+  out << "}\n";
 }
 
 void HalHidlCodeGen::GeneratePrivateMemberDeclarations(Formatter& out,
@@ -1327,7 +1333,16 @@ void HalHidlCodeGen::GenerateSetResultCodeForTypedVariable(Formatter& out,
     case TYPE_HIDL_INTERFACE:
     {
       out << result_msg << "->set_type(TYPE_HIDL_INTERFACE);\n";
-      out << "/* ERROR: TYPE_HIDL_INTERFACE is not supported yet. */\n";
+      if (!val.has_predefined_type()) {
+        cerr << __func__ << ":" << __LINE__
+             << " HIDL interface is a return type"
+             << "but predefined_type is unset." << endl;
+        exit(-1);
+      }
+      out << result_msg << "->set_hidl_interface_pointer("
+          << "reinterpret_cast<uintptr_t>(" << result_value << ".get()));\n";
+      out << result_msg << "->set_predefined_type(\"" << val.predefined_type()
+          << "\");\n";
       break;
     }
     case TYPE_HIDL_MEMORY:

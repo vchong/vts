@@ -25,7 +25,6 @@ from vts.testcases.template.hal_hidl_replay_test import hal_hidl_replay_test_cas
 from vts.utils.python.common import vintf_utils
 from vts.utils.python.controllers import android_device
 from vts.utils.python.os import path_utils
-from vts.utils.python.precondition import precondition_utils
 
 
 class HalHidlReplayTest(binary_test.BinaryTest):
@@ -40,11 +39,6 @@ class HalHidlReplayTest(binary_test.BinaryTest):
 
     def setUpClass(self):
         """Prepares class and initializes a target device."""
-        if not hasattr(self, "_dut"):
-            self._dut = self.registerController(android_device)[0]
-        if not precondition_utils.CanRunHidlHalTest(self, self._dut):
-            self._skip_all_testcases = True
-
         super(HalHidlReplayTest, self).setUpClass()
 
         if self._skip_all_testcases:

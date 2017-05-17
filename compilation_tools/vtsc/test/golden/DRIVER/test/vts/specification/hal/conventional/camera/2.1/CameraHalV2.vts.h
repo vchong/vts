@@ -1,5 +1,5 @@
-#ifndef __VTS_DRIVER__CameraHalV2.driver__
-#define __VTS_DRIVER__CameraHalV2.driver__
+#ifndef __VTS_DRIVER__hal_conventional_camera_V2_1__
+#define __VTS_DRIVER__hal_conventional_camera_V2_1__
 
 #undef LOG_TAG
 #define LOG_TAG "FuzzerExtended_camera_module_t"

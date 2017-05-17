@@ -36,9 +36,9 @@ namespace vts {
  */
 class ProfilerCodeGenBase {
  public:
-  ProfilerCodeGenBase(const std::string& input_vts_file_path);
+  ProfilerCodeGenBase(){};
 
-  virtual ~ProfilerCodeGenBase();
+  virtual ~ProfilerCodeGenBase(){};
 
   // Generates both the header and source file for profiler.
   void GenerateAll(Formatter& header_out, Formatter& source_out,
@@ -170,9 +170,6 @@ class ProfilerCodeGenBase {
       const ComponentSpecificationMessage& message);
   virtual void GenerateCloseNameSpaces(Formatter& out,
       const ComponentSpecificationMessage& message);
-  std::string GetPackage(const ComponentSpecificationMessage& message);
-  std::string GetPackageVersion(const ComponentSpecificationMessage& message);
-  std::string GetComponentName(const ComponentSpecificationMessage& message);
 
   std::string input_vts_file_path_;
   DISALLOW_COPY_AND_ASSIGN (ProfilerCodeGenBase);

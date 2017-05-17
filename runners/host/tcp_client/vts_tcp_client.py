@@ -226,6 +226,9 @@ class VtsTcpClient(object):
             for vector_value in var_spec_msg.vector_value:
                 result.append(self.GetPythonDataOfVariableSpecMsg(vector_value))
             return result
+        elif (var_spec_msg.type == CompSpecMsg_pb2.TYPE_HIDL_INTERFACE):
+            logging.info("Val of hidl interface is not fully supported yet.")
+            return ""
 
         raise errors.VtsUnsupportedTypeError(
             "unsupported type %s" % var_spec_msg.type)

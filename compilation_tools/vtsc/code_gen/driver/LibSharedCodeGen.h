@@ -33,8 +33,8 @@ namespace vts {
 
 class LibSharedCodeGen : public HalCodeGen {
  public:
-  LibSharedCodeGen(const char* input_vts_file_path, const string& vts_name)
-      : HalCodeGen(input_vts_file_path, vts_name) {}
+  LibSharedCodeGen(const char* input_vts_file_path)
+      : HalCodeGen(input_vts_file_path) {}
 
  protected:
   void GenerateCppBodyFuzzFunction(Formatter& out,
