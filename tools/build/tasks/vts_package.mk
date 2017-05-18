@@ -188,6 +188,13 @@ media_test_res_copy_pairs := \
   $(foreach f,$(media_test_res_files),\
     hardware/interfaces/media/res/$(f):$(VTS_TESTCASES_OUT)/DATA/media/res/$(f))
 
+performance_test_res_files := \
+  $(call find-files-in-subdirs,test/vts-testcase/performance/res/,"*.*" -and -type f,.) \
+
+performance_test_res_copy_pairs := \
+  $(foreach f,$(performance_test_res_files),\
+    test/vts-testcase/performance/res/$(f):$(VTS_TESTCASES_OUT)/DATA/performance/res/$(f))
+
 $(compatibility_zip): \
   $(call copy-many-files,$(target_native_copy_pairs)) \
   $(call copy-many-files,$(target_spec_copy_pairs)) \
@@ -200,7 +207,8 @@ $(compatibility_zip): \
   $(call copy-many-files,$(host_testcase_copy_pairs)) \
   $(call copy-many-files,$(host_camera_its_copy_pairs)) \
   $(call copy-many-files,$(host_systrace_copy_pairs)) \
-  $(call copy-many-files,$(media_test_res_copy_pairs))
+  $(call copy-many-files,$(media_test_res_copy_pairs)) \
+  $(call copy-many-files,$(performance_test_res_copy_pairs))
 
 # vendor-specific host logic
 vendor_testcase_files := \

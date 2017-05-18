@@ -16,18 +16,20 @@
 import base64
 import json
 import logging
+import os
 import subprocess
+import tempfile
 
 from oauth2client import service_account
 
 _OPENID_SCOPE = 'openid'
 
-class BigtableClient(object):
-    """Instance of the Dashboard Bigtable REST client.
+class DashboardRestClient(object):
+    """Instance of the Dashboard REST client.
 
     Attributes:
         post_cmd: String, The command-line string to post data to the dashboard,
-                  e.g. 'wget <url> --post-data '
+                  e.g. 'wget <url> --post-file '
         service_json_path: String, The path to the service account keyfile
                            created from Google App Engine settings.
         auth_token: ServiceAccountCredentials object or None if not
@@ -70,19 +72,13 @@ class BigtableClient(object):
         """
         return str(self.auth_token.get_access_token().access_token)
 
-    def PutRow(self, table_name, row_key, family, qualifier, value):
-        """Puts a value into an HBase cell via REST.
+    def PostData(self, value):
+        """Post data to the dashboard database.
 
-        Puts a value in the cell specified by the row, family, and qualifier.
-        This assumes that the table has already been created with the column
-        family in its schema.
+        Puts data into the dashboard database using its REST endpoint.
 
         Args:
-            table_name: String, The name of the table.
-            row_key: String, The name of the row in which to insert data
-            family: String, The column family in which to insert data
-            qualifier: String, The column qualifier in which to insert data
-            value: String, The data to insert into the row cell specified
+            value: String, The data to insert, a serialized TestReportMessage.
 
         Returns:
             True if successful, False otherwise
@@ -94,47 +90,19 @@ class BigtableClient(object):
         data = {
             "accessToken" : token,
             "verb" : "insertRow",
-            "tableName" : table_name,
-            "rowKey" : row_key,
-            "family" : family,
-            "qualifier" : qualifier,
             "value" : base64.b64encode(value)
         }
+        with tempfile.NamedTemporaryFile(delete=False) as file:
+            file.write(json.dumps(data))
         p = subprocess.Popen(
-            self.post_cmd.format(data=json.dumps(data)),
+            self.post_cmd.format(path=file.name),
             shell=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
         output, err = p.communicate()
+        os.remove(file.name)
 
         if p.returncode or err:
             logging.error("Row insertion failed: %s", err)
             return False
         return True
-
-    def CreateTable(self, table_name, families):
-        """Creates a table with the provided column family names.
-
-        Safe to call if the table already exists, it will just fail
-        silently.
-
-        Args:
-            table_name: String, The name of the table.
-            families: list, The list of column family names with which to create
-                      the table
-        """
-        token = self._GetToken()
-        if not token:
-            return
-
-        data = {
-            "accessToken" : token,
-            "verb": "createTable",
-            "tableName": table_name,
-            "familyNames": families
-        }
-        p = subprocess.Popen(
-            self.post_cmd.format(data=json.dumps(data)),
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)

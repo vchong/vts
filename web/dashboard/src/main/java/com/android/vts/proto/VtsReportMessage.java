@@ -9880,8 +9880,7 @@ public final class VtsReportMessage {
      * <code>optional bytes url = 1;</code>
      *
      * <pre>
-     * URLs of the produced log files. May contains multiple files such as stdout,
-     * stderr, etc.
+     * URL of a produced log file (e.g., stdout, stderr).
      * </pre>
      */
     boolean hasUrl();
@@ -9889,8 +9888,7 @@ public final class VtsReportMessage {
      * <code>optional bytes url = 1;</code>
      *
      * <pre>
-     * URLs of the produced log files. May contains multiple files such as stdout,
-     * stderr, etc.
+     * URL of a produced log file (e.g., stdout, stderr).
      * </pre>
      */
     com.google.protobuf.ByteString getUrl();
@@ -9900,7 +9898,7 @@ public final class VtsReportMessage {
      * <code>optional bytes name = 2;</code>
      *
      * <pre>
-     * Name of log.
+     * Name of a log file.
      * </pre>
      */
     boolean hasName();
@@ -9908,7 +9906,7 @@ public final class VtsReportMessage {
      * <code>optional bytes name = 2;</code>
      *
      * <pre>
-     * Name of log.
+     * Name of a log file.
      * </pre>
      */
     com.google.protobuf.ByteString getName();
@@ -9918,8 +9916,8 @@ public final class VtsReportMessage {
      * <code>optional bytes content = 3;</code>
      *
      * <pre>
-     * content of log. Caution: do not put too much log in protobuf message,
-     * as bigtable recommends &lt; 10 mb for each record cell
+     * Content of log. Caution: do not put too much log in protobuf message,
+     * as BigTable for example recommends &lt; 10 MB for each record cell.
      * </pre>
      */
     boolean hasContent();
@@ -9927,8 +9925,8 @@ public final class VtsReportMessage {
      * <code>optional bytes content = 3;</code>
      *
      * <pre>
-     * content of log. Caution: do not put too much log in protobuf message,
-     * as bigtable recommends &lt; 10 mb for each record cell
+     * Content of log. Caution: do not put too much log in protobuf message,
+     * as BigTable for example recommends &lt; 10 MB for each record cell.
      * </pre>
      */
     com.google.protobuf.ByteString getContent();
@@ -10051,8 +10049,7 @@ public final class VtsReportMessage {
      * <code>optional bytes url = 1;</code>
      *
      * <pre>
-     * URLs of the produced log files. May contains multiple files such as stdout,
-     * stderr, etc.
+     * URL of a produced log file (e.g., stdout, stderr).
      * </pre>
      */
     public boolean hasUrl() {
@@ -10062,8 +10059,7 @@ public final class VtsReportMessage {
      * <code>optional bytes url = 1;</code>
      *
      * <pre>
-     * URLs of the produced log files. May contains multiple files such as stdout,
-     * stderr, etc.
+     * URL of a produced log file (e.g., stdout, stderr).
      * </pre>
      */
     public com.google.protobuf.ByteString getUrl() {
@@ -10077,7 +10073,7 @@ public final class VtsReportMessage {
      * <code>optional bytes name = 2;</code>
      *
      * <pre>
-     * Name of log.
+     * Name of a log file.
      * </pre>
      */
     public boolean hasName() {
@@ -10087,7 +10083,7 @@ public final class VtsReportMessage {
      * <code>optional bytes name = 2;</code>
      *
      * <pre>
-     * Name of log.
+     * Name of a log file.
      * </pre>
      */
     public com.google.protobuf.ByteString getName() {
@@ -10101,8 +10097,8 @@ public final class VtsReportMessage {
      * <code>optional bytes content = 3;</code>
      *
      * <pre>
-     * content of log. Caution: do not put too much log in protobuf message,
-     * as bigtable recommends &lt; 10 mb for each record cell
+     * Content of log. Caution: do not put too much log in protobuf message,
+     * as BigTable for example recommends &lt; 10 MB for each record cell.
      * </pre>
      */
     public boolean hasContent() {
@@ -10112,8 +10108,8 @@ public final class VtsReportMessage {
      * <code>optional bytes content = 3;</code>
      *
      * <pre>
-     * content of log. Caution: do not put too much log in protobuf message,
-     * as bigtable recommends &lt; 10 mb for each record cell
+     * Content of log. Caution: do not put too much log in protobuf message,
+     * as BigTable for example recommends &lt; 10 MB for each record cell.
      * </pre>
      */
     public com.google.protobuf.ByteString getContent() {
@@ -10392,8 +10388,7 @@ public final class VtsReportMessage {
        * <code>optional bytes url = 1;</code>
        *
        * <pre>
-       * URLs of the produced log files. May contains multiple files such as stdout,
-       * stderr, etc.
+       * URL of a produced log file (e.g., stdout, stderr).
        * </pre>
        */
       public boolean hasUrl() {
@@ -10403,8 +10398,7 @@ public final class VtsReportMessage {
        * <code>optional bytes url = 1;</code>
        *
        * <pre>
-       * URLs of the produced log files. May contains multiple files such as stdout,
-       * stderr, etc.
+       * URL of a produced log file (e.g., stdout, stderr).
        * </pre>
        */
       public com.google.protobuf.ByteString getUrl() {
@@ -10414,8 +10408,7 @@ public final class VtsReportMessage {
        * <code>optional bytes url = 1;</code>
        *
        * <pre>
-       * URLs of the produced log files. May contains multiple files such as stdout,
-       * stderr, etc.
+       * URL of a produced log file (e.g., stdout, stderr).
        * </pre>
        */
       public Builder setUrl(com.google.protobuf.ByteString value) {
@@ -10431,8 +10424,7 @@ public final class VtsReportMessage {
        * <code>optional bytes url = 1;</code>
        *
        * <pre>
-       * URLs of the produced log files. May contains multiple files such as stdout,
-       * stderr, etc.
+       * URL of a produced log file (e.g., stdout, stderr).
        * </pre>
        */
       public Builder clearUrl() {
@@ -10448,7 +10440,7 @@ public final class VtsReportMessage {
        * <code>optional bytes name = 2;</code>
        *
        * <pre>
-       * Name of log.
+       * Name of a log file.
        * </pre>
        */
       public boolean hasName() {
@@ -10458,7 +10450,7 @@ public final class VtsReportMessage {
        * <code>optional bytes name = 2;</code>
        *
        * <pre>
-       * Name of log.
+       * Name of a log file.
        * </pre>
        */
       public com.google.protobuf.ByteString getName() {
@@ -10468,7 +10460,7 @@ public final class VtsReportMessage {
        * <code>optional bytes name = 2;</code>
        *
        * <pre>
-       * Name of log.
+       * Name of a log file.
        * </pre>
        */
       public Builder setName(com.google.protobuf.ByteString value) {
@@ -10484,7 +10476,7 @@ public final class VtsReportMessage {
        * <code>optional bytes name = 2;</code>
        *
        * <pre>
-       * Name of log.
+       * Name of a log file.
        * </pre>
        */
       public Builder clearName() {
@@ -10500,8 +10492,8 @@ public final class VtsReportMessage {
        * <code>optional bytes content = 3;</code>
        *
        * <pre>
-       * content of log. Caution: do not put too much log in protobuf message,
-       * as bigtable recommends &lt; 10 mb for each record cell
+       * Content of log. Caution: do not put too much log in protobuf message,
+       * as BigTable for example recommends &lt; 10 MB for each record cell.
        * </pre>
        */
       public boolean hasContent() {
@@ -10511,8 +10503,8 @@ public final class VtsReportMessage {
        * <code>optional bytes content = 3;</code>
        *
        * <pre>
-       * content of log. Caution: do not put too much log in protobuf message,
-       * as bigtable recommends &lt; 10 mb for each record cell
+       * Content of log. Caution: do not put too much log in protobuf message,
+       * as BigTable for example recommends &lt; 10 MB for each record cell.
        * </pre>
        */
       public com.google.protobuf.ByteString getContent() {
@@ -10522,8 +10514,8 @@ public final class VtsReportMessage {
        * <code>optional bytes content = 3;</code>
        *
        * <pre>
-       * content of log. Caution: do not put too much log in protobuf message,
-       * as bigtable recommends &lt; 10 mb for each record cell
+       * Content of log. Caution: do not put too much log in protobuf message,
+       * as BigTable for example recommends &lt; 10 MB for each record cell.
        * </pre>
        */
       public Builder setContent(com.google.protobuf.ByteString value) {
@@ -10539,8 +10531,8 @@ public final class VtsReportMessage {
        * <code>optional bytes content = 3;</code>
        *
        * <pre>
-       * content of log. Caution: do not put too much log in protobuf message,
-       * as bigtable recommends &lt; 10 mb for each record cell
+       * Content of log. Caution: do not put too much log in protobuf message,
+       * as BigTable for example recommends &lt; 10 MB for each record cell.
        * </pre>
        */
       public Builder clearContent() {
@@ -10561,443 +10553,1141 @@ public final class VtsReportMessage {
     // @@protoc_insertion_point(class_scope:android.vts.LogMessage)
   }
 
-  public interface TestReportMessageOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface UrlResourceMessageOrBuilder extends com.google.protobuf.MessageOrBuilder {
+      // optional bytes url = 1;
+      /**
+       * <code>optional bytes url = 1;</code>
+       *
+       * <pre>
+       * URL of a resource file.
+       * </pre>
+       */
+      boolean hasUrl();
+      /**
+       * <code>optional bytes url = 1;</code>
+       *
+       * <pre>
+       * URL of a resource file.
+       * </pre>
+       */
+      com.google.protobuf.ByteString getUrl();
 
-    // optional bytes test_suite = 1;
-    /**
-     * <code>optional bytes test_suite = 1;</code>
-     *
-     * <pre>
-     * The test suite name..
-     * </pre>
-     */
-    boolean hasTestSuite();
-    /**
-     * <code>optional bytes test_suite = 1;</code>
-     *
-     * <pre>
-     * The test suite name..
-     * </pre>
-     */
-    com.google.protobuf.ByteString getTestSuite();
+      // optional bytes name = 2;
+      /**
+       * <code>optional bytes name = 2;</code>
+       *
+       * <pre>
+       * Name of a resource file representing its type and does not have to be
+       * the same as the exact file name.
+       * </pre>
+       */
+      boolean hasName();
+      /**
+       * <code>optional bytes name = 2;</code>
+       *
+       * <pre>
+       * Name of a resource file representing its type and does not have to be
+       * the same as the exact file name.
+       * </pre>
+       */
+      com.google.protobuf.ByteString getName();
 
-    // optional bytes test = 2;
-    /**
-     * <code>optional bytes test = 2;</code>
-     *
-     * <pre>
-     * The test name.
-     * </pre>
-     */
-    boolean hasTest();
-    /**
-     * <code>optional bytes test = 2;</code>
-     *
-     * <pre>
-     * The test name.
-     * </pre>
-     */
-    com.google.protobuf.ByteString getTest();
+      // optional bytes content = 3;
+      /**
+       * <code>optional bytes content = 3;</code>
+       *
+       * <pre>
+       * Raw content of a resource file. Used if the file is small.
+       * </pre>
+       */
+      boolean hasContent();
+      /**
+       * <code>optional bytes content = 3;</code>
+       *
+       * <pre>
+       * Raw content of a resource file. Used if the file is small.
+       * </pre>
+       */
+      com.google.protobuf.ByteString getContent();
+  }
+  /**
+   * Protobuf type {@code android.vts.UrlResourceMessage}
+   *
+   * <pre>
+   * To specify a resource object (reachable via a URL or contained in the
+   * message). This can be used to store a log file or an XML (or HTML) report
+   * file kept in a Google Cloud Storage (GCS) bucket or partner's network file
+   * system, or hosted by a HTTP server.
+   * </pre>
+   */
+  public static final class UrlResourceMessage
+          extends com.google.protobuf.GeneratedMessage implements UrlResourceMessageOrBuilder {
+      // Use UrlResourceMessage.newBuilder() to construct.
+      private UrlResourceMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+          this.unknownFields = builder.getUnknownFields();
+      }
+      private UrlResourceMessage(boolean noInit) {
+          this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      }
 
-    // optional .android.vts.VtsTestType test_type = 3;
-    /**
-     * <code>optional .android.vts.VtsTestType test_type = 3;</code>
-     *
-     * <pre>
-     * The test type
-     * </pre>
-     */
-    boolean hasTestType();
-    /**
-     * <code>optional .android.vts.VtsTestType test_type = 3;</code>
-     *
-     * <pre>
-     * The test type
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.VtsTestType getTestType();
+      private static final UrlResourceMessage defaultInstance;
+      public static UrlResourceMessage getDefaultInstance() {
+          return defaultInstance;
+      }
 
-    // repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage> 
-        getDeviceInfoList();
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage getDeviceInfo(int index);
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    int getDeviceInfoCount();
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    java.util.List<? extends com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder> 
-        getDeviceInfoOrBuilderList();
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder getDeviceInfoOrBuilder(
-        int index);
+      public UrlResourceMessage getDefaultInstanceForType() {
+          return defaultInstance;
+      }
 
-    // optional .android.vts.AndroidBuildInfo build_info = 5;
-    /**
-     * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-     *
-     * <pre>
-     * Build info
-     * </pre>
-     */
-    boolean hasBuildInfo();
-    /**
-     * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-     *
-     * <pre>
-     * Build info
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.AndroidBuildInfo getBuildInfo();
-    /**
-     * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-     *
-     * <pre>
-     * Build info
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder getBuildInfoOrBuilder();
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.
+      lang.Override
+      public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+          return this.unknownFields;
+      }
+      private UrlResourceMessage(com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          initFields();
+          int mutable_bitField0_ = 0;
+          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+                  com.google.protobuf.UnknownFieldSet.newBuilder();
+          try {
+              boolean done = false;
+              while (!done) {
+                  int tag = input.readTag();
+                  switch (tag) {
+                      case 0:
+                          done = true;
+                          break;
+                      default: {
+                          if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+                              done = true;
+                          }
+                          break;
+                      }
+                      case 10: {
+                          bitField0_ |= 0x00000001;
+                          url_ = input.readBytes();
+                          break;
+                      }
+                      case 18: {
+                          bitField0_ |= 0x00000002;
+                          name_ = input.readBytes();
+                          break;
+                      }
+                      case 26: {
+                          bitField0_ |= 0x00000004;
+                          content_ = input.readBytes();
+                          break;
+                      }
+                  }
+              }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(this);
+          } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage())
+                      .setUnfinishedMessage(this);
+          } finally {
+              this.unknownFields = unknownFields.build();
+              makeExtensionsImmutable();
+          }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+          return com.android.vts.proto.VtsReportMessage
+                  .internal_static_android_vts_UrlResourceMessage_descriptor;
+      }
 
-    // repeated bytes subscriber_email = 6;
-    /**
-     * <code>repeated bytes subscriber_email = 6;</code>
-     *
-     * <pre>
-     * Email addresses of subscribers to the test results
-     * </pre>
-     */
-    java.util.List<com.google.protobuf.ByteString> getSubscriberEmailList();
-    /**
-     * <code>repeated bytes subscriber_email = 6;</code>
-     *
-     * <pre>
-     * Email addresses of subscribers to the test results
-     * </pre>
-     */
-    int getSubscriberEmailCount();
-    /**
-     * <code>repeated bytes subscriber_email = 6;</code>
-     *
-     * <pre>
-     * Email addresses of subscribers to the test results
-     * </pre>
-     */
-    com.google.protobuf.ByteString getSubscriberEmail(int index);
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internalGetFieldAccessorTable() {
+          return com.android.vts.proto.VtsReportMessage
+                  .internal_static_android_vts_UrlResourceMessage_fieldAccessorTable
+                  .ensureFieldAccessorsInitialized(
+                          com.android.vts.proto.VtsReportMessage.UrlResourceMessage.class,
+                          com.android.vts.proto.VtsReportMessage.UrlResourceMessage.Builder.class);
+      }
 
-    // optional .android.vts.VtsHostInfo host_info = 7;
-    /**
-     * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-     *
-     * <pre>
-     * Info about the host computer
-     * </pre>
-     */
-    boolean hasHostInfo();
-    /**
-     * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-     *
-     * <pre>
-     * Info about the host computer
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.VtsHostInfo getHostInfo();
-    /**
-     * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-     *
-     * <pre>
-     * Info about the host computer
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder getHostInfoOrBuilder();
+      public static com.google.protobuf.Parser<UrlResourceMessage> PARSER =
+              new com.google.protobuf.AbstractParser<UrlResourceMessage>() {
+                  public UrlResourceMessage parsePartialFrom(
+                          com.google.protobuf.CodedInputStream input,
+                          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                          throws com.google.protobuf.InvalidProtocolBufferException {
+                      return new UrlResourceMessage(input, extensionRegistry);
+                  }
+              };
 
-    // repeated .android.vts.TestCaseReportMessage test_case = 11;
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    java.util.List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage> 
-        getTestCaseList();
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.TestCaseReportMessage getTestCase(int index);
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    int getTestCaseCount();
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    java.util.List<? extends com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder> 
-        getTestCaseOrBuilderList();
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder getTestCaseOrBuilder(
-        int index);
+      @java.
+      lang.Override
+      public com.google.protobuf.Parser<UrlResourceMessage> getParserForType() {
+          return PARSER;
+      }
 
-    // repeated .android.vts.ProfilingReportMessage profiling = 21;
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    java.util.List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage> 
-        getProfilingList();
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.ProfilingReportMessage getProfiling(int index);
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    int getProfilingCount();
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    java.util.List<? extends com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder> 
-        getProfilingOrBuilderList();
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder getProfilingOrBuilder(
-        int index);
+      private int bitField0_;
+      // optional bytes url = 1;
+      public static final int URL_FIELD_NUMBER = 1;
+      private com.google.protobuf.ByteString url_;
+      /**
+       * <code>optional bytes url = 1;</code>
+       *
+       * <pre>
+       * URL of a resource file.
+       * </pre>
+       */
+      public boolean hasUrl() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional bytes url = 1;</code>
+       *
+       * <pre>
+       * URL of a resource file.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getUrl() {
+          return url_;
+      }
 
-    // repeated .android.vts.SystraceReportMessage systrace = 22;
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    java.util.List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage> 
-        getSystraceList();
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.SystraceReportMessage getSystrace(int index);
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    int getSystraceCount();
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    java.util.List<? extends com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder> 
-        getSystraceOrBuilderList();
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder getSystraceOrBuilder(
-        int index);
+      // optional bytes name = 2;
+      public static final int NAME_FIELD_NUMBER = 2;
+      private com.google.protobuf.ByteString name_;
+      /**
+       * <code>optional bytes name = 2;</code>
+       *
+       * <pre>
+       * Name of a resource file representing its type and does not have to be
+       * the same as the exact file name.
+       * </pre>
+       */
+      public boolean hasName() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bytes name = 2;</code>
+       *
+       * <pre>
+       * Name of a resource file representing its type and does not have to be
+       * the same as the exact file name.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getName() {
+          return name_;
+      }
 
-    // optional int64 start_timestamp = 101;
-    /**
-     * <code>optional int64 start_timestamp = 101;</code>
-     *
-     * <pre>
-     * Execution start and end time stamp.
-     * </pre>
-     */
-    boolean hasStartTimestamp();
-    /**
-     * <code>optional int64 start_timestamp = 101;</code>
-     *
-     * <pre>
-     * Execution start and end time stamp.
-     * </pre>
-     */
-    long getStartTimestamp();
+      // optional bytes content = 3;
+      public static final int CONTENT_FIELD_NUMBER = 3;
+      private com.google.protobuf.ByteString content_;
+      /**
+       * <code>optional bytes content = 3;</code>
+       *
+       * <pre>
+       * Raw content of a resource file. Used if the file is small.
+       * </pre>
+       */
+      public boolean hasContent() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bytes content = 3;</code>
+       *
+       * <pre>
+       * Raw content of a resource file. Used if the file is small.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getContent() {
+          return content_;
+      }
 
-    // optional int64 end_timestamp = 102;
-    /**
-     * <code>optional int64 end_timestamp = 102;</code>
-     */
-    boolean hasEndTimestamp();
-    /**
-     * <code>optional int64 end_timestamp = 102;</code>
-     */
-    long getEndTimestamp();
+      private void initFields() {
+          url_ = com.google.protobuf.ByteString.EMPTY;
+          name_ = com.google.protobuf.ByteString.EMPTY;
+          content_ = com.google.protobuf.ByteString.EMPTY;
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized != -1)
+              return isInitialized == 1;
 
-    // repeated .android.vts.CoverageReportMessage coverage = 103;
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    java.util.List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage> 
-        getCoverageList();
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.CoverageReportMessage getCoverage(int index);
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    int getCoverageCount();
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    java.util.List<? extends com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder> 
-        getCoverageOrBuilderList();
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder getCoverageOrBuilder(
-        int index);
+          memoizedIsInitialized = 1;
+          return true;
+      }
 
-    // repeated .android.vts.LogMessage log = 1001;
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage> 
-        getLogList();
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.LogMessage getLog(int index);
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    int getLogCount();
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    java.util.List<? extends com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder> 
-        getLogOrBuilderList();
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder getLogOrBuilder(
-        int index);
+      public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+          getSerializedSize();
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              output.writeBytes(1, url_);
+          }
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              output.writeBytes(2, name_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              output.writeBytes(3, content_);
+          }
+          getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+          int size = memoizedSerializedSize;
+          if (size != -1)
+              return size;
+
+          size = 0;
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              size += com.google.protobuf.CodedOutputStream.computeBytesSize(1, url_);
+          }
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              size += com.google.protobuf.CodedOutputStream.computeBytesSize(2, name_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              size += com.google.protobuf.CodedOutputStream.computeBytesSize(3, content_);
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSerializedSize = size;
+          return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.
+      lang.Override
+      protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+          return super.writeReplace();
+      }
+
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseFrom(
+              com.google.protobuf.ByteString data)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+      }
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseFrom(
+              com.google.protobuf.ByteString data,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseFrom(byte[] data)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+      }
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseFrom(
+              byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseFrom(
+              java.io.InputStream input) throws java.io.IOException {
+          return PARSER.parseFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseFrom(
+              java.io.InputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseDelimitedFrom(
+              java.io.InputStream input) throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseDelimitedFrom(
+              java.io.InputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseFrom(
+              com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+          return PARSER.parseFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.UrlResourceMessage parseFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() {
+          return Builder.create();
+      }
+      public Builder newBuilderForType() {
+          return newBuilder();
+      }
+      public static Builder newBuilder(
+              com.android.vts.proto.VtsReportMessage.UrlResourceMessage prototype) {
+          return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+          return newBuilder(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+      }
+      /**
+       * Protobuf type {@code android.vts.UrlResourceMessage}
+       *
+       * <pre>
+       * To specify a resource object (reachable via a URL or contained in the
+       * message). This can be used to store a log file or an XML (or HTML) report
+       * file kept in a Google Cloud Storage (GCS) bucket or partner's network file
+       * system, or hosted by a HTTP server.
+       * </pre>
+       */
+      public static final class Builder
+              extends com.google.protobuf.GeneratedMessage.Builder<Builder>
+              implements com.android.vts.proto.VtsReportMessage.UrlResourceMessageOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_UrlResourceMessage_descriptor;
+          }
+
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_UrlResourceMessage_fieldAccessorTable
+                      .ensureFieldAccessorsInitialized(
+                              com.android.vts.proto.VtsReportMessage.UrlResourceMessage.class,
+                              com.android.vts.proto.VtsReportMessage.UrlResourceMessage.Builder
+                                      .class);
+          }
+
+          // Construct using com.android.vts.proto.VtsReportMessage.UrlResourceMessage.newBuilder()
+          private Builder() {
+              maybeForceBuilderInitialization();
+          }
+
+          private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+              super(parent);
+              maybeForceBuilderInitialization();
+          }
+          private void maybeForceBuilderInitialization() {
+              if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+              }
+          }
+          private static Builder create() {
+              return new Builder();
+          }
+
+          public Builder clear() {
+              super.clear();
+              url_ = com.google.protobuf.ByteString.EMPTY;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              name_ = com.google.protobuf.ByteString.EMPTY;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              content_ = com.google.protobuf.ByteString.EMPTY;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              return this;
+          }
+
+          public Builder clone() {
+              return create().mergeFrom(buildPartial());
+          }
+
+          public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_UrlResourceMessage_descriptor;
+          }
+
+          public com.android.vts.proto.VtsReportMessage.UrlResourceMessage
+          getDefaultInstanceForType() {
+              return com.android.vts.proto.VtsReportMessage.UrlResourceMessage.getDefaultInstance();
+          }
+
+          public com.android.vts.proto.VtsReportMessage.UrlResourceMessage build() {
+              com.android.vts.proto.VtsReportMessage.UrlResourceMessage result = buildPartial();
+              if (!result.isInitialized()) {
+                  throw newUninitializedMessageException(result);
+              }
+              return result;
+          }
+
+          public com.android.vts.proto.VtsReportMessage.UrlResourceMessage buildPartial() {
+              com.android.vts.proto.VtsReportMessage.UrlResourceMessage result =
+                      new com.android.vts.proto.VtsReportMessage.UrlResourceMessage(this);
+              int from_bitField0_ = bitField0_;
+              int to_bitField0_ = 0;
+              if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+                  to_bitField0_ |= 0x00000001;
+              }
+              result.url_ = url_;
+              if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+                  to_bitField0_ |= 0x00000002;
+              }
+              result.name_ = name_;
+              if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+                  to_bitField0_ |= 0x00000004;
+              }
+              result.content_ = content_;
+              result.bitField0_ = to_bitField0_;
+              onBuilt();
+              return result;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+              if (other instanceof com.android.vts.proto.VtsReportMessage.UrlResourceMessage) {
+                  return mergeFrom(
+                          (com.android.vts.proto.VtsReportMessage.UrlResourceMessage) other);
+              } else {
+                  super.mergeFrom(other);
+                  return this;
+              }
+          }
+
+          public Builder mergeFrom(
+                  com.android.vts.proto.VtsReportMessage.UrlResourceMessage other) {
+              if (other
+                      == com.android.vts.proto.VtsReportMessage.UrlResourceMessage
+                                 .getDefaultInstance())
+                  return this;
+              if (other.hasUrl()) {
+                  setUrl(other.getUrl());
+              }
+              if (other.hasName()) {
+                  setName(other.getName());
+              }
+              if (other.hasContent()) {
+                  setContent(other.getContent());
+              }
+              this.mergeUnknownFields(other.getUnknownFields());
+              return this;
+          }
+
+          public final boolean isInitialized() {
+              return true;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.CodedInputStream input,
+                  com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                  throws java.io.IOException {
+              com.android.vts.proto.VtsReportMessage.UrlResourceMessage parsedMessage = null;
+              try {
+                  parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+              } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                  parsedMessage = (com.android.vts.proto.VtsReportMessage.UrlResourceMessage)
+                                          e.getUnfinishedMessage();
+                  throw e;
+              } finally {
+                  if (parsedMessage != null) {
+                      mergeFrom(parsedMessage);
+                  }
+              }
+              return this;
+          }
+          private int bitField0_;
+
+          // optional bytes url = 1;
+          private com.google.protobuf.ByteString url_ = com.google.protobuf.ByteString.EMPTY;
+          /**
+           * <code>optional bytes url = 1;</code>
+           *
+           * <pre>
+           * URL of a resource file.
+           * </pre>
+           */
+          public boolean hasUrl() {
+              return ((bitField0_ & 0x00000001) == 0x00000001);
+          }
+          /**
+           * <code>optional bytes url = 1;</code>
+           *
+           * <pre>
+           * URL of a resource file.
+           * </pre>
+           */
+          public com.google.protobuf.ByteString getUrl() {
+              return url_;
+          }
+          /**
+           * <code>optional bytes url = 1;</code>
+           *
+           * <pre>
+           * URL of a resource file.
+           * </pre>
+           */
+          public Builder setUrl(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000001;
+              url_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional bytes url = 1;</code>
+           *
+           * <pre>
+           * URL of a resource file.
+           * </pre>
+           */
+          public Builder clearUrl() {
+              bitField0_ = (bitField0_ & ~0x00000001);
+              url_ = getDefaultInstance().getUrl();
+              onChanged();
+              return this;
+          }
+
+          // optional bytes name = 2;
+          private com.google.protobuf.ByteString name_ = com.google.protobuf.ByteString.EMPTY;
+          /**
+           * <code>optional bytes name = 2;</code>
+           *
+           * <pre>
+           * Name of a resource file representing its type and does not have to be
+           * the same as the exact file name.
+           * </pre>
+           */
+          public boolean hasName() {
+              return ((bitField0_ & 0x00000002) == 0x00000002);
+          }
+          /**
+           * <code>optional bytes name = 2;</code>
+           *
+           * <pre>
+           * Name of a resource file representing its type and does not have to be
+           * the same as the exact file name.
+           * </pre>
+           */
+          public com.google.protobuf.ByteString getName() {
+              return name_;
+          }
+          /**
+           * <code>optional bytes name = 2;</code>
+           *
+           * <pre>
+           * Name of a resource file representing its type and does not have to be
+           * the same as the exact file name.
+           * </pre>
+           */
+          public Builder setName(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000002;
+              name_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional bytes name = 2;</code>
+           *
+           * <pre>
+           * Name of a resource file representing its type and does not have to be
+           * the same as the exact file name.
+           * </pre>
+           */
+          public Builder clearName() {
+              bitField0_ = (bitField0_ & ~0x00000002);
+              name_ = getDefaultInstance().getName();
+              onChanged();
+              return this;
+          }
+
+          // optional bytes content = 3;
+          private com.google.protobuf.ByteString content_ = com.google.protobuf.ByteString.EMPTY;
+          /**
+           * <code>optional bytes content = 3;</code>
+           *
+           * <pre>
+           * Raw content of a resource file. Used if the file is small.
+           * </pre>
+           */
+          public boolean hasContent() {
+              return ((bitField0_ & 0x00000004) == 0x00000004);
+          }
+          /**
+           * <code>optional bytes content = 3;</code>
+           *
+           * <pre>
+           * Raw content of a resource file. Used if the file is small.
+           * </pre>
+           */
+          public com.google.protobuf.ByteString getContent() {
+              return content_;
+          }
+          /**
+           * <code>optional bytes content = 3;</code>
+           *
+           * <pre>
+           * Raw content of a resource file. Used if the file is small.
+           * </pre>
+           */
+          public Builder setContent(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000004;
+              content_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional bytes content = 3;</code>
+           *
+           * <pre>
+           * Raw content of a resource file. Used if the file is small.
+           * </pre>
+           */
+          public Builder clearContent() {
+              bitField0_ = (bitField0_ & ~0x00000004);
+              content_ = getDefaultInstance().getContent();
+              onChanged();
+              return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:android.vts.UrlResourceMessage)
+      }
+
+      static {
+          defaultInstance = new UrlResourceMessage(true);
+          defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:android.vts.UrlResourceMessage)
+  }
+
+  public interface TestReportMessageOrBuilder extends com.google.protobuf.MessageOrBuilder {
+      // optional bytes test_suite = 1 [deprecated = true];
+      /**
+       * <code>optional bytes test_suite = 1 [deprecated = true];</code>
+       *
+       * <pre>
+       * The test suite name..
+       * </pre>
+       */
+      @java.lang.Deprecated boolean hasTestSuite();
+      /**
+       * <code>optional bytes test_suite = 1 [deprecated = true];</code>
+       *
+       * <pre>
+       * The test suite name..
+       * </pre>
+       */
+      @java.lang.Deprecated com.google.protobuf.ByteString getTestSuite();
+
+      // optional bytes test = 2;
+      /**
+       * <code>optional bytes test = 2;</code>
+       *
+       * <pre>
+       * The test name.
+       * </pre>
+       */
+      boolean hasTest();
+      /**
+       * <code>optional bytes test = 2;</code>
+       *
+       * <pre>
+       * The test name.
+       * </pre>
+       */
+      com.google.protobuf.ByteString getTest();
+
+      // optional .android.vts.VtsTestType test_type = 3;
+      /**
+       * <code>optional .android.vts.VtsTestType test_type = 3;</code>
+       *
+       * <pre>
+       * The test type
+       * </pre>
+       */
+      boolean hasTestType();
+      /**
+       * <code>optional .android.vts.VtsTestType test_type = 3;</code>
+       *
+       * <pre>
+       * The test type
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.VtsTestType getTestType();
+
+      // repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;
+      /**
+       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+       *
+       * <pre>
+       * Target device info
+       * </pre>
+       */
+      java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage>
+      getDeviceInfoList();
+      /**
+       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+       *
+       * <pre>
+       * Target device info
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage getDeviceInfo(int index);
+      /**
+       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+       *
+       * <pre>
+       * Target device info
+       * </pre>
+       */
+      int getDeviceInfoCount();
+      /**
+       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+       *
+       * <pre>
+       * Target device info
+       * </pre>
+       */
+      java.util.List<
+              ? extends com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder>
+      getDeviceInfoOrBuilderList();
+      /**
+       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+       *
+       * <pre>
+       * Target device info
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder
+      getDeviceInfoOrBuilder(int index);
+
+      // optional .android.vts.AndroidBuildInfo build_info = 5;
+      /**
+       * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+       *
+       * <pre>
+       * Build info
+       * </pre>
+       */
+      boolean hasBuildInfo();
+      /**
+       * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+       *
+       * <pre>
+       * Build info
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.AndroidBuildInfo getBuildInfo();
+      /**
+       * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+       *
+       * <pre>
+       * Build info
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder getBuildInfoOrBuilder();
+
+      // repeated bytes subscriber_email = 6;
+      /**
+       * <code>repeated bytes subscriber_email = 6;</code>
+       *
+       * <pre>
+       * Email addresses of subscribers to the test results
+       * </pre>
+       */
+      java.util.List<com.google.protobuf.ByteString> getSubscriberEmailList();
+      /**
+       * <code>repeated bytes subscriber_email = 6;</code>
+       *
+       * <pre>
+       * Email addresses of subscribers to the test results
+       * </pre>
+       */
+      int getSubscriberEmailCount();
+      /**
+       * <code>repeated bytes subscriber_email = 6;</code>
+       *
+       * <pre>
+       * Email addresses of subscribers to the test results
+       * </pre>
+       */
+      com.google.protobuf.ByteString getSubscriberEmail(int index);
+
+      // optional .android.vts.VtsHostInfo host_info = 7;
+      /**
+       * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+       *
+       * <pre>
+       * Info about the host computer
+       * </pre>
+       */
+      boolean hasHostInfo();
+      /**
+       * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+       *
+       * <pre>
+       * Info about the host computer
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.VtsHostInfo getHostInfo();
+      /**
+       * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+       *
+       * <pre>
+       * Info about the host computer
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder getHostInfoOrBuilder();
+
+      // repeated .android.vts.TestCaseReportMessage test_case = 11;
+      /**
+       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+       *
+       * <pre>
+       * Test case reports
+       * </pre>
+       */
+      java.util.List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage>
+      getTestCaseList();
+      /**
+       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+       *
+       * <pre>
+       * Test case reports
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.TestCaseReportMessage getTestCase(int index);
+      /**
+       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+       *
+       * <pre>
+       * Test case reports
+       * </pre>
+       */
+      int getTestCaseCount();
+      /**
+       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+       *
+       * <pre>
+       * Test case reports
+       * </pre>
+       */
+      java.util
+              .List<? extends com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder>
+              getTestCaseOrBuilderList();
+      /**
+       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+       *
+       * <pre>
+       * Test case reports
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder getTestCaseOrBuilder(
+              int index);
+
+      // repeated .android.vts.ProfilingReportMessage profiling = 21;
+      /**
+       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+       *
+       * <pre>
+       * Profiling reports
+       * </pre>
+       */
+      java.util.List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage>
+      getProfilingList();
+      /**
+       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+       *
+       * <pre>
+       * Profiling reports
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.ProfilingReportMessage getProfiling(int index);
+      /**
+       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+       *
+       * <pre>
+       * Profiling reports
+       * </pre>
+       */
+      int getProfilingCount();
+      /**
+       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+       *
+       * <pre>
+       * Profiling reports
+       * </pre>
+       */
+      java.util.List<
+              ? extends com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder>
+      getProfilingOrBuilderList();
+      /**
+       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+       *
+       * <pre>
+       * Profiling reports
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder getProfilingOrBuilder(
+              int index);
+
+      // repeated .android.vts.SystraceReportMessage systrace = 22;
+      /**
+       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+       *
+       * <pre>
+       * Systrace report per file
+       * </pre>
+       */
+      java.util.List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage>
+      getSystraceList();
+      /**
+       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+       *
+       * <pre>
+       * Systrace report per file
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.SystraceReportMessage getSystrace(int index);
+      /**
+       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+       *
+       * <pre>
+       * Systrace report per file
+       * </pre>
+       */
+      int getSystraceCount();
+      /**
+       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+       *
+       * <pre>
+       * Systrace report per file
+       * </pre>
+       */
+      java.util
+              .List<? extends com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder>
+              getSystraceOrBuilderList();
+      /**
+       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+       *
+       * <pre>
+       * Systrace report per file
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder getSystraceOrBuilder(
+              int index);
+
+      // optional int64 start_timestamp = 101;
+      /**
+       * <code>optional int64 start_timestamp = 101;</code>
+       *
+       * <pre>
+       * Execution start and end time stamp.
+       * </pre>
+       */
+      boolean hasStartTimestamp();
+      /**
+       * <code>optional int64 start_timestamp = 101;</code>
+       *
+       * <pre>
+       * Execution start and end time stamp.
+       * </pre>
+       */
+      long getStartTimestamp();
+
+      // optional int64 end_timestamp = 102;
+      /**
+       * <code>optional int64 end_timestamp = 102;</code>
+       */
+      boolean hasEndTimestamp();
+      /**
+       * <code>optional int64 end_timestamp = 102;</code>
+       */
+      long getEndTimestamp();
+
+      // repeated .android.vts.CoverageReportMessage coverage = 103;
+      /**
+       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+       *
+       * <pre>
+       * Coverage report per file
+       * </pre>
+       */
+      java.util.List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage>
+      getCoverageList();
+      /**
+       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+       *
+       * <pre>
+       * Coverage report per file
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.CoverageReportMessage getCoverage(int index);
+      /**
+       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+       *
+       * <pre>
+       * Coverage report per file
+       * </pre>
+       */
+      int getCoverageCount();
+      /**
+       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+       *
+       * <pre>
+       * Coverage report per file
+       * </pre>
+       */
+      java.util
+              .List<? extends com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder>
+              getCoverageOrBuilderList();
+      /**
+       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+       *
+       * <pre>
+       * Coverage report per file
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder getCoverageOrBuilder(
+              int index);
+
+      // repeated .android.vts.LogMessage log = 1001;
+      /**
+       * <code>repeated .android.vts.LogMessage log = 1001;</code>
+       *
+       * <pre>
+       * Log for a test module. May contain multiple logs such as logcat, host log,
+       * etc.
+       * </pre>
+       */
+      java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage> getLogList();
+      /**
+       * <code>repeated .android.vts.LogMessage log = 1001;</code>
+       *
+       * <pre>
+       * Log for a test module. May contain multiple logs such as logcat, host log,
+       * etc.
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.LogMessage getLog(int index);
+      /**
+       * <code>repeated .android.vts.LogMessage log = 1001;</code>
+       *
+       * <pre>
+       * Log for a test module. May contain multiple logs such as logcat, host log,
+       * etc.
+       * </pre>
+       */
+      int getLogCount();
+      /**
+       * <code>repeated .android.vts.LogMessage log = 1001;</code>
+       *
+       * <pre>
+       * Log for a test module. May contain multiple logs such as logcat, host log,
+       * etc.
+       * </pre>
+       */
+      java.util.List<? extends com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder>
+      getLogOrBuilderList();
+      /**
+       * <code>repeated .android.vts.LogMessage log = 1001;</code>
+       *
+       * <pre>
+       * Log for a test module. May contain multiple logs such as logcat, host log,
+       * etc.
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder getLogOrBuilder(int index);
   }
   /**
    * Protobuf type {@code android.vts.TestReportMessage}
@@ -11006,1519 +11696,293 @@ public final class VtsReportMessage {
    * To specify a test execution report.
    * </pre>
    */
-  public static final class TestReportMessage extends
-      com.google.protobuf.GeneratedMessage
-      implements TestReportMessageOrBuilder {
-    // Use TestReportMessage.newBuilder() to construct.
-    private TestReportMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private TestReportMessage(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+  public static final class TestReportMessage
+          extends com.google.protobuf.GeneratedMessage implements TestReportMessageOrBuilder {
+      // Use TestReportMessage.newBuilder() to construct.
+      private TestReportMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+          this.unknownFields = builder.getUnknownFields();
+      }
+      private TestReportMessage(boolean noInit) {
+          this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      }
 
-    private static final TestReportMessage defaultInstance;
-    public static TestReportMessage getDefaultInstance() {
-      return defaultInstance;
-    }
+      private static final TestReportMessage defaultInstance;
+      public static TestReportMessage getDefaultInstance() {
+          return defaultInstance;
+      }
 
-    public TestReportMessage getDefaultInstanceForType() {
-      return defaultInstance;
-    }
+      public TestReportMessage getDefaultInstanceForType() {
+          return defaultInstance;
+      }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private TestReportMessage(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.
+      lang.Override
+      public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+          return this.unknownFields;
+      }
+      private TestReportMessage(com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          initFields();
+          int mutable_bitField0_ = 0;
+          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+                  com.google.protobuf.UnknownFieldSet.newBuilder();
+          try {
+              boolean done = false;
+              while (!done) {
+                  int tag = input.readTag();
+                  switch (tag) {
+                      case 0:
+                          done = true;
+                          break;
+                      default: {
+                          if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+                              done = true;
+                          }
+                          break;
+                      }
+                      case 10: {
+                          bitField0_ |= 0x00000001;
+                          testSuite_ = input.readBytes();
+                          break;
+                      }
+                      case 18: {
+                          bitField0_ |= 0x00000002;
+                          test_ = input.readBytes();
+                          break;
+                      }
+                      case 24: {
+                          int rawValue = input.readEnum();
+                          com.android.vts.proto.VtsReportMessage.VtsTestType value =
+                                  com.android.vts.proto.VtsReportMessage.VtsTestType.valueOf(
+                                          rawValue);
+                          if (value == null) {
+                              unknownFields.mergeVarintField(3, rawValue);
+                          } else {
+                              bitField0_ |= 0x00000004;
+                              testType_ = value;
+                          }
+                          break;
+                      }
+                      case 34: {
+                          if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                              deviceInfo_ =
+                                      new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                                      .AndroidDeviceInfoMessage>();
+                              mutable_bitField0_ |= 0x00000008;
+                          }
+                          deviceInfo_.add(
+                                  input.readMessage(com.android.vts.proto.VtsReportMessage
+                                                            .AndroidDeviceInfoMessage.PARSER,
+                                          extensionRegistry));
+                          break;
+                      }
+                      case 42: {
+                          com.android.vts.proto.VtsReportMessage.AndroidBuildInfo
+                                  .Builder subBuilder = null;
+                          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                              subBuilder = buildInfo_.toBuilder();
+                          }
+                          buildInfo_ = input.readMessage(
+                                  com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.PARSER,
+                                  extensionRegistry);
+                          if (subBuilder != null) {
+                              subBuilder.mergeFrom(buildInfo_);
+                              buildInfo_ = subBuilder.buildPartial();
+                          }
+                          bitField0_ |= 0x00000008;
+                          break;
+                      }
+                      case 50: {
+                          if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                              subscriberEmail_ =
+                                      new java.util.ArrayList<com.google.protobuf.ByteString>();
+                              mutable_bitField0_ |= 0x00000020;
+                          }
+                          subscriberEmail_.add(input.readBytes());
+                          break;
+                      }
+                      case 58: {
+                          com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder subBuilder =
+                                  null;
+                          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                              subBuilder = hostInfo_.toBuilder();
+                          }
+                          hostInfo_ = input.readMessage(
+                                  com.android.vts.proto.VtsReportMessage.VtsHostInfo.PARSER,
+                                  extensionRegistry);
+                          if (subBuilder != null) {
+                              subBuilder.mergeFrom(hostInfo_);
+                              hostInfo_ = subBuilder.buildPartial();
+                          }
+                          bitField0_ |= 0x00000010;
+                          break;
+                      }
+                      case 90: {
+                          if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                              testCase_ =
+                                      new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                                      .TestCaseReportMessage>();
+                              mutable_bitField0_ |= 0x00000080;
+                          }
+                          testCase_.add(input.readMessage(com.android.vts.proto.VtsReportMessage
+                                                                  .TestCaseReportMessage.PARSER,
+                                  extensionRegistry));
+                          break;
+                      }
+                      case 170: {
+                          if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                              profiling_ =
+                                      new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                                      .ProfilingReportMessage>();
+                              mutable_bitField0_ |= 0x00000100;
+                          }
+                          profiling_.add(input.readMessage(com.android.vts.proto.VtsReportMessage
+                                                                   .ProfilingReportMessage.PARSER,
+                                  extensionRegistry));
+                          break;
+                      }
+                      case 178: {
+                          if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                              systrace_ =
+                                      new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                                      .SystraceReportMessage>();
+                              mutable_bitField0_ |= 0x00000200;
+                          }
+                          systrace_.add(input.readMessage(com.android.vts.proto.VtsReportMessage
+                                                                  .SystraceReportMessage.PARSER,
+                                  extensionRegistry));
+                          break;
+                      }
+                      case 808: {
+                          bitField0_ |= 0x00000020;
+                          startTimestamp_ = input.readInt64();
+                          break;
+                      }
+                      case 816: {
+                          bitField0_ |= 0x00000040;
+                          endTimestamp_ = input.readInt64();
+                          break;
+                      }
+                      case 826: {
+                          if (!((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
+                              coverage_ =
+                                      new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                                      .CoverageReportMessage>();
+                              mutable_bitField0_ |= 0x00001000;
+                          }
+                          coverage_.add(input.readMessage(com.android.vts.proto.VtsReportMessage
+                                                                  .CoverageReportMessage.PARSER,
+                                  extensionRegistry));
+                          break;
+                      }
+                      case 8010: {
+                          if (!((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
+                              log_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                                     .LogMessage>();
+                              mutable_bitField0_ |= 0x00002000;
+                          }
+                          log_.add(input.readMessage(
+                                  com.android.vts.proto.VtsReportMessage.LogMessage.PARSER,
+                                  extensionRegistry));
+                          break;
+                      }
+                  }
               }
-              break;
-            }
-            case 10: {
-              bitField0_ |= 0x00000001;
-              testSuite_ = input.readBytes();
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              test_ = input.readBytes();
-              break;
-            }
-            case 24: {
-              int rawValue = input.readEnum();
-              com.android.vts.proto.VtsReportMessage.VtsTestType value = com.android.vts.proto.VtsReportMessage.VtsTestType.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(3, rawValue);
-              } else {
-                bitField0_ |= 0x00000004;
-                testType_ = value;
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(this);
+          } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage())
+                      .setUnfinishedMessage(this);
+          } finally {
+              if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                  deviceInfo_ = java.util.Collections.unmodifiableList(deviceInfo_);
               }
-              break;
-            }
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                deviceInfo_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage>();
-                mutable_bitField0_ |= 0x00000008;
+              if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                  subscriberEmail_ = java.util.Collections.unmodifiableList(subscriberEmail_);
               }
-              deviceInfo_.add(input.readMessage(com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.PARSER, extensionRegistry));
-              break;
-            }
-            case 42: {
-              com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                subBuilder = buildInfo_.toBuilder();
+              if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                  testCase_ = java.util.Collections.unmodifiableList(testCase_);
               }
-              buildInfo_ = input.readMessage(com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(buildInfo_);
-                buildInfo_ = subBuilder.buildPartial();
+              if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                  profiling_ = java.util.Collections.unmodifiableList(profiling_);
               }
-              bitField0_ |= 0x00000008;
-              break;
-            }
-            case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-                subscriberEmail_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
-                mutable_bitField0_ |= 0x00000020;
+              if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                  systrace_ = java.util.Collections.unmodifiableList(systrace_);
               }
-              subscriberEmail_.add(input.readBytes());
-              break;
-            }
-            case 58: {
-              com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
-                subBuilder = hostInfo_.toBuilder();
+              if (((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
+                  coverage_ = java.util.Collections.unmodifiableList(coverage_);
               }
-              hostInfo_ = input.readMessage(com.android.vts.proto.VtsReportMessage.VtsHostInfo.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(hostInfo_);
-                hostInfo_ = subBuilder.buildPartial();
+              if (((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
+                  log_ = java.util.Collections.unmodifiableList(log_);
               }
-              bitField0_ |= 0x00000010;
-              break;
-            }
-            case 90: {
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
-                testCase_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage>();
-                mutable_bitField0_ |= 0x00000080;
-              }
-              testCase_.add(input.readMessage(com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.PARSER, extensionRegistry));
-              break;
-            }
-            case 170: {
-              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-                profiling_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage>();
-                mutable_bitField0_ |= 0x00000100;
-              }
-              profiling_.add(input.readMessage(com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.PARSER, extensionRegistry));
-              break;
-            }
-            case 178: {
-              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
-                systrace_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.SystraceReportMessage>();
-                mutable_bitField0_ |= 0x00000200;
-              }
-              systrace_.add(input.readMessage(com.android.vts.proto.VtsReportMessage.SystraceReportMessage.PARSER, extensionRegistry));
-              break;
-            }
-            case 808: {
-              bitField0_ |= 0x00000020;
-              startTimestamp_ = input.readInt64();
-              break;
-            }
-            case 816: {
-              bitField0_ |= 0x00000040;
-              endTimestamp_ = input.readInt64();
-              break;
-            }
-            case 826: {
-              if (!((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
-                coverage_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.CoverageReportMessage>();
-                mutable_bitField0_ |= 0x00001000;
-              }
-              coverage_.add(input.readMessage(com.android.vts.proto.VtsReportMessage.CoverageReportMessage.PARSER, extensionRegistry));
-              break;
-            }
-            case 8010: {
-              if (!((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
-                log_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.LogMessage>();
-                mutable_bitField0_ |= 0x00002000;
-              }
-              log_.add(input.readMessage(com.android.vts.proto.VtsReportMessage.LogMessage.PARSER, extensionRegistry));
-              break;
-            }
+              this.unknownFields = unknownFields.build();
+              makeExtensionsImmutable();
           }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          deviceInfo_ = java.util.Collections.unmodifiableList(deviceInfo_);
-        }
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-          subscriberEmail_ = java.util.Collections.unmodifiableList(subscriberEmail_);
-        }
-        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
-          testCase_ = java.util.Collections.unmodifiableList(testCase_);
-        }
-        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-          profiling_ = java.util.Collections.unmodifiableList(profiling_);
-        }
-        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
-          systrace_ = java.util.Collections.unmodifiableList(systrace_);
-        }
-        if (((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
-          coverage_ = java.util.Collections.unmodifiableList(coverage_);
-        }
-        if (((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
-          log_ = java.util.Collections.unmodifiableList(log_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
       }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.android.vts.proto.VtsReportMessage.internal_static_android_vts_TestReportMessage_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.android.vts.proto.VtsReportMessage.internal_static_android_vts_TestReportMessage_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.android.vts.proto.VtsReportMessage.TestReportMessage.class, com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<TestReportMessage> PARSER =
-        new com.google.protobuf.AbstractParser<TestReportMessage>() {
-      public TestReportMessage parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TestReportMessage(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<TestReportMessage> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional bytes test_suite = 1;
-    public static final int TEST_SUITE_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString testSuite_;
-    /**
-     * <code>optional bytes test_suite = 1;</code>
-     *
-     * <pre>
-     * The test suite name..
-     * </pre>
-     */
-    public boolean hasTestSuite() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional bytes test_suite = 1;</code>
-     *
-     * <pre>
-     * The test suite name..
-     * </pre>
-     */
-    public com.google.protobuf.ByteString getTestSuite() {
-      return testSuite_;
-    }
-
-    // optional bytes test = 2;
-    public static final int TEST_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString test_;
-    /**
-     * <code>optional bytes test = 2;</code>
-     *
-     * <pre>
-     * The test name.
-     * </pre>
-     */
-    public boolean hasTest() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional bytes test = 2;</code>
-     *
-     * <pre>
-     * The test name.
-     * </pre>
-     */
-    public com.google.protobuf.ByteString getTest() {
-      return test_;
-    }
-
-    // optional .android.vts.VtsTestType test_type = 3;
-    public static final int TEST_TYPE_FIELD_NUMBER = 3;
-    private com.android.vts.proto.VtsReportMessage.VtsTestType testType_;
-    /**
-     * <code>optional .android.vts.VtsTestType test_type = 3;</code>
-     *
-     * <pre>
-     * The test type
-     * </pre>
-     */
-    public boolean hasTestType() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional .android.vts.VtsTestType test_type = 3;</code>
-     *
-     * <pre>
-     * The test type
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.VtsTestType getTestType() {
-      return testType_;
-    }
-
-    // repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;
-    public static final int DEVICE_INFO_FIELD_NUMBER = 4;
-    private java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage> deviceInfo_;
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    public java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage> getDeviceInfoList() {
-      return deviceInfo_;
-    }
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    public java.util.List<? extends com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder> 
-        getDeviceInfoOrBuilderList() {
-      return deviceInfo_;
-    }
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    public int getDeviceInfoCount() {
-      return deviceInfo_.size();
-    }
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage getDeviceInfo(int index) {
-      return deviceInfo_.get(index);
-    }
-    /**
-     * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-     *
-     * <pre>
-     * Target device info
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder getDeviceInfoOrBuilder(
-        int index) {
-      return deviceInfo_.get(index);
-    }
-
-    // optional .android.vts.AndroidBuildInfo build_info = 5;
-    public static final int BUILD_INFO_FIELD_NUMBER = 5;
-    private com.android.vts.proto.VtsReportMessage.AndroidBuildInfo buildInfo_;
-    /**
-     * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-     *
-     * <pre>
-     * Build info
-     * </pre>
-     */
-    public boolean hasBuildInfo() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-     *
-     * <pre>
-     * Build info
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.AndroidBuildInfo getBuildInfo() {
-      return buildInfo_;
-    }
-    /**
-     * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-     *
-     * <pre>
-     * Build info
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder getBuildInfoOrBuilder() {
-      return buildInfo_;
-    }
-
-    // repeated bytes subscriber_email = 6;
-    public static final int SUBSCRIBER_EMAIL_FIELD_NUMBER = 6;
-    private java.util.List<com.google.protobuf.ByteString> subscriberEmail_;
-    /**
-     * <code>repeated bytes subscriber_email = 6;</code>
-     *
-     * <pre>
-     * Email addresses of subscribers to the test results
-     * </pre>
-     */
-    public java.util.List<com.google.protobuf.ByteString>
-        getSubscriberEmailList() {
-      return subscriberEmail_;
-    }
-    /**
-     * <code>repeated bytes subscriber_email = 6;</code>
-     *
-     * <pre>
-     * Email addresses of subscribers to the test results
-     * </pre>
-     */
-    public int getSubscriberEmailCount() {
-      return subscriberEmail_.size();
-    }
-    /**
-     * <code>repeated bytes subscriber_email = 6;</code>
-     *
-     * <pre>
-     * Email addresses of subscribers to the test results
-     * </pre>
-     */
-    public com.google.protobuf.ByteString getSubscriberEmail(int index) {
-      return subscriberEmail_.get(index);
-    }
-
-    // optional .android.vts.VtsHostInfo host_info = 7;
-    public static final int HOST_INFO_FIELD_NUMBER = 7;
-    private com.android.vts.proto.VtsReportMessage.VtsHostInfo hostInfo_;
-    /**
-     * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-     *
-     * <pre>
-     * Info about the host computer
-     * </pre>
-     */
-    public boolean hasHostInfo() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-     *
-     * <pre>
-     * Info about the host computer
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.VtsHostInfo getHostInfo() {
-      return hostInfo_;
-    }
-    /**
-     * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-     *
-     * <pre>
-     * Info about the host computer
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder getHostInfoOrBuilder() {
-      return hostInfo_;
-    }
-
-    // repeated .android.vts.TestCaseReportMessage test_case = 11;
-    public static final int TEST_CASE_FIELD_NUMBER = 11;
-    private java.util.List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage> testCase_;
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    public java.util.List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage> getTestCaseList() {
-      return testCase_;
-    }
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    public java.util.List<? extends com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder> 
-        getTestCaseOrBuilderList() {
-      return testCase_;
-    }
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    public int getTestCaseCount() {
-      return testCase_.size();
-    }
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.TestCaseReportMessage getTestCase(int index) {
-      return testCase_.get(index);
-    }
-    /**
-     * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-     *
-     * <pre>
-     * Test case reports
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder getTestCaseOrBuilder(
-        int index) {
-      return testCase_.get(index);
-    }
-
-    // repeated .android.vts.ProfilingReportMessage profiling = 21;
-    public static final int PROFILING_FIELD_NUMBER = 21;
-    private java.util.List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage> profiling_;
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    public java.util.List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage> getProfilingList() {
-      return profiling_;
-    }
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    public java.util.List<? extends com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder> 
-        getProfilingOrBuilderList() {
-      return profiling_;
-    }
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    public int getProfilingCount() {
-      return profiling_.size();
-    }
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.ProfilingReportMessage getProfiling(int index) {
-      return profiling_.get(index);
-    }
-    /**
-     * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-     *
-     * <pre>
-     * Profiling reports
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder getProfilingOrBuilder(
-        int index) {
-      return profiling_.get(index);
-    }
-
-    // repeated .android.vts.SystraceReportMessage systrace = 22;
-    public static final int SYSTRACE_FIELD_NUMBER = 22;
-    private java.util.List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage> systrace_;
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    public java.util.List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage> getSystraceList() {
-      return systrace_;
-    }
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    public java.util.List<? extends com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder> 
-        getSystraceOrBuilderList() {
-      return systrace_;
-    }
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    public int getSystraceCount() {
-      return systrace_.size();
-    }
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.SystraceReportMessage getSystrace(int index) {
-      return systrace_.get(index);
-    }
-    /**
-     * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-     *
-     * <pre>
-     * Systrace report per file
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder getSystraceOrBuilder(
-        int index) {
-      return systrace_.get(index);
-    }
-
-    // optional int64 start_timestamp = 101;
-    public static final int START_TIMESTAMP_FIELD_NUMBER = 101;
-    private long startTimestamp_;
-    /**
-     * <code>optional int64 start_timestamp = 101;</code>
-     *
-     * <pre>
-     * Execution start and end time stamp.
-     * </pre>
-     */
-    public boolean hasStartTimestamp() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>optional int64 start_timestamp = 101;</code>
-     *
-     * <pre>
-     * Execution start and end time stamp.
-     * </pre>
-     */
-    public long getStartTimestamp() {
-      return startTimestamp_;
-    }
-
-    // optional int64 end_timestamp = 102;
-    public static final int END_TIMESTAMP_FIELD_NUMBER = 102;
-    private long endTimestamp_;
-    /**
-     * <code>optional int64 end_timestamp = 102;</code>
-     */
-    public boolean hasEndTimestamp() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>optional int64 end_timestamp = 102;</code>
-     */
-    public long getEndTimestamp() {
-      return endTimestamp_;
-    }
-
-    // repeated .android.vts.CoverageReportMessage coverage = 103;
-    public static final int COVERAGE_FIELD_NUMBER = 103;
-    private java.util.List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage> coverage_;
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    public java.util.List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage> getCoverageList() {
-      return coverage_;
-    }
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    public java.util.List<? extends com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder> 
-        getCoverageOrBuilderList() {
-      return coverage_;
-    }
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    public int getCoverageCount() {
-      return coverage_.size();
-    }
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.CoverageReportMessage getCoverage(int index) {
-      return coverage_.get(index);
-    }
-    /**
-     * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-     *
-     * <pre>
-     * Coverage report per file
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder getCoverageOrBuilder(
-        int index) {
-      return coverage_.get(index);
-    }
-
-    // repeated .android.vts.LogMessage log = 1001;
-    public static final int LOG_FIELD_NUMBER = 1001;
-    private java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage> log_;
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    public java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage> getLogList() {
-      return log_;
-    }
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    public java.util.List<? extends com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder> 
-        getLogOrBuilderList() {
-      return log_;
-    }
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    public int getLogCount() {
-      return log_.size();
-    }
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.LogMessage getLog(int index) {
-      return log_.get(index);
-    }
-    /**
-     * <code>repeated .android.vts.LogMessage log = 1001;</code>
-     *
-     * <pre>
-     * Log for a test module. May contain multiple logs such as logcat, host log,
-     * etc.
-     * </pre>
-     */
-    public com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder getLogOrBuilder(
-        int index) {
-      return log_.get(index);
-    }
-
-    private void initFields() {
-      testSuite_ = com.google.protobuf.ByteString.EMPTY;
-      test_ = com.google.protobuf.ByteString.EMPTY;
-      testType_ = com.android.vts.proto.VtsReportMessage.VtsTestType.UNKNOWN_VTS_TESTTYPE;
-      deviceInfo_ = java.util.Collections.emptyList();
-      buildInfo_ = com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.getDefaultInstance();
-      subscriberEmail_ = java.util.Collections.emptyList();
-      hostInfo_ = com.android.vts.proto.VtsReportMessage.VtsHostInfo.getDefaultInstance();
-      testCase_ = java.util.Collections.emptyList();
-      profiling_ = java.util.Collections.emptyList();
-      systrace_ = java.util.Collections.emptyList();
-      startTimestamp_ = 0L;
-      endTimestamp_ = 0L;
-      coverage_ = java.util.Collections.emptyList();
-      log_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, testSuite_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, test_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeEnum(3, testType_.getNumber());
-      }
-      for (int i = 0; i < deviceInfo_.size(); i++) {
-        output.writeMessage(4, deviceInfo_.get(i));
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(5, buildInfo_);
-      }
-      for (int i = 0; i < subscriberEmail_.size(); i++) {
-        output.writeBytes(6, subscriberEmail_.get(i));
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(7, hostInfo_);
-      }
-      for (int i = 0; i < testCase_.size(); i++) {
-        output.writeMessage(11, testCase_.get(i));
-      }
-      for (int i = 0; i < profiling_.size(); i++) {
-        output.writeMessage(21, profiling_.get(i));
-      }
-      for (int i = 0; i < systrace_.size(); i++) {
-        output.writeMessage(22, systrace_.get(i));
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt64(101, startTimestamp_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt64(102, endTimestamp_);
-      }
-      for (int i = 0; i < coverage_.size(); i++) {
-        output.writeMessage(103, coverage_.get(i));
-      }
-      for (int i = 0; i < log_.size(); i++) {
-        output.writeMessage(1001, log_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, testSuite_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, test_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(3, testType_.getNumber());
-      }
-      for (int i = 0; i < deviceInfo_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, deviceInfo_.get(i));
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, buildInfo_);
-      }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < subscriberEmail_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(subscriberEmail_.get(i));
-        }
-        size += dataSize;
-        size += 1 * getSubscriberEmailList().size();
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, hostInfo_);
-      }
-      for (int i = 0; i < testCase_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(11, testCase_.get(i));
-      }
-      for (int i = 0; i < profiling_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(21, profiling_.get(i));
-      }
-      for (int i = 0; i < systrace_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(22, systrace_.get(i));
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(101, startTimestamp_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(102, endTimestamp_);
-      }
-      for (int i = 0; i < coverage_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(103, coverage_.get(i));
-      }
-      for (int i = 0; i < log_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1001, log_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.android.vts.proto.VtsReportMessage.TestReportMessage prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code android.vts.TestReportMessage}
-     *
-     * <pre>
-     * To specify a test execution report.
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.android.vts.proto.VtsReportMessage.internal_static_android_vts_TestReportMessage_descriptor;
+      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+          return com.android.vts.proto.VtsReportMessage
+                  .internal_static_android_vts_TestReportMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.android.vts.proto.VtsReportMessage.internal_static_android_vts_TestReportMessage_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.android.vts.proto.VtsReportMessage.TestReportMessage.class, com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder.class);
+      internalGetFieldAccessorTable() {
+          return com.android.vts.proto.VtsReportMessage
+                  .internal_static_android_vts_TestReportMessage_fieldAccessorTable
+                  .ensureFieldAccessorsInitialized(
+                          com.android.vts.proto.VtsReportMessage.TestReportMessage.class,
+                          com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder.class);
       }
 
-      // Construct using com.android.vts.proto.VtsReportMessage.TestReportMessage.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
+      public static com.google.protobuf.Parser<TestReportMessage> PARSER =
+              new com.google.protobuf.AbstractParser<TestReportMessage>() {
+                  public TestReportMessage parsePartialFrom(
+                          com.google.protobuf.CodedInputStream input,
+                          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                          throws com.google.protobuf.InvalidProtocolBufferException {
+                      return new TestReportMessage(input, extensionRegistry);
+                  }
+              };
+
+      @java.
+      lang.Override
+      public com.google.protobuf.Parser<TestReportMessage> getParserForType() {
+          return PARSER;
       }
 
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getDeviceInfoFieldBuilder();
-          getBuildInfoFieldBuilder();
-          getHostInfoFieldBuilder();
-          getTestCaseFieldBuilder();
-          getProfilingFieldBuilder();
-          getSystraceFieldBuilder();
-          getCoverageFieldBuilder();
-          getLogFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        testSuite_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        test_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        testType_ = com.android.vts.proto.VtsReportMessage.VtsTestType.UNKNOWN_VTS_TESTTYPE;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        if (deviceInfoBuilder_ == null) {
-          deviceInfo_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-        } else {
-          deviceInfoBuilder_.clear();
-        }
-        if (buildInfoBuilder_ == null) {
-          buildInfo_ = com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.getDefaultInstance();
-        } else {
-          buildInfoBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000010);
-        subscriberEmail_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000020);
-        if (hostInfoBuilder_ == null) {
-          hostInfo_ = com.android.vts.proto.VtsReportMessage.VtsHostInfo.getDefaultInstance();
-        } else {
-          hostInfoBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000040);
-        if (testCaseBuilder_ == null) {
-          testCase_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
-        } else {
-          testCaseBuilder_.clear();
-        }
-        if (profilingBuilder_ == null) {
-          profiling_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000100);
-        } else {
-          profilingBuilder_.clear();
-        }
-        if (systraceBuilder_ == null) {
-          systrace_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000200);
-        } else {
-          systraceBuilder_.clear();
-        }
-        startTimestamp_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000400);
-        endTimestamp_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000800);
-        if (coverageBuilder_ == null) {
-          coverage_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00001000);
-        } else {
-          coverageBuilder_.clear();
-        }
-        if (logBuilder_ == null) {
-          log_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00002000);
-        } else {
-          logBuilder_.clear();
-        }
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.android.vts.proto.VtsReportMessage.internal_static_android_vts_TestReportMessage_descriptor;
-      }
-
-      public com.android.vts.proto.VtsReportMessage.TestReportMessage getDefaultInstanceForType() {
-        return com.android.vts.proto.VtsReportMessage.TestReportMessage.getDefaultInstance();
-      }
-
-      public com.android.vts.proto.VtsReportMessage.TestReportMessage build() {
-        com.android.vts.proto.VtsReportMessage.TestReportMessage result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.android.vts.proto.VtsReportMessage.TestReportMessage buildPartial() {
-        com.android.vts.proto.VtsReportMessage.TestReportMessage result = new com.android.vts.proto.VtsReportMessage.TestReportMessage(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.testSuite_ = testSuite_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.test_ = test_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.testType_ = testType_;
-        if (deviceInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
-            deviceInfo_ = java.util.Collections.unmodifiableList(deviceInfo_);
-            bitField0_ = (bitField0_ & ~0x00000008);
-          }
-          result.deviceInfo_ = deviceInfo_;
-        } else {
-          result.deviceInfo_ = deviceInfoBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        if (buildInfoBuilder_ == null) {
-          result.buildInfo_ = buildInfo_;
-        } else {
-          result.buildInfo_ = buildInfoBuilder_.build();
-        }
-        if (((bitField0_ & 0x00000020) == 0x00000020)) {
-          subscriberEmail_ = java.util.Collections.unmodifiableList(subscriberEmail_);
-          bitField0_ = (bitField0_ & ~0x00000020);
-        }
-        result.subscriberEmail_ = subscriberEmail_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        if (hostInfoBuilder_ == null) {
-          result.hostInfo_ = hostInfo_;
-        } else {
-          result.hostInfo_ = hostInfoBuilder_.build();
-        }
-        if (testCaseBuilder_ == null) {
-          if (((bitField0_ & 0x00000080) == 0x00000080)) {
-            testCase_ = java.util.Collections.unmodifiableList(testCase_);
-            bitField0_ = (bitField0_ & ~0x00000080);
-          }
-          result.testCase_ = testCase_;
-        } else {
-          result.testCase_ = testCaseBuilder_.build();
-        }
-        if (profilingBuilder_ == null) {
-          if (((bitField0_ & 0x00000100) == 0x00000100)) {
-            profiling_ = java.util.Collections.unmodifiableList(profiling_);
-            bitField0_ = (bitField0_ & ~0x00000100);
-          }
-          result.profiling_ = profiling_;
-        } else {
-          result.profiling_ = profilingBuilder_.build();
-        }
-        if (systraceBuilder_ == null) {
-          if (((bitField0_ & 0x00000200) == 0x00000200)) {
-            systrace_ = java.util.Collections.unmodifiableList(systrace_);
-            bitField0_ = (bitField0_ & ~0x00000200);
-          }
-          result.systrace_ = systrace_;
-        } else {
-          result.systrace_ = systraceBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
-          to_bitField0_ |= 0x00000020;
-        }
-        result.startTimestamp_ = startTimestamp_;
-        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
-          to_bitField0_ |= 0x00000040;
-        }
-        result.endTimestamp_ = endTimestamp_;
-        if (coverageBuilder_ == null) {
-          if (((bitField0_ & 0x00001000) == 0x00001000)) {
-            coverage_ = java.util.Collections.unmodifiableList(coverage_);
-            bitField0_ = (bitField0_ & ~0x00001000);
-          }
-          result.coverage_ = coverage_;
-        } else {
-          result.coverage_ = coverageBuilder_.build();
-        }
-        if (logBuilder_ == null) {
-          if (((bitField0_ & 0x00002000) == 0x00002000)) {
-            log_ = java.util.Collections.unmodifiableList(log_);
-            bitField0_ = (bitField0_ & ~0x00002000);
-          }
-          result.log_ = log_;
-        } else {
-          result.log_ = logBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.android.vts.proto.VtsReportMessage.TestReportMessage) {
-          return mergeFrom((com.android.vts.proto.VtsReportMessage.TestReportMessage)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.android.vts.proto.VtsReportMessage.TestReportMessage other) {
-        if (other == com.android.vts.proto.VtsReportMessage.TestReportMessage.getDefaultInstance()) return this;
-        if (other.hasTestSuite()) {
-          setTestSuite(other.getTestSuite());
-        }
-        if (other.hasTest()) {
-          setTest(other.getTest());
-        }
-        if (other.hasTestType()) {
-          setTestType(other.getTestType());
-        }
-        if (deviceInfoBuilder_ == null) {
-          if (!other.deviceInfo_.isEmpty()) {
-            if (deviceInfo_.isEmpty()) {
-              deviceInfo_ = other.deviceInfo_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-            } else {
-              ensureDeviceInfoIsMutable();
-              deviceInfo_.addAll(other.deviceInfo_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.deviceInfo_.isEmpty()) {
-            if (deviceInfoBuilder_.isEmpty()) {
-              deviceInfoBuilder_.dispose();
-              deviceInfoBuilder_ = null;
-              deviceInfo_ = other.deviceInfo_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-              deviceInfoBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getDeviceInfoFieldBuilder() : null;
-            } else {
-              deviceInfoBuilder_.addAllMessages(other.deviceInfo_);
-            }
-          }
-        }
-        if (other.hasBuildInfo()) {
-          mergeBuildInfo(other.getBuildInfo());
-        }
-        if (!other.subscriberEmail_.isEmpty()) {
-          if (subscriberEmail_.isEmpty()) {
-            subscriberEmail_ = other.subscriberEmail_;
-            bitField0_ = (bitField0_ & ~0x00000020);
-          } else {
-            ensureSubscriberEmailIsMutable();
-            subscriberEmail_.addAll(other.subscriberEmail_);
-          }
-          onChanged();
-        }
-        if (other.hasHostInfo()) {
-          mergeHostInfo(other.getHostInfo());
-        }
-        if (testCaseBuilder_ == null) {
-          if (!other.testCase_.isEmpty()) {
-            if (testCase_.isEmpty()) {
-              testCase_ = other.testCase_;
-              bitField0_ = (bitField0_ & ~0x00000080);
-            } else {
-              ensureTestCaseIsMutable();
-              testCase_.addAll(other.testCase_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.testCase_.isEmpty()) {
-            if (testCaseBuilder_.isEmpty()) {
-              testCaseBuilder_.dispose();
-              testCaseBuilder_ = null;
-              testCase_ = other.testCase_;
-              bitField0_ = (bitField0_ & ~0x00000080);
-              testCaseBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getTestCaseFieldBuilder() : null;
-            } else {
-              testCaseBuilder_.addAllMessages(other.testCase_);
-            }
-          }
-        }
-        if (profilingBuilder_ == null) {
-          if (!other.profiling_.isEmpty()) {
-            if (profiling_.isEmpty()) {
-              profiling_ = other.profiling_;
-              bitField0_ = (bitField0_ & ~0x00000100);
-            } else {
-              ensureProfilingIsMutable();
-              profiling_.addAll(other.profiling_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.profiling_.isEmpty()) {
-            if (profilingBuilder_.isEmpty()) {
-              profilingBuilder_.dispose();
-              profilingBuilder_ = null;
-              profiling_ = other.profiling_;
-              bitField0_ = (bitField0_ & ~0x00000100);
-              profilingBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getProfilingFieldBuilder() : null;
-            } else {
-              profilingBuilder_.addAllMessages(other.profiling_);
-            }
-          }
-        }
-        if (systraceBuilder_ == null) {
-          if (!other.systrace_.isEmpty()) {
-            if (systrace_.isEmpty()) {
-              systrace_ = other.systrace_;
-              bitField0_ = (bitField0_ & ~0x00000200);
-            } else {
-              ensureSystraceIsMutable();
-              systrace_.addAll(other.systrace_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.systrace_.isEmpty()) {
-            if (systraceBuilder_.isEmpty()) {
-              systraceBuilder_.dispose();
-              systraceBuilder_ = null;
-              systrace_ = other.systrace_;
-              bitField0_ = (bitField0_ & ~0x00000200);
-              systraceBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getSystraceFieldBuilder() : null;
-            } else {
-              systraceBuilder_.addAllMessages(other.systrace_);
-            }
-          }
-        }
-        if (other.hasStartTimestamp()) {
-          setStartTimestamp(other.getStartTimestamp());
-        }
-        if (other.hasEndTimestamp()) {
-          setEndTimestamp(other.getEndTimestamp());
-        }
-        if (coverageBuilder_ == null) {
-          if (!other.coverage_.isEmpty()) {
-            if (coverage_.isEmpty()) {
-              coverage_ = other.coverage_;
-              bitField0_ = (bitField0_ & ~0x00001000);
-            } else {
-              ensureCoverageIsMutable();
-              coverage_.addAll(other.coverage_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.coverage_.isEmpty()) {
-            if (coverageBuilder_.isEmpty()) {
-              coverageBuilder_.dispose();
-              coverageBuilder_ = null;
-              coverage_ = other.coverage_;
-              bitField0_ = (bitField0_ & ~0x00001000);
-              coverageBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getCoverageFieldBuilder() : null;
-            } else {
-              coverageBuilder_.addAllMessages(other.coverage_);
-            }
-          }
-        }
-        if (logBuilder_ == null) {
-          if (!other.log_.isEmpty()) {
-            if (log_.isEmpty()) {
-              log_ = other.log_;
-              bitField0_ = (bitField0_ & ~0x00002000);
-            } else {
-              ensureLogIsMutable();
-              log_.addAll(other.log_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.log_.isEmpty()) {
-            if (logBuilder_.isEmpty()) {
-              logBuilder_.dispose();
-              logBuilder_ = null;
-              log_ = other.log_;
-              bitField0_ = (bitField0_ & ~0x00002000);
-              logBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getLogFieldBuilder() : null;
-            } else {
-              logBuilder_.addAllMessages(other.log_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.android.vts.proto.VtsReportMessage.TestReportMessage parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.android.vts.proto.VtsReportMessage.TestReportMessage) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
       private int bitField0_;
-
-      // optional bytes test_suite = 1;
-      private com.google.protobuf.ByteString testSuite_ = com.google.protobuf.ByteString.EMPTY;
+      // optional bytes test_suite = 1 [deprecated = true];
+      public static final int TEST_SUITE_FIELD_NUMBER = 1;
+      private com.google.protobuf.ByteString testSuite_;
       /**
-       * <code>optional bytes test_suite = 1;</code>
+       * <code>optional bytes test_suite = 1 [deprecated = true];</code>
        *
        * <pre>
        * The test suite name..
        * </pre>
        */
+      @java.lang.Deprecated
       public boolean hasTestSuite() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+          return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional bytes test_suite = 1;</code>
+       * <code>optional bytes test_suite = 1 [deprecated = true];</code>
        *
        * <pre>
        * The test suite name..
        * </pre>
        */
+      @java.
+      lang.Deprecated
       public com.google.protobuf.ByteString getTestSuite() {
-        return testSuite_;
-      }
-      /**
-       * <code>optional bytes test_suite = 1;</code>
-       *
-       * <pre>
-       * The test suite name..
-       * </pre>
-       */
-      public Builder setTestSuite(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        testSuite_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes test_suite = 1;</code>
-       *
-       * <pre>
-       * The test suite name..
-       * </pre>
-       */
-      public Builder clearTestSuite() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        testSuite_ = getDefaultInstance().getTestSuite();
-        onChanged();
-        return this;
+          return testSuite_;
       }
 
       // optional bytes test = 2;
-      private com.google.protobuf.ByteString test_ = com.google.protobuf.ByteString.EMPTY;
+      public static final int TEST_FIELD_NUMBER = 2;
+      private com.google.protobuf.ByteString test_;
       /**
        * <code>optional bytes test = 2;</code>
        *
@@ -12527,7 +11991,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public boolean hasTest() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+          return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional bytes test = 2;</code>
@@ -12537,40 +12001,12 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.google.protobuf.ByteString getTest() {
-        return test_;
-      }
-      /**
-       * <code>optional bytes test = 2;</code>
-       *
-       * <pre>
-       * The test name.
-       * </pre>
-       */
-      public Builder setTest(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        test_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes test = 2;</code>
-       *
-       * <pre>
-       * The test name.
-       * </pre>
-       */
-      public Builder clearTest() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        test_ = getDefaultInstance().getTest();
-        onChanged();
-        return this;
+          return test_;
       }
 
       // optional .android.vts.VtsTestType test_type = 3;
-      private com.android.vts.proto.VtsReportMessage.VtsTestType testType_ = com.android.vts.proto.VtsReportMessage.VtsTestType.UNKNOWN_VTS_TESTTYPE;
+      public static final int TEST_TYPE_FIELD_NUMBER = 3;
+      private com.android.vts.proto.VtsReportMessage.VtsTestType testType_;
       /**
        * <code>optional .android.vts.VtsTestType test_type = 3;</code>
        *
@@ -12579,7 +12015,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public boolean hasTestType() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+          return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional .android.vts.VtsTestType test_type = 3;</code>
@@ -12589,51 +12025,13 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.android.vts.proto.VtsReportMessage.VtsTestType getTestType() {
-        return testType_;
-      }
-      /**
-       * <code>optional .android.vts.VtsTestType test_type = 3;</code>
-       *
-       * <pre>
-       * The test type
-       * </pre>
-       */
-      public Builder setTestType(com.android.vts.proto.VtsReportMessage.VtsTestType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
-        testType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional .android.vts.VtsTestType test_type = 3;</code>
-       *
-       * <pre>
-       * The test type
-       * </pre>
-       */
-      public Builder clearTestType() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        testType_ = com.android.vts.proto.VtsReportMessage.VtsTestType.UNKNOWN_VTS_TESTTYPE;
-        onChanged();
-        return this;
+          return testType_;
       }
 
       // repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;
-      private java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage> deviceInfo_ =
-        java.util.Collections.emptyList();
-      private void ensureDeviceInfoIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          deviceInfo_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage>(deviceInfo_);
-          bitField0_ |= 0x00000008;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder> deviceInfoBuilder_;
-
+      public static final int DEVICE_INFO_FIELD_NUMBER = 4;
+      private java.util
+              .List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage> deviceInfo_;
       /**
        * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
        *
@@ -12641,12 +12039,21 @@ public final class VtsReportMessage {
        * Target device info
        * </pre>
        */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage> getDeviceInfoList() {
-        if (deviceInfoBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(deviceInfo_);
-        } else {
-          return deviceInfoBuilder_.getMessageList();
-        }
+      public java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage>
+      getDeviceInfoList() {
+          return deviceInfo_;
+      }
+      /**
+       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+       *
+       * <pre>
+       * Target device info
+       * </pre>
+       */
+      public java.util.List<
+              ? extends com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder>
+      getDeviceInfoOrBuilderList() {
+          return deviceInfo_;
       }
       /**
        * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
@@ -12656,11 +12063,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public int getDeviceInfoCount() {
-        if (deviceInfoBuilder_ == null) {
           return deviceInfo_.size();
-        } else {
-          return deviceInfoBuilder_.getCount();
-        }
       }
       /**
        * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
@@ -12669,12 +12072,9 @@ public final class VtsReportMessage {
        * Target device info
        * </pre>
        */
-      public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage getDeviceInfo(int index) {
-        if (deviceInfoBuilder_ == null) {
+      public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage getDeviceInfo(
+              int index) {
           return deviceInfo_.get(index);
-        } else {
-          return deviceInfoBuilder_.getMessage(index);
-        }
       }
       /**
        * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
@@ -12683,260 +12083,14 @@ public final class VtsReportMessage {
        * Target device info
        * </pre>
        */
-      public Builder setDeviceInfo(
-          int index, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage value) {
-        if (deviceInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureDeviceInfoIsMutable();
-          deviceInfo_.set(index, value);
-          onChanged();
-        } else {
-          deviceInfoBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public Builder setDeviceInfo(
-          int index, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder builderForValue) {
-        if (deviceInfoBuilder_ == null) {
-          ensureDeviceInfoIsMutable();
-          deviceInfo_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          deviceInfoBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public Builder addDeviceInfo(com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage value) {
-        if (deviceInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureDeviceInfoIsMutable();
-          deviceInfo_.add(value);
-          onChanged();
-        } else {
-          deviceInfoBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public Builder addDeviceInfo(
-          int index, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage value) {
-        if (deviceInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureDeviceInfoIsMutable();
-          deviceInfo_.add(index, value);
-          onChanged();
-        } else {
-          deviceInfoBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public Builder addDeviceInfo(
-          com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder builderForValue) {
-        if (deviceInfoBuilder_ == null) {
-          ensureDeviceInfoIsMutable();
-          deviceInfo_.add(builderForValue.build());
-          onChanged();
-        } else {
-          deviceInfoBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public Builder addDeviceInfo(
-          int index, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder builderForValue) {
-        if (deviceInfoBuilder_ == null) {
-          ensureDeviceInfoIsMutable();
-          deviceInfo_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          deviceInfoBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public Builder addAllDeviceInfo(
-          java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage> values) {
-        if (deviceInfoBuilder_ == null) {
-          ensureDeviceInfoIsMutable();
-          super.addAll(values, deviceInfo_);
-          onChanged();
-        } else {
-          deviceInfoBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public Builder clearDeviceInfo() {
-        if (deviceInfoBuilder_ == null) {
-          deviceInfo_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-          onChanged();
-        } else {
-          deviceInfoBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public Builder removeDeviceInfo(int index) {
-        if (deviceInfoBuilder_ == null) {
-          ensureDeviceInfoIsMutable();
-          deviceInfo_.remove(index);
-          onChanged();
-        } else {
-          deviceInfoBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder getDeviceInfoBuilder(
-          int index) {
-        return getDeviceInfoFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder getDeviceInfoOrBuilder(
-          int index) {
-        if (deviceInfoBuilder_ == null) {
-          return deviceInfo_.get(index);  } else {
-          return deviceInfoBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public java.util.List<? extends com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder> 
-           getDeviceInfoOrBuilderList() {
-        if (deviceInfoBuilder_ != null) {
-          return deviceInfoBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(deviceInfo_);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder addDeviceInfoBuilder() {
-        return getDeviceInfoFieldBuilder().addBuilder(
-            com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder addDeviceInfoBuilder(
-          int index) {
-        return getDeviceInfoFieldBuilder().addBuilder(
-            index, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
-       *
-       * <pre>
-       * Target device info
-       * </pre>
-       */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder> 
-           getDeviceInfoBuilderList() {
-        return getDeviceInfoFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder> 
-          getDeviceInfoFieldBuilder() {
-        if (deviceInfoBuilder_ == null) {
-          deviceInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder>(
-                  deviceInfo_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
-                  getParentForChildren(),
-                  isClean());
-          deviceInfo_ = null;
-        }
-        return deviceInfoBuilder_;
+      public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder
+      getDeviceInfoOrBuilder(int index) {
+          return deviceInfo_.get(index);
       }
 
       // optional .android.vts.AndroidBuildInfo build_info = 5;
-      private com.android.vts.proto.VtsReportMessage.AndroidBuildInfo buildInfo_ = com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.AndroidBuildInfo, com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder, com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder> buildInfoBuilder_;
+      public static final int BUILD_INFO_FIELD_NUMBER = 5;
+      private com.android.vts.proto.VtsReportMessage.AndroidBuildInfo buildInfo_;
       /**
        * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
        *
@@ -12945,7 +12099,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public boolean hasBuildInfo() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+          return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
@@ -12955,11 +12109,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.android.vts.proto.VtsReportMessage.AndroidBuildInfo getBuildInfo() {
-        if (buildInfoBuilder_ == null) {
           return buildInfo_;
-        } else {
-          return buildInfoBuilder_.getMessage();
-        }
       }
       /**
        * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
@@ -12968,132 +12118,14 @@ public final class VtsReportMessage {
        * Build info
        * </pre>
        */
-      public Builder setBuildInfo(com.android.vts.proto.VtsReportMessage.AndroidBuildInfo value) {
-        if (buildInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          buildInfo_ = value;
-          onChanged();
-        } else {
-          buildInfoBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000010;
-        return this;
-      }
-      /**
-       * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-       *
-       * <pre>
-       * Build info
-       * </pre>
-       */
-      public Builder setBuildInfo(
-          com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder builderForValue) {
-        if (buildInfoBuilder_ == null) {
-          buildInfo_ = builderForValue.build();
-          onChanged();
-        } else {
-          buildInfoBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000010;
-        return this;
-      }
-      /**
-       * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-       *
-       * <pre>
-       * Build info
-       * </pre>
-       */
-      public Builder mergeBuildInfo(com.android.vts.proto.VtsReportMessage.AndroidBuildInfo value) {
-        if (buildInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010) &&
-              buildInfo_ != com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.getDefaultInstance()) {
-            buildInfo_ =
-              com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.newBuilder(buildInfo_).mergeFrom(value).buildPartial();
-          } else {
-            buildInfo_ = value;
-          }
-          onChanged();
-        } else {
-          buildInfoBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000010;
-        return this;
-      }
-      /**
-       * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-       *
-       * <pre>
-       * Build info
-       * </pre>
-       */
-      public Builder clearBuildInfo() {
-        if (buildInfoBuilder_ == null) {
-          buildInfo_ = com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.getDefaultInstance();
-          onChanged();
-        } else {
-          buildInfoBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000010);
-        return this;
-      }
-      /**
-       * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-       *
-       * <pre>
-       * Build info
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder getBuildInfoBuilder() {
-        bitField0_ |= 0x00000010;
-        onChanged();
-        return getBuildInfoFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-       *
-       * <pre>
-       * Build info
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder getBuildInfoOrBuilder() {
-        if (buildInfoBuilder_ != null) {
-          return buildInfoBuilder_.getMessageOrBuilder();
-        } else {
+      public com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder
+      getBuildInfoOrBuilder() {
           return buildInfo_;
-        }
-      }
-      /**
-       * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
-       *
-       * <pre>
-       * Build info
-       * </pre>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.AndroidBuildInfo, com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder, com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder> 
-          getBuildInfoFieldBuilder() {
-        if (buildInfoBuilder_ == null) {
-          buildInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.android.vts.proto.VtsReportMessage.AndroidBuildInfo, com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder, com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder>(
-                  buildInfo_,
-                  getParentForChildren(),
-                  isClean());
-          buildInfo_ = null;
-        }
-        return buildInfoBuilder_;
       }
 
       // repeated bytes subscriber_email = 6;
-      private java.util.List<com.google.protobuf.ByteString> subscriberEmail_ = java.util.Collections.emptyList();
-      private void ensureSubscriberEmailIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
-          subscriberEmail_ = new java.util.ArrayList<com.google.protobuf.ByteString>(subscriberEmail_);
-          bitField0_ |= 0x00000020;
-         }
-      }
+      public static final int SUBSCRIBER_EMAIL_FIELD_NUMBER = 6;
+      private java.util.List<com.google.protobuf.ByteString> subscriberEmail_;
       /**
        * <code>repeated bytes subscriber_email = 6;</code>
        *
@@ -13101,9 +12133,8 @@ public final class VtsReportMessage {
        * Email addresses of subscribers to the test results
        * </pre>
        */
-      public java.util.List<com.google.protobuf.ByteString>
-          getSubscriberEmailList() {
-        return java.util.Collections.unmodifiableList(subscriberEmail_);
+      public java.util.List<com.google.protobuf.ByteString> getSubscriberEmailList() {
+          return subscriberEmail_;
       }
       /**
        * <code>repeated bytes subscriber_email = 6;</code>
@@ -13113,7 +12144,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public int getSubscriberEmailCount() {
-        return subscriberEmail_.size();
+          return subscriberEmail_.size();
       }
       /**
        * <code>repeated bytes subscriber_email = 6;</code>
@@ -13123,73 +12154,12 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.google.protobuf.ByteString getSubscriberEmail(int index) {
-        return subscriberEmail_.get(index);
-      }
-      /**
-       * <code>repeated bytes subscriber_email = 6;</code>
-       *
-       * <pre>
-       * Email addresses of subscribers to the test results
-       * </pre>
-       */
-      public Builder setSubscriberEmail(
-          int index, com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureSubscriberEmailIsMutable();
-        subscriberEmail_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated bytes subscriber_email = 6;</code>
-       *
-       * <pre>
-       * Email addresses of subscribers to the test results
-       * </pre>
-       */
-      public Builder addSubscriberEmail(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureSubscriberEmailIsMutable();
-        subscriberEmail_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated bytes subscriber_email = 6;</code>
-       *
-       * <pre>
-       * Email addresses of subscribers to the test results
-       * </pre>
-       */
-      public Builder addAllSubscriberEmail(
-          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
-        ensureSubscriberEmailIsMutable();
-        super.addAll(values, subscriberEmail_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated bytes subscriber_email = 6;</code>
-       *
-       * <pre>
-       * Email addresses of subscribers to the test results
-       * </pre>
-       */
-      public Builder clearSubscriberEmail() {
-        subscriberEmail_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000020);
-        onChanged();
-        return this;
+          return subscriberEmail_.get(index);
       }
 
       // optional .android.vts.VtsHostInfo host_info = 7;
-      private com.android.vts.proto.VtsReportMessage.VtsHostInfo hostInfo_ = com.android.vts.proto.VtsReportMessage.VtsHostInfo.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.VtsHostInfo, com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder, com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder> hostInfoBuilder_;
+      public static final int HOST_INFO_FIELD_NUMBER = 7;
+      private com.android.vts.proto.VtsReportMessage.VtsHostInfo hostInfo_;
       /**
        * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
        *
@@ -13198,7 +12168,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public boolean hasHostInfo() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+          return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
@@ -13208,101 +12178,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.android.vts.proto.VtsReportMessage.VtsHostInfo getHostInfo() {
-        if (hostInfoBuilder_ == null) {
           return hostInfo_;
-        } else {
-          return hostInfoBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-       *
-       * <pre>
-       * Info about the host computer
-       * </pre>
-       */
-      public Builder setHostInfo(com.android.vts.proto.VtsReportMessage.VtsHostInfo value) {
-        if (hostInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          hostInfo_ = value;
-          onChanged();
-        } else {
-          hostInfoBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000040;
-        return this;
-      }
-      /**
-       * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-       *
-       * <pre>
-       * Info about the host computer
-       * </pre>
-       */
-      public Builder setHostInfo(
-          com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder builderForValue) {
-        if (hostInfoBuilder_ == null) {
-          hostInfo_ = builderForValue.build();
-          onChanged();
-        } else {
-          hostInfoBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000040;
-        return this;
-      }
-      /**
-       * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-       *
-       * <pre>
-       * Info about the host computer
-       * </pre>
-       */
-      public Builder mergeHostInfo(com.android.vts.proto.VtsReportMessage.VtsHostInfo value) {
-        if (hostInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040) &&
-              hostInfo_ != com.android.vts.proto.VtsReportMessage.VtsHostInfo.getDefaultInstance()) {
-            hostInfo_ =
-              com.android.vts.proto.VtsReportMessage.VtsHostInfo.newBuilder(hostInfo_).mergeFrom(value).buildPartial();
-          } else {
-            hostInfo_ = value;
-          }
-          onChanged();
-        } else {
-          hostInfoBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000040;
-        return this;
-      }
-      /**
-       * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-       *
-       * <pre>
-       * Info about the host computer
-       * </pre>
-       */
-      public Builder clearHostInfo() {
-        if (hostInfoBuilder_ == null) {
-          hostInfo_ = com.android.vts.proto.VtsReportMessage.VtsHostInfo.getDefaultInstance();
-          onChanged();
-        } else {
-          hostInfoBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000040);
-        return this;
-      }
-      /**
-       * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-       *
-       * <pre>
-       * Info about the host computer
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder getHostInfoBuilder() {
-        bitField0_ |= 0x00000040;
-        onChanged();
-        return getHostInfoFieldBuilder().getBuilder();
       }
       /**
        * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
@@ -13312,46 +12188,13 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder getHostInfoOrBuilder() {
-        if (hostInfoBuilder_ != null) {
-          return hostInfoBuilder_.getMessageOrBuilder();
-        } else {
           return hostInfo_;
-        }
-      }
-      /**
-       * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
-       *
-       * <pre>
-       * Info about the host computer
-       * </pre>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.VtsHostInfo, com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder, com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder> 
-          getHostInfoFieldBuilder() {
-        if (hostInfoBuilder_ == null) {
-          hostInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.android.vts.proto.VtsReportMessage.VtsHostInfo, com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder, com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder>(
-                  hostInfo_,
-                  getParentForChildren(),
-                  isClean());
-          hostInfo_ = null;
-        }
-        return hostInfoBuilder_;
       }
 
       // repeated .android.vts.TestCaseReportMessage test_case = 11;
-      private java.util.List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage> testCase_ =
-        java.util.Collections.emptyList();
-      private void ensureTestCaseIsMutable() {
-        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
-          testCase_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage>(testCase_);
-          bitField0_ |= 0x00000080;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.TestCaseReportMessage, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder, com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder> testCaseBuilder_;
-
+      public static final int TEST_CASE_FIELD_NUMBER = 11;
+      private java.util
+              .List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage> testCase_;
       /**
        * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
        *
@@ -13359,12 +12202,21 @@ public final class VtsReportMessage {
        * Test case reports
        * </pre>
        */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage> getTestCaseList() {
-        if (testCaseBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(testCase_);
-        } else {
-          return testCaseBuilder_.getMessageList();
-        }
+      public java.util.List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage>
+      getTestCaseList() {
+          return testCase_;
+      }
+      /**
+       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+       *
+       * <pre>
+       * Test case reports
+       * </pre>
+       */
+      public java.util
+              .List<? extends com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder>
+              getTestCaseOrBuilderList() {
+          return testCase_;
       }
       /**
        * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
@@ -13374,11 +12226,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public int getTestCaseCount() {
-        if (testCaseBuilder_ == null) {
           return testCase_.size();
-        } else {
-          return testCaseBuilder_.getCount();
-        }
       }
       /**
        * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
@@ -13388,11 +12236,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.android.vts.proto.VtsReportMessage.TestCaseReportMessage getTestCase(int index) {
-        if (testCaseBuilder_ == null) {
           return testCase_.get(index);
-        } else {
-          return testCaseBuilder_.getMessage(index);
-        }
       }
       /**
        * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
@@ -13401,269 +12245,15 @@ public final class VtsReportMessage {
        * Test case reports
        * </pre>
        */
-      public Builder setTestCase(
-          int index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage value) {
-        if (testCaseBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTestCaseIsMutable();
-          testCase_.set(index, value);
-          onChanged();
-        } else {
-          testCaseBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public Builder setTestCase(
-          int index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder builderForValue) {
-        if (testCaseBuilder_ == null) {
-          ensureTestCaseIsMutable();
-          testCase_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          testCaseBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public Builder addTestCase(com.android.vts.proto.VtsReportMessage.TestCaseReportMessage value) {
-        if (testCaseBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTestCaseIsMutable();
-          testCase_.add(value);
-          onChanged();
-        } else {
-          testCaseBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public Builder addTestCase(
-          int index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage value) {
-        if (testCaseBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTestCaseIsMutable();
-          testCase_.add(index, value);
-          onChanged();
-        } else {
-          testCaseBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public Builder addTestCase(
-          com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder builderForValue) {
-        if (testCaseBuilder_ == null) {
-          ensureTestCaseIsMutable();
-          testCase_.add(builderForValue.build());
-          onChanged();
-        } else {
-          testCaseBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public Builder addTestCase(
-          int index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder builderForValue) {
-        if (testCaseBuilder_ == null) {
-          ensureTestCaseIsMutable();
-          testCase_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          testCaseBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public Builder addAllTestCase(
-          java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage.TestCaseReportMessage> values) {
-        if (testCaseBuilder_ == null) {
-          ensureTestCaseIsMutable();
-          super.addAll(values, testCase_);
-          onChanged();
-        } else {
-          testCaseBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public Builder clearTestCase() {
-        if (testCaseBuilder_ == null) {
-          testCase_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
-          onChanged();
-        } else {
-          testCaseBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public Builder removeTestCase(int index) {
-        if (testCaseBuilder_ == null) {
-          ensureTestCaseIsMutable();
-          testCase_.remove(index);
-          onChanged();
-        } else {
-          testCaseBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder getTestCaseBuilder(
-          int index) {
-        return getTestCaseFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder getTestCaseOrBuilder(
-          int index) {
-        if (testCaseBuilder_ == null) {
-          return testCase_.get(index);  } else {
-          return testCaseBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public java.util.List<? extends com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder> 
-           getTestCaseOrBuilderList() {
-        if (testCaseBuilder_ != null) {
-          return testCaseBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(testCase_);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder addTestCaseBuilder() {
-        return getTestCaseFieldBuilder().addBuilder(
-            com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder addTestCaseBuilder(
-          int index) {
-        return getTestCaseFieldBuilder().addBuilder(
-            index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
-       *
-       * <pre>
-       * Test case reports
-       * </pre>
-       */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder> 
-           getTestCaseBuilderList() {
-        return getTestCaseFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.TestCaseReportMessage, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder, com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder> 
-          getTestCaseFieldBuilder() {
-        if (testCaseBuilder_ == null) {
-          testCaseBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.android.vts.proto.VtsReportMessage.TestCaseReportMessage, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder, com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder>(
-                  testCase_,
-                  ((bitField0_ & 0x00000080) == 0x00000080),
-                  getParentForChildren(),
-                  isClean());
-          testCase_ = null;
-        }
-        return testCaseBuilder_;
+      public com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder
+      getTestCaseOrBuilder(int index) {
+          return testCase_.get(index);
       }
 
       // repeated .android.vts.ProfilingReportMessage profiling = 21;
-      private java.util.List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage> profiling_ =
-        java.util.Collections.emptyList();
-      private void ensureProfilingIsMutable() {
-        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
-          profiling_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage>(profiling_);
-          bitField0_ |= 0x00000100;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.ProfilingReportMessage, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder, com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder> profilingBuilder_;
-
+      public static final int PROFILING_FIELD_NUMBER = 21;
+      private java.util
+              .List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage> profiling_;
       /**
        * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
        *
@@ -13671,12 +12261,21 @@ public final class VtsReportMessage {
        * Profiling reports
        * </pre>
        */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage> getProfilingList() {
-        if (profilingBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(profiling_);
-        } else {
-          return profilingBuilder_.getMessageList();
-        }
+      public java.util.List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage>
+      getProfilingList() {
+          return profiling_;
+      }
+      /**
+       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+       *
+       * <pre>
+       * Profiling reports
+       * </pre>
+       */
+      public java.util.List<
+              ? extends com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder>
+      getProfilingOrBuilderList() {
+          return profiling_;
       }
       /**
        * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
@@ -13686,11 +12285,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public int getProfilingCount() {
-        if (profilingBuilder_ == null) {
           return profiling_.size();
-        } else {
-          return profilingBuilder_.getCount();
-        }
       }
       /**
        * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
@@ -13700,11 +12295,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.android.vts.proto.VtsReportMessage.ProfilingReportMessage getProfiling(int index) {
-        if (profilingBuilder_ == null) {
           return profiling_.get(index);
-        } else {
-          return profilingBuilder_.getMessage(index);
-        }
       }
       /**
        * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
@@ -13713,269 +12304,15 @@ public final class VtsReportMessage {
        * Profiling reports
        * </pre>
        */
-      public Builder setProfiling(
-          int index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage value) {
-        if (profilingBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureProfilingIsMutable();
-          profiling_.set(index, value);
-          onChanged();
-        } else {
-          profilingBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public Builder setProfiling(
-          int index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder builderForValue) {
-        if (profilingBuilder_ == null) {
-          ensureProfilingIsMutable();
-          profiling_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          profilingBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public Builder addProfiling(com.android.vts.proto.VtsReportMessage.ProfilingReportMessage value) {
-        if (profilingBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureProfilingIsMutable();
-          profiling_.add(value);
-          onChanged();
-        } else {
-          profilingBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public Builder addProfiling(
-          int index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage value) {
-        if (profilingBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureProfilingIsMutable();
-          profiling_.add(index, value);
-          onChanged();
-        } else {
-          profilingBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public Builder addProfiling(
-          com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder builderForValue) {
-        if (profilingBuilder_ == null) {
-          ensureProfilingIsMutable();
-          profiling_.add(builderForValue.build());
-          onChanged();
-        } else {
-          profilingBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public Builder addProfiling(
-          int index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder builderForValue) {
-        if (profilingBuilder_ == null) {
-          ensureProfilingIsMutable();
-          profiling_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          profilingBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public Builder addAllProfiling(
-          java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage.ProfilingReportMessage> values) {
-        if (profilingBuilder_ == null) {
-          ensureProfilingIsMutable();
-          super.addAll(values, profiling_);
-          onChanged();
-        } else {
-          profilingBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public Builder clearProfiling() {
-        if (profilingBuilder_ == null) {
-          profiling_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000100);
-          onChanged();
-        } else {
-          profilingBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public Builder removeProfiling(int index) {
-        if (profilingBuilder_ == null) {
-          ensureProfilingIsMutable();
-          profiling_.remove(index);
-          onChanged();
-        } else {
-          profilingBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder getProfilingBuilder(
-          int index) {
-        return getProfilingFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder getProfilingOrBuilder(
-          int index) {
-        if (profilingBuilder_ == null) {
-          return profiling_.get(index);  } else {
-          return profilingBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public java.util.List<? extends com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder> 
-           getProfilingOrBuilderList() {
-        if (profilingBuilder_ != null) {
-          return profilingBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(profiling_);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder addProfilingBuilder() {
-        return getProfilingFieldBuilder().addBuilder(
-            com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder addProfilingBuilder(
-          int index) {
-        return getProfilingFieldBuilder().addBuilder(
-            index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
-       *
-       * <pre>
-       * Profiling reports
-       * </pre>
-       */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder> 
-           getProfilingBuilderList() {
-        return getProfilingFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.ProfilingReportMessage, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder, com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder> 
-          getProfilingFieldBuilder() {
-        if (profilingBuilder_ == null) {
-          profilingBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.android.vts.proto.VtsReportMessage.ProfilingReportMessage, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder, com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder>(
-                  profiling_,
-                  ((bitField0_ & 0x00000100) == 0x00000100),
-                  getParentForChildren(),
-                  isClean());
-          profiling_ = null;
-        }
-        return profilingBuilder_;
+      public com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder
+      getProfilingOrBuilder(int index) {
+          return profiling_.get(index);
       }
 
       // repeated .android.vts.SystraceReportMessage systrace = 22;
-      private java.util.List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage> systrace_ =
-        java.util.Collections.emptyList();
-      private void ensureSystraceIsMutable() {
-        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
-          systrace_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.SystraceReportMessage>(systrace_);
-          bitField0_ |= 0x00000200;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.SystraceReportMessage, com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder, com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder> systraceBuilder_;
-
+      public static final int SYSTRACE_FIELD_NUMBER = 22;
+      private java.util
+              .List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage> systrace_;
       /**
        * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
        *
@@ -13983,12 +12320,21 @@ public final class VtsReportMessage {
        * Systrace report per file
        * </pre>
        */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage> getSystraceList() {
-        if (systraceBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(systrace_);
-        } else {
-          return systraceBuilder_.getMessageList();
-        }
+      public java.util.List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage>
+      getSystraceList() {
+          return systrace_;
+      }
+      /**
+       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+       *
+       * <pre>
+       * Systrace report per file
+       * </pre>
+       */
+      public java.util
+              .List<? extends com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder>
+              getSystraceOrBuilderList() {
+          return systrace_;
       }
       /**
        * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
@@ -13998,11 +12344,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public int getSystraceCount() {
-        if (systraceBuilder_ == null) {
           return systrace_.size();
-        } else {
-          return systraceBuilder_.getCount();
-        }
       }
       /**
        * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
@@ -14012,11 +12354,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.android.vts.proto.VtsReportMessage.SystraceReportMessage getSystrace(int index) {
-        if (systraceBuilder_ == null) {
           return systrace_.get(index);
-        } else {
-          return systraceBuilder_.getMessage(index);
-        }
       }
       /**
        * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
@@ -14025,258 +12363,14 @@ public final class VtsReportMessage {
        * Systrace report per file
        * </pre>
        */
-      public Builder setSystrace(
-          int index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage value) {
-        if (systraceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSystraceIsMutable();
-          systrace_.set(index, value);
-          onChanged();
-        } else {
-          systraceBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public Builder setSystrace(
-          int index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder builderForValue) {
-        if (systraceBuilder_ == null) {
-          ensureSystraceIsMutable();
-          systrace_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          systraceBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public Builder addSystrace(com.android.vts.proto.VtsReportMessage.SystraceReportMessage value) {
-        if (systraceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSystraceIsMutable();
-          systrace_.add(value);
-          onChanged();
-        } else {
-          systraceBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public Builder addSystrace(
-          int index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage value) {
-        if (systraceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSystraceIsMutable();
-          systrace_.add(index, value);
-          onChanged();
-        } else {
-          systraceBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public Builder addSystrace(
-          com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder builderForValue) {
-        if (systraceBuilder_ == null) {
-          ensureSystraceIsMutable();
-          systrace_.add(builderForValue.build());
-          onChanged();
-        } else {
-          systraceBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public Builder addSystrace(
-          int index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder builderForValue) {
-        if (systraceBuilder_ == null) {
-          ensureSystraceIsMutable();
-          systrace_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          systraceBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public Builder addAllSystrace(
-          java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage.SystraceReportMessage> values) {
-        if (systraceBuilder_ == null) {
-          ensureSystraceIsMutable();
-          super.addAll(values, systrace_);
-          onChanged();
-        } else {
-          systraceBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public Builder clearSystrace() {
-        if (systraceBuilder_ == null) {
-          systrace_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000200);
-          onChanged();
-        } else {
-          systraceBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public Builder removeSystrace(int index) {
-        if (systraceBuilder_ == null) {
-          ensureSystraceIsMutable();
-          systrace_.remove(index);
-          onChanged();
-        } else {
-          systraceBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder getSystraceBuilder(
-          int index) {
-        return getSystraceFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder getSystraceOrBuilder(
-          int index) {
-        if (systraceBuilder_ == null) {
-          return systrace_.get(index);  } else {
-          return systraceBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public java.util.List<? extends com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder> 
-           getSystraceOrBuilderList() {
-        if (systraceBuilder_ != null) {
-          return systraceBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(systrace_);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder addSystraceBuilder() {
-        return getSystraceFieldBuilder().addBuilder(
-            com.android.vts.proto.VtsReportMessage.SystraceReportMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder addSystraceBuilder(
-          int index) {
-        return getSystraceFieldBuilder().addBuilder(
-            index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
-       *
-       * <pre>
-       * Systrace report per file
-       * </pre>
-       */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder> 
-           getSystraceBuilderList() {
-        return getSystraceFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.SystraceReportMessage, com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder, com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder> 
-          getSystraceFieldBuilder() {
-        if (systraceBuilder_ == null) {
-          systraceBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.android.vts.proto.VtsReportMessage.SystraceReportMessage, com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder, com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder>(
-                  systrace_,
-                  ((bitField0_ & 0x00000200) == 0x00000200),
-                  getParentForChildren(),
-                  isClean());
-          systrace_ = null;
-        }
-        return systraceBuilder_;
+      public com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder
+      getSystraceOrBuilder(int index) {
+          return systrace_.get(index);
       }
 
       // optional int64 start_timestamp = 101;
-      private long startTimestamp_ ;
+      public static final int START_TIMESTAMP_FIELD_NUMBER = 101;
+      private long startTimestamp_;
       /**
        * <code>optional int64 start_timestamp = 101;</code>
        *
@@ -14285,7 +12379,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public boolean hasStartTimestamp() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+          return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>optional int64 start_timestamp = 101;</code>
@@ -14295,81 +12389,29 @@ public final class VtsReportMessage {
        * </pre>
        */
       public long getStartTimestamp() {
-        return startTimestamp_;
-      }
-      /**
-       * <code>optional int64 start_timestamp = 101;</code>
-       *
-       * <pre>
-       * Execution start and end time stamp.
-       * </pre>
-       */
-      public Builder setStartTimestamp(long value) {
-        bitField0_ |= 0x00000400;
-        startTimestamp_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 start_timestamp = 101;</code>
-       *
-       * <pre>
-       * Execution start and end time stamp.
-       * </pre>
-       */
-      public Builder clearStartTimestamp() {
-        bitField0_ = (bitField0_ & ~0x00000400);
-        startTimestamp_ = 0L;
-        onChanged();
-        return this;
+          return startTimestamp_;
       }
 
       // optional int64 end_timestamp = 102;
-      private long endTimestamp_ ;
+      public static final int END_TIMESTAMP_FIELD_NUMBER = 102;
+      private long endTimestamp_;
       /**
        * <code>optional int64 end_timestamp = 102;</code>
        */
       public boolean hasEndTimestamp() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+          return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional int64 end_timestamp = 102;</code>
        */
       public long getEndTimestamp() {
-        return endTimestamp_;
-      }
-      /**
-       * <code>optional int64 end_timestamp = 102;</code>
-       */
-      public Builder setEndTimestamp(long value) {
-        bitField0_ |= 0x00000800;
-        endTimestamp_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 end_timestamp = 102;</code>
-       */
-      public Builder clearEndTimestamp() {
-        bitField0_ = (bitField0_ & ~0x00000800);
-        endTimestamp_ = 0L;
-        onChanged();
-        return this;
+          return endTimestamp_;
       }
 
       // repeated .android.vts.CoverageReportMessage coverage = 103;
-      private java.util.List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage> coverage_ =
-        java.util.Collections.emptyList();
-      private void ensureCoverageIsMutable() {
-        if (!((bitField0_ & 0x00001000) == 0x00001000)) {
-          coverage_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.CoverageReportMessage>(coverage_);
-          bitField0_ |= 0x00001000;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.CoverageReportMessage, com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder, com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder> coverageBuilder_;
-
+      public static final int COVERAGE_FIELD_NUMBER = 103;
+      private java.util
+              .List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage> coverage_;
       /**
        * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
        *
@@ -14377,12 +12419,21 @@ public final class VtsReportMessage {
        * Coverage report per file
        * </pre>
        */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage> getCoverageList() {
-        if (coverageBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(coverage_);
-        } else {
-          return coverageBuilder_.getMessageList();
-        }
+      public java.util.List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage>
+      getCoverageList() {
+          return coverage_;
+      }
+      /**
+       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+       *
+       * <pre>
+       * Coverage report per file
+       * </pre>
+       */
+      public java.util
+              .List<? extends com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder>
+              getCoverageOrBuilderList() {
+          return coverage_;
       }
       /**
        * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
@@ -14392,11 +12443,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public int getCoverageCount() {
-        if (coverageBuilder_ == null) {
           return coverage_.size();
-        } else {
-          return coverageBuilder_.getCount();
-        }
       }
       /**
        * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
@@ -14406,11 +12453,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.android.vts.proto.VtsReportMessage.CoverageReportMessage getCoverage(int index) {
-        if (coverageBuilder_ == null) {
           return coverage_.get(index);
-        } else {
-          return coverageBuilder_.getMessage(index);
-        }
       }
       /**
        * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
@@ -14419,269 +12462,14 @@ public final class VtsReportMessage {
        * Coverage report per file
        * </pre>
        */
-      public Builder setCoverage(
-          int index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage value) {
-        if (coverageBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureCoverageIsMutable();
-          coverage_.set(index, value);
-          onChanged();
-        } else {
-          coverageBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public Builder setCoverage(
-          int index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder builderForValue) {
-        if (coverageBuilder_ == null) {
-          ensureCoverageIsMutable();
-          coverage_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          coverageBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public Builder addCoverage(com.android.vts.proto.VtsReportMessage.CoverageReportMessage value) {
-        if (coverageBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureCoverageIsMutable();
-          coverage_.add(value);
-          onChanged();
-        } else {
-          coverageBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public Builder addCoverage(
-          int index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage value) {
-        if (coverageBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureCoverageIsMutable();
-          coverage_.add(index, value);
-          onChanged();
-        } else {
-          coverageBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public Builder addCoverage(
-          com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder builderForValue) {
-        if (coverageBuilder_ == null) {
-          ensureCoverageIsMutable();
-          coverage_.add(builderForValue.build());
-          onChanged();
-        } else {
-          coverageBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public Builder addCoverage(
-          int index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder builderForValue) {
-        if (coverageBuilder_ == null) {
-          ensureCoverageIsMutable();
-          coverage_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          coverageBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public Builder addAllCoverage(
-          java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage.CoverageReportMessage> values) {
-        if (coverageBuilder_ == null) {
-          ensureCoverageIsMutable();
-          super.addAll(values, coverage_);
-          onChanged();
-        } else {
-          coverageBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public Builder clearCoverage() {
-        if (coverageBuilder_ == null) {
-          coverage_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00001000);
-          onChanged();
-        } else {
-          coverageBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public Builder removeCoverage(int index) {
-        if (coverageBuilder_ == null) {
-          ensureCoverageIsMutable();
-          coverage_.remove(index);
-          onChanged();
-        } else {
-          coverageBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder getCoverageBuilder(
-          int index) {
-        return getCoverageFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder getCoverageOrBuilder(
-          int index) {
-        if (coverageBuilder_ == null) {
-          return coverage_.get(index);  } else {
-          return coverageBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public java.util.List<? extends com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder> 
-           getCoverageOrBuilderList() {
-        if (coverageBuilder_ != null) {
-          return coverageBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(coverage_);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder addCoverageBuilder() {
-        return getCoverageFieldBuilder().addBuilder(
-            com.android.vts.proto.VtsReportMessage.CoverageReportMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder addCoverageBuilder(
-          int index) {
-        return getCoverageFieldBuilder().addBuilder(
-            index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
-       *
-       * <pre>
-       * Coverage report per file
-       * </pre>
-       */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder> 
-           getCoverageBuilderList() {
-        return getCoverageFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.CoverageReportMessage, com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder, com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder> 
-          getCoverageFieldBuilder() {
-        if (coverageBuilder_ == null) {
-          coverageBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.android.vts.proto.VtsReportMessage.CoverageReportMessage, com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder, com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder>(
-                  coverage_,
-                  ((bitField0_ & 0x00001000) == 0x00001000),
-                  getParentForChildren(),
-                  isClean());
-          coverage_ = null;
-        }
-        return coverageBuilder_;
+      public com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder
+      getCoverageOrBuilder(int index) {
+          return coverage_.get(index);
       }
 
       // repeated .android.vts.LogMessage log = 1001;
-      private java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage> log_ =
-        java.util.Collections.emptyList();
-      private void ensureLogIsMutable() {
-        if (!((bitField0_ & 0x00002000) == 0x00002000)) {
-          log_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.LogMessage>(log_);
-          bitField0_ |= 0x00002000;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.LogMessage, com.android.vts.proto.VtsReportMessage.LogMessage.Builder, com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder> logBuilder_;
-
+      public static final int LOG_FIELD_NUMBER = 1001;
+      private java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage> log_;
       /**
        * <code>repeated .android.vts.LogMessage log = 1001;</code>
        *
@@ -14691,11 +12479,19 @@ public final class VtsReportMessage {
        * </pre>
        */
       public java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage> getLogList() {
-        if (logBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(log_);
-        } else {
-          return logBuilder_.getMessageList();
-        }
+          return log_;
+      }
+      /**
+       * <code>repeated .android.vts.LogMessage log = 1001;</code>
+       *
+       * <pre>
+       * Log for a test module. May contain multiple logs such as logcat, host log,
+       * etc.
+       * </pre>
+       */
+      public java.util.List<? extends com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder>
+      getLogOrBuilderList() {
+          return log_;
       }
       /**
        * <code>repeated .android.vts.LogMessage log = 1001;</code>
@@ -14706,11 +12502,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public int getLogCount() {
-        if (logBuilder_ == null) {
           return log_.size();
-        } else {
-          return logBuilder_.getCount();
-        }
       }
       /**
        * <code>repeated .android.vts.LogMessage log = 1001;</code>
@@ -14721,11 +12513,7 @@ public final class VtsReportMessage {
        * </pre>
        */
       public com.android.vts.proto.VtsReportMessage.LogMessage getLog(int index) {
-        if (logBuilder_ == null) {
           return log_.get(index);
-        } else {
-          return logBuilder_.getMessage(index);
-        }
       }
       /**
        * <code>repeated .android.vts.LogMessage log = 1001;</code>
@@ -14735,279 +12523,4745 @@ public final class VtsReportMessage {
        * etc.
        * </pre>
        */
-      public Builder setLog(
-          int index, com.android.vts.proto.VtsReportMessage.LogMessage value) {
-        if (logBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureLogIsMutable();
-          log_.set(index, value);
-          onChanged();
-        } else {
-          logBuilder_.setMessage(index, value);
-        }
-        return this;
+      public com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder getLogOrBuilder(int index) {
+          return log_.get(index);
       }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public Builder setLog(
-          int index, com.android.vts.proto.VtsReportMessage.LogMessage.Builder builderForValue) {
-        if (logBuilder_ == null) {
-          ensureLogIsMutable();
-          log_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          logBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public Builder addLog(com.android.vts.proto.VtsReportMessage.LogMessage value) {
-        if (logBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureLogIsMutable();
-          log_.add(value);
-          onChanged();
-        } else {
-          logBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public Builder addLog(
-          int index, com.android.vts.proto.VtsReportMessage.LogMessage value) {
-        if (logBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureLogIsMutable();
-          log_.add(index, value);
-          onChanged();
-        } else {
-          logBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public Builder addLog(
-          com.android.vts.proto.VtsReportMessage.LogMessage.Builder builderForValue) {
-        if (logBuilder_ == null) {
-          ensureLogIsMutable();
-          log_.add(builderForValue.build());
-          onChanged();
-        } else {
-          logBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public Builder addLog(
-          int index, com.android.vts.proto.VtsReportMessage.LogMessage.Builder builderForValue) {
-        if (logBuilder_ == null) {
-          ensureLogIsMutable();
-          log_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          logBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public Builder addAllLog(
-          java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage.LogMessage> values) {
-        if (logBuilder_ == null) {
-          ensureLogIsMutable();
-          super.addAll(values, log_);
-          onChanged();
-        } else {
-          logBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public Builder clearLog() {
-        if (logBuilder_ == null) {
+
+      private void initFields() {
+          testSuite_ = com.google.protobuf.ByteString.EMPTY;
+          test_ = com.google.protobuf.ByteString.EMPTY;
+          testType_ = com.android.vts.proto.VtsReportMessage.VtsTestType.UNKNOWN_VTS_TESTTYPE;
+          deviceInfo_ = java.util.Collections.emptyList();
+          buildInfo_ = com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.getDefaultInstance();
+          subscriberEmail_ = java.util.Collections.emptyList();
+          hostInfo_ = com.android.vts.proto.VtsReportMessage.VtsHostInfo.getDefaultInstance();
+          testCase_ = java.util.Collections.emptyList();
+          profiling_ = java.util.Collections.emptyList();
+          systrace_ = java.util.Collections.emptyList();
+          startTimestamp_ = 0L;
+          endTimestamp_ = 0L;
+          coverage_ = java.util.Collections.emptyList();
           log_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00002000);
-          onChanged();
-        } else {
-          logBuilder_.clear();
-        }
-        return this;
       }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public Builder removeLog(int index) {
-        if (logBuilder_ == null) {
-          ensureLogIsMutable();
-          log_.remove(index);
-          onChanged();
-        } else {
-          logBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.LogMessage.Builder getLogBuilder(
-          int index) {
-        return getLogFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder getLogOrBuilder(
-          int index) {
-        if (logBuilder_ == null) {
-          return log_.get(index);  } else {
-          return logBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public java.util.List<? extends com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder> 
-           getLogOrBuilderList() {
-        if (logBuilder_ != null) {
-          return logBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(log_);
-        }
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.LogMessage.Builder addLogBuilder() {
-        return getLogFieldBuilder().addBuilder(
-            com.android.vts.proto.VtsReportMessage.LogMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public com.android.vts.proto.VtsReportMessage.LogMessage.Builder addLogBuilder(
-          int index) {
-        return getLogFieldBuilder().addBuilder(
-            index, com.android.vts.proto.VtsReportMessage.LogMessage.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .android.vts.LogMessage log = 1001;</code>
-       *
-       * <pre>
-       * Log for a test module. May contain multiple logs such as logcat, host log,
-       * etc.
-       * </pre>
-       */
-      public java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage.Builder> 
-           getLogBuilderList() {
-        return getLogFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.android.vts.proto.VtsReportMessage.LogMessage, com.android.vts.proto.VtsReportMessage.LogMessage.Builder, com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder> 
-          getLogFieldBuilder() {
-        if (logBuilder_ == null) {
-          logBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.android.vts.proto.VtsReportMessage.LogMessage, com.android.vts.proto.VtsReportMessage.LogMessage.Builder, com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder>(
-                  log_,
-                  ((bitField0_ & 0x00002000) == 0x00002000),
-                  getParentForChildren(),
-                  isClean());
-          log_ = null;
-        }
-        return logBuilder_;
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized != -1)
+              return isInitialized == 1;
+
+          memoizedIsInitialized = 1;
+          return true;
       }
 
-      // @@protoc_insertion_point(builder_scope:android.vts.TestReportMessage)
-    }
+      public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+          getSerializedSize();
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              output.writeBytes(1, testSuite_);
+          }
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              output.writeBytes(2, test_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              output.writeEnum(3, testType_.getNumber());
+          }
+          for (int i = 0; i < deviceInfo_.size(); i++) {
+              output.writeMessage(4, deviceInfo_.get(i));
+          }
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              output.writeMessage(5, buildInfo_);
+          }
+          for (int i = 0; i < subscriberEmail_.size(); i++) {
+              output.writeBytes(6, subscriberEmail_.get(i));
+          }
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              output.writeMessage(7, hostInfo_);
+          }
+          for (int i = 0; i < testCase_.size(); i++) {
+              output.writeMessage(11, testCase_.get(i));
+          }
+          for (int i = 0; i < profiling_.size(); i++) {
+              output.writeMessage(21, profiling_.get(i));
+          }
+          for (int i = 0; i < systrace_.size(); i++) {
+              output.writeMessage(22, systrace_.get(i));
+          }
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+              output.writeInt64(101, startTimestamp_);
+          }
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+              output.writeInt64(102, endTimestamp_);
+          }
+          for (int i = 0; i < coverage_.size(); i++) {
+              output.writeMessage(103, coverage_.get(i));
+          }
+          for (int i = 0; i < log_.size(); i++) {
+              output.writeMessage(1001, log_.get(i));
+          }
+          getUnknownFields().writeTo(output);
+      }
 
-    static {
-      defaultInstance = new TestReportMessage(true);
-      defaultInstance.initFields();
-    }
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+          int size = memoizedSerializedSize;
+          if (size != -1)
+              return size;
 
-    // @@protoc_insertion_point(class_scope:android.vts.TestReportMessage)
+          size = 0;
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              size += com.google.protobuf.CodedOutputStream.computeBytesSize(1, testSuite_);
+          }
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              size += com.google.protobuf.CodedOutputStream.computeBytesSize(2, test_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              size += com.google.protobuf.CodedOutputStream.computeEnumSize(
+                      3, testType_.getNumber());
+          }
+          for (int i = 0; i < deviceInfo_.size(); i++) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(
+                      4, deviceInfo_.get(i));
+          }
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(5, buildInfo_);
+          }
+          {
+              int dataSize = 0;
+              for (int i = 0; i < subscriberEmail_.size(); i++) {
+                  dataSize += com.google.protobuf.CodedOutputStream.computeBytesSizeNoTag(
+                          subscriberEmail_.get(i));
+              }
+              size += dataSize;
+              size += 1 * getSubscriberEmailList().size();
+          }
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(7, hostInfo_);
+          }
+          for (int i = 0; i < testCase_.size(); i++) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(
+                      11, testCase_.get(i));
+          }
+          for (int i = 0; i < profiling_.size(); i++) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(
+                      21, profiling_.get(i));
+          }
+          for (int i = 0; i < systrace_.size(); i++) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(
+                      22, systrace_.get(i));
+          }
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+              size += com.google.protobuf.CodedOutputStream.computeInt64Size(101, startTimestamp_);
+          }
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+              size += com.google.protobuf.CodedOutputStream.computeInt64Size(102, endTimestamp_);
+          }
+          for (int i = 0; i < coverage_.size(); i++) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(
+                      103, coverage_.get(i));
+          }
+          for (int i = 0; i < log_.size(); i++) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(1001, log_.get(i));
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSerializedSize = size;
+          return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.
+      lang.Override
+      protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+          return super.writeReplace();
+      }
+
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
+              com.google.protobuf.ByteString data)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
+              com.google.protobuf.ByteString data,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(byte[] data)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
+              byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
+              java.io.InputStream input) throws java.io.IOException {
+          return PARSER.parseFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
+              java.io.InputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseDelimitedFrom(
+              java.io.InputStream input) throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseDelimitedFrom(
+              java.io.InputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
+              com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+          return PARSER.parseFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestReportMessage parseFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() {
+          return Builder.create();
+      }
+      public Builder newBuilderForType() {
+          return newBuilder();
+      }
+      public static Builder newBuilder(
+              com.android.vts.proto.VtsReportMessage.TestReportMessage prototype) {
+          return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+          return newBuilder(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+      }
+      /**
+       * Protobuf type {@code android.vts.TestReportMessage}
+       *
+       * <pre>
+       * To specify a test execution report.
+       * </pre>
+       */
+      public static final class Builder
+              extends com.google.protobuf.GeneratedMessage.Builder<Builder>
+              implements com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_TestReportMessage_descriptor;
+          }
+
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_TestReportMessage_fieldAccessorTable
+                      .ensureFieldAccessorsInitialized(
+                              com.android.vts.proto.VtsReportMessage.TestReportMessage.class,
+                              com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder
+                                      .class);
+          }
+
+          // Construct using com.android.vts.proto.VtsReportMessage.TestReportMessage.newBuilder()
+          private Builder() {
+              maybeForceBuilderInitialization();
+          }
+
+          private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+              super(parent);
+              maybeForceBuilderInitialization();
+          }
+          private void maybeForceBuilderInitialization() {
+              if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+                  getDeviceInfoFieldBuilder();
+                  getBuildInfoFieldBuilder();
+                  getHostInfoFieldBuilder();
+                  getTestCaseFieldBuilder();
+                  getProfilingFieldBuilder();
+                  getSystraceFieldBuilder();
+                  getCoverageFieldBuilder();
+                  getLogFieldBuilder();
+              }
+          }
+          private static Builder create() {
+              return new Builder();
+          }
+
+          public Builder clear() {
+              super.clear();
+              testSuite_ = com.google.protobuf.ByteString.EMPTY;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              test_ = com.google.protobuf.ByteString.EMPTY;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              testType_ = com.android.vts.proto.VtsReportMessage.VtsTestType.UNKNOWN_VTS_TESTTYPE;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              if (deviceInfoBuilder_ == null) {
+                  deviceInfo_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000008);
+              } else {
+                  deviceInfoBuilder_.clear();
+              }
+              if (buildInfoBuilder_ == null) {
+                  buildInfo_ = com.android.vts.proto.VtsReportMessage.AndroidBuildInfo
+                                       .getDefaultInstance();
+              } else {
+                  buildInfoBuilder_.clear();
+              }
+              bitField0_ = (bitField0_ & ~0x00000010);
+              subscriberEmail_ = java.util.Collections.emptyList();
+              bitField0_ = (bitField0_ & ~0x00000020);
+              if (hostInfoBuilder_ == null) {
+                  hostInfo_ =
+                          com.android.vts.proto.VtsReportMessage.VtsHostInfo.getDefaultInstance();
+              } else {
+                  hostInfoBuilder_.clear();
+              }
+              bitField0_ = (bitField0_ & ~0x00000040);
+              if (testCaseBuilder_ == null) {
+                  testCase_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000080);
+              } else {
+                  testCaseBuilder_.clear();
+              }
+              if (profilingBuilder_ == null) {
+                  profiling_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000100);
+              } else {
+                  profilingBuilder_.clear();
+              }
+              if (systraceBuilder_ == null) {
+                  systrace_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000200);
+              } else {
+                  systraceBuilder_.clear();
+              }
+              startTimestamp_ = 0L;
+              bitField0_ = (bitField0_ & ~0x00000400);
+              endTimestamp_ = 0L;
+              bitField0_ = (bitField0_ & ~0x00000800);
+              if (coverageBuilder_ == null) {
+                  coverage_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00001000);
+              } else {
+                  coverageBuilder_.clear();
+              }
+              if (logBuilder_ == null) {
+                  log_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00002000);
+              } else {
+                  logBuilder_.clear();
+              }
+              return this;
+          }
+
+          public Builder clone() {
+              return create().mergeFrom(buildPartial());
+          }
+
+          public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_TestReportMessage_descriptor;
+          }
+
+          public com.android.vts.proto.VtsReportMessage.TestReportMessage
+          getDefaultInstanceForType() {
+              return com.android.vts.proto.VtsReportMessage.TestReportMessage.getDefaultInstance();
+          }
+
+          public com.android.vts.proto.VtsReportMessage.TestReportMessage build() {
+              com.android.vts.proto.VtsReportMessage.TestReportMessage result = buildPartial();
+              if (!result.isInitialized()) {
+                  throw newUninitializedMessageException(result);
+              }
+              return result;
+          }
+
+          public com.android.vts.proto.VtsReportMessage.TestReportMessage buildPartial() {
+              com.android.vts.proto.VtsReportMessage.TestReportMessage result =
+                      new com.android.vts.proto.VtsReportMessage.TestReportMessage(this);
+              int from_bitField0_ = bitField0_;
+              int to_bitField0_ = 0;
+              if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+                  to_bitField0_ |= 0x00000001;
+              }
+              result.testSuite_ = testSuite_;
+              if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+                  to_bitField0_ |= 0x00000002;
+              }
+              result.test_ = test_;
+              if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+                  to_bitField0_ |= 0x00000004;
+              }
+              result.testType_ = testType_;
+              if (deviceInfoBuilder_ == null) {
+                  if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                      deviceInfo_ = java.util.Collections.unmodifiableList(deviceInfo_);
+                      bitField0_ = (bitField0_ & ~0x00000008);
+                  }
+                  result.deviceInfo_ = deviceInfo_;
+              } else {
+                  result.deviceInfo_ = deviceInfoBuilder_.build();
+              }
+              if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+                  to_bitField0_ |= 0x00000008;
+              }
+              if (buildInfoBuilder_ == null) {
+                  result.buildInfo_ = buildInfo_;
+              } else {
+                  result.buildInfo_ = buildInfoBuilder_.build();
+              }
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                  subscriberEmail_ = java.util.Collections.unmodifiableList(subscriberEmail_);
+                  bitField0_ = (bitField0_ & ~0x00000020);
+              }
+              result.subscriberEmail_ = subscriberEmail_;
+              if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+                  to_bitField0_ |= 0x00000010;
+              }
+              if (hostInfoBuilder_ == null) {
+                  result.hostInfo_ = hostInfo_;
+              } else {
+                  result.hostInfo_ = hostInfoBuilder_.build();
+              }
+              if (testCaseBuilder_ == null) {
+                  if (((bitField0_ & 0x00000080) == 0x00000080)) {
+                      testCase_ = java.util.Collections.unmodifiableList(testCase_);
+                      bitField0_ = (bitField0_ & ~0x00000080);
+                  }
+                  result.testCase_ = testCase_;
+              } else {
+                  result.testCase_ = testCaseBuilder_.build();
+              }
+              if (profilingBuilder_ == null) {
+                  if (((bitField0_ & 0x00000100) == 0x00000100)) {
+                      profiling_ = java.util.Collections.unmodifiableList(profiling_);
+                      bitField0_ = (bitField0_ & ~0x00000100);
+                  }
+                  result.profiling_ = profiling_;
+              } else {
+                  result.profiling_ = profilingBuilder_.build();
+              }
+              if (systraceBuilder_ == null) {
+                  if (((bitField0_ & 0x00000200) == 0x00000200)) {
+                      systrace_ = java.util.Collections.unmodifiableList(systrace_);
+                      bitField0_ = (bitField0_ & ~0x00000200);
+                  }
+                  result.systrace_ = systrace_;
+              } else {
+                  result.systrace_ = systraceBuilder_.build();
+              }
+              if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+                  to_bitField0_ |= 0x00000020;
+              }
+              result.startTimestamp_ = startTimestamp_;
+              if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+                  to_bitField0_ |= 0x00000040;
+              }
+              result.endTimestamp_ = endTimestamp_;
+              if (coverageBuilder_ == null) {
+                  if (((bitField0_ & 0x00001000) == 0x00001000)) {
+                      coverage_ = java.util.Collections.unmodifiableList(coverage_);
+                      bitField0_ = (bitField0_ & ~0x00001000);
+                  }
+                  result.coverage_ = coverage_;
+              } else {
+                  result.coverage_ = coverageBuilder_.build();
+              }
+              if (logBuilder_ == null) {
+                  if (((bitField0_ & 0x00002000) == 0x00002000)) {
+                      log_ = java.util.Collections.unmodifiableList(log_);
+                      bitField0_ = (bitField0_ & ~0x00002000);
+                  }
+                  result.log_ = log_;
+              } else {
+                  result.log_ = logBuilder_.build();
+              }
+              result.bitField0_ = to_bitField0_;
+              onBuilt();
+              return result;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+              if (other instanceof com.android.vts.proto.VtsReportMessage.TestReportMessage) {
+                  return mergeFrom(
+                          (com.android.vts.proto.VtsReportMessage.TestReportMessage) other);
+              } else {
+                  super.mergeFrom(other);
+                  return this;
+              }
+          }
+
+          public Builder mergeFrom(com.android.vts.proto.VtsReportMessage.TestReportMessage other) {
+              if (other
+                      == com.android.vts.proto.VtsReportMessage.TestReportMessage
+                                 .getDefaultInstance())
+                  return this;
+              if (other.hasTestSuite()) {
+                  setTestSuite(other.getTestSuite());
+              }
+              if (other.hasTest()) {
+                  setTest(other.getTest());
+              }
+              if (other.hasTestType()) {
+                  setTestType(other.getTestType());
+              }
+              if (deviceInfoBuilder_ == null) {
+                  if (!other.deviceInfo_.isEmpty()) {
+                      if (deviceInfo_.isEmpty()) {
+                          deviceInfo_ = other.deviceInfo_;
+                          bitField0_ = (bitField0_ & ~0x00000008);
+                      } else {
+                          ensureDeviceInfoIsMutable();
+                          deviceInfo_.addAll(other.deviceInfo_);
+                      }
+                      onChanged();
+                  }
+              } else {
+                  if (!other.deviceInfo_.isEmpty()) {
+                      if (deviceInfoBuilder_.isEmpty()) {
+                          deviceInfoBuilder_.dispose();
+                          deviceInfoBuilder_ = null;
+                          deviceInfo_ = other.deviceInfo_;
+                          bitField0_ = (bitField0_ & ~0x00000008);
+                          deviceInfoBuilder_ =
+                                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders
+                                  ? getDeviceInfoFieldBuilder()
+                                  : null;
+                      } else {
+                          deviceInfoBuilder_.addAllMessages(other.deviceInfo_);
+                      }
+                  }
+              }
+              if (other.hasBuildInfo()) {
+                  mergeBuildInfo(other.getBuildInfo());
+              }
+              if (!other.subscriberEmail_.isEmpty()) {
+                  if (subscriberEmail_.isEmpty()) {
+                      subscriberEmail_ = other.subscriberEmail_;
+                      bitField0_ = (bitField0_ & ~0x00000020);
+                  } else {
+                      ensureSubscriberEmailIsMutable();
+                      subscriberEmail_.addAll(other.subscriberEmail_);
+                  }
+                  onChanged();
+              }
+              if (other.hasHostInfo()) {
+                  mergeHostInfo(other.getHostInfo());
+              }
+              if (testCaseBuilder_ == null) {
+                  if (!other.testCase_.isEmpty()) {
+                      if (testCase_.isEmpty()) {
+                          testCase_ = other.testCase_;
+                          bitField0_ = (bitField0_ & ~0x00000080);
+                      } else {
+                          ensureTestCaseIsMutable();
+                          testCase_.addAll(other.testCase_);
+                      }
+                      onChanged();
+                  }
+              } else {
+                  if (!other.testCase_.isEmpty()) {
+                      if (testCaseBuilder_.isEmpty()) {
+                          testCaseBuilder_.dispose();
+                          testCaseBuilder_ = null;
+                          testCase_ = other.testCase_;
+                          bitField0_ = (bitField0_ & ~0x00000080);
+                          testCaseBuilder_ =
+                                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders
+                                  ? getTestCaseFieldBuilder()
+                                  : null;
+                      } else {
+                          testCaseBuilder_.addAllMessages(other.testCase_);
+                      }
+                  }
+              }
+              if (profilingBuilder_ == null) {
+                  if (!other.profiling_.isEmpty()) {
+                      if (profiling_.isEmpty()) {
+                          profiling_ = other.profiling_;
+                          bitField0_ = (bitField0_ & ~0x00000100);
+                      } else {
+                          ensureProfilingIsMutable();
+                          profiling_.addAll(other.profiling_);
+                      }
+                      onChanged();
+                  }
+              } else {
+                  if (!other.profiling_.isEmpty()) {
+                      if (profilingBuilder_.isEmpty()) {
+                          profilingBuilder_.dispose();
+                          profilingBuilder_ = null;
+                          profiling_ = other.profiling_;
+                          bitField0_ = (bitField0_ & ~0x00000100);
+                          profilingBuilder_ =
+                                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders
+                                  ? getProfilingFieldBuilder()
+                                  : null;
+                      } else {
+                          profilingBuilder_.addAllMessages(other.profiling_);
+                      }
+                  }
+              }
+              if (systraceBuilder_ == null) {
+                  if (!other.systrace_.isEmpty()) {
+                      if (systrace_.isEmpty()) {
+                          systrace_ = other.systrace_;
+                          bitField0_ = (bitField0_ & ~0x00000200);
+                      } else {
+                          ensureSystraceIsMutable();
+                          systrace_.addAll(other.systrace_);
+                      }
+                      onChanged();
+                  }
+              } else {
+                  if (!other.systrace_.isEmpty()) {
+                      if (systraceBuilder_.isEmpty()) {
+                          systraceBuilder_.dispose();
+                          systraceBuilder_ = null;
+                          systrace_ = other.systrace_;
+                          bitField0_ = (bitField0_ & ~0x00000200);
+                          systraceBuilder_ =
+                                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders
+                                  ? getSystraceFieldBuilder()
+                                  : null;
+                      } else {
+                          systraceBuilder_.addAllMessages(other.systrace_);
+                      }
+                  }
+              }
+              if (other.hasStartTimestamp()) {
+                  setStartTimestamp(other.getStartTimestamp());
+              }
+              if (other.hasEndTimestamp()) {
+                  setEndTimestamp(other.getEndTimestamp());
+              }
+              if (coverageBuilder_ == null) {
+                  if (!other.coverage_.isEmpty()) {
+                      if (coverage_.isEmpty()) {
+                          coverage_ = other.coverage_;
+                          bitField0_ = (bitField0_ & ~0x00001000);
+                      } else {
+                          ensureCoverageIsMutable();
+                          coverage_.addAll(other.coverage_);
+                      }
+                      onChanged();
+                  }
+              } else {
+                  if (!other.coverage_.isEmpty()) {
+                      if (coverageBuilder_.isEmpty()) {
+                          coverageBuilder_.dispose();
+                          coverageBuilder_ = null;
+                          coverage_ = other.coverage_;
+                          bitField0_ = (bitField0_ & ~0x00001000);
+                          coverageBuilder_ =
+                                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders
+                                  ? getCoverageFieldBuilder()
+                                  : null;
+                      } else {
+                          coverageBuilder_.addAllMessages(other.coverage_);
+                      }
+                  }
+              }
+              if (logBuilder_ == null) {
+                  if (!other.log_.isEmpty()) {
+                      if (log_.isEmpty()) {
+                          log_ = other.log_;
+                          bitField0_ = (bitField0_ & ~0x00002000);
+                      } else {
+                          ensureLogIsMutable();
+                          log_.addAll(other.log_);
+                      }
+                      onChanged();
+                  }
+              } else {
+                  if (!other.log_.isEmpty()) {
+                      if (logBuilder_.isEmpty()) {
+                          logBuilder_.dispose();
+                          logBuilder_ = null;
+                          log_ = other.log_;
+                          bitField0_ = (bitField0_ & ~0x00002000);
+                          logBuilder_ = com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders
+                                  ? getLogFieldBuilder()
+                                  : null;
+                      } else {
+                          logBuilder_.addAllMessages(other.log_);
+                      }
+                  }
+              }
+              this.mergeUnknownFields(other.getUnknownFields());
+              return this;
+          }
+
+          public final boolean isInitialized() {
+              return true;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.CodedInputStream input,
+                  com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                  throws java.io.IOException {
+              com.android.vts.proto.VtsReportMessage.TestReportMessage parsedMessage = null;
+              try {
+                  parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+              } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                  parsedMessage = (com.android.vts.proto.VtsReportMessage.TestReportMessage)
+                                          e.getUnfinishedMessage();
+                  throw e;
+              } finally {
+                  if (parsedMessage != null) {
+                      mergeFrom(parsedMessage);
+                  }
+              }
+              return this;
+          }
+          private int bitField0_;
+
+          // optional bytes test_suite = 1 [deprecated = true];
+          private com.google.protobuf.ByteString testSuite_ = com.google.protobuf.ByteString.EMPTY;
+          /**
+           * <code>optional bytes test_suite = 1 [deprecated = true];</code>
+           *
+           * <pre>
+           * The test suite name..
+           * </pre>
+           */
+          @java.lang.Deprecated
+          public boolean hasTestSuite() {
+              return ((bitField0_ & 0x00000001) == 0x00000001);
+          }
+          /**
+           * <code>optional bytes test_suite = 1 [deprecated = true];</code>
+           *
+           * <pre>
+           * The test suite name..
+           * </pre>
+           */
+          @java.
+          lang.Deprecated
+          public com.google.protobuf.ByteString getTestSuite() {
+              return testSuite_;
+          }
+          /**
+           * <code>optional bytes test_suite = 1 [deprecated = true];</code>
+           *
+           * <pre>
+           * The test suite name..
+           * </pre>
+           */
+          @java.lang.Deprecated
+          public Builder setTestSuite(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000001;
+              testSuite_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional bytes test_suite = 1 [deprecated = true];</code>
+           *
+           * <pre>
+           * The test suite name..
+           * </pre>
+           */
+          @java.lang.Deprecated
+          public Builder clearTestSuite() {
+              bitField0_ = (bitField0_ & ~0x00000001);
+              testSuite_ = getDefaultInstance().getTestSuite();
+              onChanged();
+              return this;
+          }
+
+          // optional bytes test = 2;
+          private com.google.protobuf.ByteString test_ = com.google.protobuf.ByteString.EMPTY;
+          /**
+           * <code>optional bytes test = 2;</code>
+           *
+           * <pre>
+           * The test name.
+           * </pre>
+           */
+          public boolean hasTest() {
+              return ((bitField0_ & 0x00000002) == 0x00000002);
+          }
+          /**
+           * <code>optional bytes test = 2;</code>
+           *
+           * <pre>
+           * The test name.
+           * </pre>
+           */
+          public com.google.protobuf.ByteString getTest() {
+              return test_;
+          }
+          /**
+           * <code>optional bytes test = 2;</code>
+           *
+           * <pre>
+           * The test name.
+           * </pre>
+           */
+          public Builder setTest(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000002;
+              test_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional bytes test = 2;</code>
+           *
+           * <pre>
+           * The test name.
+           * </pre>
+           */
+          public Builder clearTest() {
+              bitField0_ = (bitField0_ & ~0x00000002);
+              test_ = getDefaultInstance().getTest();
+              onChanged();
+              return this;
+          }
+
+          // optional .android.vts.VtsTestType test_type = 3;
+          private com.android.vts.proto.VtsReportMessage.VtsTestType testType_ =
+                  com.android.vts.proto.VtsReportMessage.VtsTestType.UNKNOWN_VTS_TESTTYPE;
+          /**
+           * <code>optional .android.vts.VtsTestType test_type = 3;</code>
+           *
+           * <pre>
+           * The test type
+           * </pre>
+           */
+          public boolean hasTestType() {
+              return ((bitField0_ & 0x00000004) == 0x00000004);
+          }
+          /**
+           * <code>optional .android.vts.VtsTestType test_type = 3;</code>
+           *
+           * <pre>
+           * The test type
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.VtsTestType getTestType() {
+              return testType_;
+          }
+          /**
+           * <code>optional .android.vts.VtsTestType test_type = 3;</code>
+           *
+           * <pre>
+           * The test type
+           * </pre>
+           */
+          public Builder setTestType(com.android.vts.proto.VtsReportMessage.VtsTestType value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000004;
+              testType_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional .android.vts.VtsTestType test_type = 3;</code>
+           *
+           * <pre>
+           * The test type
+           * </pre>
+           */
+          public Builder clearTestType() {
+              bitField0_ = (bitField0_ & ~0x00000004);
+              testType_ = com.android.vts.proto.VtsReportMessage.VtsTestType.UNKNOWN_VTS_TESTTYPE;
+              onChanged();
+              return this;
+          }
+
+          // repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;
+          private java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage>
+                  deviceInfo_ = java.util.Collections.emptyList();
+          private void ensureDeviceInfoIsMutable() {
+              if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+                  deviceInfo_ =
+                          new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                          .AndroidDeviceInfoMessage>(deviceInfo_);
+                  bitField0_ |= 0x00000008;
+              }
+          }
+
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .AndroidDeviceInfoMessage,
+                  com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder>
+                  deviceInfoBuilder_;
+
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage>
+          getDeviceInfoList() {
+              if (deviceInfoBuilder_ == null) {
+                  return java.util.Collections.unmodifiableList(deviceInfo_);
+              } else {
+                  return deviceInfoBuilder_.getMessageList();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public int getDeviceInfoCount() {
+              if (deviceInfoBuilder_ == null) {
+                  return deviceInfo_.size();
+              } else {
+                  return deviceInfoBuilder_.getCount();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage getDeviceInfo(
+                  int index) {
+              if (deviceInfoBuilder_ == null) {
+                  return deviceInfo_.get(index);
+              } else {
+                  return deviceInfoBuilder_.getMessage(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public Builder setDeviceInfo(int index,
+                  com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage value) {
+              if (deviceInfoBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureDeviceInfoIsMutable();
+                  deviceInfo_.set(index, value);
+                  onChanged();
+              } else {
+                  deviceInfoBuilder_.setMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public Builder setDeviceInfo(
+                  int index, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage
+                                     .Builder builderForValue) {
+              if (deviceInfoBuilder_ == null) {
+                  ensureDeviceInfoIsMutable();
+                  deviceInfo_.set(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  deviceInfoBuilder_.setMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public Builder addDeviceInfo(
+                  com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage value) {
+              if (deviceInfoBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureDeviceInfoIsMutable();
+                  deviceInfo_.add(value);
+                  onChanged();
+              } else {
+                  deviceInfoBuilder_.addMessage(value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public Builder addDeviceInfo(int index,
+                  com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage value) {
+              if (deviceInfoBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureDeviceInfoIsMutable();
+                  deviceInfo_.add(index, value);
+                  onChanged();
+              } else {
+                  deviceInfoBuilder_.addMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public Builder addDeviceInfo(com.android.vts.proto.VtsReportMessage
+                                               .AndroidDeviceInfoMessage.Builder builderForValue) {
+              if (deviceInfoBuilder_ == null) {
+                  ensureDeviceInfoIsMutable();
+                  deviceInfo_.add(builderForValue.build());
+                  onChanged();
+              } else {
+                  deviceInfoBuilder_.addMessage(builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public Builder addDeviceInfo(
+                  int index, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage
+                                     .Builder builderForValue) {
+              if (deviceInfoBuilder_ == null) {
+                  ensureDeviceInfoIsMutable();
+                  deviceInfo_.add(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  deviceInfoBuilder_.addMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public Builder addAllDeviceInfo(
+                  java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage
+                                                       .AndroidDeviceInfoMessage> values) {
+              if (deviceInfoBuilder_ == null) {
+                  ensureDeviceInfoIsMutable();
+                  super.addAll(values, deviceInfo_);
+                  onChanged();
+              } else {
+                  deviceInfoBuilder_.addAllMessages(values);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public Builder clearDeviceInfo() {
+              if (deviceInfoBuilder_ == null) {
+                  deviceInfo_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000008);
+                  onChanged();
+              } else {
+                  deviceInfoBuilder_.clear();
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public Builder removeDeviceInfo(int index) {
+              if (deviceInfoBuilder_ == null) {
+                  ensureDeviceInfoIsMutable();
+                  deviceInfo_.remove(index);
+                  onChanged();
+              } else {
+                  deviceInfoBuilder_.remove(index);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder
+          getDeviceInfoBuilder(int index) {
+              return getDeviceInfoFieldBuilder().getBuilder(index);
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder
+          getDeviceInfoOrBuilder(int index) {
+              if (deviceInfoBuilder_ == null) {
+                  return deviceInfo_.get(index);
+              } else {
+                  return deviceInfoBuilder_.getMessageOrBuilder(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public java.util.List<? extends com.android.vts.proto.VtsReportMessage
+                                                  .AndroidDeviceInfoMessageOrBuilder>
+          getDeviceInfoOrBuilderList() {
+              if (deviceInfoBuilder_ != null) {
+                  return deviceInfoBuilder_.getMessageOrBuilderList();
+              } else {
+                  return java.util.Collections.unmodifiableList(deviceInfo_);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder
+          addDeviceInfoBuilder() {
+              return getDeviceInfoFieldBuilder().addBuilder(
+                      com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage
+                              .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder
+          addDeviceInfoBuilder(int index) {
+              return getDeviceInfoFieldBuilder().addBuilder(
+                      index, com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage
+                                     .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.AndroidDeviceInfoMessage device_info = 4;</code>
+           *
+           * <pre>
+           * Target device info
+           * </pre>
+           */
+          public java.util
+                  .List<com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder>
+                  getDeviceInfoBuilderList() {
+              return getDeviceInfoFieldBuilder().getBuilderList();
+          }
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .AndroidDeviceInfoMessage,
+                  com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessageOrBuilder>
+          getDeviceInfoFieldBuilder() {
+              if (deviceInfoBuilder_ == null) {
+                  deviceInfoBuilder_ =
+                          new com.google.protobuf
+                                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                .AndroidDeviceInfoMessage,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .AndroidDeviceInfoMessage.Builder,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .AndroidDeviceInfoMessageOrBuilder>(deviceInfo_,
+                                          ((bitField0_ & 0x00000008) == 0x00000008),
+                                          getParentForChildren(), isClean());
+                  deviceInfo_ = null;
+              }
+              return deviceInfoBuilder_;
+          }
+
+          // optional .android.vts.AndroidBuildInfo build_info = 5;
+          private com.android.vts.proto.VtsReportMessage.AndroidBuildInfo buildInfo_ =
+                  com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.getDefaultInstance();
+          private com.google.protobuf
+                  .SingleFieldBuilder<com.android.vts.proto.VtsReportMessage.AndroidBuildInfo,
+                          com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder,
+                          com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder>
+                          buildInfoBuilder_;
+          /**
+           * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+           *
+           * <pre>
+           * Build info
+           * </pre>
+           */
+          public boolean hasBuildInfo() {
+              return ((bitField0_ & 0x00000010) == 0x00000010);
+          }
+          /**
+           * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+           *
+           * <pre>
+           * Build info
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.AndroidBuildInfo getBuildInfo() {
+              if (buildInfoBuilder_ == null) {
+                  return buildInfo_;
+              } else {
+                  return buildInfoBuilder_.getMessage();
+              }
+          }
+          /**
+           * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+           *
+           * <pre>
+           * Build info
+           * </pre>
+           */
+          public Builder setBuildInfo(
+                  com.android.vts.proto.VtsReportMessage.AndroidBuildInfo value) {
+              if (buildInfoBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  buildInfo_ = value;
+                  onChanged();
+              } else {
+                  buildInfoBuilder_.setMessage(value);
+              }
+              bitField0_ |= 0x00000010;
+              return this;
+          }
+          /**
+           * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+           *
+           * <pre>
+           * Build info
+           * </pre>
+           */
+          public Builder setBuildInfo(
+                  com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder builderForValue) {
+              if (buildInfoBuilder_ == null) {
+                  buildInfo_ = builderForValue.build();
+                  onChanged();
+              } else {
+                  buildInfoBuilder_.setMessage(builderForValue.build());
+              }
+              bitField0_ |= 0x00000010;
+              return this;
+          }
+          /**
+           * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+           *
+           * <pre>
+           * Build info
+           * </pre>
+           */
+          public Builder mergeBuildInfo(
+                  com.android.vts.proto.VtsReportMessage.AndroidBuildInfo value) {
+              if (buildInfoBuilder_ == null) {
+                  if (((bitField0_ & 0x00000010) == 0x00000010)
+                          && buildInfo_
+                                  != com.android.vts.proto.VtsReportMessage.AndroidBuildInfo
+                                             .getDefaultInstance()) {
+                      buildInfo_ = com.android.vts.proto.VtsReportMessage.AndroidBuildInfo
+                                           .newBuilder(buildInfo_)
+                                           .mergeFrom(value)
+                                           .buildPartial();
+                  } else {
+                      buildInfo_ = value;
+                  }
+                  onChanged();
+              } else {
+                  buildInfoBuilder_.mergeFrom(value);
+              }
+              bitField0_ |= 0x00000010;
+              return this;
+          }
+          /**
+           * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+           *
+           * <pre>
+           * Build info
+           * </pre>
+           */
+          public Builder clearBuildInfo() {
+              if (buildInfoBuilder_ == null) {
+                  buildInfo_ = com.android.vts.proto.VtsReportMessage.AndroidBuildInfo
+                                       .getDefaultInstance();
+                  onChanged();
+              } else {
+                  buildInfoBuilder_.clear();
+              }
+              bitField0_ = (bitField0_ & ~0x00000010);
+              return this;
+          }
+          /**
+           * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+           *
+           * <pre>
+           * Build info
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder
+          getBuildInfoBuilder() {
+              bitField0_ |= 0x00000010;
+              onChanged();
+              return getBuildInfoFieldBuilder().getBuilder();
+          }
+          /**
+           * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+           *
+           * <pre>
+           * Build info
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder
+          getBuildInfoOrBuilder() {
+              if (buildInfoBuilder_ != null) {
+                  return buildInfoBuilder_.getMessageOrBuilder();
+              } else {
+                  return buildInfo_;
+              }
+          }
+          /**
+           * <code>optional .android.vts.AndroidBuildInfo build_info = 5;</code>
+           *
+           * <pre>
+           * Build info
+           * </pre>
+           */
+          private com.google.protobuf
+                  .SingleFieldBuilder<com.android.vts.proto.VtsReportMessage.AndroidBuildInfo,
+                          com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder,
+                          com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder>
+                  getBuildInfoFieldBuilder() {
+              if (buildInfoBuilder_ == null) {
+                  buildInfoBuilder_ =
+                          new com.google.protobuf.SingleFieldBuilder<com.android.vts.proto
+                                                                             .VtsReportMessage
+                                                                             .AndroidBuildInfo,
+                                  com.android.vts.proto.VtsReportMessage.AndroidBuildInfo.Builder,
+                                  com.android.vts.proto.VtsReportMessage.AndroidBuildInfoOrBuilder>(
+                                  buildInfo_, getParentForChildren(), isClean());
+                  buildInfo_ = null;
+              }
+              return buildInfoBuilder_;
+          }
+
+          // repeated bytes subscriber_email = 6;
+          private java.util.List<com.google.protobuf.ByteString> subscriberEmail_ =
+                  java.util.Collections.emptyList();
+          private void ensureSubscriberEmailIsMutable() {
+              if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+                  subscriberEmail_ =
+                          new java.util.ArrayList<com.google.protobuf.ByteString>(subscriberEmail_);
+                  bitField0_ |= 0x00000020;
+              }
+          }
+          /**
+           * <code>repeated bytes subscriber_email = 6;</code>
+           *
+           * <pre>
+           * Email addresses of subscribers to the test results
+           * </pre>
+           */
+          public java.util.List<com.google.protobuf.ByteString> getSubscriberEmailList() {
+              return java.util.Collections.unmodifiableList(subscriberEmail_);
+          }
+          /**
+           * <code>repeated bytes subscriber_email = 6;</code>
+           *
+           * <pre>
+           * Email addresses of subscribers to the test results
+           * </pre>
+           */
+          public int getSubscriberEmailCount() {
+              return subscriberEmail_.size();
+          }
+          /**
+           * <code>repeated bytes subscriber_email = 6;</code>
+           *
+           * <pre>
+           * Email addresses of subscribers to the test results
+           * </pre>
+           */
+          public com.google.protobuf.ByteString getSubscriberEmail(int index) {
+              return subscriberEmail_.get(index);
+          }
+          /**
+           * <code>repeated bytes subscriber_email = 6;</code>
+           *
+           * <pre>
+           * Email addresses of subscribers to the test results
+           * </pre>
+           */
+          public Builder setSubscriberEmail(int index, com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              ensureSubscriberEmailIsMutable();
+              subscriberEmail_.set(index, value);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated bytes subscriber_email = 6;</code>
+           *
+           * <pre>
+           * Email addresses of subscribers to the test results
+           * </pre>
+           */
+          public Builder addSubscriberEmail(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              ensureSubscriberEmailIsMutable();
+              subscriberEmail_.add(value);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated bytes subscriber_email = 6;</code>
+           *
+           * <pre>
+           * Email addresses of subscribers to the test results
+           * </pre>
+           */
+          public Builder addAllSubscriberEmail(
+                  java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+              ensureSubscriberEmailIsMutable();
+              super.addAll(values, subscriberEmail_);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated bytes subscriber_email = 6;</code>
+           *
+           * <pre>
+           * Email addresses of subscribers to the test results
+           * </pre>
+           */
+          public Builder clearSubscriberEmail() {
+              subscriberEmail_ = java.util.Collections.emptyList();
+              bitField0_ = (bitField0_ & ~0x00000020);
+              onChanged();
+              return this;
+          }
+
+          // optional .android.vts.VtsHostInfo host_info = 7;
+          private com.android.vts.proto.VtsReportMessage.VtsHostInfo hostInfo_ =
+                  com.android.vts.proto.VtsReportMessage.VtsHostInfo.getDefaultInstance();
+          private com.google.protobuf
+                  .SingleFieldBuilder<com.android.vts.proto.VtsReportMessage.VtsHostInfo,
+                          com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder,
+                          com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder>
+                          hostInfoBuilder_;
+          /**
+           * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+           *
+           * <pre>
+           * Info about the host computer
+           * </pre>
+           */
+          public boolean hasHostInfo() {
+              return ((bitField0_ & 0x00000040) == 0x00000040);
+          }
+          /**
+           * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+           *
+           * <pre>
+           * Info about the host computer
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.VtsHostInfo getHostInfo() {
+              if (hostInfoBuilder_ == null) {
+                  return hostInfo_;
+              } else {
+                  return hostInfoBuilder_.getMessage();
+              }
+          }
+          /**
+           * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+           *
+           * <pre>
+           * Info about the host computer
+           * </pre>
+           */
+          public Builder setHostInfo(com.android.vts.proto.VtsReportMessage.VtsHostInfo value) {
+              if (hostInfoBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  hostInfo_ = value;
+                  onChanged();
+              } else {
+                  hostInfoBuilder_.setMessage(value);
+              }
+              bitField0_ |= 0x00000040;
+              return this;
+          }
+          /**
+           * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+           *
+           * <pre>
+           * Info about the host computer
+           * </pre>
+           */
+          public Builder setHostInfo(
+                  com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder builderForValue) {
+              if (hostInfoBuilder_ == null) {
+                  hostInfo_ = builderForValue.build();
+                  onChanged();
+              } else {
+                  hostInfoBuilder_.setMessage(builderForValue.build());
+              }
+              bitField0_ |= 0x00000040;
+              return this;
+          }
+          /**
+           * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+           *
+           * <pre>
+           * Info about the host computer
+           * </pre>
+           */
+          public Builder mergeHostInfo(com.android.vts.proto.VtsReportMessage.VtsHostInfo value) {
+              if (hostInfoBuilder_ == null) {
+                  if (((bitField0_ & 0x00000040) == 0x00000040)
+                          && hostInfo_
+                                  != com.android.vts.proto.VtsReportMessage.VtsHostInfo
+                                             .getDefaultInstance()) {
+                      hostInfo_ = com.android.vts.proto.VtsReportMessage.VtsHostInfo
+                                          .newBuilder(hostInfo_)
+                                          .mergeFrom(value)
+                                          .buildPartial();
+                  } else {
+                      hostInfo_ = value;
+                  }
+                  onChanged();
+              } else {
+                  hostInfoBuilder_.mergeFrom(value);
+              }
+              bitField0_ |= 0x00000040;
+              return this;
+          }
+          /**
+           * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+           *
+           * <pre>
+           * Info about the host computer
+           * </pre>
+           */
+          public Builder clearHostInfo() {
+              if (hostInfoBuilder_ == null) {
+                  hostInfo_ =
+                          com.android.vts.proto.VtsReportMessage.VtsHostInfo.getDefaultInstance();
+                  onChanged();
+              } else {
+                  hostInfoBuilder_.clear();
+              }
+              bitField0_ = (bitField0_ & ~0x00000040);
+              return this;
+          }
+          /**
+           * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+           *
+           * <pre>
+           * Info about the host computer
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder getHostInfoBuilder() {
+              bitField0_ |= 0x00000040;
+              onChanged();
+              return getHostInfoFieldBuilder().getBuilder();
+          }
+          /**
+           * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+           *
+           * <pre>
+           * Info about the host computer
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder
+          getHostInfoOrBuilder() {
+              if (hostInfoBuilder_ != null) {
+                  return hostInfoBuilder_.getMessageOrBuilder();
+              } else {
+                  return hostInfo_;
+              }
+          }
+          /**
+           * <code>optional .android.vts.VtsHostInfo host_info = 7;</code>
+           *
+           * <pre>
+           * Info about the host computer
+           * </pre>
+           */
+          private com.google.protobuf
+                  .SingleFieldBuilder<com.android.vts.proto.VtsReportMessage.VtsHostInfo,
+                          com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder,
+                          com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder>
+                  getHostInfoFieldBuilder() {
+              if (hostInfoBuilder_ == null) {
+                  hostInfoBuilder_ =
+                          new com.google.protobuf.SingleFieldBuilder<com.android.vts.proto
+                                                                             .VtsReportMessage
+                                                                             .VtsHostInfo,
+                                  com.android.vts.proto.VtsReportMessage.VtsHostInfo.Builder,
+                                  com.android.vts.proto.VtsReportMessage.VtsHostInfoOrBuilder>(
+                                  hostInfo_, getParentForChildren(), isClean());
+                  hostInfo_ = null;
+              }
+              return hostInfoBuilder_;
+          }
+
+          // repeated .android.vts.TestCaseReportMessage test_case = 11;
+          private java.util
+                  .List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage> testCase_ =
+                  java.util.Collections.emptyList();
+          private void ensureTestCaseIsMutable() {
+              if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+                  testCase_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                              .TestCaseReportMessage>(testCase_);
+                  bitField0_ |= 0x00000080;
+              }
+          }
+
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .TestCaseReportMessage,
+                  com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder>
+                  testCaseBuilder_;
+
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage>
+          getTestCaseList() {
+              if (testCaseBuilder_ == null) {
+                  return java.util.Collections.unmodifiableList(testCase_);
+              } else {
+                  return testCaseBuilder_.getMessageList();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public int getTestCaseCount() {
+              if (testCaseBuilder_ == null) {
+                  return testCase_.size();
+              } else {
+                  return testCaseBuilder_.getCount();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestCaseReportMessage getTestCase(
+                  int index) {
+              if (testCaseBuilder_ == null) {
+                  return testCase_.get(index);
+              } else {
+                  return testCaseBuilder_.getMessage(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public Builder setTestCase(
+                  int index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage value) {
+              if (testCaseBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureTestCaseIsMutable();
+                  testCase_.set(index, value);
+                  onChanged();
+              } else {
+                  testCaseBuilder_.setMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public Builder setTestCase(
+                  int index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage
+                                     .Builder builderForValue) {
+              if (testCaseBuilder_ == null) {
+                  ensureTestCaseIsMutable();
+                  testCase_.set(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  testCaseBuilder_.setMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public Builder addTestCase(
+                  com.android.vts.proto.VtsReportMessage.TestCaseReportMessage value) {
+              if (testCaseBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureTestCaseIsMutable();
+                  testCase_.add(value);
+                  onChanged();
+              } else {
+                  testCaseBuilder_.addMessage(value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public Builder addTestCase(
+                  int index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage value) {
+              if (testCaseBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureTestCaseIsMutable();
+                  testCase_.add(index, value);
+                  onChanged();
+              } else {
+                  testCaseBuilder_.addMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public Builder addTestCase(com.android.vts.proto.VtsReportMessage.TestCaseReportMessage
+                                             .Builder builderForValue) {
+              if (testCaseBuilder_ == null) {
+                  ensureTestCaseIsMutable();
+                  testCase_.add(builderForValue.build());
+                  onChanged();
+              } else {
+                  testCaseBuilder_.addMessage(builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public Builder addTestCase(
+                  int index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage
+                                     .Builder builderForValue) {
+              if (testCaseBuilder_ == null) {
+                  ensureTestCaseIsMutable();
+                  testCase_.add(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  testCaseBuilder_.addMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public Builder addAllTestCase(
+                  java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage
+                                                       .TestCaseReportMessage> values) {
+              if (testCaseBuilder_ == null) {
+                  ensureTestCaseIsMutable();
+                  super.addAll(values, testCase_);
+                  onChanged();
+              } else {
+                  testCaseBuilder_.addAllMessages(values);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public Builder clearTestCase() {
+              if (testCaseBuilder_ == null) {
+                  testCase_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000080);
+                  onChanged();
+              } else {
+                  testCaseBuilder_.clear();
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public Builder removeTestCase(int index) {
+              if (testCaseBuilder_ == null) {
+                  ensureTestCaseIsMutable();
+                  testCase_.remove(index);
+                  onChanged();
+              } else {
+                  testCaseBuilder_.remove(index);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder
+          getTestCaseBuilder(int index) {
+              return getTestCaseFieldBuilder().getBuilder(index);
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder
+          getTestCaseOrBuilder(int index) {
+              if (testCaseBuilder_ == null) {
+                  return testCase_.get(index);
+              } else {
+                  return testCaseBuilder_.getMessageOrBuilder(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public java.util.List<
+                  ? extends com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder>
+          getTestCaseOrBuilderList() {
+              if (testCaseBuilder_ != null) {
+                  return testCaseBuilder_.getMessageOrBuilderList();
+              } else {
+                  return java.util.Collections.unmodifiableList(testCase_);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder
+          addTestCaseBuilder() {
+              return getTestCaseFieldBuilder().addBuilder(
+                      com.android.vts.proto.VtsReportMessage.TestCaseReportMessage
+                              .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder
+          addTestCaseBuilder(int index) {
+              return getTestCaseFieldBuilder().addBuilder(
+                      index, com.android.vts.proto.VtsReportMessage.TestCaseReportMessage
+                                     .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.TestCaseReportMessage test_case = 11;</code>
+           *
+           * <pre>
+           * Test case reports
+           * </pre>
+           */
+          public java.util
+                  .List<com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder>
+                  getTestCaseBuilderList() {
+              return getTestCaseFieldBuilder().getBuilderList();
+          }
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .TestCaseReportMessage,
+                  com.android.vts.proto.VtsReportMessage.TestCaseReportMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.TestCaseReportMessageOrBuilder>
+          getTestCaseFieldBuilder() {
+              if (testCaseBuilder_ == null) {
+                  testCaseBuilder_ =
+                          new com.google.protobuf
+                                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                .TestCaseReportMessage,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .TestCaseReportMessage.Builder,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .TestCaseReportMessageOrBuilder>(testCase_,
+                                          ((bitField0_ & 0x00000080) == 0x00000080),
+                                          getParentForChildren(), isClean());
+                  testCase_ = null;
+              }
+              return testCaseBuilder_;
+          }
+
+          // repeated .android.vts.ProfilingReportMessage profiling = 21;
+          private java.util
+                  .List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage> profiling_ =
+                  java.util.Collections.emptyList();
+          private void ensureProfilingIsMutable() {
+              if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+                  profiling_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                               .ProfilingReportMessage>(profiling_);
+                  bitField0_ |= 0x00000100;
+              }
+          }
+
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .ProfilingReportMessage,
+                  com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder>
+                  profilingBuilder_;
+
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage>
+          getProfilingList() {
+              if (profilingBuilder_ == null) {
+                  return java.util.Collections.unmodifiableList(profiling_);
+              } else {
+                  return profilingBuilder_.getMessageList();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public int getProfilingCount() {
+              if (profilingBuilder_ == null) {
+                  return profiling_.size();
+              } else {
+                  return profilingBuilder_.getCount();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.ProfilingReportMessage getProfiling(
+                  int index) {
+              if (profilingBuilder_ == null) {
+                  return profiling_.get(index);
+              } else {
+                  return profilingBuilder_.getMessage(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public Builder setProfiling(
+                  int index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage value) {
+              if (profilingBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureProfilingIsMutable();
+                  profiling_.set(index, value);
+                  onChanged();
+              } else {
+                  profilingBuilder_.setMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public Builder setProfiling(
+                  int index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage
+                                     .Builder builderForValue) {
+              if (profilingBuilder_ == null) {
+                  ensureProfilingIsMutable();
+                  profiling_.set(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  profilingBuilder_.setMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public Builder addProfiling(
+                  com.android.vts.proto.VtsReportMessage.ProfilingReportMessage value) {
+              if (profilingBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureProfilingIsMutable();
+                  profiling_.add(value);
+                  onChanged();
+              } else {
+                  profilingBuilder_.addMessage(value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public Builder addProfiling(
+                  int index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage value) {
+              if (profilingBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureProfilingIsMutable();
+                  profiling_.add(index, value);
+                  onChanged();
+              } else {
+                  profilingBuilder_.addMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public Builder addProfiling(com.android.vts.proto.VtsReportMessage.ProfilingReportMessage
+                                              .Builder builderForValue) {
+              if (profilingBuilder_ == null) {
+                  ensureProfilingIsMutable();
+                  profiling_.add(builderForValue.build());
+                  onChanged();
+              } else {
+                  profilingBuilder_.addMessage(builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public Builder addProfiling(
+                  int index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage
+                                     .Builder builderForValue) {
+              if (profilingBuilder_ == null) {
+                  ensureProfilingIsMutable();
+                  profiling_.add(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  profilingBuilder_.addMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public Builder addAllProfiling(
+                  java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage
+                                                       .ProfilingReportMessage> values) {
+              if (profilingBuilder_ == null) {
+                  ensureProfilingIsMutable();
+                  super.addAll(values, profiling_);
+                  onChanged();
+              } else {
+                  profilingBuilder_.addAllMessages(values);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public Builder clearProfiling() {
+              if (profilingBuilder_ == null) {
+                  profiling_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000100);
+                  onChanged();
+              } else {
+                  profilingBuilder_.clear();
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public Builder removeProfiling(int index) {
+              if (profilingBuilder_ == null) {
+                  ensureProfilingIsMutable();
+                  profiling_.remove(index);
+                  onChanged();
+              } else {
+                  profilingBuilder_.remove(index);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder
+          getProfilingBuilder(int index) {
+              return getProfilingFieldBuilder().getBuilder(index);
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder
+          getProfilingOrBuilder(int index) {
+              if (profilingBuilder_ == null) {
+                  return profiling_.get(index);
+              } else {
+                  return profilingBuilder_.getMessageOrBuilder(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public java.util.List<
+                  ? extends com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder>
+          getProfilingOrBuilderList() {
+              if (profilingBuilder_ != null) {
+                  return profilingBuilder_.getMessageOrBuilderList();
+              } else {
+                  return java.util.Collections.unmodifiableList(profiling_);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder
+          addProfilingBuilder() {
+              return getProfilingFieldBuilder().addBuilder(
+                      com.android.vts.proto.VtsReportMessage.ProfilingReportMessage
+                              .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder
+          addProfilingBuilder(int index) {
+              return getProfilingFieldBuilder().addBuilder(
+                      index, com.android.vts.proto.VtsReportMessage.ProfilingReportMessage
+                                     .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.ProfilingReportMessage profiling = 21;</code>
+           *
+           * <pre>
+           * Profiling reports
+           * </pre>
+           */
+          public java.util
+                  .List<com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder>
+                  getProfilingBuilderList() {
+              return getProfilingFieldBuilder().getBuilderList();
+          }
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .ProfilingReportMessage,
+                  com.android.vts.proto.VtsReportMessage.ProfilingReportMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.ProfilingReportMessageOrBuilder>
+          getProfilingFieldBuilder() {
+              if (profilingBuilder_ == null) {
+                  profilingBuilder_ =
+                          new com.google.protobuf
+                                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                .ProfilingReportMessage,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .ProfilingReportMessage.Builder,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .ProfilingReportMessageOrBuilder>(profiling_,
+                                          ((bitField0_ & 0x00000100) == 0x00000100),
+                                          getParentForChildren(), isClean());
+                  profiling_ = null;
+              }
+              return profilingBuilder_;
+          }
+
+          // repeated .android.vts.SystraceReportMessage systrace = 22;
+          private java.util
+                  .List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage> systrace_ =
+                  java.util.Collections.emptyList();
+          private void ensureSystraceIsMutable() {
+              if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+                  systrace_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                              .SystraceReportMessage>(systrace_);
+                  bitField0_ |= 0x00000200;
+              }
+          }
+
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .SystraceReportMessage,
+                  com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder>
+                  systraceBuilder_;
+
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage>
+          getSystraceList() {
+              if (systraceBuilder_ == null) {
+                  return java.util.Collections.unmodifiableList(systrace_);
+              } else {
+                  return systraceBuilder_.getMessageList();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public int getSystraceCount() {
+              if (systraceBuilder_ == null) {
+                  return systrace_.size();
+              } else {
+                  return systraceBuilder_.getCount();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.SystraceReportMessage getSystrace(
+                  int index) {
+              if (systraceBuilder_ == null) {
+                  return systrace_.get(index);
+              } else {
+                  return systraceBuilder_.getMessage(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public Builder setSystrace(
+                  int index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage value) {
+              if (systraceBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureSystraceIsMutable();
+                  systrace_.set(index, value);
+                  onChanged();
+              } else {
+                  systraceBuilder_.setMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public Builder setSystrace(
+                  int index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage
+                                     .Builder builderForValue) {
+              if (systraceBuilder_ == null) {
+                  ensureSystraceIsMutable();
+                  systrace_.set(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  systraceBuilder_.setMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public Builder addSystrace(
+                  com.android.vts.proto.VtsReportMessage.SystraceReportMessage value) {
+              if (systraceBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureSystraceIsMutable();
+                  systrace_.add(value);
+                  onChanged();
+              } else {
+                  systraceBuilder_.addMessage(value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public Builder addSystrace(
+                  int index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage value) {
+              if (systraceBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureSystraceIsMutable();
+                  systrace_.add(index, value);
+                  onChanged();
+              } else {
+                  systraceBuilder_.addMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public Builder addSystrace(com.android.vts.proto.VtsReportMessage.SystraceReportMessage
+                                             .Builder builderForValue) {
+              if (systraceBuilder_ == null) {
+                  ensureSystraceIsMutable();
+                  systrace_.add(builderForValue.build());
+                  onChanged();
+              } else {
+                  systraceBuilder_.addMessage(builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public Builder addSystrace(
+                  int index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage
+                                     .Builder builderForValue) {
+              if (systraceBuilder_ == null) {
+                  ensureSystraceIsMutable();
+                  systrace_.add(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  systraceBuilder_.addMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public Builder addAllSystrace(
+                  java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage
+                                                       .SystraceReportMessage> values) {
+              if (systraceBuilder_ == null) {
+                  ensureSystraceIsMutable();
+                  super.addAll(values, systrace_);
+                  onChanged();
+              } else {
+                  systraceBuilder_.addAllMessages(values);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public Builder clearSystrace() {
+              if (systraceBuilder_ == null) {
+                  systrace_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000200);
+                  onChanged();
+              } else {
+                  systraceBuilder_.clear();
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public Builder removeSystrace(int index) {
+              if (systraceBuilder_ == null) {
+                  ensureSystraceIsMutable();
+                  systrace_.remove(index);
+                  onChanged();
+              } else {
+                  systraceBuilder_.remove(index);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder
+          getSystraceBuilder(int index) {
+              return getSystraceFieldBuilder().getBuilder(index);
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder
+          getSystraceOrBuilder(int index) {
+              if (systraceBuilder_ == null) {
+                  return systrace_.get(index);
+              } else {
+                  return systraceBuilder_.getMessageOrBuilder(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public java.util.List<
+                  ? extends com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder>
+          getSystraceOrBuilderList() {
+              if (systraceBuilder_ != null) {
+                  return systraceBuilder_.getMessageOrBuilderList();
+              } else {
+                  return java.util.Collections.unmodifiableList(systrace_);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder
+          addSystraceBuilder() {
+              return getSystraceFieldBuilder().addBuilder(
+                      com.android.vts.proto.VtsReportMessage.SystraceReportMessage
+                              .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder
+          addSystraceBuilder(int index) {
+              return getSystraceFieldBuilder().addBuilder(
+                      index, com.android.vts.proto.VtsReportMessage.SystraceReportMessage
+                                     .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.SystraceReportMessage systrace = 22;</code>
+           *
+           * <pre>
+           * Systrace report per file
+           * </pre>
+           */
+          public java.util
+                  .List<com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder>
+                  getSystraceBuilderList() {
+              return getSystraceFieldBuilder().getBuilderList();
+          }
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .SystraceReportMessage,
+                  com.android.vts.proto.VtsReportMessage.SystraceReportMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.SystraceReportMessageOrBuilder>
+          getSystraceFieldBuilder() {
+              if (systraceBuilder_ == null) {
+                  systraceBuilder_ =
+                          new com.google.protobuf
+                                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                .SystraceReportMessage,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .SystraceReportMessage.Builder,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .SystraceReportMessageOrBuilder>(systrace_,
+                                          ((bitField0_ & 0x00000200) == 0x00000200),
+                                          getParentForChildren(), isClean());
+                  systrace_ = null;
+              }
+              return systraceBuilder_;
+          }
+
+          // optional int64 start_timestamp = 101;
+          private long startTimestamp_;
+          /**
+           * <code>optional int64 start_timestamp = 101;</code>
+           *
+           * <pre>
+           * Execution start and end time stamp.
+           * </pre>
+           */
+          public boolean hasStartTimestamp() {
+              return ((bitField0_ & 0x00000400) == 0x00000400);
+          }
+          /**
+           * <code>optional int64 start_timestamp = 101;</code>
+           *
+           * <pre>
+           * Execution start and end time stamp.
+           * </pre>
+           */
+          public long getStartTimestamp() {
+              return startTimestamp_;
+          }
+          /**
+           * <code>optional int64 start_timestamp = 101;</code>
+           *
+           * <pre>
+           * Execution start and end time stamp.
+           * </pre>
+           */
+          public Builder setStartTimestamp(long value) {
+              bitField0_ |= 0x00000400;
+              startTimestamp_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional int64 start_timestamp = 101;</code>
+           *
+           * <pre>
+           * Execution start and end time stamp.
+           * </pre>
+           */
+          public Builder clearStartTimestamp() {
+              bitField0_ = (bitField0_ & ~0x00000400);
+              startTimestamp_ = 0L;
+              onChanged();
+              return this;
+          }
+
+          // optional int64 end_timestamp = 102;
+          private long endTimestamp_;
+          /**
+           * <code>optional int64 end_timestamp = 102;</code>
+           */
+          public boolean hasEndTimestamp() {
+              return ((bitField0_ & 0x00000800) == 0x00000800);
+          }
+          /**
+           * <code>optional int64 end_timestamp = 102;</code>
+           */
+          public long getEndTimestamp() {
+              return endTimestamp_;
+          }
+          /**
+           * <code>optional int64 end_timestamp = 102;</code>
+           */
+          public Builder setEndTimestamp(long value) {
+              bitField0_ |= 0x00000800;
+              endTimestamp_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional int64 end_timestamp = 102;</code>
+           */
+          public Builder clearEndTimestamp() {
+              bitField0_ = (bitField0_ & ~0x00000800);
+              endTimestamp_ = 0L;
+              onChanged();
+              return this;
+          }
+
+          // repeated .android.vts.CoverageReportMessage coverage = 103;
+          private java.util
+                  .List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage> coverage_ =
+                  java.util.Collections.emptyList();
+          private void ensureCoverageIsMutable() {
+              if (!((bitField0_ & 0x00001000) == 0x00001000)) {
+                  coverage_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                              .CoverageReportMessage>(coverage_);
+                  bitField0_ |= 0x00001000;
+              }
+          }
+
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .CoverageReportMessage,
+                  com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder>
+                  coverageBuilder_;
+
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage>
+          getCoverageList() {
+              if (coverageBuilder_ == null) {
+                  return java.util.Collections.unmodifiableList(coverage_);
+              } else {
+                  return coverageBuilder_.getMessageList();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public int getCoverageCount() {
+              if (coverageBuilder_ == null) {
+                  return coverage_.size();
+              } else {
+                  return coverageBuilder_.getCount();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.CoverageReportMessage getCoverage(
+                  int index) {
+              if (coverageBuilder_ == null) {
+                  return coverage_.get(index);
+              } else {
+                  return coverageBuilder_.getMessage(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public Builder setCoverage(
+                  int index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage value) {
+              if (coverageBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureCoverageIsMutable();
+                  coverage_.set(index, value);
+                  onChanged();
+              } else {
+                  coverageBuilder_.setMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public Builder setCoverage(
+                  int index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage
+                                     .Builder builderForValue) {
+              if (coverageBuilder_ == null) {
+                  ensureCoverageIsMutable();
+                  coverage_.set(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  coverageBuilder_.setMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public Builder addCoverage(
+                  com.android.vts.proto.VtsReportMessage.CoverageReportMessage value) {
+              if (coverageBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureCoverageIsMutable();
+                  coverage_.add(value);
+                  onChanged();
+              } else {
+                  coverageBuilder_.addMessage(value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public Builder addCoverage(
+                  int index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage value) {
+              if (coverageBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureCoverageIsMutable();
+                  coverage_.add(index, value);
+                  onChanged();
+              } else {
+                  coverageBuilder_.addMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public Builder addCoverage(com.android.vts.proto.VtsReportMessage.CoverageReportMessage
+                                             .Builder builderForValue) {
+              if (coverageBuilder_ == null) {
+                  ensureCoverageIsMutable();
+                  coverage_.add(builderForValue.build());
+                  onChanged();
+              } else {
+                  coverageBuilder_.addMessage(builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public Builder addCoverage(
+                  int index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage
+                                     .Builder builderForValue) {
+              if (coverageBuilder_ == null) {
+                  ensureCoverageIsMutable();
+                  coverage_.add(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  coverageBuilder_.addMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public Builder addAllCoverage(
+                  java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage
+                                                       .CoverageReportMessage> values) {
+              if (coverageBuilder_ == null) {
+                  ensureCoverageIsMutable();
+                  super.addAll(values, coverage_);
+                  onChanged();
+              } else {
+                  coverageBuilder_.addAllMessages(values);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public Builder clearCoverage() {
+              if (coverageBuilder_ == null) {
+                  coverage_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00001000);
+                  onChanged();
+              } else {
+                  coverageBuilder_.clear();
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public Builder removeCoverage(int index) {
+              if (coverageBuilder_ == null) {
+                  ensureCoverageIsMutable();
+                  coverage_.remove(index);
+                  onChanged();
+              } else {
+                  coverageBuilder_.remove(index);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder
+          getCoverageBuilder(int index) {
+              return getCoverageFieldBuilder().getBuilder(index);
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder
+          getCoverageOrBuilder(int index) {
+              if (coverageBuilder_ == null) {
+                  return coverage_.get(index);
+              } else {
+                  return coverageBuilder_.getMessageOrBuilder(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public java.util.List<
+                  ? extends com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder>
+          getCoverageOrBuilderList() {
+              if (coverageBuilder_ != null) {
+                  return coverageBuilder_.getMessageOrBuilderList();
+              } else {
+                  return java.util.Collections.unmodifiableList(coverage_);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder
+          addCoverageBuilder() {
+              return getCoverageFieldBuilder().addBuilder(
+                      com.android.vts.proto.VtsReportMessage.CoverageReportMessage
+                              .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder
+          addCoverageBuilder(int index) {
+              return getCoverageFieldBuilder().addBuilder(
+                      index, com.android.vts.proto.VtsReportMessage.CoverageReportMessage
+                                     .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.CoverageReportMessage coverage = 103;</code>
+           *
+           * <pre>
+           * Coverage report per file
+           * </pre>
+           */
+          public java.util
+                  .List<com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder>
+                  getCoverageBuilderList() {
+              return getCoverageFieldBuilder().getBuilderList();
+          }
+          private com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                   .CoverageReportMessage,
+                  com.android.vts.proto.VtsReportMessage.CoverageReportMessage.Builder,
+                  com.android.vts.proto.VtsReportMessage.CoverageReportMessageOrBuilder>
+          getCoverageFieldBuilder() {
+              if (coverageBuilder_ == null) {
+                  coverageBuilder_ =
+                          new com.google.protobuf
+                                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage
+                                                                .CoverageReportMessage,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .CoverageReportMessage.Builder,
+                                          com.android.vts.proto.VtsReportMessage
+                                                  .CoverageReportMessageOrBuilder>(coverage_,
+                                          ((bitField0_ & 0x00001000) == 0x00001000),
+                                          getParentForChildren(), isClean());
+                  coverage_ = null;
+              }
+              return coverageBuilder_;
+          }
+
+          // repeated .android.vts.LogMessage log = 1001;
+          private java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage> log_ =
+                  java.util.Collections.emptyList();
+          private void ensureLogIsMutable() {
+              if (!((bitField0_ & 0x00002000) == 0x00002000)) {
+                  log_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage.LogMessage>(
+                          log_);
+                  bitField0_ |= 0x00002000;
+              }
+          }
+
+          private com.google.protobuf
+                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage.LogMessage,
+                          com.android.vts.proto.VtsReportMessage.LogMessage.Builder,
+                          com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder> logBuilder_;
+
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage> getLogList() {
+              if (logBuilder_ == null) {
+                  return java.util.Collections.unmodifiableList(log_);
+              } else {
+                  return logBuilder_.getMessageList();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public int getLogCount() {
+              if (logBuilder_ == null) {
+                  return log_.size();
+              } else {
+                  return logBuilder_.getCount();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.LogMessage getLog(int index) {
+              if (logBuilder_ == null) {
+                  return log_.get(index);
+              } else {
+                  return logBuilder_.getMessage(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public Builder setLog(
+                  int index, com.android.vts.proto.VtsReportMessage.LogMessage value) {
+              if (logBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureLogIsMutable();
+                  log_.set(index, value);
+                  onChanged();
+              } else {
+                  logBuilder_.setMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public Builder setLog(int index,
+                  com.android.vts.proto.VtsReportMessage.LogMessage.Builder builderForValue) {
+              if (logBuilder_ == null) {
+                  ensureLogIsMutable();
+                  log_.set(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  logBuilder_.setMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public Builder addLog(com.android.vts.proto.VtsReportMessage.LogMessage value) {
+              if (logBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureLogIsMutable();
+                  log_.add(value);
+                  onChanged();
+              } else {
+                  logBuilder_.addMessage(value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public Builder addLog(
+                  int index, com.android.vts.proto.VtsReportMessage.LogMessage value) {
+              if (logBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureLogIsMutable();
+                  log_.add(index, value);
+                  onChanged();
+              } else {
+                  logBuilder_.addMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public Builder addLog(
+                  com.android.vts.proto.VtsReportMessage.LogMessage.Builder builderForValue) {
+              if (logBuilder_ == null) {
+                  ensureLogIsMutable();
+                  log_.add(builderForValue.build());
+                  onChanged();
+              } else {
+                  logBuilder_.addMessage(builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public Builder addLog(int index,
+                  com.android.vts.proto.VtsReportMessage.LogMessage.Builder builderForValue) {
+              if (logBuilder_ == null) {
+                  ensureLogIsMutable();
+                  log_.add(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  logBuilder_.addMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public Builder addAllLog(
+                  java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage.LogMessage>
+                          values) {
+              if (logBuilder_ == null) {
+                  ensureLogIsMutable();
+                  super.addAll(values, log_);
+                  onChanged();
+              } else {
+                  logBuilder_.addAllMessages(values);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public Builder clearLog() {
+              if (logBuilder_ == null) {
+                  log_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00002000);
+                  onChanged();
+              } else {
+                  logBuilder_.clear();
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public Builder removeLog(int index) {
+              if (logBuilder_ == null) {
+                  ensureLogIsMutable();
+                  log_.remove(index);
+                  onChanged();
+              } else {
+                  logBuilder_.remove(index);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.LogMessage.Builder getLogBuilder(
+                  int index) {
+              return getLogFieldBuilder().getBuilder(index);
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder getLogOrBuilder(
+                  int index) {
+              if (logBuilder_ == null) {
+                  return log_.get(index);
+              } else {
+                  return logBuilder_.getMessageOrBuilder(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public java.util
+                  .List<? extends com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder>
+                  getLogOrBuilderList() {
+              if (logBuilder_ != null) {
+                  return logBuilder_.getMessageOrBuilderList();
+              } else {
+                  return java.util.Collections.unmodifiableList(log_);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.LogMessage.Builder addLogBuilder() {
+              return getLogFieldBuilder().addBuilder(
+                      com.android.vts.proto.VtsReportMessage.LogMessage.getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.LogMessage.Builder addLogBuilder(
+                  int index) {
+              return getLogFieldBuilder().addBuilder(index,
+                      com.android.vts.proto.VtsReportMessage.LogMessage.getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.LogMessage log = 1001;</code>
+           *
+           * <pre>
+           * Log for a test module. May contain multiple logs such as logcat, host log,
+           * etc.
+           * </pre>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.LogMessage.Builder>
+          getLogBuilderList() {
+              return getLogFieldBuilder().getBuilderList();
+          }
+          private com.google.protobuf
+                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage.LogMessage,
+                          com.android.vts.proto.VtsReportMessage.LogMessage.Builder,
+                          com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder>
+                  getLogFieldBuilder() {
+              if (logBuilder_ == null) {
+                  logBuilder_ =
+                          new com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto
+                                                                               .VtsReportMessage
+                                                                               .LogMessage,
+                                  com.android.vts.proto.VtsReportMessage.LogMessage.Builder,
+                                  com.android.vts.proto.VtsReportMessage.LogMessageOrBuilder>(log_,
+                                  ((bitField0_ & 0x00002000) == 0x00002000), getParentForChildren(),
+                                  isClean());
+                  log_ = null;
+              }
+              return logBuilder_;
+          }
+
+          // @@protoc_insertion_point(builder_scope:android.vts.TestReportMessage)
+      }
+
+      static {
+          defaultInstance = new TestReportMessage(true);
+          defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:android.vts.TestReportMessage)
+  }
+
+  public interface TestPlanReportMessageOrBuilder extends com.google.protobuf.MessageOrBuilder {
+      // repeated bytes test_module_name = 1;
+      /**
+       * <code>repeated bytes test_module_name = 1;</code>
+       *
+       * <pre>
+       * Keys used to find all TestReportMessage messages of test modules in
+       * this plan.
+       * </pre>
+       */
+      java.util.List<com.google.protobuf.ByteString> getTestModuleNameList();
+      /**
+       * <code>repeated bytes test_module_name = 1;</code>
+       *
+       * <pre>
+       * Keys used to find all TestReportMessage messages of test modules in
+       * this plan.
+       * </pre>
+       */
+      int getTestModuleNameCount();
+      /**
+       * <code>repeated bytes test_module_name = 1;</code>
+       *
+       * <pre>
+       * Keys used to find all TestReportMessage messages of test modules in
+       * this plan.
+       * </pre>
+       */
+      com.google.protobuf.ByteString getTestModuleName(int index);
+
+      // repeated int64 test_module_start_timestamp = 2;
+      /**
+       * <code>repeated int64 test_module_start_timestamp = 2;</code>
+       */
+      java.util.List<java.lang.Long> getTestModuleStartTimestampList();
+      /**
+       * <code>repeated int64 test_module_start_timestamp = 2;</code>
+       */
+      int getTestModuleStartTimestampCount();
+      /**
+       * <code>repeated int64 test_module_start_timestamp = 2;</code>
+       */
+      long getTestModuleStartTimestamp(int index);
+
+      // optional bytes test_plan_name = 11;
+      /**
+       * <code>optional bytes test_plan_name = 11;</code>
+       *
+       * <pre>
+       * The test plan name.
+       * </pre>
+       */
+      boolean hasTestPlanName();
+      /**
+       * <code>optional bytes test_plan_name = 11;</code>
+       *
+       * <pre>
+       * The test plan name.
+       * </pre>
+       */
+      com.google.protobuf.ByteString getTestPlanName();
+
+      // repeated .android.vts.UrlResourceMessage partner_report = 21;
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      java.util.List<com.android.vts.proto.VtsReportMessage.UrlResourceMessage>
+      getPartnerReportList();
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.UrlResourceMessage getPartnerReport(int index);
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      int getPartnerReportCount();
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      java.util.List<? extends com.android.vts.proto.VtsReportMessage.UrlResourceMessageOrBuilder>
+      getPartnerReportOrBuilderList();
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      com.android.vts.proto.VtsReportMessage.UrlResourceMessageOrBuilder getPartnerReportOrBuilder(
+              int index);
+  }
+  /**
+   * Protobuf type {@code android.vts.TestPlanReportMessage}
+   *
+   * <pre>
+   * To specify a test execution report.
+   * </pre>
+   */
+  public static final class TestPlanReportMessage
+          extends com.google.protobuf.GeneratedMessage implements TestPlanReportMessageOrBuilder {
+      // Use TestPlanReportMessage.newBuilder() to construct.
+      private TestPlanReportMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+          this.unknownFields = builder.getUnknownFields();
+      }
+      private TestPlanReportMessage(boolean noInit) {
+          this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      }
+
+      private static final TestPlanReportMessage defaultInstance;
+      public static TestPlanReportMessage getDefaultInstance() {
+          return defaultInstance;
+      }
+
+      public TestPlanReportMessage getDefaultInstanceForType() {
+          return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.
+      lang.Override
+      public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+          return this.unknownFields;
+      }
+      private TestPlanReportMessage(com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          initFields();
+          int mutable_bitField0_ = 0;
+          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+                  com.google.protobuf.UnknownFieldSet.newBuilder();
+          try {
+              boolean done = false;
+              while (!done) {
+                  int tag = input.readTag();
+                  switch (tag) {
+                      case 0:
+                          done = true;
+                          break;
+                      default: {
+                          if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+                              done = true;
+                          }
+                          break;
+                      }
+                      case 10: {
+                          if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                              testModuleName_ =
+                                      new java.util.ArrayList<com.google.protobuf.ByteString>();
+                              mutable_bitField0_ |= 0x00000001;
+                          }
+                          testModuleName_.add(input.readBytes());
+                          break;
+                      }
+                      case 16: {
+                          if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                              testModuleStartTimestamp_ = new java.util.ArrayList<java.lang.Long>();
+                              mutable_bitField0_ |= 0x00000002;
+                          }
+                          testModuleStartTimestamp_.add(input.readInt64());
+                          break;
+                      }
+                      case 18: {
+                          int length = input.readRawVarint32();
+                          int limit = input.pushLimit(length);
+                          if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)
+                                  && input.getBytesUntilLimit() > 0) {
+                              testModuleStartTimestamp_ = new java.util.ArrayList<java.lang.Long>();
+                              mutable_bitField0_ |= 0x00000002;
+                          }
+                          while (input.getBytesUntilLimit() > 0) {
+                              testModuleStartTimestamp_.add(input.readInt64());
+                          }
+                          input.popLimit(limit);
+                          break;
+                      }
+                      case 90: {
+                          bitField0_ |= 0x00000001;
+                          testPlanName_ = input.readBytes();
+                          break;
+                      }
+                      case 170: {
+                          if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                              partnerReport_ =
+                                      new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                                      .UrlResourceMessage>();
+                              mutable_bitField0_ |= 0x00000008;
+                          }
+                          partnerReport_.add(input.readMessage(
+                                  com.android.vts.proto.VtsReportMessage.UrlResourceMessage.PARSER,
+                                  extensionRegistry));
+                          break;
+                      }
+                  }
+              }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(this);
+          } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage())
+                      .setUnfinishedMessage(this);
+          } finally {
+              if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                  testModuleName_ = java.util.Collections.unmodifiableList(testModuleName_);
+              }
+              if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                  testModuleStartTimestamp_ =
+                          java.util.Collections.unmodifiableList(testModuleStartTimestamp_);
+              }
+              if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                  partnerReport_ = java.util.Collections.unmodifiableList(partnerReport_);
+              }
+              this.unknownFields = unknownFields.build();
+              makeExtensionsImmutable();
+          }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+          return com.android.vts.proto.VtsReportMessage
+                  .internal_static_android_vts_TestPlanReportMessage_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internalGetFieldAccessorTable() {
+          return com.android.vts.proto.VtsReportMessage
+                  .internal_static_android_vts_TestPlanReportMessage_fieldAccessorTable
+                  .ensureFieldAccessorsInitialized(
+                          com.android.vts.proto.VtsReportMessage.TestPlanReportMessage.class,
+                          com.android.vts.proto.VtsReportMessage.TestPlanReportMessage.Builder
+                                  .class);
+      }
+
+      public static com.google.protobuf.Parser<TestPlanReportMessage> PARSER =
+              new com.google.protobuf.AbstractParser<TestPlanReportMessage>() {
+                  public TestPlanReportMessage parsePartialFrom(
+                          com.google.protobuf.CodedInputStream input,
+                          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                          throws com.google.protobuf.InvalidProtocolBufferException {
+                      return new TestPlanReportMessage(input, extensionRegistry);
+                  }
+              };
+
+      @java.
+      lang.Override
+      public com.google.protobuf.Parser<TestPlanReportMessage> getParserForType() {
+          return PARSER;
+      }
+
+      private int bitField0_;
+      // repeated bytes test_module_name = 1;
+      public static final int TEST_MODULE_NAME_FIELD_NUMBER = 1;
+      private java.util.List<com.google.protobuf.ByteString> testModuleName_;
+      /**
+       * <code>repeated bytes test_module_name = 1;</code>
+       *
+       * <pre>
+       * Keys used to find all TestReportMessage messages of test modules in
+       * this plan.
+       * </pre>
+       */
+      public java.util.List<com.google.protobuf.ByteString> getTestModuleNameList() {
+          return testModuleName_;
+      }
+      /**
+       * <code>repeated bytes test_module_name = 1;</code>
+       *
+       * <pre>
+       * Keys used to find all TestReportMessage messages of test modules in
+       * this plan.
+       * </pre>
+       */
+      public int getTestModuleNameCount() {
+          return testModuleName_.size();
+      }
+      /**
+       * <code>repeated bytes test_module_name = 1;</code>
+       *
+       * <pre>
+       * Keys used to find all TestReportMessage messages of test modules in
+       * this plan.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getTestModuleName(int index) {
+          return testModuleName_.get(index);
+      }
+
+      // repeated int64 test_module_start_timestamp = 2;
+      public static final int TEST_MODULE_START_TIMESTAMP_FIELD_NUMBER = 2;
+      private java.util.List<java.lang.Long> testModuleStartTimestamp_;
+      /**
+       * <code>repeated int64 test_module_start_timestamp = 2;</code>
+       */
+      public java.util.List<java.lang.Long> getTestModuleStartTimestampList() {
+          return testModuleStartTimestamp_;
+      }
+      /**
+       * <code>repeated int64 test_module_start_timestamp = 2;</code>
+       */
+      public int getTestModuleStartTimestampCount() {
+          return testModuleStartTimestamp_.size();
+      }
+      /**
+       * <code>repeated int64 test_module_start_timestamp = 2;</code>
+       */
+      public long getTestModuleStartTimestamp(int index) {
+          return testModuleStartTimestamp_.get(index);
+      }
+
+      // optional bytes test_plan_name = 11;
+      public static final int TEST_PLAN_NAME_FIELD_NUMBER = 11;
+      private com.google.protobuf.ByteString testPlanName_;
+      /**
+       * <code>optional bytes test_plan_name = 11;</code>
+       *
+       * <pre>
+       * The test plan name.
+       * </pre>
+       */
+      public boolean hasTestPlanName() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional bytes test_plan_name = 11;</code>
+       *
+       * <pre>
+       * The test plan name.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getTestPlanName() {
+          return testPlanName_;
+      }
+
+      // repeated .android.vts.UrlResourceMessage partner_report = 21;
+      public static final int PARTNER_REPORT_FIELD_NUMBER = 21;
+      private java.util
+              .List<com.android.vts.proto.VtsReportMessage.UrlResourceMessage> partnerReport_;
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      public java.util.List<com.android.vts.proto.VtsReportMessage.UrlResourceMessage>
+      getPartnerReportList() {
+          return partnerReport_;
+      }
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      public java.util
+              .List<? extends com.android.vts.proto.VtsReportMessage.UrlResourceMessageOrBuilder>
+              getPartnerReportOrBuilderList() {
+          return partnerReport_;
+      }
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      public int getPartnerReportCount() {
+          return partnerReport_.size();
+      }
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      public com.android.vts.proto.VtsReportMessage.UrlResourceMessage getPartnerReport(int index) {
+          return partnerReport_.get(index);
+      }
+      /**
+       * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+       *
+       * <pre>
+       * Report resource flies.
+       * </pre>
+       */
+      public com.android.vts.proto.VtsReportMessage.UrlResourceMessageOrBuilder
+      getPartnerReportOrBuilder(int index) {
+          return partnerReport_.get(index);
+      }
+
+      private void initFields() {
+          testModuleName_ = java.util.Collections.emptyList();
+          testModuleStartTimestamp_ = java.util.Collections.emptyList();
+          testPlanName_ = com.google.protobuf.ByteString.EMPTY;
+          partnerReport_ = java.util.Collections.emptyList();
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized != -1)
+              return isInitialized == 1;
+
+          memoizedIsInitialized = 1;
+          return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+          getSerializedSize();
+          for (int i = 0; i < testModuleName_.size(); i++) {
+              output.writeBytes(1, testModuleName_.get(i));
+          }
+          for (int i = 0; i < testModuleStartTimestamp_.size(); i++) {
+              output.writeInt64(2, testModuleStartTimestamp_.get(i));
+          }
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              output.writeBytes(11, testPlanName_);
+          }
+          for (int i = 0; i < partnerReport_.size(); i++) {
+              output.writeMessage(21, partnerReport_.get(i));
+          }
+          getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+          int size = memoizedSerializedSize;
+          if (size != -1)
+              return size;
+
+          size = 0;
+          {
+              int dataSize = 0;
+              for (int i = 0; i < testModuleName_.size(); i++) {
+                  dataSize += com.google.protobuf.CodedOutputStream.computeBytesSizeNoTag(
+                          testModuleName_.get(i));
+              }
+              size += dataSize;
+              size += 1 * getTestModuleNameList().size();
+          }
+          {
+              int dataSize = 0;
+              for (int i = 0; i < testModuleStartTimestamp_.size(); i++) {
+                  dataSize += com.google.protobuf.CodedOutputStream.computeInt64SizeNoTag(
+                          testModuleStartTimestamp_.get(i));
+              }
+              size += dataSize;
+              size += 1 * getTestModuleStartTimestampList().size();
+          }
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              size += com.google.protobuf.CodedOutputStream.computeBytesSize(11, testPlanName_);
+          }
+          for (int i = 0; i < partnerReport_.size(); i++) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(
+                      21, partnerReport_.get(i));
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSerializedSize = size;
+          return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.
+      lang.Override
+      protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+          return super.writeReplace();
+      }
+
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseFrom(
+              com.google.protobuf.ByteString data)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseFrom(
+              com.google.protobuf.ByteString data,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseFrom(
+              byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseFrom(
+              byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseFrom(
+              java.io.InputStream input) throws java.io.IOException {
+          return PARSER.parseFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseFrom(
+              java.io.InputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseDelimitedFrom(
+              java.io.InputStream input) throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseDelimitedFrom(
+              java.io.InputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseFrom(
+              com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+          return PARSER.parseFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parseFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() {
+          return Builder.create();
+      }
+      public Builder newBuilderForType() {
+          return newBuilder();
+      }
+      public static Builder newBuilder(
+              com.android.vts.proto.VtsReportMessage.TestPlanReportMessage prototype) {
+          return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+          return newBuilder(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+      }
+      /**
+       * Protobuf type {@code android.vts.TestPlanReportMessage}
+       *
+       * <pre>
+       * To specify a test execution report.
+       * </pre>
+       */
+      public static final class Builder
+              extends com.google.protobuf.GeneratedMessage.Builder<Builder>
+              implements com.android.vts.proto.VtsReportMessage.TestPlanReportMessageOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_TestPlanReportMessage_descriptor;
+          }
+
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_TestPlanReportMessage_fieldAccessorTable
+                      .ensureFieldAccessorsInitialized(
+                              com.android.vts.proto.VtsReportMessage.TestPlanReportMessage.class,
+                              com.android.vts.proto.VtsReportMessage.TestPlanReportMessage.Builder
+                                      .class);
+          }
+
+          // Construct using
+          // com.android.vts.proto.VtsReportMessage.TestPlanReportMessage.newBuilder()
+          private Builder() {
+              maybeForceBuilderInitialization();
+          }
+
+          private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+              super(parent);
+              maybeForceBuilderInitialization();
+          }
+          private void maybeForceBuilderInitialization() {
+              if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+                  getPartnerReportFieldBuilder();
+              }
+          }
+          private static Builder create() {
+              return new Builder();
+          }
+
+          public Builder clear() {
+              super.clear();
+              testModuleName_ = java.util.Collections.emptyList();
+              bitField0_ = (bitField0_ & ~0x00000001);
+              testModuleStartTimestamp_ = java.util.Collections.emptyList();
+              bitField0_ = (bitField0_ & ~0x00000002);
+              testPlanName_ = com.google.protobuf.ByteString.EMPTY;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              if (partnerReportBuilder_ == null) {
+                  partnerReport_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000008);
+              } else {
+                  partnerReportBuilder_.clear();
+              }
+              return this;
+          }
+
+          public Builder clone() {
+              return create().mergeFrom(buildPartial());
+          }
+
+          public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_TestPlanReportMessage_descriptor;
+          }
+
+          public com.android.vts.proto.VtsReportMessage.TestPlanReportMessage
+          getDefaultInstanceForType() {
+              return com.android.vts.proto.VtsReportMessage.TestPlanReportMessage
+                      .getDefaultInstance();
+          }
+
+          public com.android.vts.proto.VtsReportMessage.TestPlanReportMessage build() {
+              com.android.vts.proto.VtsReportMessage.TestPlanReportMessage result = buildPartial();
+              if (!result.isInitialized()) {
+                  throw newUninitializedMessageException(result);
+              }
+              return result;
+          }
+
+          public com.android.vts.proto.VtsReportMessage.TestPlanReportMessage buildPartial() {
+              com.android.vts.proto.VtsReportMessage.TestPlanReportMessage result =
+                      new com.android.vts.proto.VtsReportMessage.TestPlanReportMessage(this);
+              int from_bitField0_ = bitField0_;
+              int to_bitField0_ = 0;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                  testModuleName_ = java.util.Collections.unmodifiableList(testModuleName_);
+                  bitField0_ = (bitField0_ & ~0x00000001);
+              }
+              result.testModuleName_ = testModuleName_;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                  testModuleStartTimestamp_ =
+                          java.util.Collections.unmodifiableList(testModuleStartTimestamp_);
+                  bitField0_ = (bitField0_ & ~0x00000002);
+              }
+              result.testModuleStartTimestamp_ = testModuleStartTimestamp_;
+              if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+                  to_bitField0_ |= 0x00000001;
+              }
+              result.testPlanName_ = testPlanName_;
+              if (partnerReportBuilder_ == null) {
+                  if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                      partnerReport_ = java.util.Collections.unmodifiableList(partnerReport_);
+                      bitField0_ = (bitField0_ & ~0x00000008);
+                  }
+                  result.partnerReport_ = partnerReport_;
+              } else {
+                  result.partnerReport_ = partnerReportBuilder_.build();
+              }
+              result.bitField0_ = to_bitField0_;
+              onBuilt();
+              return result;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+              if (other instanceof com.android.vts.proto.VtsReportMessage.TestPlanReportMessage) {
+                  return mergeFrom(
+                          (com.android.vts.proto.VtsReportMessage.TestPlanReportMessage) other);
+              } else {
+                  super.mergeFrom(other);
+                  return this;
+              }
+          }
+
+          public Builder mergeFrom(
+                  com.android.vts.proto.VtsReportMessage.TestPlanReportMessage other) {
+              if (other
+                      == com.android.vts.proto.VtsReportMessage.TestPlanReportMessage
+                                 .getDefaultInstance())
+                  return this;
+              if (!other.testModuleName_.isEmpty()) {
+                  if (testModuleName_.isEmpty()) {
+                      testModuleName_ = other.testModuleName_;
+                      bitField0_ = (bitField0_ & ~0x00000001);
+                  } else {
+                      ensureTestModuleNameIsMutable();
+                      testModuleName_.addAll(other.testModuleName_);
+                  }
+                  onChanged();
+              }
+              if (!other.testModuleStartTimestamp_.isEmpty()) {
+                  if (testModuleStartTimestamp_.isEmpty()) {
+                      testModuleStartTimestamp_ = other.testModuleStartTimestamp_;
+                      bitField0_ = (bitField0_ & ~0x00000002);
+                  } else {
+                      ensureTestModuleStartTimestampIsMutable();
+                      testModuleStartTimestamp_.addAll(other.testModuleStartTimestamp_);
+                  }
+                  onChanged();
+              }
+              if (other.hasTestPlanName()) {
+                  setTestPlanName(other.getTestPlanName());
+              }
+              if (partnerReportBuilder_ == null) {
+                  if (!other.partnerReport_.isEmpty()) {
+                      if (partnerReport_.isEmpty()) {
+                          partnerReport_ = other.partnerReport_;
+                          bitField0_ = (bitField0_ & ~0x00000008);
+                      } else {
+                          ensurePartnerReportIsMutable();
+                          partnerReport_.addAll(other.partnerReport_);
+                      }
+                      onChanged();
+                  }
+              } else {
+                  if (!other.partnerReport_.isEmpty()) {
+                      if (partnerReportBuilder_.isEmpty()) {
+                          partnerReportBuilder_.dispose();
+                          partnerReportBuilder_ = null;
+                          partnerReport_ = other.partnerReport_;
+                          bitField0_ = (bitField0_ & ~0x00000008);
+                          partnerReportBuilder_ =
+                                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders
+                                  ? getPartnerReportFieldBuilder()
+                                  : null;
+                      } else {
+                          partnerReportBuilder_.addAllMessages(other.partnerReport_);
+                      }
+                  }
+              }
+              this.mergeUnknownFields(other.getUnknownFields());
+              return this;
+          }
+
+          public final boolean isInitialized() {
+              return true;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.CodedInputStream input,
+                  com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                  throws java.io.IOException {
+              com.android.vts.proto.VtsReportMessage.TestPlanReportMessage parsedMessage = null;
+              try {
+                  parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+              } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                  parsedMessage = (com.android.vts.proto.VtsReportMessage.TestPlanReportMessage)
+                                          e.getUnfinishedMessage();
+                  throw e;
+              } finally {
+                  if (parsedMessage != null) {
+                      mergeFrom(parsedMessage);
+                  }
+              }
+              return this;
+          }
+          private int bitField0_;
+
+          // repeated bytes test_module_name = 1;
+          private java.util.List<com.google.protobuf.ByteString> testModuleName_ =
+                  java.util.Collections.emptyList();
+          private void ensureTestModuleNameIsMutable() {
+              if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+                  testModuleName_ =
+                          new java.util.ArrayList<com.google.protobuf.ByteString>(testModuleName_);
+                  bitField0_ |= 0x00000001;
+              }
+          }
+          /**
+           * <code>repeated bytes test_module_name = 1;</code>
+           *
+           * <pre>
+           * Keys used to find all TestReportMessage messages of test modules in
+           * this plan.
+           * </pre>
+           */
+          public java.util.List<com.google.protobuf.ByteString> getTestModuleNameList() {
+              return java.util.Collections.unmodifiableList(testModuleName_);
+          }
+          /**
+           * <code>repeated bytes test_module_name = 1;</code>
+           *
+           * <pre>
+           * Keys used to find all TestReportMessage messages of test modules in
+           * this plan.
+           * </pre>
+           */
+          public int getTestModuleNameCount() {
+              return testModuleName_.size();
+          }
+          /**
+           * <code>repeated bytes test_module_name = 1;</code>
+           *
+           * <pre>
+           * Keys used to find all TestReportMessage messages of test modules in
+           * this plan.
+           * </pre>
+           */
+          public com.google.protobuf.ByteString getTestModuleName(int index) {
+              return testModuleName_.get(index);
+          }
+          /**
+           * <code>repeated bytes test_module_name = 1;</code>
+           *
+           * <pre>
+           * Keys used to find all TestReportMessage messages of test modules in
+           * this plan.
+           * </pre>
+           */
+          public Builder setTestModuleName(int index, com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              ensureTestModuleNameIsMutable();
+              testModuleName_.set(index, value);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated bytes test_module_name = 1;</code>
+           *
+           * <pre>
+           * Keys used to find all TestReportMessage messages of test modules in
+           * this plan.
+           * </pre>
+           */
+          public Builder addTestModuleName(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              ensureTestModuleNameIsMutable();
+              testModuleName_.add(value);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated bytes test_module_name = 1;</code>
+           *
+           * <pre>
+           * Keys used to find all TestReportMessage messages of test modules in
+           * this plan.
+           * </pre>
+           */
+          public Builder addAllTestModuleName(
+                  java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+              ensureTestModuleNameIsMutable();
+              super.addAll(values, testModuleName_);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated bytes test_module_name = 1;</code>
+           *
+           * <pre>
+           * Keys used to find all TestReportMessage messages of test modules in
+           * this plan.
+           * </pre>
+           */
+          public Builder clearTestModuleName() {
+              testModuleName_ = java.util.Collections.emptyList();
+              bitField0_ = (bitField0_ & ~0x00000001);
+              onChanged();
+              return this;
+          }
+
+          // repeated int64 test_module_start_timestamp = 2;
+          private java.util.List<java.lang.Long> testModuleStartTimestamp_ =
+                  java.util.Collections.emptyList();
+          private void ensureTestModuleStartTimestampIsMutable() {
+              if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+                  testModuleStartTimestamp_ =
+                          new java.util.ArrayList<java.lang.Long>(testModuleStartTimestamp_);
+                  bitField0_ |= 0x00000002;
+              }
+          }
+          /**
+           * <code>repeated int64 test_module_start_timestamp = 2;</code>
+           */
+          public java.util.List<java.lang.Long> getTestModuleStartTimestampList() {
+              return java.util.Collections.unmodifiableList(testModuleStartTimestamp_);
+          }
+          /**
+           * <code>repeated int64 test_module_start_timestamp = 2;</code>
+           */
+          public int getTestModuleStartTimestampCount() {
+              return testModuleStartTimestamp_.size();
+          }
+          /**
+           * <code>repeated int64 test_module_start_timestamp = 2;</code>
+           */
+          public long getTestModuleStartTimestamp(int index) {
+              return testModuleStartTimestamp_.get(index);
+          }
+          /**
+           * <code>repeated int64 test_module_start_timestamp = 2;</code>
+           */
+          public Builder setTestModuleStartTimestamp(int index, long value) {
+              ensureTestModuleStartTimestampIsMutable();
+              testModuleStartTimestamp_.set(index, value);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated int64 test_module_start_timestamp = 2;</code>
+           */
+          public Builder addTestModuleStartTimestamp(long value) {
+              ensureTestModuleStartTimestampIsMutable();
+              testModuleStartTimestamp_.add(value);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated int64 test_module_start_timestamp = 2;</code>
+           */
+          public Builder addAllTestModuleStartTimestamp(
+                  java.lang.Iterable<? extends java.lang.Long> values) {
+              ensureTestModuleStartTimestampIsMutable();
+              super.addAll(values, testModuleStartTimestamp_);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated int64 test_module_start_timestamp = 2;</code>
+           */
+          public Builder clearTestModuleStartTimestamp() {
+              testModuleStartTimestamp_ = java.util.Collections.emptyList();
+              bitField0_ = (bitField0_ & ~0x00000002);
+              onChanged();
+              return this;
+          }
+
+          // optional bytes test_plan_name = 11;
+          private com.google.protobuf.ByteString testPlanName_ =
+                  com.google.protobuf.ByteString.EMPTY;
+          /**
+           * <code>optional bytes test_plan_name = 11;</code>
+           *
+           * <pre>
+           * The test plan name.
+           * </pre>
+           */
+          public boolean hasTestPlanName() {
+              return ((bitField0_ & 0x00000004) == 0x00000004);
+          }
+          /**
+           * <code>optional bytes test_plan_name = 11;</code>
+           *
+           * <pre>
+           * The test plan name.
+           * </pre>
+           */
+          public com.google.protobuf.ByteString getTestPlanName() {
+              return testPlanName_;
+          }
+          /**
+           * <code>optional bytes test_plan_name = 11;</code>
+           *
+           * <pre>
+           * The test plan name.
+           * </pre>
+           */
+          public Builder setTestPlanName(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000004;
+              testPlanName_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional bytes test_plan_name = 11;</code>
+           *
+           * <pre>
+           * The test plan name.
+           * </pre>
+           */
+          public Builder clearTestPlanName() {
+              bitField0_ = (bitField0_ & ~0x00000004);
+              testPlanName_ = getDefaultInstance().getTestPlanName();
+              onChanged();
+              return this;
+          }
+
+          // repeated .android.vts.UrlResourceMessage partner_report = 21;
+          private java.util
+                  .List<com.android.vts.proto.VtsReportMessage.UrlResourceMessage> partnerReport_ =
+                  java.util.Collections.emptyList();
+          private void ensurePartnerReportIsMutable() {
+              if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+                  partnerReport_ =
+                          new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                          .UrlResourceMessage>(partnerReport_);
+                  bitField0_ |= 0x00000008;
+              }
+          }
+
+          private com.google.protobuf
+                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage.UrlResourceMessage,
+                          com.android.vts.proto.VtsReportMessage.UrlResourceMessage.Builder,
+                          com.android.vts.proto.VtsReportMessage.UrlResourceMessageOrBuilder>
+                          partnerReportBuilder_;
+
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.UrlResourceMessage>
+          getPartnerReportList() {
+              if (partnerReportBuilder_ == null) {
+                  return java.util.Collections.unmodifiableList(partnerReport_);
+              } else {
+                  return partnerReportBuilder_.getMessageList();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public int getPartnerReportCount() {
+              if (partnerReportBuilder_ == null) {
+                  return partnerReport_.size();
+              } else {
+                  return partnerReportBuilder_.getCount();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.UrlResourceMessage getPartnerReport(
+                  int index) {
+              if (partnerReportBuilder_ == null) {
+                  return partnerReport_.get(index);
+              } else {
+                  return partnerReportBuilder_.getMessage(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public Builder setPartnerReport(
+                  int index, com.android.vts.proto.VtsReportMessage.UrlResourceMessage value) {
+              if (partnerReportBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensurePartnerReportIsMutable();
+                  partnerReport_.set(index, value);
+                  onChanged();
+              } else {
+                  partnerReportBuilder_.setMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public Builder setPartnerReport(
+                  int index, com.android.vts.proto.VtsReportMessage.UrlResourceMessage
+                                     .Builder builderForValue) {
+              if (partnerReportBuilder_ == null) {
+                  ensurePartnerReportIsMutable();
+                  partnerReport_.set(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  partnerReportBuilder_.setMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public Builder addPartnerReport(
+                  com.android.vts.proto.VtsReportMessage.UrlResourceMessage value) {
+              if (partnerReportBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensurePartnerReportIsMutable();
+                  partnerReport_.add(value);
+                  onChanged();
+              } else {
+                  partnerReportBuilder_.addMessage(value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public Builder addPartnerReport(
+                  int index, com.android.vts.proto.VtsReportMessage.UrlResourceMessage value) {
+              if (partnerReportBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensurePartnerReportIsMutable();
+                  partnerReport_.add(index, value);
+                  onChanged();
+              } else {
+                  partnerReportBuilder_.addMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public Builder addPartnerReport(com.android.vts.proto.VtsReportMessage.UrlResourceMessage
+                                                  .Builder builderForValue) {
+              if (partnerReportBuilder_ == null) {
+                  ensurePartnerReportIsMutable();
+                  partnerReport_.add(builderForValue.build());
+                  onChanged();
+              } else {
+                  partnerReportBuilder_.addMessage(builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public Builder addPartnerReport(
+                  int index, com.android.vts.proto.VtsReportMessage.UrlResourceMessage
+                                     .Builder builderForValue) {
+              if (partnerReportBuilder_ == null) {
+                  ensurePartnerReportIsMutable();
+                  partnerReport_.add(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  partnerReportBuilder_.addMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public Builder addAllPartnerReport(
+                  java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage
+                                                       .UrlResourceMessage> values) {
+              if (partnerReportBuilder_ == null) {
+                  ensurePartnerReportIsMutable();
+                  super.addAll(values, partnerReport_);
+                  onChanged();
+              } else {
+                  partnerReportBuilder_.addAllMessages(values);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public Builder clearPartnerReport() {
+              if (partnerReportBuilder_ == null) {
+                  partnerReport_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000008);
+                  onChanged();
+              } else {
+                  partnerReportBuilder_.clear();
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public Builder removePartnerReport(int index) {
+              if (partnerReportBuilder_ == null) {
+                  ensurePartnerReportIsMutable();
+                  partnerReport_.remove(index);
+                  onChanged();
+              } else {
+                  partnerReportBuilder_.remove(index);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.UrlResourceMessage.Builder
+          getPartnerReportBuilder(int index) {
+              return getPartnerReportFieldBuilder().getBuilder(index);
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.UrlResourceMessageOrBuilder
+          getPartnerReportOrBuilder(int index) {
+              if (partnerReportBuilder_ == null) {
+                  return partnerReport_.get(index);
+              } else {
+                  return partnerReportBuilder_.getMessageOrBuilder(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public java.util.List<
+                  ? extends com.android.vts.proto.VtsReportMessage.UrlResourceMessageOrBuilder>
+          getPartnerReportOrBuilderList() {
+              if (partnerReportBuilder_ != null) {
+                  return partnerReportBuilder_.getMessageOrBuilderList();
+              } else {
+                  return java.util.Collections.unmodifiableList(partnerReport_);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.UrlResourceMessage.Builder
+          addPartnerReportBuilder() {
+              return getPartnerReportFieldBuilder().addBuilder(
+                      com.android.vts.proto.VtsReportMessage.UrlResourceMessage
+                              .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public com.android.vts.proto.VtsReportMessage.UrlResourceMessage.Builder
+          addPartnerReportBuilder(int index) {
+              return getPartnerReportFieldBuilder().addBuilder(
+                      index, com.android.vts.proto.VtsReportMessage.UrlResourceMessage
+                                     .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.UrlResourceMessage partner_report = 21;</code>
+           *
+           * <pre>
+           * Report resource flies.
+           * </pre>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.UrlResourceMessage.Builder>
+          getPartnerReportBuilderList() {
+              return getPartnerReportFieldBuilder().getBuilderList();
+          }
+          private com.google.protobuf
+                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage.UrlResourceMessage,
+                          com.android.vts.proto.VtsReportMessage.UrlResourceMessage.Builder,
+                          com.android.vts.proto.VtsReportMessage.UrlResourceMessageOrBuilder>
+                  getPartnerReportFieldBuilder() {
+              if (partnerReportBuilder_ == null) {
+                  partnerReportBuilder_ =
+                          new com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto
+                                                                               .VtsReportMessage
+                                                                               .UrlResourceMessage,
+                                  com.android.vts.proto.VtsReportMessage.UrlResourceMessage.Builder,
+                                  com.android.vts.proto.VtsReportMessage
+                                          .UrlResourceMessageOrBuilder>(partnerReport_,
+                                  ((bitField0_ & 0x00000008) == 0x00000008), getParentForChildren(),
+                                  isClean());
+                  partnerReport_ = null;
+              }
+              return partnerReportBuilder_;
+          }
+
+          // @@protoc_insertion_point(builder_scope:android.vts.TestPlanReportMessage)
+      }
+
+      static {
+          defaultInstance = new TestPlanReportMessage(true);
+          defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:android.vts.TestPlanReportMessage)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -15050,11 +17304,19 @@ public final class VtsReportMessage {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_android_vts_LogMessage_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_android_vts_TestReportMessage_descriptor;
+  private static com.google.protobuf.Descriptors
+          .Descriptor internal_static_android_vts_UrlResourceMessage_descriptor;
+  private static com.google.protobuf.GeneratedMessage
+          .FieldAccessorTable internal_static_android_vts_UrlResourceMessage_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors
+          .Descriptor internal_static_android_vts_TestReportMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_android_vts_TestReportMessage_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors
+          .Descriptor internal_static_android_vts_TestPlanReportMessage_descriptor;
+  private static com.google.protobuf.GeneratedMessage
+          .FieldAccessorTable internal_static_android_vts_TestPlanReportMessage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -15063,142 +17325,191 @@ public final class VtsReportMessage {
   private static com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
-    java.lang.String[] descriptorData = {
-      "\n\026VtsReportMessage.proto\022\013android.vts\"\340\001" +
-      "\n\030AndroidDeviceInfoMessage\022\024\n\014product_ty" +
-      "pe\030\001 \001(\014\022\027\n\017product_variant\030\002 \001(\014\022\024\n\014bui" +
-      "ld_flavor\030\013 \001(\014\022\020\n\010build_id\030\014 \001(\014\022\016\n\006bra" +
-      "nch\030\025 \001(\014\022\023\n\013build_alias\030\026 \001(\014\022\021\n\tapi_le" +
-      "vel\030\037 \001(\014\022\020\n\010abi_name\0303 \001(\014\022\023\n\013abi_bitne" +
-      "ss\0304 \001(\014\022\016\n\006serial\030e \001(\014\"g\n\020AndroidBuild" +
-      "Info\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\013 \001(\014\022\022\n\nbuild_" +
-      "type\030\014 \001(\014\022\016\n\006branch\030\r \001(\014\022\025\n\rbuild_summ" +
-      "ary\030\025 \001(\014\"\037\n\013VtsHostInfo\022\020\n\010hostname\030\001 \001",
-      "(\014\"\321\002\n\025TestCaseReportMessage\022\014\n\004name\030\001 \001" +
-      "(\014\0220\n\013test_result\030\013 \001(\0162\033.android.vts.Te" +
-      "stCaseResult\022\027\n\017start_timestamp\030\025 \001(\003\022\025\n" +
-      "\rend_timestamp\030\026 \001(\003\0224\n\010coverage\030\037 \003(\0132\"" +
-      ".android.vts.CoverageReportMessage\0226\n\tpr" +
-      "ofiling\030) \003(\0132#.android.vts.ProfilingRep" +
-      "ortMessage\0224\n\010systrace\030* \003(\0132\".android.v" +
-      "ts.SystraceReportMessage\022$\n\003log\030e \003(\0132\027." +
-      "android.vts.LogMessage\"\240\002\n\026ProfilingRepo" +
-      "rtMessage\022\014\n\004name\030\001 \001(\014\022+\n\004type\030\002 \001(\0162\035.",
-      "android.vts.VtsProfilingType\022@\n\017regressi" +
-      "on_mode\030\003 \001(\0162\'.android.vts.VtsProfiling" +
-      "RegressionMode\022\027\n\017start_timestamp\030\013 \001(\003\022" +
-      "\025\n\rend_timestamp\030\014 \001(\003\022\r\n\005label\030\025 \003(\014\022\r\n" +
-      "\005value\030\026 \003(\003\022\024\n\014x_axis_label\030\037 \001(\014\022\024\n\014y_" +
-      "axis_label\030  \001(\014\022\017\n\007options\030) \003(\014\"H\n\025Sys" +
-      "traceReportMessage\022\024\n\014process_name\030\001 \001(\014" +
-      "\022\014\n\004html\030\013 \003(\014\022\013\n\003url\030\025 \003(\014\"\345\001\n\025Coverage" +
-      "ReportMessage\022\021\n\tfile_path\030\013 \001(\014\022\024\n\014proj" +
-      "ect_name\030\014 \001(\014\022\020\n\010revision\030\r \001(\014\022\034\n\024line",
-      "_coverage_vector\030\027 \003(\005\022\030\n\020total_line_cou" +
-      "nt\030e \001(\005\022\032\n\022covered_line_count\030f \001(\005\022\024\n\010" +
-      "dir_path\030\001 \001(\014B\002\030\001\022\025\n\tfile_name\030\002 \001(\014B\002\030" +
-      "\001\022\020\n\004html\030\003 \001(\014B\002\030\001\"8\n\nLogMessage\022\013\n\003url" +
-      "\030\001 \001(\014\022\014\n\004name\030\002 \001(\014\022\017\n\007content\030\003 \001(\014\"\312\004" +
-      "\n\021TestReportMessage\022\022\n\ntest_suite\030\001 \001(\014\022" +
-      "\014\n\004test\030\002 \001(\014\022+\n\ttest_type\030\003 \001(\0162\030.andro" +
-      "id.vts.VtsTestType\022:\n\013device_info\030\004 \003(\0132" +
-      "%.android.vts.AndroidDeviceInfoMessage\0221" +
-      "\n\nbuild_info\030\005 \001(\0132\035.android.vts.Android",
-      "BuildInfo\022\030\n\020subscriber_email\030\006 \003(\014\022+\n\th" +
-      "ost_info\030\007 \001(\0132\030.android.vts.VtsHostInfo" +
-      "\0225\n\ttest_case\030\013 \003(\0132\".android.vts.TestCa" +
-      "seReportMessage\0226\n\tprofiling\030\025 \003(\0132#.and" +
-      "roid.vts.ProfilingReportMessage\0224\n\010systr" +
-      "ace\030\026 \003(\0132\".android.vts.SystraceReportMe" +
-      "ssage\022\027\n\017start_timestamp\030e \001(\003\022\025\n\rend_ti" +
-      "mestamp\030f \001(\003\0224\n\010coverage\030g \003(\0132\".androi" +
-      "d.vts.CoverageReportMessage\022%\n\003log\030\351\007 \003(" +
-      "\0132\027.android.vts.LogMessage*\263\001\n\016TestCaseR",
-      "esult\022\022\n\016UNKNOWN_RESULT\020\000\022\031\n\025TEST_CASE_R" +
-      "ESULT_PASS\020\001\022\031\n\025TEST_CASE_RESULT_FAIL\020\002\022" +
-      "\031\n\025TEST_CASE_RESULT_SKIP\020\003\022\036\n\032TEST_CASE_" +
-      "RESULT_EXCEPTION\020\004\022\034\n\030TEST_CASE_RESULT_T" +
-      "IMEOUT\020\005*\234\001\n\013VtsTestType\022\030\n\024UNKNOWN_VTS_" +
-      "TESTTYPE\020\000\022\036\n\032VTS_HOST_DRIVEN_STRUCTURAL" +
-      "\020\001\022\033\n\027VTS_HOST_DRIVEN_FUZZING\020\002\022\031\n\025VTS_T" +
-      "ARGET_SIDE_GTEST\020\003\022\033\n\027VTS_TARGET_SIDE_FU" +
-      "ZZING\020\004*\243\001\n\032VtsProfilingRegressionMode\022\033" +
-      "\n\027UNKNOWN_REGRESSION_MODE\020\000\022 \n\034VTS_REGRE",
-      "SSION_MODE_DISABLED\020\001\022\"\n\036VTS_REGRESSION_" +
-      "MODE_INCREASING\020\002\022\"\n\036VTS_REGRESSION_MODE" +
-      "_DECREASING\020\003*\244\001\n\020VtsProfilingType\022\036\n\032UN" +
-      "KNOWN_VTS_PROFILING_TYPE\020\000\022 \n\034VTS_PROFIL" +
-      "ING_TYPE_TIMESTAMP\020\001\022%\n!VTS_PROFILING_TY" +
-      "PE_LABELED_VECTOR\020\002\022\'\n#VTS_PROFILING_TYP" +
-      "E_UNLABELED_VECTOR\020\003B)\n\025com.android.vts." +
-      "protoB\020VtsReportMessage"
-    };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-        public com.google.protobuf.ExtensionRegistry assignDescriptors(
-            com.google.protobuf.Descriptors.FileDescriptor root) {
-          descriptor = root;
-          internal_static_android_vts_AndroidDeviceInfoMessage_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_android_vts_AndroidDeviceInfoMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_android_vts_AndroidDeviceInfoMessage_descriptor,
-              new java.lang.String[] { "ProductType", "ProductVariant", "BuildFlavor", "BuildId", "Branch", "BuildAlias", "ApiLevel", "AbiName", "AbiBitness", "Serial", });
-          internal_static_android_vts_AndroidBuildInfo_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_android_vts_AndroidBuildInfo_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_android_vts_AndroidBuildInfo_descriptor,
-              new java.lang.String[] { "Id", "Name", "BuildType", "Branch", "BuildSummary", });
-          internal_static_android_vts_VtsHostInfo_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_android_vts_VtsHostInfo_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_android_vts_VtsHostInfo_descriptor,
-              new java.lang.String[] { "Hostname", });
-          internal_static_android_vts_TestCaseReportMessage_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_android_vts_TestCaseReportMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_android_vts_TestCaseReportMessage_descriptor,
-              new java.lang.String[] { "Name", "TestResult", "StartTimestamp", "EndTimestamp", "Coverage", "Profiling", "Systrace", "Log", });
-          internal_static_android_vts_ProfilingReportMessage_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_android_vts_ProfilingReportMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_android_vts_ProfilingReportMessage_descriptor,
-              new java.lang.String[] { "Name", "Type", "RegressionMode", "StartTimestamp", "EndTimestamp", "Label", "Value", "XAxisLabel", "YAxisLabel", "Options", });
-          internal_static_android_vts_SystraceReportMessage_descriptor =
-            getDescriptor().getMessageTypes().get(5);
-          internal_static_android_vts_SystraceReportMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_android_vts_SystraceReportMessage_descriptor,
-              new java.lang.String[] { "ProcessName", "Html", "Url", });
-          internal_static_android_vts_CoverageReportMessage_descriptor =
-            getDescriptor().getMessageTypes().get(6);
-          internal_static_android_vts_CoverageReportMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_android_vts_CoverageReportMessage_descriptor,
-              new java.lang.String[] { "FilePath", "ProjectName", "Revision", "LineCoverageVector", "TotalLineCount", "CoveredLineCount", "DirPath", "FileName", "Html", });
-          internal_static_android_vts_LogMessage_descriptor =
-            getDescriptor().getMessageTypes().get(7);
-          internal_static_android_vts_LogMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_android_vts_LogMessage_descriptor,
-              new java.lang.String[] { "Url", "Name", "Content", });
-          internal_static_android_vts_TestReportMessage_descriptor =
-            getDescriptor().getMessageTypes().get(8);
-          internal_static_android_vts_TestReportMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_android_vts_TestReportMessage_descriptor,
-              new java.lang.String[] { "TestSuite", "Test", "TestType", "DeviceInfo", "BuildInfo", "SubscriberEmail", "HostInfo", "TestCase", "Profiling", "Systrace", "StartTimestamp", "EndTimestamp", "Coverage", "Log", });
-          return null;
-        }
-      };
-    com.google.protobuf.Descriptors.FileDescriptor
-      .internalBuildGeneratedFileFrom(descriptorData,
-        new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+      java.lang.String[] descriptorData = {
+              "\n\026VtsReportMessage.proto\022\013android.vts\"\340\001"
+                      + "\n\030AndroidDeviceInfoMessage\022\024\n\014product_ty"
+                      + "pe\030\001 \001(\014\022\027\n\017product_variant\030\002 \001(\014\022\024\n\014bui"
+                      + "ld_flavor\030\013 \001(\014\022\020\n\010build_id\030\014 \001(\014\022\016\n\006bra"
+                      + "nch\030\025 \001(\014\022\023\n\013build_alias\030\026 \001(\014\022\021\n\tapi_le"
+                      + "vel\030\037 \001(\014\022\020\n\010abi_name\0303 \001(\014\022\023\n\013abi_bitne"
+                      + "ss\0304 \001(\014\022\016\n\006serial\030e \001(\014\"g\n\020AndroidBuild"
+                      + "Info\022\n\n\002id\030\001 \001(\014\022\014\n\004name\030\013 \001(\014\022\022\n\nbuild_"
+                      + "type\030\014 \001(\014\022\016\n\006branch\030\r \001(\014\022\025\n\rbuild_summ"
+                      + "ary\030\025 \001(\014\"\037\n\013VtsHostInfo\022\020\n\010hostname\030\001 \001",
+              "(\014\"\321\002\n\025TestCaseReportMessage\022\014\n\004name\030\001 \001"
+                      + "(\014\0220\n\013test_result\030\013 \001(\0162\033.android.vts.Te"
+                      + "stCaseResult\022\027\n\017start_timestamp\030\025 \001(\003\022\025\n"
+                      + "\rend_timestamp\030\026 \001(\003\0224\n\010coverage\030\037 \003(\0132\""
+                      + ".android.vts.CoverageReportMessage\0226\n\tpr"
+                      + "ofiling\030) \003(\0132#.android.vts.ProfilingRep"
+                      + "ortMessage\0224\n\010systrace\030* \003(\0132\".android.v"
+                      + "ts.SystraceReportMessage\022$\n\003log\030e \003(\0132\027."
+                      + "android.vts.LogMessage\"\240\002\n\026ProfilingRepo"
+                      + "rtMessage\022\014\n\004name\030\001 \001(\014\022+\n\004type\030\002 \001(\0162\035.",
+              "android.vts.VtsProfilingType\022@\n\017regressi"
+                      + "on_mode\030\003 \001(\0162\'.android.vts.VtsProfiling"
+                      + "RegressionMode\022\027\n\017start_timestamp\030\013 \001(\003\022"
+                      + "\025\n\rend_timestamp\030\014 \001(\003\022\r\n\005label\030\025 \003(\014\022\r\n"
+                      + "\005value\030\026 \003(\003\022\024\n\014x_axis_label\030\037 \001(\014\022\024\n\014y_"
+                      + "axis_label\030  \001(\014\022\017\n\007options\030) \003(\014\"H\n\025Sys"
+                      + "traceReportMessage\022\024\n\014process_name\030\001 \001(\014"
+                      + "\022\014\n\004html\030\013 \003(\014\022\013\n\003url\030\025 \003(\014\"\345\001\n\025Coverage"
+                      + "ReportMessage\022\021\n\tfile_path\030\013 \001(\014\022\024\n\014proj"
+                      + "ect_name\030\014 \001(\014\022\020\n\010revision\030\r \001(\014\022\034\n\024line",
+              "_coverage_vector\030\027 \003(\005\022\030\n\020total_line_cou"
+                      + "nt\030e \001(\005\022\032\n\022covered_line_count\030f \001(\005\022\024\n\010"
+                      + "dir_path\030\001 \001(\014B\002\030\001\022\025\n\tfile_name\030\002 \001(\014B\002\030"
+                      + "\001\022\020\n\004html\030\003 \001(\014B\002\030\001\"8\n\nLogMessage\022\013\n\003url"
+                      + "\030\001 \001(\014\022\014\n\004name\030\002 \001(\014\022\017\n\007content\030\003 \001(\014\"@\n"
+                      + "\022UrlResourceMessage\022\013\n\003url\030\001 \001(\014\022\014\n\004name"
+                      + "\030\002 \001(\014\022\017\n\007content\030\003 \001(\014\"\316\004\n\021TestReportMe"
+                      + "ssage\022\026\n\ntest_suite\030\001 \001(\014B\002\030\001\022\014\n\004test\030\002 "
+                      + "\001(\014\022+\n\ttest_type\030\003 \001(\0162\030.android.vts.Vts"
+                      + "TestType\022:\n\013device_info\030\004 \003(\0132%.android.",
+              "vts.AndroidDeviceInfoMessage\0221\n\nbuild_in"
+                      + "fo\030\005 \001(\0132\035.android.vts.AndroidBuildInfo\022"
+                      + "\030\n\020subscriber_email\030\006 \003(\014\022+\n\thost_info\030\007"
+                      + " \001(\0132\030.android.vts.VtsHostInfo\0225\n\ttest_c"
+                      + "ase\030\013 \003(\0132\".android.vts.TestCaseReportMe"
+                      + "ssage\0226\n\tprofiling\030\025 \003(\0132#.android.vts.P"
+                      + "rofilingReportMessage\0224\n\010systrace\030\026 \003(\0132"
+                      + "\".android.vts.SystraceReportMessage\022\027\n\017s"
+                      + "tart_timestamp\030e \001(\003\022\025\n\rend_timestamp\030f "
+                      + "\001(\003\0224\n\010coverage\030g \003(\0132\".android.vts.Cove",
+              "rageReportMessage\022%\n\003log\030\351\007 \003(\0132\027.androi"
+                      + "d.vts.LogMessage\"\247\001\n\025TestPlanReportMessa"
+                      + "ge\022\030\n\020test_module_name\030\001 \003(\014\022#\n\033test_mod"
+                      + "ule_start_timestamp\030\002 \003(\003\022\026\n\016test_plan_n"
+                      + "ame\030\013 \001(\014\0227\n\016partner_report\030\025 \003(\0132\037.andr"
+                      + "oid.vts.UrlResourceMessage*\263\001\n\016TestCaseR"
+                      + "esult\022\022\n\016UNKNOWN_RESULT\020\000\022\031\n\025TEST_CASE_R"
+                      + "ESULT_PASS\020\001\022\031\n\025TEST_CASE_RESULT_FAIL\020\002\022"
+                      + "\031\n\025TEST_CASE_RESULT_SKIP\020\003\022\036\n\032TEST_CASE_"
+                      + "RESULT_EXCEPTION\020\004\022\034\n\030TEST_CASE_RESULT_T",
+              "IMEOUT\020\005*\234\001\n\013VtsTestType\022\030\n\024UNKNOWN_VTS_"
+                      + "TESTTYPE\020\000\022\036\n\032VTS_HOST_DRIVEN_STRUCTURAL"
+                      + "\020\001\022\033\n\027VTS_HOST_DRIVEN_FUZZING\020\002\022\031\n\025VTS_T"
+                      + "ARGET_SIDE_GTEST\020\003\022\033\n\027VTS_TARGET_SIDE_FU"
+                      + "ZZING\020\004*\243\001\n\032VtsProfilingRegressionMode\022\033"
+                      + "\n\027UNKNOWN_REGRESSION_MODE\020\000\022 \n\034VTS_REGRE"
+                      + "SSION_MODE_DISABLED\020\001\022\"\n\036VTS_REGRESSION_"
+                      + "MODE_INCREASING\020\002\022\"\n\036VTS_REGRESSION_MODE"
+                      + "_DECREASING\020\003*\244\001\n\020VtsProfilingType\022\036\n\032UN"
+                      + "KNOWN_VTS_PROFILING_TYPE\020\000\022 \n\034VTS_PROFIL",
+              "ING_TYPE_TIMESTAMP\020\001\022%\n!VTS_PROFILING_TY"
+                      + "PE_LABELED_VECTOR\020\002\022\'\n#VTS_PROFILING_TYP"
+                      + "E_UNLABELED_VECTOR\020\003B)\n\025com.android.vts."
+                      + "protoB\020VtsReportMessage"};
+      com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+              new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+                  public com.google.protobuf.ExtensionRegistry assignDescriptors(
+                          com.google.protobuf.Descriptors.FileDescriptor root) {
+                      descriptor = root;
+                      internal_static_android_vts_AndroidDeviceInfoMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(0);
+                      internal_static_android_vts_AndroidDeviceInfoMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_AndroidDeviceInfoMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "ProductType", "ProductVariant", "BuildFlavor",
+                                              "BuildId", "Branch", "BuildAlias", "ApiLevel",
+                                              "AbiName", "AbiBitness", "Serial",
+                                      });
+                      internal_static_android_vts_AndroidBuildInfo_descriptor =
+                              getDescriptor().getMessageTypes().get(1);
+                      internal_static_android_vts_AndroidBuildInfo_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_AndroidBuildInfo_descriptor,
+                                      new java.lang.String[] {
+                                              "Id", "Name", "BuildType", "Branch", "BuildSummary",
+                                      });
+                      internal_static_android_vts_VtsHostInfo_descriptor =
+                              getDescriptor().getMessageTypes().get(2);
+                      internal_static_android_vts_VtsHostInfo_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_VtsHostInfo_descriptor,
+                                      new java.lang.String[] {
+                                              "Hostname",
+                                      });
+                      internal_static_android_vts_TestCaseReportMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(3);
+                      internal_static_android_vts_TestCaseReportMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_TestCaseReportMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "Name", "TestResult", "StartTimestamp",
+                                              "EndTimestamp", "Coverage", "Profiling", "Systrace",
+                                              "Log",
+                                      });
+                      internal_static_android_vts_ProfilingReportMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(4);
+                      internal_static_android_vts_ProfilingReportMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_ProfilingReportMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "Name", "Type", "RegressionMode", "StartTimestamp",
+                                              "EndTimestamp", "Label", "Value", "XAxisLabel",
+                                              "YAxisLabel", "Options",
+                                      });
+                      internal_static_android_vts_SystraceReportMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(5);
+                      internal_static_android_vts_SystraceReportMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_SystraceReportMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "ProcessName", "Html", "Url",
+                                      });
+                      internal_static_android_vts_CoverageReportMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(6);
+                      internal_static_android_vts_CoverageReportMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_CoverageReportMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "FilePath", "ProjectName", "Revision",
+                                              "LineCoverageVector", "TotalLineCount",
+                                              "CoveredLineCount", "DirPath", "FileName", "Html",
+                                      });
+                      internal_static_android_vts_LogMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(7);
+                      internal_static_android_vts_LogMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_LogMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "Url", "Name", "Content",
+                                      });
+                      internal_static_android_vts_UrlResourceMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(8);
+                      internal_static_android_vts_UrlResourceMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_UrlResourceMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "Url", "Name", "Content",
+                                      });
+                      internal_static_android_vts_TestReportMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(9);
+                      internal_static_android_vts_TestReportMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_TestReportMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "TestSuite", "Test", "TestType", "DeviceInfo",
+                                              "BuildInfo", "SubscriberEmail", "HostInfo",
+                                              "TestCase", "Profiling", "Systrace", "StartTimestamp",
+                                              "EndTimestamp", "Coverage", "Log",
+                                      });
+                      internal_static_android_vts_TestPlanReportMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(10);
+                      internal_static_android_vts_TestPlanReportMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_TestPlanReportMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "TestModuleName", "TestModuleStartTimestamp",
+                                              "TestPlanName", "PartnerReport",
+                                      });
+                      return null;
+                  }
+              };
+      com.google.protobuf.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(
+              descriptorData, new com.google.protobuf.Descriptors.FileDescriptor[] {}, assigner);
   }
 
   // @@protoc_insertion_point(outer_class_scope)
