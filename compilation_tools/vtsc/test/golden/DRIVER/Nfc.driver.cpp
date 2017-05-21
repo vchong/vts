@@ -223,6 +223,13 @@ android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_1_INfc_() {
     return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_android_hardware_nfc_V1_0_INfc();
 }
 
+android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_1_INfc_with_arg(uint64_t hw_binder_proxy) {
+    return (android::vts::FuzzerBase*)
+        new android::vts::FuzzerExtended_android_hardware_nfc_V1_0_INfc(
+            reinterpret_cast<::android::hardware::nfc::V1_0::INfc*>(
+                hw_binder_proxy));
+}
+
 }
 }  // namespace vts
 }  // namespace android

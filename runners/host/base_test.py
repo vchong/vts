@@ -640,8 +640,8 @@ class BaseTestClass(object):
             args: Arguments to be passed to the function.
 
         Returns:
-            Whatever the function returns, or False if unhandled exception
-            occured.
+            Whatever the function returns, or False if non-caught exception
+            occurred.
         """
         try:
             return func(*args)
@@ -770,6 +770,8 @@ class BaseTestClass(object):
             raise e
         finally:
             self._exec_func(self._tearDownClass)
+            name, timestamp = self.web.GetTestModuleKeys()
+            self.results.setTestModuleKeys(name, timestamp)
             logging.info("Summary for test class %s: %s", self.TAG,
                          self.results.summary())
 

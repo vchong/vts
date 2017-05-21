@@ -69,8 +69,8 @@ set JAR_PATH=%TRADEFED_JAR%
 :: other required jars
 set JARS=^
   hosttestlib^
-  compatibility-host-util^
-  vts-tradefed
+  vts-tradefed^
+  compatibility-host-util
 for %%J in (%JARS%) do (
     set JAR=%JAR_DIR%\%%J.jar
     if not exist !JAR! ( echo Unable to locate !JAR! && goto:eof )

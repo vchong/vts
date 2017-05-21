@@ -99,12 +99,14 @@ class DriverCodeGenBase : public CodeGenBase {
 
   // Generates header code to declare the C/C++ global functions.
   virtual void GenerateHeaderGlobalFunctionDeclarations(Formatter& out,
-      const ComponentSpecificationMessage& message);
+      const ComponentSpecificationMessage& message,
+      const bool print_extern_block = true);
 
   // Generates code for the bodies of the C/C++ global functions.
   virtual void GenerateCppBodyGlobalFunctions(Formatter& out,
       const ComponentSpecificationMessage& message,
-      const string& fuzzer_extended_class_name);
+      const string& fuzzer_extended_class_name,
+      const bool print_extern_block = true);
 
   // Generates header code for include declarations.
   virtual void GenerateHeaderIncludeFiles(Formatter& out,

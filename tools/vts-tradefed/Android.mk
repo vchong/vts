@@ -16,11 +16,10 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES := $(call all-java-files-under, ../../../../cts/common/host-side/tradefed/src)
-LOCAL_SRC_FILES += $(call all-java-files-under, ../../harnesses/tradefed/src)
+LOCAL_SRC_FILES := $(call all-java-files-under, ../../harnesses/tradefed/src)
 
 LOCAL_JAVA_RESOURCE_DIRS := res
-LOCAL_JAVA_RESOURCE_DIRS += ../../../../cts/common/host-side/tradefed/res
+LOCAL_JAVA_RESOURCE_DIRS += ../../harnesses/tradefed/res
 
 LOCAL_SUITE_BUILD_NUMBER := $(BUILD_NUMBER_FROM_FILE)
 LOCAL_SUITE_TARGET_ARCH := $(TARGET_ARCH)

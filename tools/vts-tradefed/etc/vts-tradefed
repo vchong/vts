@@ -87,8 +87,8 @@ fi;
 
 JARS="${TRADEFED_JAR}
   hosttestlib
-  compatibility-host-util
-  vts-tradefed"
+  vts-tradefed
+  compatibility-host-util"
 
 for JAR in $JARS; do
     checkFile ${JAR_DIR}/${JAR}.jar

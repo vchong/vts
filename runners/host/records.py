@@ -202,6 +202,9 @@ class TestResult(object):
         self.passed: A list of records for tests passed.
         self.skipped: A list of records for tests skipped.
         self.error: A list of records for tests with error result token.
+        self._test_module_name: A string, test module's name.
+        self._test_module_timestamp: An integer, test module's execution start
+                                     timestamp.
     """
 
     def __init__(self):
@@ -211,6 +214,8 @@ class TestResult(object):
         self.passed = []
         self.skipped = []
         self.error = []
+        self._test_module_name = None
+        self._test_module_timestamp = None
 
     def __add__(self, r):
         """Overrides '+' operator for TestResult class.
@@ -229,9 +234,30 @@ class TestResult(object):
                             (r, type(r)))
         sum_result = TestResult()
         for name in sum_result.__dict__:
-            l_value = list(getattr(self, name))
-            r_value = list(getattr(r, name))
-            setattr(sum_result, name, l_value + r_value)
+            if name.startswith("_test_module"):
+                l_value = getattr(self, name)
+                r_value = getattr(r, name)
+                if l_value is None and r_value is not None:
+                    value = r_value
+                elif l_value is not None and r_value is None:
+                    value = l_value
+                else:
+                    if name == "_test_module_name":
+                        if l_value != r_value:
+                            raise TypeError("_test_module_name is different.")
+                        value = l_value
+                    elif name == "_test_module_timestamp":
+                        if int(l_value) < int(r_value):
+                            value = l_value
+                        else:
+                            value = r_value
+                    else:
+                        raise TypeError("unknown _test_module* attribute.")
+                setattr(sum_result, name, value)
+            else:
+                l_value = list(getattr(self, name))
+                r_value = list(getattr(r, name))
+                setattr(sum_result, name, l_value + r_value)
         return sum_result
 
     def addRecord(self, record):
@@ -251,6 +277,11 @@ class TestResult(object):
             self.passed.append(record)
         else:
             self.error.append(record)
+
+    def setTestModuleKeys(self, name, start_timestamp):
+        """Sets the test module's name and start_timestamp."""
+        self._test_module_name = name
+        self._test_module_timestamp = start_timestamp
 
     def failClass(self, class_name, e):
         """Add a record to indicate a test class setup has failed and no test
@@ -299,6 +330,7 @@ class TestResult(object):
         executed = [record.getDict() for record in self.executed]
         d["Results"] = executed
         d["Summary"] = self.summaryDict()
+        d["TestModule"] = self.testModuleDict()
         jsonString = json.dumps(d, indent=4, sort_keys=True)
         return jsonString
 
@@ -335,4 +367,11 @@ class TestResult(object):
         d["Failed"] = len(self.failed)
         d["Skipped"] = len(self.skipped)
         d["Error"] = len(self.error)
+        return d
+
+    def testModuleDict(self):
+        """Returns a dict that summarizes the test module DB indexing keys."""
+        d = {}
+        d["Name"] = self._test_module_name
+        d["Timestamp"] = self._test_module_timestamp
         return d

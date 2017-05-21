@@ -99,6 +99,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     static final String BINARY_TEST_TYPE_HAL_HIDL_REPLAY_TEST = "hal_hidl_replay_test";
     static final String BINARY_TEST_TYPE_HOST_BINARY_TEST = "host_binary_test";
     static final String ENABLE_PROFILING = "enable_profiling";
+    static final String SAVE_TRACE_FIEL_REMOTE = "save_trace_file_remote";
     static final String ENABLE_COVERAGE = "enable_coverage";
     static final String NATIVE_SERVER_PROCESS_NAME = "native_server_process_name";
     static final String PASSTHROUGH_MODE = "passthrough_mode";
@@ -175,6 +176,10 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
 
     @Option(name = "enable-profiling", description = "Enable profiling for the tests.")
     private boolean mEnableProfiling = false;
+
+    @Option(name = "save-trace-file-remote",
+            description = "Whether to save the trace file in remote storage.")
+    private boolean mSaveTraceFileRemote = false;
 
     @Option(name = "enable-systrace", description = "Enable systrace for the tests.")
     private boolean mEnableSystrace = false;
@@ -661,10 +666,13 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
                     new JSONArray(mBinaryTestLdLibraryPath));
             CLog.i("Added %s to the Json object", BINARY_TEST_LD_LIBRARY_PATH);
         }
-
         if (mEnableProfiling) {
             jsonObject.put(ENABLE_PROFILING, mEnableProfiling);
             CLog.i("Added %s to the Json object", ENABLE_PROFILING);
+        }
+        if (mSaveTraceFileRemote) {
+            jsonObject.put(SAVE_TRACE_FIEL_REMOTE, mSaveTraceFileRemote);
+            CLog.i("Added %s to the Json object", SAVE_TRACE_FIEL_REMOTE);
         }
         if (mEnableSystrace) {
             jsonObject.put(ENABLE_SYSTRACE, mEnableSystrace);

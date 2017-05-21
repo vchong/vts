@@ -1042,6 +1042,13 @@ android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_1_IBar_() {
     return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_android_hardware_tests_bar_V1_0_IBar();
 }
 
+android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_1_IBar_with_arg(uint64_t hw_binder_proxy) {
+    return (android::vts::FuzzerBase*)
+        new android::vts::FuzzerExtended_android_hardware_tests_bar_V1_0_IBar(
+            reinterpret_cast<::android::hardware::tests::bar::V1_0::IBar*>(
+                hw_binder_proxy));
+}
+
 }
 }  // namespace vts
 }  // namespace android

@@ -369,20 +369,51 @@ void HalHidlCodeGen::GenerateClassConstructionFunction(Formatter& out,
 }
 
 void HalHidlCodeGen::GenerateHeaderGlobalFunctionDeclarations(Formatter& out,
-    const ComponentSpecificationMessage& message) {
+    const ComponentSpecificationMessage& message,
+    const bool print_extern_block) {
   if (message.component_name() != "types"
       && !endsWith(message.component_name(), "Callback")) {
-    DriverCodeGenBase::GenerateHeaderGlobalFunctionDeclarations(out, message);
+    if (print_extern_block) {
+      out << "extern \"C\" {" << "\n";
+    }
+    DriverCodeGenBase::GenerateHeaderGlobalFunctionDeclarations(
+        out, message, false);
+
+    string function_name_prefix = GetFunctionNamePrefix(message);
+    FQName fqname = GetFQName(message);
+    out << "extern " << "android::vts::FuzzerBase* " << function_name_prefix
+        << "with_arg(uint64_t hw_binder_proxy);\n";
+    if (print_extern_block) {
+      out << "}" << "\n";
+    }
   }
 }
 
 void HalHidlCodeGen::GenerateCppBodyGlobalFunctions(Formatter& out,
     const ComponentSpecificationMessage& message,
-    const string& fuzzer_extended_class_name) {
+    const string& fuzzer_extended_class_name, const bool print_extern_block) {
   if (message.component_name() != "types"
       && !endsWith(message.component_name(), "Callback")) {
+    if (print_extern_block) {
+      out << "extern \"C\" {" << "\n";
+    }
     DriverCodeGenBase::GenerateCppBodyGlobalFunctions(
-        out, message, fuzzer_extended_class_name);
+        out, message, fuzzer_extended_class_name, false);
+
+    string function_name_prefix = GetFunctionNamePrefix(message);
+    FQName fqname = GetFQName(message);
+    out << "android::vts::FuzzerBase* " << function_name_prefix << "with_arg("
+        << "uint64_t hw_binder_proxy) {\n";
+    out.indent();
+    out << "return (android::vts::FuzzerBase*)" << "\n"
+        << "    new android::vts::" << fuzzer_extended_class_name << "(\n"
+        << "        reinterpret_cast<" << fqname.cppName() << "*>(\n"
+        << "            hw_binder_proxy));\n";
+    out.unindent();
+    out << "}\n\n";
+    if (print_extern_block) {
+      out << "}" << "\n";
+    }
   }
 }
 

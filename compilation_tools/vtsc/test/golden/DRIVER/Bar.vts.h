@@ -58,6 +58,7 @@ class FuzzerExtended_android_hardware_tests_bar_V1_0_IBar : public FuzzerBase {
 
 extern "C" {
 extern android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_1_IBar_();
+extern android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_1_IBar_with_arg(uint64_t hw_binder_proxy);
 }
 }  // namespace vts
 }  // namespace android

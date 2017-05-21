@@ -70,11 +70,13 @@ class HalHidlCodeGen : public DriverCodeGenBase {
       const string& fuzzer_extended_class_name) override;
 
   void GenerateHeaderGlobalFunctionDeclarations(Formatter& out,
-      const ComponentSpecificationMessage& message) override;
+      const ComponentSpecificationMessage& message,
+      const bool print_extern_block = true) override;
 
   void GenerateCppBodyGlobalFunctions(Formatter& out,
       const ComponentSpecificationMessage& message,
-      const string& fuzzer_extended_class_name) override;
+      const string& fuzzer_extended_class_name,
+      const bool print_extern_block = true) override;
 
   void GenerateHeaderIncludeFiles(Formatter& out,
       const ComponentSpecificationMessage& message,

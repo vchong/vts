@@ -203,29 +203,38 @@ void DriverCodeGenBase::GenerateSourceIncludeFiles(Formatter& out,
   out << "#include <iostream>" << "\n";
 }
 
-void DriverCodeGenBase::GenerateHeaderGlobalFunctionDeclarations(Formatter& out,
-    const ComponentSpecificationMessage& message) {
+void DriverCodeGenBase::GenerateHeaderGlobalFunctionDeclarations(
+    Formatter& out, const ComponentSpecificationMessage& message,
+    const bool print_extern_block) {
   string function_name_prefix = GetFunctionNamePrefix(message);
 
-  out << "extern \"C\" {" << "\n";
+  if (print_extern_block) {
+    out << "extern \"C\" {" << "\n";
+  }
   out << "extern " << "android::vts::FuzzerBase* " << function_name_prefix
       << "();\n";
-  out << "}" << "\n";
+  if (print_extern_block) {
+    out << "}" << "\n";
+  }
 }
 
-void DriverCodeGenBase::GenerateCppBodyGlobalFunctions(Formatter& out,
-    const ComponentSpecificationMessage& message,
-    const string& fuzzer_extended_class_name) {
+void DriverCodeGenBase::GenerateCppBodyGlobalFunctions(
+    Formatter& out, const ComponentSpecificationMessage& message,
+    const string& fuzzer_extended_class_name, const bool print_extern_block) {
   string function_name_prefix = GetFunctionNamePrefix(message);
 
-  out << "extern \"C\" {" << "\n";
+  if (print_extern_block) {
+    out << "extern \"C\" {" << "\n";
+  }
   out << "android::vts::FuzzerBase* " << function_name_prefix << "() {\n";
   out.indent();
   out << "return (android::vts::FuzzerBase*) " << "new android::vts::";
   out << fuzzer_extended_class_name << "();\n";
   out.unindent();
   out << "}\n\n";
-  out << "}\n";
+  if (print_extern_block) {
+    out << "}\n";
+  }
 }
 
 void DriverCodeGenBase::GenerateFuzzFunctionForSubStruct(

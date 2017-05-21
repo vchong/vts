@@ -361,6 +361,15 @@ class WebFeature(feature_utils.Feature):
             log_msg.url = url
             log_msg.name = os.path.basename(url)
 
+    def GetTestModuleKeys(self):
+        """Returns the test module name and start timestamp.
+
+        Those two values can be used to find the corresponding entry
+        in a used nosql database without having to lock all the data
+        (which is infesiable) thus are essential for strong consistency.
+        """
+        return self.report_msg.test, self.report_msg.start_timestamp
+
     def Upload(self, requested, executed):
         """Uploads the result to the web service.
 
