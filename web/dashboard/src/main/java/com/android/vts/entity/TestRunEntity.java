@@ -16,9 +16,16 @@
 
 package com.android.vts.entity;
 
+import com.android.vts.util.UrlUtil;
+import com.android.vts.util.UrlUtil.LinkDisplay;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,6 +75,7 @@ public class TestRunEntity implements DashboardEntity {
     public static final String KIND = "TestRun";
 
     // Property keys
+    public static final String TEST_NAME = "testName";
     public static final String TYPE = "type";
     public static final String START_TIMESTAMP = "startTimestamp";
     public static final String END_TIMESTAMP = "endTimestamp";
@@ -211,5 +219,36 @@ public class TestRunEntity implements DashboardEntity {
             logger.log(Level.WARNING, "Error parsing test run entity.", exception);
         }
         return null;
+    }
+
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
+        json.add(TEST_NAME, new JsonPrimitive(this.key.getParent().getName()));
+        json.add(TEST_BUILD_ID, new JsonPrimitive(this.testBuildId));
+        json.add(HOST_NAME, new JsonPrimitive(this.hostName));
+        json.add(PASS_COUNT, new JsonPrimitive(this.passCount));
+        json.add(FAIL_COUNT, new JsonPrimitive(this.failCount));
+        json.add(START_TIMESTAMP, new JsonPrimitive(this.startTimestamp));
+        json.add(END_TIMESTAMP, new JsonPrimitive(this.endTimestamp));
+        if (this.totalLineCount > 0 && this.coveredLineCount >= 0) {
+            json.add(COVERED_LINE_COUNT, new JsonPrimitive(this.coveredLineCount));
+            json.add(TOTAL_LINE_COUNT, new JsonPrimitive(this.totalLineCount));
+        }
+        if (this.logLinks != null && this.logLinks.size() > 0) {
+            List<JsonElement> links = new ArrayList<>();
+            for (String rawUrl : this.logLinks) {
+                LinkDisplay validatedLink = UrlUtil.processUrl(rawUrl);
+                if (validatedLink == null) {
+                    logger.log(Level.WARNING, "Invalid logging URL : " + rawUrl);
+                    continue;
+                }
+                String[] logInfo = new String[] {validatedLink.name, validatedLink.url};
+                links.add(new Gson().toJsonTree(logInfo));
+            }
+            if (links.size() > 0) {
+                json.add(LOG_LINKS, new Gson().toJsonTree(links));
+            }
+        }
+        return json;
     }
 }

@@ -16,8 +16,11 @@
 
 package com.android.vts.entity;
 
+import com.android.vts.proto.VtsReportMessage;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -99,5 +102,13 @@ public class TestCaseRunEntity implements DashboardEntity {
             logger.log(Level.WARNING, "Error parsing test case run entity.", exception);
         }
         return null;
+    }
+
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
+        json.add(TEST_CASE_NAME, new JsonPrimitive(this.testCaseName));
+        json.add(RESULT,
+                new JsonPrimitive(VtsReportMessage.TestCaseResult.valueOf(this.result).toString()));
+        return json;
     }
 }

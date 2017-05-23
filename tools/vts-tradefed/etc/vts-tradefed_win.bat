@@ -56,11 +56,11 @@ set JAR_DIR=%VTS_ROOT%\android-vts\tools
 
 :: tradefed.jar
 set TRADEFED_JAR=%JAR_DIR%\tradefed.jar
-if not exist %TRADEFED_JAR% (
+if not exist "%TRADEFED_JAR%" (
     echo Unable to locate %TRADEFED_JAR%. Try prebuilt jar.
     set TRADEFED_JAR=%JAR_DIR%\tradefed-prebuilt.jar
 )
-if not exist %TRADEFED_JAR% (
+if not exist "%TRADEFED_JAR%" (
     echo Unable to locate %TRADEFED_JAR%
     goto:eof
 )
@@ -73,7 +73,7 @@ set JARS=^
   compatibility-host-util
 for %%J in (%JARS%) do (
     set JAR=%JAR_DIR%\%%J.jar
-    if not exist !JAR! ( echo Unable to locate !JAR! && goto:eof )
+    if not exist "!JAR!" ( echo Unable to locate !JAR! && goto:eof )
     set JAR_PATH=!JAR_PATH!;!JAR!
 )
 
@@ -86,7 +86,7 @@ set OPTIONAL_JARS=^
 
 for %%J in (%OPTIONAL_JARS%) do (
     set JAR=%VTS_ROOT%\%%J.jar
-    if exist !JAR! (
+    if exist "!JAR!" (
         echo Including optional JAR: !JAR!
         set JAR_PATH=!JAR_PATH!;!JAR!
     ) else (
@@ -103,5 +103,5 @@ for %%F in ("%VTS_ROOT%\android-vts\testcases\*.jar") do (
 echo JAR_PATH=%JAR_PATH%
 
 cd %VTS_ROOT%/android-vts/testcases
-%JAVA% %RDBG_FLAG% -cp %JAR_PATH% -DVTS_ROOT=%VTS_ROOT% com.android.compatibility.common.tradefed.command.CompatibilityConsole %*
+%JAVA% %RDBG_FLAG% -cp "%JAR_PATH%" "-DVTS_ROOT=%VTS_ROOT%" com.android.compatibility.common.tradefed.command.CompatibilityConsole %*
 

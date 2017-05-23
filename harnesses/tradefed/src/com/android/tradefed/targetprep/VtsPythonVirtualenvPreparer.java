@@ -55,14 +55,15 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
     private static final String PATH = "PATH";
     private static final String OS_NAME = "os.name";
     private static final String WINDOWS = "Windows";
-    private static final String LOCAL_PYPI_PATH_KEY = "pypi_packages_path";
+    private static final String LOCAL_PYPI_PATH_ENV_VAR_NAME = "VTS_PYPI_PATH";
     private static final String VENDOR_TEST_CONFIG_FILE_PATH =
             "/config/google-tradefed-vts-config.config";
+    private static final String LOCAL_PYPI_PATH_KEY = "pypi_packages_path";
     protected static final String PYTHONPATH = "PYTHONPATH";
     protected static final String VIRTUAL_ENV_PATH = "VIRTUALENVPATH";
     private static final int BASE_TIMEOUT = 1000 * 60;
-    private static final String[] DEFAULT_DEP_MODULES = {"future", "futures", "enum", "protobuf",
-            "requests", "httplib2", "google-api-python-client", "oauth2client"};
+    private static final String[] DEFAULT_DEP_MODULES = {"enum", "future", "futures",
+            "google-api-python-client", "httplib2", "oauth2client", "protobuf", "requests"};
 
     @Option(name = "venv-dir", description = "path of an existing virtualenv to use")
     private File mVenvDir = null;
@@ -114,30 +115,46 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
     protected void setLocalPypiPath() throws RuntimeException {
         CLog.i("Loading vendor test config %s", VENDOR_TEST_CONFIG_FILE_PATH);
         InputStream config = getClass().getResourceAsStream(VENDOR_TEST_CONFIG_FILE_PATH);
-        if (config == null) {
+
+        // First try to load local PyPI directory path from vendor config file
+        if (config != null) {
+            try {
+                String content = StreamUtil.getStringFromStream(config);
+                CLog.i("Loaded vendor test config %s", content);
+                if (content != null) {
+                    JSONObject vendorConfigJson = new JSONObject(content);
+                    try {
+                        String pypiPath = vendorConfigJson.getString(LOCAL_PYPI_PATH_KEY);
+                        if (pypiPath.length() > 0) {
+                            mLocalPypiPath = pypiPath;
+                            CLog.i(String.format(
+                                    "Loaded %s: %s", LOCAL_PYPI_PATH_KEY, mLocalPypiPath));
+                        }
+                    } catch (NoSuchElementException e) {
+                        CLog.i("Vendor test config file does not define %s", LOCAL_PYPI_PATH_KEY);
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read vendor config json file");
+            } catch (JSONException e) {
+                throw new RuntimeException("Failed to parse vendor config json data");
+            }
+        } else {
             CLog.i("Vendor test config file %s does not exist", VENDOR_TEST_CONFIG_FILE_PATH);
-            return;
         }
 
-        try {
-            String content = StreamUtil.getStringFromStream(config);
-            CLog.i("Loaded vendor test config %s", content);
-            if (content != null) {
-                JSONObject vendorConfigJson = new JSONObject(content);
-                try {
-                    String pypiPath = vendorConfigJson.getString(LOCAL_PYPI_PATH_KEY);
-                    if (pypiPath.length() > 0) {
-                        mLocalPypiPath = pypiPath;
-                        CLog.i(String.format("Loaded %s: %s", LOCAL_PYPI_PATH_KEY, mLocalPypiPath));
-                    }
-                } catch (NoSuchElementException e) {
-                    CLog.i("Vendor test config file does not define %s", LOCAL_PYPI_PATH_KEY);
-                }
+        // If loading path from vendor config file is unsuccessful,
+        // set local PyPI path to LOCAL_PYPI_PACKAGES_PATH
+        if (mLocalPypiPath == null) {
+            CLog.i("Checking whether local pypi packages directory exists");
+            mLocalPypiPath = System.getenv(LOCAL_PYPI_PATH_ENV_VAR_NAME);
+            if (mLocalPypiPath != null) {
+                CLog.i("Confirmed existence of local pypi packages directory at %s",
+                        mLocalPypiPath);
+            } else {
+                CLog.i("Local pypi packages directory does not exist. Therefore internet connection"
+                        + "to https://pypi.python.org/simple/ must be available to run VTS tests.");
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read vendor config json file");
-        } catch (JSONException e) {
-            throw new RuntimeException("Failed to parse vendor config json data");
         }
     }
 

@@ -15,23 +15,27 @@
 # limitations under the License.
 #
 
-LOCAL_PIP_PATH=$HOME/vts-pypi-packages
-
-echo "Making local dir at" $LOCAL_PIP_PATH
-if [ -d "$LOCAL_PIP_PATH" ]; then
-  echo $LOCAL_PIP_PATH "already exists"
+if [ -z "$ANDROID_BUILD_TOP" ]; then
+  echo "Please run the lunch command first."
+elif [ -z "$VTS_PYPI_PATH" ]; then
+  echo "Please set environment variable VTS_PYPI_PATH as a new directory to host all PyPI packages."
 else
-  mkdir $LOCAL_PIP_PATH
+  echo "Local PyPI packages directory is set to" $VTS_PYPI_PATH
+  echo "Making local dir" $VTS_PYPI_PATH
+
+  if [ -d "$VTS_PYPI_PATH" ]; then
+    echo $VTS_PYPI_PATH "already exists"
+  else
+    mkdir $VTS_PYPI_PATH -p
+  fi
+
+  echo "Downloading PyPI packages to" $VTS_PYPI_PATH
+  pip download -d $VTS_PYPI_PATH -r $ANDROID_BUILD_TOP/test/vts/script/pip_requirements.txt --no-binary protobuf,grpcio,numpy,Pillow,scipy
+  # The --no-binary option is necessary for packages that have a
+  # "-cp27-cp27mu-manylinux1_x86_64.whl" version that will be downloaded instead
+  # if --no-binary option is not specified. This version is not compatible with
+  # the python virtualenv set up by VtsPythonVirtualenvPreparer.
+
+  # TODO(jaeshin): b/38371975, fix matplotlib download error
+  pip download -d $VTS_PYPI_PATH matplotlib --no-binary matplotlib,numpy
 fi
-
-echo "Downloading PyPI packages to" $LOCAL_PIP_PATH
-pip download -d $LOCAL_PIP_PATH -r ./test/vts/script/pip_requirements.txt --no-binary protobuf,grpcio,numpy,Pillow,scipy
-# The --no-binary option is necessary for packages that have a
-# "-cp27-cp27mu-manylinux1_x86_64.whl" version that will be downloaded instead
-# if --no-binary option is not specified. This version is not compatible with
-# the python virtualenv set up by VtsPythonVirtualenvPreparer.
-
-pip download -d $LOCAL_PIP_PATH matplotlib --no-binary matplotlib,numpy
-# TODO: Downloading matplotlib fails with an error that causes pip download to
-# abort. Therefore separated temporarily. Must resolve matplotlib installation
-# error in order to run CameraITS tests.

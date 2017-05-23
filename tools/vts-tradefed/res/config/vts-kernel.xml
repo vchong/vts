@@ -18,10 +18,10 @@
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts" />
 
-  <option name="compatibility:include-filter" value="KernelLtpTest" />
+  <option name="compatibility:include-filter" value="VtsKernelLtp" />
   <option name="compatibility:include-filter" value="KernelProcFileApiTest" />
-  <option name="compatibility:include-filter" value="LinuxKselftestTest" />
-  <option name="compatibility:include-filter" value="LinuxKselftestTestPresubmit" />
+  <option name="compatibility:include-filter" value="VtsKernelLinuxKselftest" />
+  <option name="compatibility:include-filter" value="VtsKernelLinuxKselftestPresubmit" />
   <option name="compatibility:include-filter" value="SyscallExistenceTest" />
   <option name="compatibility:include-filter" value="VtsKernelApiSysfsTest" />
   <option name="compatibility:include-filter" value="VtsKernelBinderTest" />

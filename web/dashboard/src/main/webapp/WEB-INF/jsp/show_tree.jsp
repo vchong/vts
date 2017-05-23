@@ -19,15 +19,13 @@
 
 <html>
   <%@ include file="header.jsp" %>
-  <link type='text/css' href='/css/show_table.css' rel='stylesheet'>
   <link type='text/css' href='/css/show_test_runs_common.css' rel='stylesheet'>
+  <link type='text/css' href='/css/test_results.css' rel='stylesheet'>
+  <script src='js/test_results.js'></script>
   <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
   <script src='https://www.gstatic.com/external_hosted/moment/min/moment-with-locales.min.js'></script>
   <script type='text/javascript'>
       google.charts.load('current', {'packages':['table', 'corechart']});
-      google.charts.setOnLoadCallback(drawGridTable);
-      google.charts.setOnLoadCallback(activateLogLinks);
-      google.charts.setOnLoadCallback(drawProfilingTable);
       google.charts.setOnLoadCallback(drawPieChart);
       google.charts.setOnLoadCallback(function() {
           $('.gradient').removeClass('gradient');
@@ -64,47 +62,19 @@
           if (!${hasOlder}) {
               $('#older-button').toggleClass('disabled');
           }
-          $('#treeLink').click(function() {
-              window.open('/show_tree?testName=${testName}', '_self');
+          $('#tableLink').click(function() {
+              window.open('/show_table?testName=${testName}', '_self');
           });
           $('#newer-button').click(prev);
           $('#older-button').click(next);
+          $('#test-results-container').showTests(${testRuns});
       });
-
-      // Actives the log links to display the log info modal when clicked.
-      function activateLogLinks() {
-          $('.info-btn').click(function(e) {
-              showLog(${logInfoMap}[$(this).data('col')]);
-          });
-      }
-
-      /** Displays a modal window with the specified log entries.
-       *
-       * @param logEntries Array of string arrays. Each entry in the outer array
-       *                   must contain (1) name string, and (2) url string.
-       */
-      function showLog(logEntries) {
-          if (!logEntries || logEntries.length == 0) return;
-
-          var logList = $('<ul class="collection"></ul>');
-          var entries = logEntries.reduce(function(acc, entry) {
-              if (!entry || entry.length == 0) return acc;
-              var link = '<a href="' + entry[1] + '"';
-              link += 'class="collection-item">' + entry[0] + '</li>';
-              return acc + link;
-          }, '');
-          logList.html(entries);
-          var infoContainer = $('#info-modal>.modal-content>.info-container');
-          infoContainer.empty();
-          logList.appendTo(infoContainer);
-          $('#info-modal').openModal();
-      }
 
       // refresh the page to see the selected test types (pre-/post-submit)
       function refresh() {
           if($(this).hasClass('disabled')) return;
           var link = '${pageContext.request.contextPath}' +
-              '/show_table?testName=${testName}';
+              '/show_tree?testName=${testName}';
           var presubmit = $('#presubmit').prop('checked');
           var postsubmit = $('#postsubmit').prop('checked');
           if (presubmit) {
@@ -128,7 +98,7 @@
           if($(this).hasClass('disabled')) return;
           var endTime = ${startTime};
           var link = '${pageContext.request.contextPath}' +
-              '/show_table?testName=${testName}&endTime=' + endTime;
+              '/show_tree?testName=${testName}&endTime=' + endTime;
           if ($('#presubmit').prop('checked')) {
               link += '&showPresubmit=';
           }
@@ -150,7 +120,7 @@
           if($(this).hasClass('disabled')) return;
           var startTime = ${endTime};
           var link = '${pageContext.request.contextPath}' +
-              '/show_table?testName=${testName}&startTime=' + startTime;
+              '/show_tree?testName=${testName}&startTime=' + startTime;
           if ($('#presubmit').prop('checked')) {
               link += '&showPresubmit=';
           }
@@ -166,11 +136,6 @@
           }
           window.open(link,'_self');
         }
-
-      // table for profiling data
-      function drawProfilingTable() {
-
-      }
 
       // to draw pie chart
       function drawPieChart() {
@@ -205,68 +170,6 @@
           var chart = new google.visualization.PieChart(document.getElementById('pie-chart-div'));
           chart.draw(data, options);
       }
-
-      // table for grid data
-      function drawGridTable() {
-          var data = new google.visualization.DataTable();
-
-          // Add column headers.
-          headerRow = ${headerRow};
-          headerRow.forEach(function(d, i) {
-              var classNames = 'table-header-content';
-              if (i == 0) classNames += ' table-header-legend';
-              data.addColumn('string', '<span class="' + classNames + '">' +
-                             d + '</span>');
-          });
-
-          var timeGrid = ${timeGrid};
-          var durationGrid = ${durationGrid};
-          var summaryGrid = ${summaryGrid};
-          var resultsGrid = ${resultsGrid};
-
-          // Format time grid to a formatted date
-          timeGrid = timeGrid.map(function(row) {
-              return row.map(function(cell, j) {
-                  if (j == 0) return cell;
-                  var time = moment(cell/1000);
-                  // If today, don't display the date
-                  if (time.isSame(moment(), 'd')) {
-                      return time.format('H:mm:ssZZ');
-                  } else {
-                      return time.format('M/D/YY H:mm:ssZZ');
-                  }
-              });
-          });
-
-          // Format duration grid to HH:mm:ss.SSS
-          durationGrid = durationGrid.map(function(row) {
-              return row.map(function(cell, j) {
-                  if (j == 0) return cell;
-                  return moment.utc(cell/1000).format("HH:mm:ss.SSS");
-              });
-          });
-
-          // add rows to the data.
-          data.addRows(timeGrid);
-          data.addRows(durationGrid);
-          data.addRows(summaryGrid);
-          data.addRows(resultsGrid);
-
-          var table = new google.visualization.Table(document.getElementById('grid-table-div'));
-          var classNames = {
-              headerRow : 'table-header',
-              headerCell : 'table-header-cell'
-          };
-          var options = {
-              showRowNumber: false,
-              alternatingRowStyle: true,
-              allowHtml: true,
-              frozenColumns: 1,
-              cssClassNames: classNames,
-              sort: 'disable'
-          };
-          table.draw(data, options);
-      }
   </script>
 
   <body>
@@ -275,8 +178,8 @@
         <div class='col s12'>
           <div class='card'>
             <ul class='tabs'>
-              <li class='tab col s6'><a class='active'>Table</a></li>
-              <li class='tab col s6' id='treeLink'><a>Tree</a></li>
+              <li class='tab col s6' id='tableLink'><a>Table</a></li>
+              <li class='tab col s6'><a class='active'>Tree</a></li>
             </ul>
           </div>
           <div class='card' id='filter-wrapper'>
@@ -348,17 +251,13 @@
         <div class='col s5 valign-wrapper'>
           <!-- pie chart -->
           <div id='pie-chart-wrapper' class='col s12 valign center-align card'>
-            <h6 class='pie-chart-title'>Test Status for Device Build ID: ${topBuildId}</h6>
+            <h6 class='pie-chart-title'>${topBuildId}</h6>
             <div id='pie-chart-div'></div>
           </div>
         </div>
       </div>
 
-      <div class='col s12'>
-        <div id='chart-holder' class='col s12 card'>
-          <!-- Grid tables-->
-          <div id='grid-table-div'></div>
-        </div>
+      <div class='col s12' id='test-results-container'>
       </div>
       <div id='newer-wrapper' class='page-button-wrapper fixed-action-btn'>
         <a id='newer-button' class='btn-floating btn red waves-effect'>
@@ -375,15 +274,6 @@
       <div class="modal-content">
         <h4>${searchHelpHeader}</h4>
         <p>${searchHelpBody}</p>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect btn-flat">Close</a>
-      </div>
-    </div>
-    <div id="info-modal" class="modal">
-      <div class="modal-content">
-        <h4>Logs</h4>
-        <div class="info-container"></div>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-action modal-close waves-effect btn-flat">Close</a>

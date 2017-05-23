@@ -18,8 +18,8 @@
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts" />
 
-  <option name="compatibility:include-filter" value="LinuxKselftestTestStaging" />
-  <option name="compatibility:include-filter" value="KernelLtpStagingTest" />
+  <option name="compatibility:include-filter" value="VtsKernelLinuxKselftestStaging" />
+  <option name="compatibility:include-filter" value="VtsKernelLtpStaging" />
   <option name="compatibility:include-filter" value="VtsKernelNetdTest" />
 
 </configuration>

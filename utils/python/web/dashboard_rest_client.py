@@ -14,7 +14,6 @@
 # limitations under the License.
 
 import base64
-import json
 import logging
 import os
 import subprocess
@@ -72,13 +71,13 @@ class DashboardRestClient(object):
         """
         return str(self.auth_token.get_access_token().access_token)
 
-    def PostData(self, value):
+    def PostData(self, post_message):
         """Post data to the dashboard database.
 
-        Puts data into the dashboard database using its REST endpoint.
+        Puts data into the dashboard database using its proto REST endpoint.
 
         Args:
-            value: String, The data to insert, a serialized TestReportMessage.
+            post_message: DashboardPostMessage, The data to post.
 
         Returns:
             True if successful, False otherwise
@@ -87,13 +86,11 @@ class DashboardRestClient(object):
         if not token:
             return False
 
-        data = {
-            "accessToken" : token,
-            "verb" : "insertRow",
-            "value" : base64.b64encode(value)
-        }
+        post_message.access_token = token
+        post_bytes = base64.b64encode(post_message.SerializeToString())
+
         with tempfile.NamedTemporaryFile(delete=False) as file:
-            file.write(json.dumps(data))
+            file.write(post_bytes)
         p = subprocess.Popen(
             self.post_cmd.format(path=file.name),
             shell=True,

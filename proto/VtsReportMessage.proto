@@ -307,3 +307,11 @@ message TestPlanReportMessage {
   // build ID, and device) can be found in the associated TestReportMessage(s)
   // which share the same test_plan_execution_id.
 }
+
+// Proto wrapper for posting data to the VTS Dashboard
+message DashboardPostMessage {
+  // oauth2.0 access token
+  optional string access_token = 1;
+
+  repeated TestReportMessage test_report = 2;
+}

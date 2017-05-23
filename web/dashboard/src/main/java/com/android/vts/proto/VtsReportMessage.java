@@ -17264,6 +17264,930 @@ public final class VtsReportMessage {
       // @@protoc_insertion_point(class_scope:android.vts.TestPlanReportMessage)
   }
 
+  public interface DashboardPostMessageOrBuilder extends com.google.protobuf.MessageOrBuilder {
+      // optional string access_token = 1;
+      /**
+       * <code>optional string access_token = 1;</code>
+       *
+       * <pre>
+       * oauth2.0 access token
+       * </pre>
+       */
+      boolean hasAccessToken();
+      /**
+       * <code>optional string access_token = 1;</code>
+       *
+       * <pre>
+       * oauth2.0 access token
+       * </pre>
+       */
+      java.lang.String getAccessToken();
+      /**
+       * <code>optional string access_token = 1;</code>
+       *
+       * <pre>
+       * oauth2.0 access token
+       * </pre>
+       */
+      com.google.protobuf.ByteString getAccessTokenBytes();
+
+      // repeated .android.vts.TestReportMessage test_report = 2;
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      java.util.List<com.android.vts.proto.VtsReportMessage.TestReportMessage> getTestReportList();
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      com.android.vts.proto.VtsReportMessage.TestReportMessage getTestReport(int index);
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      int getTestReportCount();
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      java.util.List<? extends com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder>
+      getTestReportOrBuilderList();
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder getTestReportOrBuilder(
+              int index);
+  }
+  /**
+   * Protobuf type {@code android.vts.DashboardPostMessage}
+   *
+   * <pre>
+   * Proto wrapper for posting data to the VTS Dashboard
+   * </pre>
+   */
+  public static final class DashboardPostMessage
+          extends com.google.protobuf.GeneratedMessage implements DashboardPostMessageOrBuilder {
+      // Use DashboardPostMessage.newBuilder() to construct.
+      private DashboardPostMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+          this.unknownFields = builder.getUnknownFields();
+      }
+      private DashboardPostMessage(boolean noInit) {
+          this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      }
+
+      private static final DashboardPostMessage defaultInstance;
+      public static DashboardPostMessage getDefaultInstance() {
+          return defaultInstance;
+      }
+
+      public DashboardPostMessage getDefaultInstanceForType() {
+          return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.
+      lang.Override
+      public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+          return this.unknownFields;
+      }
+      private DashboardPostMessage(com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          initFields();
+          int mutable_bitField0_ = 0;
+          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+                  com.google.protobuf.UnknownFieldSet.newBuilder();
+          try {
+              boolean done = false;
+              while (!done) {
+                  int tag = input.readTag();
+                  switch (tag) {
+                      case 0:
+                          done = true;
+                          break;
+                      default: {
+                          if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+                              done = true;
+                          }
+                          break;
+                      }
+                      case 10: {
+                          bitField0_ |= 0x00000001;
+                          accessToken_ = input.readBytes();
+                          break;
+                      }
+                      case 18: {
+                          if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                              testReport_ =
+                                      new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                                      .TestReportMessage>();
+                              mutable_bitField0_ |= 0x00000002;
+                          }
+                          testReport_.add(input.readMessage(
+                                  com.android.vts.proto.VtsReportMessage.TestReportMessage.PARSER,
+                                  extensionRegistry));
+                          break;
+                      }
+                  }
+              }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(this);
+          } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage())
+                      .setUnfinishedMessage(this);
+          } finally {
+              if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                  testReport_ = java.util.Collections.unmodifiableList(testReport_);
+              }
+              this.unknownFields = unknownFields.build();
+              makeExtensionsImmutable();
+          }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+          return com.android.vts.proto.VtsReportMessage
+                  .internal_static_android_vts_DashboardPostMessage_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internalGetFieldAccessorTable() {
+          return com.android.vts.proto.VtsReportMessage
+                  .internal_static_android_vts_DashboardPostMessage_fieldAccessorTable
+                  .ensureFieldAccessorsInitialized(
+                          com.android.vts.proto.VtsReportMessage.DashboardPostMessage.class,
+                          com.android.vts.proto.VtsReportMessage.DashboardPostMessage.Builder
+                                  .class);
+      }
+
+      public static com.google.protobuf.Parser<DashboardPostMessage> PARSER =
+              new com.google.protobuf.AbstractParser<DashboardPostMessage>() {
+                  public DashboardPostMessage parsePartialFrom(
+                          com.google.protobuf.CodedInputStream input,
+                          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                          throws com.google.protobuf.InvalidProtocolBufferException {
+                      return new DashboardPostMessage(input, extensionRegistry);
+                  }
+              };
+
+      @java.
+      lang.Override
+      public com.google.protobuf.Parser<DashboardPostMessage> getParserForType() {
+          return PARSER;
+      }
+
+      private int bitField0_;
+      // optional string access_token = 1;
+      public static final int ACCESS_TOKEN_FIELD_NUMBER = 1;
+      private java.lang.Object accessToken_;
+      /**
+       * <code>optional string access_token = 1;</code>
+       *
+       * <pre>
+       * oauth2.0 access token
+       * </pre>
+       */
+      public boolean hasAccessToken() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional string access_token = 1;</code>
+       *
+       * <pre>
+       * oauth2.0 access token
+       * </pre>
+       */
+      public java.lang.String getAccessToken() {
+          java.lang.Object ref = accessToken_;
+          if (ref instanceof java.lang.String) {
+              return (java.lang.String) ref;
+          } else {
+              com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+              java.lang.String s = bs.toStringUtf8();
+              if (bs.isValidUtf8()) {
+                  accessToken_ = s;
+              }
+              return s;
+          }
+      }
+      /**
+       * <code>optional string access_token = 1;</code>
+       *
+       * <pre>
+       * oauth2.0 access token
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getAccessTokenBytes() {
+          java.lang.Object ref = accessToken_;
+          if (ref instanceof java.lang.String) {
+              com.google.protobuf.ByteString b =
+                      com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+              accessToken_ = b;
+              return b;
+          } else {
+              return (com.google.protobuf.ByteString) ref;
+          }
+      }
+
+      // repeated .android.vts.TestReportMessage test_report = 2;
+      public static final int TEST_REPORT_FIELD_NUMBER = 2;
+      private java.util.List<com.android.vts.proto.VtsReportMessage.TestReportMessage> testReport_;
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      public java.util.List<com.android.vts.proto.VtsReportMessage.TestReportMessage>
+      getTestReportList() {
+          return testReport_;
+      }
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      public java.util
+              .List<? extends com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder>
+              getTestReportOrBuilderList() {
+          return testReport_;
+      }
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      public int getTestReportCount() {
+          return testReport_.size();
+      }
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      public com.android.vts.proto.VtsReportMessage.TestReportMessage getTestReport(int index) {
+          return testReport_.get(index);
+      }
+      /**
+       * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+       */
+      public com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder
+      getTestReportOrBuilder(int index) {
+          return testReport_.get(index);
+      }
+
+      private void initFields() {
+          accessToken_ = "";
+          testReport_ = java.util.Collections.emptyList();
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized != -1)
+              return isInitialized == 1;
+
+          memoizedIsInitialized = 1;
+          return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+          getSerializedSize();
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              output.writeBytes(1, getAccessTokenBytes());
+          }
+          for (int i = 0; i < testReport_.size(); i++) {
+              output.writeMessage(2, testReport_.get(i));
+          }
+          getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+          int size = memoizedSerializedSize;
+          if (size != -1)
+              return size;
+
+          size = 0;
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              size += com.google.protobuf.CodedOutputStream.computeBytesSize(
+                      1, getAccessTokenBytes());
+          }
+          for (int i = 0; i < testReport_.size(); i++) {
+              size += com.google.protobuf.CodedOutputStream.computeMessageSize(
+                      2, testReport_.get(i));
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSerializedSize = size;
+          return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.
+      lang.Override
+      protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+          return super.writeReplace();
+      }
+
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseFrom(
+              com.google.protobuf.ByteString data)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+      }
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseFrom(
+              com.google.protobuf.ByteString data,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseFrom(
+              byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+      }
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseFrom(
+              byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseFrom(
+              java.io.InputStream input) throws java.io.IOException {
+          return PARSER.parseFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseFrom(
+              java.io.InputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseDelimitedFrom(
+              java.io.InputStream input) throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseDelimitedFrom(
+              java.io.InputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseFrom(
+              com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+          return PARSER.parseFrom(input);
+      }
+      public static com.android.vts.proto.VtsReportMessage.DashboardPostMessage parseFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() {
+          return Builder.create();
+      }
+      public Builder newBuilderForType() {
+          return newBuilder();
+      }
+      public static Builder newBuilder(
+              com.android.vts.proto.VtsReportMessage.DashboardPostMessage prototype) {
+          return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+          return newBuilder(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+      }
+      /**
+       * Protobuf type {@code android.vts.DashboardPostMessage}
+       *
+       * <pre>
+       * Proto wrapper for posting data to the VTS Dashboard
+       * </pre>
+       */
+      public static final class Builder
+              extends com.google.protobuf.GeneratedMessage.Builder<Builder>
+              implements com.android.vts.proto.VtsReportMessage.DashboardPostMessageOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_DashboardPostMessage_descriptor;
+          }
+
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_DashboardPostMessage_fieldAccessorTable
+                      .ensureFieldAccessorsInitialized(
+                              com.android.vts.proto.VtsReportMessage.DashboardPostMessage.class,
+                              com.android.vts.proto.VtsReportMessage.DashboardPostMessage.Builder
+                                      .class);
+          }
+
+          // Construct using
+          // com.android.vts.proto.VtsReportMessage.DashboardPostMessage.newBuilder()
+          private Builder() {
+              maybeForceBuilderInitialization();
+          }
+
+          private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+              super(parent);
+              maybeForceBuilderInitialization();
+          }
+          private void maybeForceBuilderInitialization() {
+              if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+                  getTestReportFieldBuilder();
+              }
+          }
+          private static Builder create() {
+              return new Builder();
+          }
+
+          public Builder clear() {
+              super.clear();
+              accessToken_ = "";
+              bitField0_ = (bitField0_ & ~0x00000001);
+              if (testReportBuilder_ == null) {
+                  testReport_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000002);
+              } else {
+                  testReportBuilder_.clear();
+              }
+              return this;
+          }
+
+          public Builder clone() {
+              return create().mergeFrom(buildPartial());
+          }
+
+          public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+              return com.android.vts.proto.VtsReportMessage
+                      .internal_static_android_vts_DashboardPostMessage_descriptor;
+          }
+
+          public com.android.vts.proto.VtsReportMessage.DashboardPostMessage
+          getDefaultInstanceForType() {
+              return com.android.vts.proto.VtsReportMessage.DashboardPostMessage
+                      .getDefaultInstance();
+          }
+
+          public com.android.vts.proto.VtsReportMessage.DashboardPostMessage build() {
+              com.android.vts.proto.VtsReportMessage.DashboardPostMessage result = buildPartial();
+              if (!result.isInitialized()) {
+                  throw newUninitializedMessageException(result);
+              }
+              return result;
+          }
+
+          public com.android.vts.proto.VtsReportMessage.DashboardPostMessage buildPartial() {
+              com.android.vts.proto.VtsReportMessage.DashboardPostMessage result =
+                      new com.android.vts.proto.VtsReportMessage.DashboardPostMessage(this);
+              int from_bitField0_ = bitField0_;
+              int to_bitField0_ = 0;
+              if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+                  to_bitField0_ |= 0x00000001;
+              }
+              result.accessToken_ = accessToken_;
+              if (testReportBuilder_ == null) {
+                  if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                      testReport_ = java.util.Collections.unmodifiableList(testReport_);
+                      bitField0_ = (bitField0_ & ~0x00000002);
+                  }
+                  result.testReport_ = testReport_;
+              } else {
+                  result.testReport_ = testReportBuilder_.build();
+              }
+              result.bitField0_ = to_bitField0_;
+              onBuilt();
+              return result;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+              if (other instanceof com.android.vts.proto.VtsReportMessage.DashboardPostMessage) {
+                  return mergeFrom(
+                          (com.android.vts.proto.VtsReportMessage.DashboardPostMessage) other);
+              } else {
+                  super.mergeFrom(other);
+                  return this;
+              }
+          }
+
+          public Builder mergeFrom(
+                  com.android.vts.proto.VtsReportMessage.DashboardPostMessage other) {
+              if (other
+                      == com.android.vts.proto.VtsReportMessage.DashboardPostMessage
+                                 .getDefaultInstance())
+                  return this;
+              if (other.hasAccessToken()) {
+                  bitField0_ |= 0x00000001;
+                  accessToken_ = other.accessToken_;
+                  onChanged();
+              }
+              if (testReportBuilder_ == null) {
+                  if (!other.testReport_.isEmpty()) {
+                      if (testReport_.isEmpty()) {
+                          testReport_ = other.testReport_;
+                          bitField0_ = (bitField0_ & ~0x00000002);
+                      } else {
+                          ensureTestReportIsMutable();
+                          testReport_.addAll(other.testReport_);
+                      }
+                      onChanged();
+                  }
+              } else {
+                  if (!other.testReport_.isEmpty()) {
+                      if (testReportBuilder_.isEmpty()) {
+                          testReportBuilder_.dispose();
+                          testReportBuilder_ = null;
+                          testReport_ = other.testReport_;
+                          bitField0_ = (bitField0_ & ~0x00000002);
+                          testReportBuilder_ =
+                                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders
+                                  ? getTestReportFieldBuilder()
+                                  : null;
+                      } else {
+                          testReportBuilder_.addAllMessages(other.testReport_);
+                      }
+                  }
+              }
+              this.mergeUnknownFields(other.getUnknownFields());
+              return this;
+          }
+
+          public final boolean isInitialized() {
+              return true;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.CodedInputStream input,
+                  com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                  throws java.io.IOException {
+              com.android.vts.proto.VtsReportMessage.DashboardPostMessage parsedMessage = null;
+              try {
+                  parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+              } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                  parsedMessage = (com.android.vts.proto.VtsReportMessage.DashboardPostMessage)
+                                          e.getUnfinishedMessage();
+                  throw e;
+              } finally {
+                  if (parsedMessage != null) {
+                      mergeFrom(parsedMessage);
+                  }
+              }
+              return this;
+          }
+          private int bitField0_;
+
+          // optional string access_token = 1;
+          private java.lang.Object accessToken_ = "";
+          /**
+           * <code>optional string access_token = 1;</code>
+           *
+           * <pre>
+           * oauth2.0 access token
+           * </pre>
+           */
+          public boolean hasAccessToken() {
+              return ((bitField0_ & 0x00000001) == 0x00000001);
+          }
+          /**
+           * <code>optional string access_token = 1;</code>
+           *
+           * <pre>
+           * oauth2.0 access token
+           * </pre>
+           */
+          public java.lang.String getAccessToken() {
+              java.lang.Object ref = accessToken_;
+              if (!(ref instanceof java.lang.String)) {
+                  java.lang.String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+                  accessToken_ = s;
+                  return s;
+              } else {
+                  return (java.lang.String) ref;
+              }
+          }
+          /**
+           * <code>optional string access_token = 1;</code>
+           *
+           * <pre>
+           * oauth2.0 access token
+           * </pre>
+           */
+          public com.google.protobuf.ByteString getAccessTokenBytes() {
+              java.lang.Object ref = accessToken_;
+              if (ref instanceof String) {
+                  com.google.protobuf.ByteString b =
+                          com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+                  accessToken_ = b;
+                  return b;
+              } else {
+                  return (com.google.protobuf.ByteString) ref;
+              }
+          }
+          /**
+           * <code>optional string access_token = 1;</code>
+           *
+           * <pre>
+           * oauth2.0 access token
+           * </pre>
+           */
+          public Builder setAccessToken(java.lang.String value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000001;
+              accessToken_ = value;
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional string access_token = 1;</code>
+           *
+           * <pre>
+           * oauth2.0 access token
+           * </pre>
+           */
+          public Builder clearAccessToken() {
+              bitField0_ = (bitField0_ & ~0x00000001);
+              accessToken_ = getDefaultInstance().getAccessToken();
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional string access_token = 1;</code>
+           *
+           * <pre>
+           * oauth2.0 access token
+           * </pre>
+           */
+          public Builder setAccessTokenBytes(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000001;
+              accessToken_ = value;
+              onChanged();
+              return this;
+          }
+
+          // repeated .android.vts.TestReportMessage test_report = 2;
+          private java.util
+                  .List<com.android.vts.proto.VtsReportMessage.TestReportMessage> testReport_ =
+                  java.util.Collections.emptyList();
+          private void ensureTestReportIsMutable() {
+              if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+                  testReport_ = new java.util.ArrayList<com.android.vts.proto.VtsReportMessage
+                                                                .TestReportMessage>(testReport_);
+                  bitField0_ |= 0x00000002;
+              }
+          }
+
+          private com.google.protobuf
+                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage.TestReportMessage,
+                          com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder,
+                          com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder>
+                          testReportBuilder_;
+
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.TestReportMessage>
+          getTestReportList() {
+              if (testReportBuilder_ == null) {
+                  return java.util.Collections.unmodifiableList(testReport_);
+              } else {
+                  return testReportBuilder_.getMessageList();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public int getTestReportCount() {
+              if (testReportBuilder_ == null) {
+                  return testReport_.size();
+              } else {
+                  return testReportBuilder_.getCount();
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestReportMessage getTestReport(int index) {
+              if (testReportBuilder_ == null) {
+                  return testReport_.get(index);
+              } else {
+                  return testReportBuilder_.getMessage(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public Builder setTestReport(
+                  int index, com.android.vts.proto.VtsReportMessage.TestReportMessage value) {
+              if (testReportBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureTestReportIsMutable();
+                  testReport_.set(index, value);
+                  onChanged();
+              } else {
+                  testReportBuilder_.setMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public Builder setTestReport(
+                  int index, com.android.vts.proto.VtsReportMessage.TestReportMessage
+                                     .Builder builderForValue) {
+              if (testReportBuilder_ == null) {
+                  ensureTestReportIsMutable();
+                  testReport_.set(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  testReportBuilder_.setMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public Builder addTestReport(
+                  com.android.vts.proto.VtsReportMessage.TestReportMessage value) {
+              if (testReportBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureTestReportIsMutable();
+                  testReport_.add(value);
+                  onChanged();
+              } else {
+                  testReportBuilder_.addMessage(value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public Builder addTestReport(
+                  int index, com.android.vts.proto.VtsReportMessage.TestReportMessage value) {
+              if (testReportBuilder_ == null) {
+                  if (value == null) {
+                      throw new NullPointerException();
+                  }
+                  ensureTestReportIsMutable();
+                  testReport_.add(index, value);
+                  onChanged();
+              } else {
+                  testReportBuilder_.addMessage(index, value);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public Builder addTestReport(com.android.vts.proto.VtsReportMessage.TestReportMessage
+                                               .Builder builderForValue) {
+              if (testReportBuilder_ == null) {
+                  ensureTestReportIsMutable();
+                  testReport_.add(builderForValue.build());
+                  onChanged();
+              } else {
+                  testReportBuilder_.addMessage(builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public Builder addTestReport(
+                  int index, com.android.vts.proto.VtsReportMessage.TestReportMessage
+                                     .Builder builderForValue) {
+              if (testReportBuilder_ == null) {
+                  ensureTestReportIsMutable();
+                  testReport_.add(index, builderForValue.build());
+                  onChanged();
+              } else {
+                  testReportBuilder_.addMessage(index, builderForValue.build());
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public Builder addAllTestReport(
+                  java.lang.Iterable<? extends com.android.vts.proto.VtsReportMessage
+                                                       .TestReportMessage> values) {
+              if (testReportBuilder_ == null) {
+                  ensureTestReportIsMutable();
+                  super.addAll(values, testReport_);
+                  onChanged();
+              } else {
+                  testReportBuilder_.addAllMessages(values);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public Builder clearTestReport() {
+              if (testReportBuilder_ == null) {
+                  testReport_ = java.util.Collections.emptyList();
+                  bitField0_ = (bitField0_ & ~0x00000002);
+                  onChanged();
+              } else {
+                  testReportBuilder_.clear();
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public Builder removeTestReport(int index) {
+              if (testReportBuilder_ == null) {
+                  ensureTestReportIsMutable();
+                  testReport_.remove(index);
+                  onChanged();
+              } else {
+                  testReportBuilder_.remove(index);
+              }
+              return this;
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder
+          getTestReportBuilder(int index) {
+              return getTestReportFieldBuilder().getBuilder(index);
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder
+          getTestReportOrBuilder(int index) {
+              if (testReportBuilder_ == null) {
+                  return testReport_.get(index);
+              } else {
+                  return testReportBuilder_.getMessageOrBuilder(index);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public java.util
+                  .List<? extends com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder>
+                  getTestReportOrBuilderList() {
+              if (testReportBuilder_ != null) {
+                  return testReportBuilder_.getMessageOrBuilderList();
+              } else {
+                  return java.util.Collections.unmodifiableList(testReport_);
+              }
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder
+          addTestReportBuilder() {
+              return getTestReportFieldBuilder().addBuilder(
+                      com.android.vts.proto.VtsReportMessage.TestReportMessage
+                              .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder
+          addTestReportBuilder(int index) {
+              return getTestReportFieldBuilder().addBuilder(
+                      index, com.android.vts.proto.VtsReportMessage.TestReportMessage
+                                     .getDefaultInstance());
+          }
+          /**
+           * <code>repeated .android.vts.TestReportMessage test_report = 2;</code>
+           */
+          public java.util.List<com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder>
+          getTestReportBuilderList() {
+              return getTestReportFieldBuilder().getBuilderList();
+          }
+          private com.google.protobuf
+                  .RepeatedFieldBuilder<com.android.vts.proto.VtsReportMessage.TestReportMessage,
+                          com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder,
+                          com.android.vts.proto.VtsReportMessage.TestReportMessageOrBuilder>
+                  getTestReportFieldBuilder() {
+              if (testReportBuilder_ == null) {
+                  testReportBuilder_ =
+                          new com.google.protobuf.RepeatedFieldBuilder<com.android.vts.proto
+                                                                               .VtsReportMessage
+                                                                               .TestReportMessage,
+                                  com.android.vts.proto.VtsReportMessage.TestReportMessage.Builder,
+                                  com.android.vts.proto.VtsReportMessage
+                                          .TestReportMessageOrBuilder>(testReport_,
+                                  ((bitField0_ & 0x00000002) == 0x00000002), getParentForChildren(),
+                                  isClean());
+                  testReport_ = null;
+              }
+              return testReportBuilder_;
+          }
+
+          // @@protoc_insertion_point(builder_scope:android.vts.DashboardPostMessage)
+      }
+
+      static {
+          defaultInstance = new DashboardPostMessage(true);
+          defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:android.vts.DashboardPostMessage)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_android_vts_AndroidDeviceInfoMessage_descriptor;
   private static
@@ -17317,6 +18241,10 @@ public final class VtsReportMessage {
           .Descriptor internal_static_android_vts_TestPlanReportMessage_descriptor;
   private static com.google.protobuf.GeneratedMessage
           .FieldAccessorTable internal_static_android_vts_TestPlanReportMessage_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors
+          .Descriptor internal_static_android_vts_DashboardPostMessage_descriptor;
+  private static com.google.protobuf.GeneratedMessage
+          .FieldAccessorTable internal_static_android_vts_DashboardPostMessage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -17381,25 +18309,28 @@ public final class VtsReportMessage {
                       + "ge\022\030\n\020test_module_name\030\001 \003(\014\022#\n\033test_mod"
                       + "ule_start_timestamp\030\002 \003(\003\022\026\n\016test_plan_n"
                       + "ame\030\013 \001(\014\0227\n\016partner_report\030\025 \003(\0132\037.andr"
-                      + "oid.vts.UrlResourceMessage*\263\001\n\016TestCaseR"
-                      + "esult\022\022\n\016UNKNOWN_RESULT\020\000\022\031\n\025TEST_CASE_R"
-                      + "ESULT_PASS\020\001\022\031\n\025TEST_CASE_RESULT_FAIL\020\002\022"
-                      + "\031\n\025TEST_CASE_RESULT_SKIP\020\003\022\036\n\032TEST_CASE_"
-                      + "RESULT_EXCEPTION\020\004\022\034\n\030TEST_CASE_RESULT_T",
-              "IMEOUT\020\005*\234\001\n\013VtsTestType\022\030\n\024UNKNOWN_VTS_"
-                      + "TESTTYPE\020\000\022\036\n\032VTS_HOST_DRIVEN_STRUCTURAL"
-                      + "\020\001\022\033\n\027VTS_HOST_DRIVEN_FUZZING\020\002\022\031\n\025VTS_T"
-                      + "ARGET_SIDE_GTEST\020\003\022\033\n\027VTS_TARGET_SIDE_FU"
-                      + "ZZING\020\004*\243\001\n\032VtsProfilingRegressionMode\022\033"
-                      + "\n\027UNKNOWN_REGRESSION_MODE\020\000\022 \n\034VTS_REGRE"
-                      + "SSION_MODE_DISABLED\020\001\022\"\n\036VTS_REGRESSION_"
-                      + "MODE_INCREASING\020\002\022\"\n\036VTS_REGRESSION_MODE"
-                      + "_DECREASING\020\003*\244\001\n\020VtsProfilingType\022\036\n\032UN"
-                      + "KNOWN_VTS_PROFILING_TYPE\020\000\022 \n\034VTS_PROFIL",
-              "ING_TYPE_TIMESTAMP\020\001\022%\n!VTS_PROFILING_TY"
-                      + "PE_LABELED_VECTOR\020\002\022\'\n#VTS_PROFILING_TYP"
-                      + "E_UNLABELED_VECTOR\020\003B)\n\025com.android.vts."
-                      + "protoB\020VtsReportMessage"};
+                      + "oid.vts.UrlResourceMessage\"a\n\024DashboardP"
+                      + "ostMessage\022\024\n\014access_token\030\001 \001(\t\0223\n\013test"
+                      + "_report\030\002 \003(\0132\036.android.vts.TestReportMe"
+                      + "ssage*\263\001\n\016TestCaseResult\022\022\n\016UNKNOWN_RESU"
+                      + "LT\020\000\022\031\n\025TEST_CASE_RESULT_PASS\020\001\022\031\n\025TEST_",
+              "CASE_RESULT_FAIL\020\002\022\031\n\025TEST_CASE_RESULT_S"
+                      + "KIP\020\003\022\036\n\032TEST_CASE_RESULT_EXCEPTION\020\004\022\034\n"
+                      + "\030TEST_CASE_RESULT_TIMEOUT\020\005*\234\001\n\013VtsTestT"
+                      + "ype\022\030\n\024UNKNOWN_VTS_TESTTYPE\020\000\022\036\n\032VTS_HOS"
+                      + "T_DRIVEN_STRUCTURAL\020\001\022\033\n\027VTS_HOST_DRIVEN"
+                      + "_FUZZING\020\002\022\031\n\025VTS_TARGET_SIDE_GTEST\020\003\022\033\n"
+                      + "\027VTS_TARGET_SIDE_FUZZING\020\004*\243\001\n\032VtsProfil"
+                      + "ingRegressionMode\022\033\n\027UNKNOWN_REGRESSION_"
+                      + "MODE\020\000\022 \n\034VTS_REGRESSION_MODE_DISABLED\020\001"
+                      + "\022\"\n\036VTS_REGRESSION_MODE_INCREASING\020\002\022\"\n\036",
+              "VTS_REGRESSION_MODE_DECREASING\020\003*\244\001\n\020Vts"
+                      + "ProfilingType\022\036\n\032UNKNOWN_VTS_PROFILING_T"
+                      + "YPE\020\000\022 \n\034VTS_PROFILING_TYPE_TIMESTAMP\020\001\022"
+                      + "%\n!VTS_PROFILING_TYPE_LABELED_VECTOR\020\002\022\'"
+                      + "\n#VTS_PROFILING_TYPE_UNLABELED_VECTOR\020\003B"
+                      + ")\n\025com.android.vts.protoB\020VtsReportMessa"
+                      + "ge"};
       com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
               new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
                   public com.google.protobuf.ExtensionRegistry assignDescriptors(
@@ -17504,6 +18435,14 @@ public final class VtsReportMessage {
                                       new java.lang.String[] {
                                               "TestModuleName", "TestModuleStartTimestamp",
                                               "TestPlanName", "PartnerReport",
+                                      });
+                      internal_static_android_vts_DashboardPostMessage_descriptor =
+                              getDescriptor().getMessageTypes().get(11);
+                      internal_static_android_vts_DashboardPostMessage_fieldAccessorTable =
+                              new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                                      internal_static_android_vts_DashboardPostMessage_descriptor,
+                                      new java.lang.String[] {
+                                              "AccessToken", "TestReport",
                                       });
                       return null;
                   }

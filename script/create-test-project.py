@@ -208,7 +208,7 @@ def main():
         '--name',
         dest='test_name',
         required=True,
-        help='Test case name in UpperCamel. Example: KernelLtpTest')
+        help='Test case name in UpperCamel. Example: VtsKernelLtp')
     parser.add_argument(
         '--dir',
         dest='test_dir',

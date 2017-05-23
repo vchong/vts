@@ -87,6 +87,7 @@ vts_test_lib_hidl_packages := \
   android.hardware.gatekeeper@1.0-vts.profiler \
   android.hardware.gnss@1.0-vts.profiler \
   android.hardware.graphics.allocator@2.0-vts.profiler \
+  android.hardware.graphics.bufferqueue@1.0-vts.profiler \
   android.hardware.graphics.common@1.0-vts.profiler \
   android.hardware.graphics.composer@2.1-vts.profiler \
   android.hardware.graphics.mapper@2.0-vts.profiler \

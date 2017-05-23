@@ -33,7 +33,7 @@ More examples are in `test/vts/script/run-local.sh`.
 ## Additional Step for LTP and Linux-Kselftest
 
 Add `'data_file_path' : '<your android build top>/out/host/linux-x86/vts/android-vts/testcases'`
-to your config file (e.g., `KernelLtpStagingTest.config`).
+to your config file (e.g., `VtsKernelLtpStaging.config`).
 
 ## Add a new test
 

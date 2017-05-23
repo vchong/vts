@@ -101,6 +101,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     static final String ENABLE_PROFILING = "enable_profiling";
     static final String SAVE_TRACE_FIEL_REMOTE = "save_trace_file_remote";
     static final String ENABLE_COVERAGE = "enable_coverage";
+    static final String OUTPUT_COVERAGE_REPORT = "output_coverage_report";
     static final String NATIVE_SERVER_PROCESS_NAME = "native_server_process_name";
     static final String PASSTHROUGH_MODE = "passthrough_mode";
     static final String PRECONDITION_HWBINDER_SERVICE = "precondition_hwbinder_service";
@@ -189,6 +190,9 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
                           "ro.vts.coverage system must have value \"1\" to indicate the target " +
                           "build is coverage instrumented.")
     private boolean mEnableCoverage = true;
+
+    @Option(name = "output-coverage-report", description = "Whether to store raw coverage report.")
+    private boolean mOutputCoverageReport = false;
 
     // Another design option is to parse a string or use enum for host preference on BINDER,
     // PASSTHROUGH and DEFAULT(which is BINDER). Also in the future, we might want to deal with
@@ -685,6 +689,10 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
             } else {
                 CLog.i("Device build has coverage disabled");
             }
+        }
+        if (mOutputCoverageReport) {
+            jsonObject.put(OUTPUT_COVERAGE_REPORT, mOutputCoverageReport);
+            CLog.i("Added %s to the Json object", OUTPUT_COVERAGE_REPORT);
         }
 
         if (mPreconditionHwBinderServiceName != null) {

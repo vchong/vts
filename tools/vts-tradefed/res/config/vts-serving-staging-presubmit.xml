@@ -39,6 +39,7 @@
 
   <!-- For vts-kernel -->
   <option name="compatibility:include-filter" value="KernelLtpTest" />
+  <option name="compatibility:include-filter" value="LinuxKselftestTestPresubmit" />
   <!-- option name="compatibility:include-filter" value="ShellBinaryCrashTest" / -->
   <!-- option name="compatibility:include-filter" value="SampleQtaguidTest" / -->
   <!-- option name="compatibility:include-filter" value="LibcTest" / -->

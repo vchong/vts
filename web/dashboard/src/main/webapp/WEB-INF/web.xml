@@ -21,6 +21,11 @@ Copyright 2016 Google Inc. All Rights Reserved.
 </servlet>
 
 <servlet>
+  <servlet-name>show_tree</servlet-name>
+  <servlet-class>com.android.vts.servlet.ShowTreeServlet</servlet-class>
+</servlet>
+
+<servlet>
   <servlet-name>show_table</servlet-name>
   <servlet-class>com.android.vts.servlet.ShowTableServlet</servlet-class>
 </servlet>
@@ -51,6 +56,16 @@ Copyright 2016 Google Inc. All Rights Reserved.
 </servlet>
 
 <servlet>
+  <servlet-name>test_run</servlet-name>
+  <servlet-class>com.android.vts.api.TestRunRestServlet</servlet-class>
+</servlet>
+
+<servlet>
+  <servlet-name>bigtable_legacy</servlet-name>
+  <servlet-class>com.android.vts.api.BigtableLegacyJsonServlet</servlet-class>
+</servlet>
+
+<servlet>
   <servlet-name>vts_alert_job</servlet-name>
   <servlet-class>com.android.vts.servlet.VtsAlertJobServlet</servlet-class>
 </servlet>
@@ -68,6 +83,11 @@ Copyright 2016 Google Inc. All Rights Reserved.
 <servlet-mapping>
   <servlet-name>show_preferences</servlet-name>
   <url-pattern>/show_preferences/*</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+  <servlet-name>show_tree</servlet-name>
+  <url-pattern>/show_tree/*</url-pattern>
 </servlet-mapping>
 
 <servlet-mapping>
@@ -91,13 +111,18 @@ Copyright 2016 Google Inc. All Rights Reserved.
 </servlet-mapping>
 
 <servlet-mapping>
-  <servlet-name>datastore</servlet-name>
+  <servlet-name>bigtable_legacy</servlet-name>
   <url-pattern>/api/bigtable/*</url-pattern>
 </servlet-mapping>
 
 <servlet-mapping>
   <servlet-name>datastore</servlet-name>
   <url-pattern>/api/datastore/*</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+  <servlet-name>test_run</servlet-name>
+  <url-pattern>/api/test_run/*</url-pattern>
 </servlet-mapping>
 
 <servlet-mapping>
