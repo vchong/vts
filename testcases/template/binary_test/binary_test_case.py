@@ -76,18 +76,23 @@ class BinaryTestCase(object):
         self.args = args
 
     def __str__(self):
-        return self.put_tag_func(self.GetFullName(), self.tag)
+        return self.put_tag_func(self.full_name, self.tag)
 
-    def GetFullName(self):
+    @property
+    def full_name(self):
         '''Get a string that represents the test.
 
         Returns:
             A string test name in format '<test suite>.<test name>' if
             test_suite is not empty; '<test name>' otherwise
         '''
-        return '{}.{}'.format(
-            self.test_suite,
-            self.test_name) if self.test_suite else self.test_name
+        return getattr(self, '_full_name', '{}.{}'.format(
+            self.test_suite, self.test_name)
+                       if self.test_suite else self.test_name)
+
+    @full_name.setter
+    def full_name(self, full_name):
+        self._full_name = full_name
 
     def GetRunCommand(self):
         '''Get the command to run the test.

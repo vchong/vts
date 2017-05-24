@@ -18,6 +18,7 @@
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts" />
 
+  <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:gtest-batch-mode:true" />
   <option name="compatibility:include-filter" value="VtsHalContexthubV1_0Host" />
   <option name="compatibility:include-filter" value="VtsHalMediaOmxV1_0Host" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0HostBinderize" />

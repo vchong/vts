@@ -86,7 +86,12 @@ public class ShowTreeServlet extends BaseServlet {
         return links;
     }
 
-    public static void processTestDetails(TestRunMetadata metadata, Set<String> profilingPoints) {
+    /**
+     * Get the test run details for a test run.
+     * @param metadata The metadata for the test run whose details will be fetched.
+     * @return The TestRunDetails object for the provided test run.
+     */
+    public static TestRunDetails processTestDetails(TestRunMetadata metadata) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         TestRunDetails details = new TestRunDetails();
         List<Key> gets = new ArrayList<>();
@@ -103,14 +108,7 @@ public class ShowTreeServlet extends BaseServlet {
                 details.addTestCase(testCaseRun);
             }
         }
-        metadata.addDetails(details);
-
-        Query profilingPointQuery = new Query(ProfilingPointRunEntity.KIND)
-                                            .setAncestor(metadata.testRun.key)
-                                            .setKeysOnly();
-        for (Entity e : datastore.prepare(profilingPointQuery).asIterable()) {
-            profilingPoints.add(e.getKey().getName());
-        }
+        return details;
     }
 
     @Override
@@ -169,8 +167,6 @@ public class ShowTreeServlet extends BaseServlet {
         for (TestCaseResult r : TestCaseResult.values()) {
             resultNames.add(r.name());
         }
-
-        Set<String> profilingPoints = new HashSet<>();
 
         SortDirection dir = SortDirection.DESCENDING;
         if (startTime != null && endTime == null) {
@@ -240,11 +236,12 @@ public class ShowTreeServlet extends BaseServlet {
         Collections.sort(testRunMetadata, comparator);
         List<JsonObject> testRunObjects = new ArrayList<>();
 
-        for (int i = 0; i < testRunMetadata.size(); i++) {
-            TestRunMetadata metadata = testRunMetadata.get(i);
-            if (i < MAX_PREFETCH_COUNT) {
+        int prefetchCount = 0;
+        for (TestRunMetadata metadata : testRunMetadata) {
+            if (metadata.testRun.failCount > 0 && prefetchCount < MAX_PREFETCH_COUNT) {
                 // process
-                processTestDetails(metadata, profilingPoints);
+                metadata.addDetails(processTestDetails(metadata));
+                ++prefetchCount;
             }
             testRunObjects.add(metadata.toJson());
         }
@@ -255,10 +252,21 @@ public class ShowTreeServlet extends BaseServlet {
             TestRunMetadata firstRun = testRunMetadata.get(0);
             topBuild = firstRun.getDeviceInfo();
             startTime = firstRun.testRun.startTimestamp;
-            topBuildResultCounts = firstRun.getDetails().resultCounts;
+            TestRunDetails topDetails = firstRun.getDetails();
+            if (topDetails == null) {
+                topDetails = processTestDetails(firstRun);
+            }
+            topBuildResultCounts = topDetails.resultCounts;
 
             TestRunMetadata lastRun = testRunMetadata.get(testRunMetadata.size() - 1);
             endTime = lastRun.testRun.startTimestamp;
+        }
+
+        Set<String> profilingPoints = new HashSet<>();
+        Query profilingPointQuery =
+                new Query(ProfilingPointRunEntity.KIND).setAncestor(testKey).setKeysOnly();
+        for (Entity e : datastore.prepare(profilingPointQuery).asIterable()) {
+            profilingPoints.add(e.getKey().getName());
         }
 
         if (profilingPoints.size() == 0) {

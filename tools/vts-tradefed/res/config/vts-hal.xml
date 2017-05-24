@@ -19,6 +19,7 @@
   <option name="test-tag" value="vts" />
 
   <!-- For HIDL HAL Target-Side Tests -->
+  <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:gtest-batch-mode:true" />
   <option name="compatibility:include-filter" value="VtsHalBluetoothV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalBootV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalIrV1_0Target" />

@@ -98,9 +98,10 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     static final String BINARY_TEST_TYPE_HAL_HIDL_GTEST = "hal_hidl_gtest";
     static final String BINARY_TEST_TYPE_HAL_HIDL_REPLAY_TEST = "hal_hidl_replay_test";
     static final String BINARY_TEST_TYPE_HOST_BINARY_TEST = "host_binary_test";
-    static final String ENABLE_PROFILING = "enable_profiling";
-    static final String SAVE_TRACE_FIEL_REMOTE = "save_trace_file_remote";
     static final String ENABLE_COVERAGE = "enable_coverage";
+    static final String ENABLE_PROFILING = "enable_profiling";
+    static final String GTEST_BATCH_MODE = "gtest_match_mode";
+    static final String SAVE_TRACE_FIEL_REMOTE = "save_trace_file_remote";
     static final String OUTPUT_COVERAGE_REPORT = "output_coverage_report";
     static final String NATIVE_SERVER_PROCESS_NAME = "native_server_process_name";
     static final String PASSTHROUGH_MODE = "passthrough_mode";
@@ -317,6 +318,9 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
                     + "All test run callbacks will be triggered, but test execution will "
                     + "not be actually carried out.")
     private boolean mCollectTestsOnly = false;
+
+    @Option(name = "gtest-batch-mode", description = "Run Gtest binaries in batch mode.")
+    private boolean mGtestBatchMode = false;
 
     // This variable is set in order to include the directory that contains the
     // python test cases. This is set before calling the method.
@@ -755,6 +759,11 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
         if (mPassthroughMode) {
             jsonObject.put(PASSTHROUGH_MODE, mPassthroughMode);
             CLog.i("Added %s to the Json object", PASSTHROUGH_MODE);
+        }
+
+        if (mGtestBatchMode) {
+            jsonObject.put(GTEST_BATCH_MODE, mGtestBatchMode);
+            CLog.i("Added %s to the Json object", GTEST_BATCH_MODE);
         }
     }
 

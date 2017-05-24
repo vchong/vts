@@ -14,7 +14,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='VtsReportMessage.proto',
   package='android.vts',
-  serialized_pb='\n\x16VtsReportMessage.proto\x12\x0b\x61ndroid.vts\"\xe0\x01\n\x18\x41ndroidDeviceInfoMessage\x12\x14\n\x0cproduct_type\x18\x01 \x01(\x0c\x12\x17\n\x0fproduct_variant\x18\x02 \x01(\x0c\x12\x14\n\x0c\x62uild_flavor\x18\x0b \x01(\x0c\x12\x10\n\x08\x62uild_id\x18\x0c \x01(\x0c\x12\x0e\n\x06\x62ranch\x18\x15 \x01(\x0c\x12\x13\n\x0b\x62uild_alias\x18\x16 \x01(\x0c\x12\x11\n\tapi_level\x18\x1f \x01(\x0c\x12\x10\n\x08\x61\x62i_name\x18\x33 \x01(\x0c\x12\x13\n\x0b\x61\x62i_bitness\x18\x34 \x01(\x0c\x12\x0e\n\x06serial\x18\x65 \x01(\x0c\"g\n\x10\x41ndroidBuildInfo\x12\n\n\x02id\x18\x01 \x01(\x0c\x12\x0c\n\x04name\x18\x0b \x01(\x0c\x12\x12\n\nbuild_type\x18\x0c \x01(\x0c\x12\x0e\n\x06\x62ranch\x18\r \x01(\x0c\x12\x15\n\rbuild_summary\x18\x15 \x01(\x0c\"\x1f\n\x0bVtsHostInfo\x12\x10\n\x08hostname\x18\x01 \x01(\x0c\"\xd1\x02\n\x15TestCaseReportMessage\x12\x0c\n\x04name\x18\x01 \x01(\x0c\x12\x30\n\x0btest_result\x18\x0b \x01(\x0e\x32\x1b.android.vts.TestCaseResult\x12\x17\n\x0fstart_timestamp\x18\x15 \x01(\x03\x12\x15\n\rend_timestamp\x18\x16 \x01(\x03\x12\x34\n\x08\x63overage\x18\x1f \x03(\x0b\x32\".android.vts.CoverageReportMessage\x12\x36\n\tprofiling\x18) \x03(\x0b\x32#.android.vts.ProfilingReportMessage\x12\x34\n\x08systrace\x18* \x03(\x0b\x32\".android.vts.SystraceReportMessage\x12$\n\x03log\x18\x65 \x03(\x0b\x32\x17.android.vts.LogMessage\"\xa0\x02\n\x16ProfilingReportMessage\x12\x0c\n\x04name\x18\x01 \x01(\x0c\x12+\n\x04type\x18\x02 \x01(\x0e\x32\x1d.android.vts.VtsProfilingType\x12@\n\x0fregression_mode\x18\x03 \x01(\x0e\x32\'.android.vts.VtsProfilingRegressionMode\x12\x17\n\x0fstart_timestamp\x18\x0b \x01(\x03\x12\x15\n\rend_timestamp\x18\x0c \x01(\x03\x12\r\n\x05label\x18\x15 \x03(\x0c\x12\r\n\x05value\x18\x16 \x03(\x03\x12\x14\n\x0cx_axis_label\x18\x1f \x01(\x0c\x12\x14\n\x0cy_axis_label\x18  \x01(\x0c\x12\x0f\n\x07options\x18) \x03(\x0c\"H\n\x15SystraceReportMessage\x12\x14\n\x0cprocess_name\x18\x01 \x01(\x0c\x12\x0c\n\x04html\x18\x0b \x03(\x0c\x12\x0b\n\x03url\x18\x15 \x03(\x0c\"\xe5\x01\n\x15\x43overageReportMessage\x12\x11\n\tfile_path\x18\x0b \x01(\x0c\x12\x14\n\x0cproject_name\x18\x0c \x01(\x0c\x12\x10\n\x08revision\x18\r \x01(\x0c\x12\x1c\n\x14line_coverage_vector\x18\x17 \x03(\x05\x12\x18\n\x10total_line_count\x18\x65 \x01(\x05\x12\x1a\n\x12\x63overed_line_count\x18\x66 \x01(\x05\x12\x14\n\x08\x64ir_path\x18\x01 \x01(\x0c\x42\x02\x18\x01\x12\x15\n\tfile_name\x18\x02 \x01(\x0c\x42\x02\x18\x01\x12\x10\n\x04html\x18\x03 \x01(\x0c\x42\x02\x18\x01\"8\n\nLogMessage\x12\x0b\n\x03url\x18\x01 \x01(\x0c\x12\x0c\n\x04name\x18\x02 \x01(\x0c\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\x0c\"@\n\x12UrlResourceMessage\x12\x0b\n\x03url\x18\x01 \x01(\x0c\x12\x0c\n\x04name\x18\x02 \x01(\x0c\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\x0c\"\xce\x04\n\x11TestReportMessage\x12\x16\n\ntest_suite\x18\x01 \x01(\x0c\x42\x02\x18\x01\x12\x0c\n\x04test\x18\x02 \x01(\x0c\x12+\n\ttest_type\x18\x03 \x01(\x0e\x32\x18.android.vts.VtsTestType\x12:\n\x0b\x64\x65vice_info\x18\x04 \x03(\x0b\x32%.android.vts.AndroidDeviceInfoMessage\x12\x31\n\nbuild_info\x18\x05 \x01(\x0b\x32\x1d.android.vts.AndroidBuildInfo\x12\x18\n\x10subscriber_email\x18\x06 \x03(\x0c\x12+\n\thost_info\x18\x07 \x01(\x0b\x32\x18.android.vts.VtsHostInfo\x12\x35\n\ttest_case\x18\x0b \x03(\x0b\x32\".android.vts.TestCaseReportMessage\x12\x36\n\tprofiling\x18\x15 \x03(\x0b\x32#.android.vts.ProfilingReportMessage\x12\x34\n\x08systrace\x18\x16 \x03(\x0b\x32\".android.vts.SystraceReportMessage\x12\x17\n\x0fstart_timestamp\x18\x65 \x01(\x03\x12\x15\n\rend_timestamp\x18\x66 \x01(\x03\x12\x34\n\x08\x63overage\x18g \x03(\x0b\x32\".android.vts.CoverageReportMessage\x12%\n\x03log\x18\xe9\x07 \x03(\x0b\x32\x17.android.vts.LogMessage\"\xa7\x01\n\x15TestPlanReportMessage\x12\x18\n\x10test_module_name\x18\x01 \x03(\x0c\x12#\n\x1btest_module_start_timestamp\x18\x02 \x03(\x03\x12\x16\n\x0etest_plan_name\x18\x0b \x01(\x0c\x12\x37\n\x0epartner_report\x18\x15 \x03(\x0b\x32\x1f.android.vts.UrlResourceMessage\"a\n\x14\x44\x61shboardPostMessage\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x33\n\x0btest_report\x18\x02 \x03(\x0b\x32\x1e.android.vts.TestReportMessage*\xb3\x01\n\x0eTestCaseResult\x12\x12\n\x0eUNKNOWN_RESULT\x10\x00\x12\x19\n\x15TEST_CASE_RESULT_PASS\x10\x01\x12\x19\n\x15TEST_CASE_RESULT_FAIL\x10\x02\x12\x19\n\x15TEST_CASE_RESULT_SKIP\x10\x03\x12\x1e\n\x1aTEST_CASE_RESULT_EXCEPTION\x10\x04\x12\x1c\n\x18TEST_CASE_RESULT_TIMEOUT\x10\x05*\x9c\x01\n\x0bVtsTestType\x12\x18\n\x14UNKNOWN_VTS_TESTTYPE\x10\x00\x12\x1e\n\x1aVTS_HOST_DRIVEN_STRUCTURAL\x10\x01\x12\x1b\n\x17VTS_HOST_DRIVEN_FUZZING\x10\x02\x12\x19\n\x15VTS_TARGET_SIDE_GTEST\x10\x03\x12\x1b\n\x17VTS_TARGET_SIDE_FUZZING\x10\x04*\xa3\x01\n\x1aVtsProfilingRegressionMode\x12\x1b\n\x17UNKNOWN_REGRESSION_MODE\x10\x00\x12 \n\x1cVTS_REGRESSION_MODE_DISABLED\x10\x01\x12\"\n\x1eVTS_REGRESSION_MODE_INCREASING\x10\x02\x12\"\n\x1eVTS_REGRESSION_MODE_DECREASING\x10\x03*\xa4\x01\n\x10VtsProfilingType\x12\x1e\n\x1aUNKNOWN_VTS_PROFILING_TYPE\x10\x00\x12 \n\x1cVTS_PROFILING_TYPE_TIMESTAMP\x10\x01\x12%\n!VTS_PROFILING_TYPE_LABELED_VECTOR\x10\x02\x12\'\n#VTS_PROFILING_TYPE_UNLABELED_VECTOR\x10\x03\x42)\n\x15\x63om.android.vts.protoB\x10VtsReportMessage')
+  serialized_pb='\n\x16VtsReportMessage.proto\x12\x0b\x61ndroid.vts\"\xe0\x01\n\x18\x41ndroidDeviceInfoMessage\x12\x14\n\x0cproduct_type\x18\x01 \x01(\x0c\x12\x17\n\x0fproduct_variant\x18\x02 \x01(\x0c\x12\x14\n\x0c\x62uild_flavor\x18\x0b \x01(\x0c\x12\x10\n\x08\x62uild_id\x18\x0c \x01(\x0c\x12\x0e\n\x06\x62ranch\x18\x15 \x01(\x0c\x12\x13\n\x0b\x62uild_alias\x18\x16 \x01(\x0c\x12\x11\n\tapi_level\x18\x1f \x01(\x0c\x12\x10\n\x08\x61\x62i_name\x18\x33 \x01(\x0c\x12\x13\n\x0b\x61\x62i_bitness\x18\x34 \x01(\x0c\x12\x0e\n\x06serial\x18\x65 \x01(\x0c\"g\n\x10\x41ndroidBuildInfo\x12\n\n\x02id\x18\x01 \x01(\x0c\x12\x0c\n\x04name\x18\x0b \x01(\x0c\x12\x12\n\nbuild_type\x18\x0c \x01(\x0c\x12\x0e\n\x06\x62ranch\x18\r \x01(\x0c\x12\x15\n\rbuild_summary\x18\x15 \x01(\x0c\"\x1f\n\x0bVtsHostInfo\x12\x10\n\x08hostname\x18\x01 \x01(\x0c\"\xd1\x02\n\x15TestCaseReportMessage\x12\x0c\n\x04name\x18\x01 \x01(\x0c\x12\x30\n\x0btest_result\x18\x0b \x01(\x0e\x32\x1b.android.vts.TestCaseResult\x12\x17\n\x0fstart_timestamp\x18\x15 \x01(\x03\x12\x15\n\rend_timestamp\x18\x16 \x01(\x03\x12\x34\n\x08\x63overage\x18\x1f \x03(\x0b\x32\".android.vts.CoverageReportMessage\x12\x36\n\tprofiling\x18) \x03(\x0b\x32#.android.vts.ProfilingReportMessage\x12\x34\n\x08systrace\x18* \x03(\x0b\x32\".android.vts.SystraceReportMessage\x12$\n\x03log\x18\x65 \x03(\x0b\x32\x17.android.vts.LogMessage\"\xa0\x02\n\x16ProfilingReportMessage\x12\x0c\n\x04name\x18\x01 \x01(\x0c\x12+\n\x04type\x18\x02 \x01(\x0e\x32\x1d.android.vts.VtsProfilingType\x12@\n\x0fregression_mode\x18\x03 \x01(\x0e\x32\'.android.vts.VtsProfilingRegressionMode\x12\x17\n\x0fstart_timestamp\x18\x0b \x01(\x03\x12\x15\n\rend_timestamp\x18\x0c \x01(\x03\x12\r\n\x05label\x18\x15 \x03(\x0c\x12\r\n\x05value\x18\x16 \x03(\x03\x12\x14\n\x0cx_axis_label\x18\x1f \x01(\x0c\x12\x14\n\x0cy_axis_label\x18  \x01(\x0c\x12\x0f\n\x07options\x18) \x03(\x0c\"H\n\x15SystraceReportMessage\x12\x14\n\x0cprocess_name\x18\x01 \x01(\x0c\x12\x0c\n\x04html\x18\x0b \x03(\x0c\x12\x0b\n\x03url\x18\x15 \x03(\x0c\"\xe5\x01\n\x15\x43overageReportMessage\x12\x11\n\tfile_path\x18\x0b \x01(\x0c\x12\x14\n\x0cproject_name\x18\x0c \x01(\x0c\x12\x10\n\x08revision\x18\r \x01(\x0c\x12\x1c\n\x14line_coverage_vector\x18\x17 \x03(\x05\x12\x18\n\x10total_line_count\x18\x65 \x01(\x05\x12\x1a\n\x12\x63overed_line_count\x18\x66 \x01(\x05\x12\x14\n\x08\x64ir_path\x18\x01 \x01(\x0c\x42\x02\x18\x01\x12\x15\n\tfile_name\x18\x02 \x01(\x0c\x42\x02\x18\x01\x12\x10\n\x04html\x18\x03 \x01(\x0c\x42\x02\x18\x01\"8\n\nLogMessage\x12\x0b\n\x03url\x18\x01 \x01(\x0c\x12\x0c\n\x04name\x18\x02 \x01(\x0c\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\x0c\"@\n\x12UrlResourceMessage\x12\x0b\n\x03url\x18\x01 \x01(\x0c\x12\x0c\n\x04name\x18\x02 \x01(\x0c\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\x0c\"\xce\x04\n\x11TestReportMessage\x12\x16\n\ntest_suite\x18\x01 \x01(\x0c\x42\x02\x18\x01\x12\x0c\n\x04test\x18\x02 \x01(\x0c\x12+\n\ttest_type\x18\x03 \x01(\x0e\x32\x18.android.vts.VtsTestType\x12:\n\x0b\x64\x65vice_info\x18\x04 \x03(\x0b\x32%.android.vts.AndroidDeviceInfoMessage\x12\x31\n\nbuild_info\x18\x05 \x01(\x0b\x32\x1d.android.vts.AndroidBuildInfo\x12\x18\n\x10subscriber_email\x18\x06 \x03(\x0c\x12+\n\thost_info\x18\x07 \x01(\x0b\x32\x18.android.vts.VtsHostInfo\x12\x35\n\ttest_case\x18\x0b \x03(\x0b\x32\".android.vts.TestCaseReportMessage\x12\x36\n\tprofiling\x18\x15 \x03(\x0b\x32#.android.vts.ProfilingReportMessage\x12\x34\n\x08systrace\x18\x16 \x03(\x0b\x32\".android.vts.SystraceReportMessage\x12\x17\n\x0fstart_timestamp\x18\x65 \x01(\x03\x12\x15\n\rend_timestamp\x18\x66 \x01(\x03\x12\x34\n\x08\x63overage\x18g \x03(\x0b\x32\".android.vts.CoverageReportMessage\x12%\n\x03log\x18\xe9\x07 \x03(\x0b\x32\x17.android.vts.LogMessage\"\xa7\x01\n\x15TestPlanReportMessage\x12\x18\n\x10test_module_name\x18\x0b \x03(\x0c\x12#\n\x1btest_module_start_timestamp\x18\x0c \x03(\x03\x12\x16\n\x0etest_plan_name\x18\x15 \x01(\x0c\x12\x37\n\x0epartner_report\x18\x1f \x03(\x0b\x32\x1f.android.vts.UrlResourceMessage\"\x9f\x01\n\x14\x44\x61shboardPostMessage\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x33\n\x0btest_report\x18\x02 \x03(\x0b\x32\x1e.android.vts.TestReportMessage\x12<\n\x10test_plan_report\x18\x03 \x03(\x0b\x32\".android.vts.TestPlanReportMessage*\xb3\x01\n\x0eTestCaseResult\x12\x12\n\x0eUNKNOWN_RESULT\x10\x00\x12\x19\n\x15TEST_CASE_RESULT_PASS\x10\x01\x12\x19\n\x15TEST_CASE_RESULT_FAIL\x10\x02\x12\x19\n\x15TEST_CASE_RESULT_SKIP\x10\x03\x12\x1e\n\x1aTEST_CASE_RESULT_EXCEPTION\x10\x04\x12\x1c\n\x18TEST_CASE_RESULT_TIMEOUT\x10\x05*\x9c\x01\n\x0bVtsTestType\x12\x18\n\x14UNKNOWN_VTS_TESTTYPE\x10\x00\x12\x1e\n\x1aVTS_HOST_DRIVEN_STRUCTURAL\x10\x01\x12\x1b\n\x17VTS_HOST_DRIVEN_FUZZING\x10\x02\x12\x19\n\x15VTS_TARGET_SIDE_GTEST\x10\x03\x12\x1b\n\x17VTS_TARGET_SIDE_FUZZING\x10\x04*\xa3\x01\n\x1aVtsProfilingRegressionMode\x12\x1b\n\x17UNKNOWN_REGRESSION_MODE\x10\x00\x12 \n\x1cVTS_REGRESSION_MODE_DISABLED\x10\x01\x12\"\n\x1eVTS_REGRESSION_MODE_INCREASING\x10\x02\x12\"\n\x1eVTS_REGRESSION_MODE_DECREASING\x10\x03*\xa4\x01\n\x10VtsProfilingType\x12\x1e\n\x1aUNKNOWN_VTS_PROFILING_TYPE\x10\x00\x12 \n\x1cVTS_PROFILING_TYPE_TIMESTAMP\x10\x01\x12%\n!VTS_PROFILING_TYPE_LABELED_VECTOR\x10\x02\x12\'\n#VTS_PROFILING_TYPE_UNLABELED_VECTOR\x10\x03\x42)\n\x15\x63om.android.vts.protoB\x10VtsReportMessage')
 
 _TESTCASERESULT = _descriptor.EnumDescriptor(
   name='TestCaseResult',
@@ -49,8 +49,8 @@ _TESTCASERESULT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2328,
-  serialized_end=2507,
+  serialized_start=2391,
+  serialized_end=2570,
 )
 
 TestCaseResult = enum_type_wrapper.EnumTypeWrapper(_TESTCASERESULT)
@@ -83,8 +83,8 @@ _VTSTESTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2510,
-  serialized_end=2666,
+  serialized_start=2573,
+  serialized_end=2729,
 )
 
 VtsTestType = enum_type_wrapper.EnumTypeWrapper(_VTSTESTTYPE)
@@ -113,8 +113,8 @@ _VTSPROFILINGREGRESSIONMODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2669,
-  serialized_end=2832,
+  serialized_start=2732,
+  serialized_end=2895,
 )
 
 VtsProfilingRegressionMode = enum_type_wrapper.EnumTypeWrapper(_VTSPROFILINGREGRESSIONMODE)
@@ -143,8 +143,8 @@ _VTSPROFILINGTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2835,
-  serialized_end=2999,
+  serialized_start=2898,
+  serialized_end=3062,
 )
 
 VtsProfilingType = enum_type_wrapper.EnumTypeWrapper(_VTSPROFILINGTYPE)
@@ -851,28 +851,28 @@ _TESTPLANREPORTMESSAGE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='test_module_name', full_name='android.vts.TestPlanReportMessage.test_module_name', index=0,
-      number=1, type=12, cpp_type=9, label=3,
+      number=11, type=12, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
       name='test_module_start_timestamp', full_name='android.vts.TestPlanReportMessage.test_module_start_timestamp', index=1,
-      number=2, type=3, cpp_type=2, label=3,
+      number=12, type=3, cpp_type=2, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
       name='test_plan_name', full_name='android.vts.TestPlanReportMessage.test_plan_name', index=2,
-      number=11, type=12, cpp_type=9, label=1,
+      number=21, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value="",
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
       name='partner_report', full_name='android.vts.TestPlanReportMessage.partner_report', index=3,
-      number=21, type=11, cpp_type=10, label=3,
+      number=31, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -912,6 +912,13 @@ _DASHBOARDPOSTMESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='test_plan_report', full_name='android.vts.DashboardPostMessage.test_plan_report', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -921,8 +928,8 @@ _DASHBOARDPOSTMESSAGE = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=2228,
-  serialized_end=2325,
+  serialized_start=2229,
+  serialized_end=2388,
 )
 
 _TESTCASEREPORTMESSAGE.fields_by_name['test_result'].enum_type = _TESTCASERESULT
@@ -943,6 +950,7 @@ _TESTREPORTMESSAGE.fields_by_name['coverage'].message_type = _COVERAGEREPORTMESS
 _TESTREPORTMESSAGE.fields_by_name['log'].message_type = _LOGMESSAGE
 _TESTPLANREPORTMESSAGE.fields_by_name['partner_report'].message_type = _URLRESOURCEMESSAGE
 _DASHBOARDPOSTMESSAGE.fields_by_name['test_report'].message_type = _TESTREPORTMESSAGE
+_DASHBOARDPOSTMESSAGE.fields_by_name['test_plan_report'].message_type = _TESTPLANREPORTMESSAGE
 DESCRIPTOR.message_types_by_name['AndroidDeviceInfoMessage'] = _ANDROIDDEVICEINFOMESSAGE
 DESCRIPTOR.message_types_by_name['AndroidBuildInfo'] = _ANDROIDBUILDINFO
 DESCRIPTOR.message_types_by_name['VtsHostInfo'] = _VTSHOSTINFO

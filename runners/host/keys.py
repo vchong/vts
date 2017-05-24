@@ -43,6 +43,7 @@ class ConfigKeys(object):
     IKEY_BINARY_TEST_DISABLE_FRAMEWORK = "binary_test_disable_framework"
     IKEY_BINARY_TEST_STOP_NATIVE_SERVERS = "binary_test_stop_native_servers"
     IKEY_NATIVE_SERVER_PROCESS_NAME = "native_server_process_name"
+    IKEY_GTEST_BATCH_MODE = "gtest_batch_mode"
 
     # Internal keys, used internally, not exposed to user's config files.
     IKEY_USER_PARAM = "user_params"

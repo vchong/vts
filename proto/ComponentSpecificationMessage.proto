@@ -15,7 +15,8 @@
 syntax = "proto2";
 
 package android.vts;
-
+option java_package = "com.android.vts.proto";
+option java_outer_classname = "VtsComponentSpecificationMessage";
 
 // Class of a target component.
 enum ComponentClass {

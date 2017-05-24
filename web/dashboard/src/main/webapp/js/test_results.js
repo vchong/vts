@@ -208,7 +208,7 @@
     popout.appendTo(container);
     popout.unbind();
     metadataList.forEach(function (metadata) {
-      var li = $('<li></li>');
+      var li = $('<li class="test-run-container"></li>');
       li.appendTo(popout);
       var div = $('<div></div>');
       var test = metadata.testRun.testName;

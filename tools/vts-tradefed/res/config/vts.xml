@@ -79,4 +79,15 @@
   <!-- For Hidl Hal replay tests -->
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0TargetReplay" />
 
+  <!-- For Hidl Hal replay tests: Internal Only -->
+  <option name="compatibility:include-filter" value="VtsHalBiometricsFingerprintV2_1TargetReplay" />
+  <option name="compatibility:include-filter" value="VtsHalContexthubV1_0TargetReplay" />
+  <option name="compatibility:include-filter" value="VtsHalKeymasterV3_0TargetReplay" />
+  <option name="compatibility:include-filter" value="VtsHalLightV2_0TargetReplay" />
+  <option name="compatibility:include-filter" value="VtsHalMemtrackV1_0TargetReplay" />
+  <option name="compatibility:include-filter" value="VtsHalPowerV1_0TargetReplay" />
+  <option name="compatibility:include-filter" value="VtsHalUsbV1_0TargetReplay" />
+  <option name="compatibility:include-filter" value="VtsHalVibratorV1_0TargetReplay" />
+  <option name="compatibility:include-filter" value="VtsHalVrV1_0TargetReplay" />
+
 </configuration>

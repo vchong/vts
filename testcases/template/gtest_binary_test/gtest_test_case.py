@@ -49,7 +49,7 @@ class GtestTestCase(binary_test_case.BinaryTestCase):
         if output_file_path:
             self.output_file_path = output_file_path
         if not test_name:
-            test_name = self.GetFullName()
+            test_name = self.full_name
         return [('{cmd} --gtest_filter={test} '
                  '--gtest_output=xml:{output_file_path}').format(
                      cmd=super(GtestTestCase, self).GetRunCommand(),
@@ -82,9 +82,8 @@ class GtestTestCase(binary_test_case.BinaryTestCase):
         output_file_path = os.path.normpath(output_file_path.strip())
 
         if len(ntpath.basename(output_file_path)) > utils.MAX_FILENAME_LEN:
-            logging.error(
-                'File name of output file "{}" is longer than {}.'.format(
-                    output_file_path), utils.MAX_FILENAME_LEN)
+            logging.warn('File name of output file "{}" is longer than {}.'.
+                         format(output_file_path, utils.MAX_FILENAME_LEN))
             output_file_path = os.path.join(
                 ntpath.dirname(output_file_path),
                 '{}.xml'.format(uuid.uuid4()))

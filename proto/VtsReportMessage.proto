@@ -294,14 +294,14 @@ message TestReportMessage {
 message TestPlanReportMessage {
   // Keys used to find all TestReportMessage messages of test modules in
   // this plan.
-  repeated bytes test_module_name = 1;
-  repeated int64 test_module_start_timestamp = 2;
+  repeated bytes test_module_name = 11;
+  repeated int64 test_module_start_timestamp = 12;
 
   // The test plan name.
-  optional bytes test_plan_name = 11;
+  optional bytes test_plan_name = 21;
 
   // Report resource flies.
-  repeated UrlResourceMessage partner_report = 21;
+  repeated UrlResourceMessage partner_report = 31;
 
   // Detailed information about the execution environment (e.g., branch,
   // build ID, and device) can be found in the associated TestReportMessage(s)
@@ -314,4 +314,5 @@ message DashboardPostMessage {
   optional string access_token = 1;
 
   repeated TestReportMessage test_report = 2;
+  repeated TestPlanReportMessage test_plan_report = 3;
 }

@@ -23,6 +23,7 @@
   <!-- option name="compatibility:include-filter" value="SampleLightTest" / -->
 
   <!-- For vts-hal-hidl -->
+  <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:gtest-batch-mode:true" />
   <!-- option name="compatibility:include-filter" value="BinderThroughputBenchmark" / -->
   <!-- option name="compatibility:include-filter" value="BinderPerformanceTest" / -->
 

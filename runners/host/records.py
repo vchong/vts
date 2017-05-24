@@ -237,7 +237,9 @@ class TestResult(object):
             if name.startswith("_test_module"):
                 l_value = getattr(self, name)
                 r_value = getattr(r, name)
-                if l_value is None and r_value is not None:
+                if l_value is None and r_value is None:
+                    continue
+                elif l_value is None and r_value is not None:
                     value = r_value
                 elif l_value is not None and r_value is None:
                     value = l_value

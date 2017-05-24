@@ -62,7 +62,9 @@ class BinaryTest(base_test.BaseTestClass):
 
     def setUpClass(self):
         '''Prepare class, push binaries, set permission, create test cases.'''
-        required_params = [keys.ConfigKeys.IKEY_DATA_FILE_PATH, ]
+        required_params = [
+            keys.ConfigKeys.IKEY_DATA_FILE_PATH,
+        ]
         opt_params = [
             keys.ConfigKeys.IKEY_BINARY_TEST_SOURCE,
             keys.ConfigKeys.IKEY_BINARY_TEST_WORKING_DIRECTORY,
@@ -213,8 +215,8 @@ class BinaryTest(base_test.BaseTestClass):
                             logging.error("ps command failed (exit code: %s",
                                           cmd_result[const.EXIT_CODE][0])
                             break
-                        if (native_server_process_name not in
-                            cmd_result[const.STDOUT][0]):
+                        if (native_server_process_name not in cmd_result[
+                                const.STDOUT][0]):
                             logging.info("Process %s not running",
                                          native_server_process_name)
                             break
@@ -310,8 +312,9 @@ class BinaryTest(base_test.BaseTestClass):
         logging.info('Start class cleaning up jobs.')
         # Delete pushed files
 
-        sources = [self.ParseTestSource(src)
-                   for src in self.binary_test_source]
+        sources = [
+            self.ParseTestSource(src) for src in self.binary_test_source
+        ]
         sources = set(filter(bool, sources))
         paths = [dst for src, dst, tag in sources if src and dst]
         cmd = ['rm -rf %s' % dst for dst in paths]
@@ -372,8 +375,9 @@ class BinaryTest(base_test.BaseTestClass):
                                                 os.path.basename(src))
             else:
                 dst = path_utils.JoinTargetPath(
-                    self.DEVICE_TMP_DIR, 'binary_test_temp_%s' %
-                    self.__class__.__name__, tag, os.path.basename(src))
+                    self.DEVICE_TMP_DIR,
+                    'binary_test_temp_%s' % self.__class__.__name__, tag,
+                    os.path.basename(src))
 
         if push_only:
             tag = None
@@ -412,9 +416,10 @@ class BinaryTest(base_test.BaseTestClass):
             args=args)
 
     def VerifyTestResult(self, test_case, command_results):
-        '''Parse command result.
+        '''Parse test case command result.
 
         Args:
+            test_case: BinaryTestCase object, the test case whose command
             command_results: dict of lists, shell command result
         '''
         asserts.assertTrue(command_results, 'Empty command response.')
