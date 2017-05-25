@@ -26,6 +26,7 @@ from vts.runners.host import records
 from vts.runners.host import signals
 from vts.runners.host import utils
 from vts.runners.host import const
+from vts.utils.python.controllers import android_device
 from vts.utils.python.common import list_utils
 from vts.utils.python.coverage import coverage_utils
 from vts.utils.python.profiling import profiling_utils
@@ -51,6 +52,8 @@ class BaseTestClass(object):
     provided.
 
     Attributes:
+        android_devices: A list of AndroidDevice object, representing android
+                         devices.
         tests: A list of strings, each representing a test case name.
         TAG: A string used to refer to a test class. Default is the test class
              name.
@@ -117,6 +120,13 @@ class BaseTestClass(object):
         self.log_uploading = log_uploading_utils.LogUploadingFeature(
             self.user_params, web=self.web)
         self._skip_all_testcases = False
+
+    @property
+    def android_devices(self):
+        """returns a list of AndroidDevice objects"""
+        if not hasattr(self, '_android_devices'):
+            self._android_devices = self.registerController(android_device)
+        return self._android_devices
 
     def __enter__(self):
         return self

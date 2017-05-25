@@ -86,3 +86,15 @@ class ShellMirror(object):
 
     def __getattr__(self, name):
         return self._shell_mirrors[name]
+
+    @property
+    def default(self):
+        """returns a default shell mirror object that can execute a shell command"""
+        name = '_default'
+        if not hasattr(self, name):
+            self.InvokeTerminal(name)
+        return getattr(self, name)
+
+    def Execute(self, command):
+        """Execute a shell command with default shell terminal"""
+        return self.default.Execute(command)

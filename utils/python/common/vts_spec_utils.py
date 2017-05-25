@@ -77,6 +77,31 @@ class VtsSpecParser(object):
             self._data_file_path, 'spec', 'hardware', 'interfaces',
             hal_name.replace('.', '/'), hal_version, 'vts')
 
+    def IndirectImportedHals(self, hal_name, hal_version):
+        """Returns a list of imported HALs.
+
+        Includes indirectly imported ones and excludes the given one.
+
+        Args:
+          hal_name: string, name of the hal, e.g. 'vibrator'.
+          hal_version: string, version of the hal, e.g '7.4'
+
+        Returns:
+          list of string tuples. For example,
+              [('vibrator', '1.3'), ('sensors', '3.2')]
+        """
+
+        this_hal = (hal_name, hal_version)
+        imported_hals = [this_hal]
+
+        for hal_name, hal_version in imported_hals:
+            for discovery in self.ImportedHals(hal_name, hal_version):
+                if discovery not in imported_hals:
+                    imported_hals.append(discovery)
+
+        imported_hals.remove(this_hal)
+        return sorted(imported_hals)
+
     def ImportedHals(self, hal_name, hal_version):
         """Returns a list of imported HALs.
 
