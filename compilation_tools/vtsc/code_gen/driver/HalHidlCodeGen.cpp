@@ -238,7 +238,15 @@ void HalHidlCodeGen::GenerateDriverImplForMethod(Formatter& out,
     } else {
       var_type = GetCppVariableType(arg, &message);
     }
-    out << var_type << " " << cur_arg_name << ";\n";
+    if (arg.type() == TYPE_POINTER ||
+        (arg.type() == TYPE_SCALAR &&
+         (arg.scalar_type() == "pointer" ||
+          arg.scalar_type() == "void_pointer" ||
+          arg.scalar_type() == "function_pointer"))) {
+      out << var_type << " " << cur_arg_name << " = nullptr;\n";
+    } else {
+      out << var_type << " " << cur_arg_name << ";\n";
+    }
     if (arg.type() == TYPE_SCALAR) {
       out << cur_arg_name << " = 0;\n";
     }

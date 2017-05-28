@@ -16,11 +16,10 @@
 
 package com.android.vts.entity;
 
-import com.android.vts.proto.VtsReportMessage;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,44 +32,102 @@ public class TestCaseRunEntity implements DashboardEntity {
     // Property keys
     public static final String TEST_CASE_NAME = "testCaseName";
     public static final String RESULT = "result";
+    public static final String TEST_CASE_NAMES = "testCaseNames";
+    public static final String RESULTS = "results";
     public static final String SYSTRACE_URL = "systraceUrl";
 
+    // Maximum number of test cases in the entity.
+    private static final int SIZE_LIMIT = 500;
+
     public final Key key;
-    public final String testCaseName;
-    public final int result;
-    public final String systraceUrl;
+    public final List<TestCase> testCases;
+    private String systraceUrl;
 
     /**
-     * Create a TestCaseRunEntity
-     *
-     * @param key The key at which the object will be stored in the database.
-     * @param testCaseName The name of the test case.
-     * @param result The (numerical) result of the testcase.
-     * @param systraceUrl URL to systrace links.
+     * Class describing an individual test case run.
      */
-    public TestCaseRunEntity(Key key, String testCaseName, int result, String systraceUrl) {
-        this.key = key;
-        this.testCaseName = testCaseName;
-        this.result = result;
-        this.systraceUrl = systraceUrl;
+    public static class TestCase {
+        public final long parentId;
+        public final int offset;
+        public final String name;
+        public final int result;
+
+        /**
+         * Create a test case run.
+         * @param parentId The ID of the TestCaseRunEntity containing the test case.
+         * @param offset The offset of the TestCase into the TestCaseRunEntity.
+         * @param name The name of the test case.
+         * @param result The result of the test case.
+         */
+        public TestCase(long parentId, int offset, String name, int result) {
+            this.parentId = parentId;
+            this.offset = offset;
+            this.name = name;
+            this.result = result;
+        }
     }
 
     /**
-     * Create a TestCaseRunEntity
-     *
-     * @param key The key at which the object will be stored in the database.
-     * @param testCaseName The name of the test case.
-     * @param result The (numerical) result of the testcase.
+     * Create a TestCaseRunEntity with the specified key.
+     * @param key The key to use for the entity in Cloud Datastore.
      */
-    public TestCaseRunEntity(Key key, String testCaseName, int result) {
-        this(key, testCaseName, result, null);
+    public TestCaseRunEntity(Key key) {
+        this.key = key;
+        this.testCases = new ArrayList<>();
+        this.systraceUrl = null;
+    }
+
+    /**
+     * Determine if the TestCaseRunEntity is full.
+     * @return True if the entity is full, false otherwise.
+     */
+    public boolean isFull() {
+        return this.testCases.size() >= SIZE_LIMIT;
+    }
+
+    /**
+     * Set the systrace url.
+     * @param url The systrace url, or null.
+     */
+    public void setSystraceUrl(String url) {
+        this.systraceUrl = url;
+    }
+
+    /**
+     * Get the systrace url.
+     * returns The systrace url, or null.
+     */
+    public String getSystraceUrl() {
+        return this.systraceUrl;
+    }
+
+    /**
+     * Add a test case to the test case run entity.
+     * @param name The name of the test case.
+     * @param result The result of the test case.
+     * @return true if added, false otherwise.
+     */
+    public boolean addTestCase(String name, int result) {
+        if (isFull())
+            return false;
+        long parentId = this.key.getId();
+        this.testCases.add(new TestCase(parentId, this.testCases.size(), name, result));
+        return true;
     }
 
     @Override
     public Entity toEntity() {
         Entity testCaseRunEntity = new Entity(key);
-        testCaseRunEntity.setProperty(TEST_CASE_NAME, this.testCaseName);
-        testCaseRunEntity.setProperty(RESULT, this.result);
+        if (this.testCases.size() > 0) {
+            List<String> testCaseNames = new ArrayList<>();
+            List<Integer> results = new ArrayList<>();
+            for (TestCase testCase : this.testCases) {
+                testCaseNames.add(testCase.name);
+                results.add(testCase.result);
+            }
+            testCaseRunEntity.setUnindexedProperty(TEST_CASE_NAMES, testCaseNames);
+            testCaseRunEntity.setUnindexedProperty(RESULTS, results);
+        }
         if (systraceUrl != null) {
             testCaseRunEntity.setUnindexedProperty(SYSTRACE_URL, this.systraceUrl);
         }
@@ -84,31 +141,36 @@ public class TestCaseRunEntity implements DashboardEntity {
      * @param e The entity to process.
      * @return TestCaseRunEntity object with the properties from e, or null if incompatible.
      */
+    @SuppressWarnings("unchecked")
     public static TestCaseRunEntity fromEntity(Entity e) {
-        if (!e.getKind().equals(KIND) || !e.hasProperty(TEST_CASE_NAME) || !e.hasProperty(RESULT)) {
-            logger.log(Level.WARNING, "Missing test case attributes in entity: " + e.toString());
+        if (!e.getKind().equals(KIND)) {
+            logger.log(Level.WARNING, "Wrong kind: " + e.getKey());
             return null;
         }
         try {
-            String testCaseName = (String) e.getProperty(TEST_CASE_NAME);
-            int result = (int) ((long) e.getProperty(RESULT));
+            TestCaseRunEntity testCaseRun = new TestCaseRunEntity(e.getKey());
+            if (e.hasProperty(TEST_CASE_NAMES) && e.hasProperty(RESULTS)) {
+                List<String> testCaseNames = (List<String>) e.getProperty(TEST_CASE_NAMES);
+                List<Long> results = (List<Long>) e.getProperty(RESULTS);
+                if (testCaseNames.size() == results.size()) {
+                    for (int i = 0; i < testCaseNames.size(); i++) {
+                        testCaseRun.addTestCase(testCaseNames.get(i), results.get(i).intValue());
+                    }
+                }
+            }
+            if (e.hasProperty(TEST_CASE_NAME) && e.hasProperty(RESULT)) {
+                testCaseRun.addTestCase(
+                        (String) e.getProperty(TEST_CASE_NAME), (int) (long) e.getProperty(RESULT));
+            }
             if (e.hasProperty(SYSTRACE_URL)) {
                 String systraceUrl = (String) e.getProperty(SYSTRACE_URL);
-                return new TestCaseRunEntity(e.getKey(), testCaseName, result, systraceUrl);
+                testCaseRun.setSystraceUrl(systraceUrl);
             }
-            return new TestCaseRunEntity(e.getKey(), testCaseName, result);
+            return testCaseRun;
         } catch (ClassCastException exception) {
             // Invalid cast
             logger.log(Level.WARNING, "Error parsing test case run entity.", exception);
         }
         return null;
-    }
-
-    public JsonObject toJson() {
-        JsonObject json = new JsonObject();
-        json.add(TEST_CASE_NAME, new JsonPrimitive(this.testCaseName));
-        json.add(RESULT,
-                new JsonPrimitive(VtsReportMessage.TestCaseResult.valueOf(this.result).toString()));
-        return json;
     }
 }

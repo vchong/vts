@@ -1,4 +1,8 @@
 #include "android/hardware/nfc/1.0/types.vts.h"
+#include <cutils/ashmem.h>
+#include <fcntl.h>
+#include <fmq/MessageQueue.h>
+#include <sys/stat.h>
 
 using namespace android::hardware::nfc::V1_0;
 using namespace android::hardware;

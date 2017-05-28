@@ -14,6 +14,11 @@
 
 <datastore-indexes autoGenerate="true">
 
+  <datastore-index kind="Test" ancestor="false" source="manual">
+    <property name="failCount" direction="asc"/>
+    <property name="passCount" direction="asc"/>
+  </datastore-index>
+
   <datastore-index kind="TestRun" ancestor="true" source="manual">
     <property name="type" direction="asc"/>
     <property name="__key__" direction="desc"/>
@@ -26,6 +31,28 @@
 
   <datastore-index kind="TestRun" ancestor="true" source="manual">
     <property name="__key__" direction="desc"/>
+  </datastore-index>
+
+  <datastore-index kind="TestRun" ancestor="false" source="manual">
+    <property name="testName" direction="asc"/>
+    <property name="startTimestamp" direction="asc"/>
+  </datastore-index>
+
+  <datastore-index kind="TestRun" ancestor="false" source="manual">
+    <property name="testName" direction="asc"/>
+    <property name="startTimestamp" direction="desc"/>
+  </datastore-index>
+
+  <datastore-index kind="TestRun" ancestor="false" source="manual">
+    <property name="testName" direction="asc"/>
+    <property name="type" direction="asc"/>
+    <property name="startTimestamp" direction="asc"/>
+  </datastore-index>
+
+  <datastore-index kind="TestRun" ancestor="false" source="manual">
+    <property name="testName" direction="asc"/>
+    <property name="type" direction="asc"/>
+    <property name="startTimestamp" direction="desc"/>
   </datastore-index>
 
 </datastore-indexes>

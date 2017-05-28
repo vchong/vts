@@ -17,6 +17,7 @@
 package com.android.vts.util;
 
 import com.android.vts.entity.TestCaseRunEntity;
+import com.android.vts.entity.TestCaseRunEntity.TestCase;
 import com.android.vts.proto.VtsReportMessage.TestCaseResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -68,15 +69,18 @@ public class TestRunDetails {
     }
 
     /**
-     * Add a test case to the details object.
-     * @param testCase The TestCaseRunEntity object storing a test case result.
+     * Add a test case entity to the details object.
+     * @param testCaseEntity The TestCaseRunEntity object storing test case results.
      */
-    public void addTestCase(TestCaseRunEntity testCase) {
-        if (testCase.result > resultCounts.length)
-            return;
-        ++resultCounts[testCase.result];
-        ResultColumn column = columns[testCase.result];
-        column.add(testCase.testCaseName);
+    public void addTestCase(TestCaseRunEntity testCaseEntity) {
+        for (TestCase testCase : testCaseEntity.testCases) {
+            int result = testCase.result;
+            if (result > resultCounts.length)
+                continue;
+            ++resultCounts[result];
+            ResultColumn column = columns[result];
+            column.add(testCase.name);
+        }
     }
 
     /**

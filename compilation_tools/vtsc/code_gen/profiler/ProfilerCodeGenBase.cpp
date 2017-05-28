@@ -190,6 +190,10 @@ void ProfilerCodeGenBase::GenerateProfilerForTypedVariable(Formatter& out,
       GenerateProfilerForMaskVariable(out, val, arg_name, arg_value);
       break;
     }
+    case TYPE_HANDLE: {
+      GenerateProfilerForHandleVariable(out, val, arg_name, arg_value);
+      break;
+    }
     case TYPE_HIDL_MEMORY:
     {
       GenerateProfilerForHidlMemoryVariable(out, val, arg_name, arg_value);

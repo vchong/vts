@@ -19,51 +19,159 @@
 
 <html>
   <link rel='stylesheet' href='/css/dashboard_main.css'>
-  <%@ include file="header.jsp" %>
+  <%@ include file='header.jsp' %>
+  <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js'></script>
   <body>
+    <script>
+        var allTests = ${allTestsJson};
+        var testSet = new Set(allTests);
+        var subscriptionMap = ${subscriptionMapJson};
+
+        var addFavorite = function() {
+            if ($(this).hasClass('disabled')) {
+                return;
+            }
+            var test = $('#input-box').val();
+            if (!testSet.has(test) || test in subscriptionMap) {
+                return;
+            }
+            $('#add-button').addClass('disabled');
+            $.post('/api/favorites/' + test).then(function(data) {
+                if (!data.key) {
+                    return;
+                }
+                subscriptionMap[test] = data.key;
+                var wrapper = $('<div></div>');
+                var a = $('<a></a>')
+                    .attr('href', '/show_table?testName=' + test);
+                var div = $('<div class="col s11 card hoverable option"></div>');
+                div.addClass('valign-wrapper waves-effect');
+                div.appendTo(a);
+                var span = $('<span class="entry valign"></span>').text(test);
+                span.appendTo(div);
+                a.appendTo(wrapper);
+                var clear = $('<a class="col s1 btn-flat center"></a>');
+                clear.addClass('clear-button');
+                clear.append('<i class="material-icons">clear</i>');
+                clear.attr('test', test);
+                clear.appendTo(wrapper);
+                clear.click(removeFavorite);
+                wrapper.prependTo('#options').hide()
+                                          .slideDown(150);
+                $('#input-box').val(null);
+                Materialize.updateTextFields();
+            }).always(function() {
+                $('#add-button').removeClass('disabled');
+            });
+        }
+
+        var removeFavorite = function() {
+            var self = $(this);
+            if (self.hasClass('disabled')) {
+                return;
+            }
+            var test = self.attr('test');
+            if (!(test in subscriptionMap)) {
+                return;
+            }
+            self.addClass('disabled');
+            $.ajax({
+                url: '/api/favorites/' + subscriptionMap[test],
+                type: 'DELETE'
+            }).always(function() {
+                self.removeClass('disabled');
+            }).then(function() {
+                delete subscriptionMap[test];
+                self.parent().slideUp(150, function() {
+                    self.remove();
+                });
+            });
+        }
+
+        $.widget('custom.sizedAutocomplete', $.ui.autocomplete, {
+            _resizeMenu: function() {
+                this.menu.element.outerWidth($('#input-box').width());
+            }
+        });
+
+        $(function() {
+            $('#input-box').sizedAutocomplete({
+                source: allTests,
+                classes: {
+                    'ui-autocomplete': 'card'
+                }
+            });
+
+            $('#input-box').keyup(function(event) {
+                if (event.keyCode == 13) {  // return button
+                    $('#add-button').click();
+                }
+            });
+
+            $('.clear-button').click(removeFavorite);
+            $('#add-button').click(addFavorite);
+        });
+    </script>
     <div class='container'>
-      <div class='row' id='options'>
-        <c:choose>
-          <c:when test="${not empty error}">
-            <div id="error-container" class="row card">
-              <div class="col s12 center-align">
-                <h5>${error}</h5>
+      <c:choose>
+        <c:when test='${not empty error}'>
+          <div id='error-container' class='row card'>
+            <div class='col s12 center-align'>
+              <h5>${error}</h5>
+            </div>
+          </div>
+        </c:when>
+        <c:otherwise>
+          <c:set var='width' value='${showAll ? 12 : 11}' />
+          <c:if test='${not showAll}'>
+            <div class='row'>
+              <div class='input-field col s8'>
+                <input type='text' id='input-box'></input>
+                <label for='input-box'>Search for tests to add to favorites</label>
+              </div>
+              <div id='add-button-wrapper' class='col s1 valign-wrapper'>
+                <a id='add-button' class='btn-floating btn waves-effect waves-light red valign'><i class='material-icons'>add</i></a>
               </div>
             </div>
-          </c:when>
-          <c:otherwise>
+          </c:if>
+          <div class='row'>
             <div class='col s12'>
               <h4 id='section-header'>${headerLabel}</h4>
             </div>
+          </div>
+          <div class='row' id='options'>
             <c:forEach items='${testNames}' var='test'>
-              <a href='/show_table?testName=${test.name}'>
-                <div class='col s12 card hoverable option valign-wrapper waves-effect'>
-                  <span class='entry valign'>${test.name}
-                    <c:if test='${test.failCount > 0}'>
-                      <span class='indicator red center'>
-                        ${test.failCount}
-                      </span>
-                    </c:if>
-                  </span>
-                </div>
-              </a>
+              <div>
+                <a href='/show_table?testName=${test.name}'>
+                  <div class='col s${width} card hoverable option valign-wrapper waves-effect'>
+                    <span class='entry valign'>${test.name}
+                      <c:if test='${test.failCount >= 0 && test.passCount >= 0}'>
+                        <c:set var='color' value='${test.failCount > 0 ? "red" : (test.passCount > 0 ? "green" : "grey")}' />
+                        <span class='indicator center ${color}'>
+                          ${test.passCount} / ${test.passCount + test.failCount}
+                        </span>
+                      </c:if>
+                    </span>
+                  </div>
+                </a>
+                <c:if test='${not showAll}'>
+                  <a class='col s1 btn-flat center clear-button' test='${test.name}'>
+                    <i class='material-icons'>clear</i>
+                  </a>
+                </c:if>
+              </div>
             </c:forEach>
-          </c:otherwise>
-        </c:choose>
-      </div>
-      <div class='row center-align'>
+          </div>
+        </c:otherwise>
+      </c:choose>
+    </div>
+    <c:if test='${empty error}'>
+      <div class='center'>
         <a href='${buttonLink}' id='show-button' class='btn waves-effect red'>${buttonLabel}
           <i id='show-button-arrow' class='material-icons right'>${buttonIcon}</i>
         </a>
       </div>
-    </div>
-    <c:if test='${not showAll}'>
-      <div id='edit-button-wrapper' class='fixed-action-btn'>
-        <a href='/show_preferences' id='edit-button' class='btn-floating btn-large red waves-effect'>
-          <i class='large material-icons'>mode_edit</i>
-        </a>
-      </div>
     </c:if>
-    <%@ include file="footer.jsp" %>
+    <%@ include file='footer.jsp' %>
   </body>
 </html>

@@ -18,6 +18,7 @@ package com.android.vts.util;
 
 import com.android.vts.entity.DeviceInfoEntity;
 import com.android.vts.entity.TestCaseRunEntity;
+import com.android.vts.entity.TestCaseRunEntity.TestCase;
 import com.android.vts.entity.TestRunEntity;
 import com.android.vts.proto.VtsReportMessage.TestCaseResult;
 import com.android.vts.util.UrlUtil.LinkDisplay;
@@ -133,8 +134,10 @@ public class TestResults {
             if (testCaseRunEntity == null)
                 continue;
             testCaseRunMap.get(testRun.getKey()).add(testCaseRunEntity);
-            if (!testCaseNameMap.containsKey(testCaseRunEntity.testCaseName)) {
-                testCaseNameMap.put(testCaseRunEntity.testCaseName, testCaseNameMap.size());
+            for (TestCase testCase : testCaseRunEntity.testCases) {
+                if (!testCaseNameMap.containsKey(testCase.name)) {
+                    testCaseNameMap.put(testCase.name, testCaseNameMap.size());
+                }
             }
         }
 
@@ -161,7 +164,9 @@ public class TestResults {
         }
         // Count array for each test result
         for (TestCaseRunEntity testCaseRunEntity : testCaseResults) {
-            totResultCounts[testCaseRunEntity.result]++;
+            for (TestCase testCase : testCaseRunEntity.testCases) {
+                totResultCounts[testCase.result]++;
+            }
         }
     }
 
@@ -251,44 +256,49 @@ public class TestResults {
             long coveredLineCount = testRun.coveredLineCount;
 
             // Process test case results
-            for (TestCaseRunEntity testCase : testCaseRunMap.get(testRun.key)) {
+            for (TestCaseRunEntity testCaseEntity : testCaseRunMap.get(testRun.key)) {
                 // Update the aggregated test run status
-                if (testCase.result == TestCaseResult.TEST_CASE_RESULT_PASS.getNumber()) {
-                    if (aggregateStatus == TestCaseResult.UNKNOWN_RESULT) {
-                        aggregateStatus = TestCaseResult.TEST_CASE_RESULT_PASS;
+                for (TestCase testCase : testCaseEntity.testCases) {
+                    int result = testCase.result;
+                    String name = testCase.name;
+                    if (result == TestCaseResult.TEST_CASE_RESULT_PASS.getNumber()) {
+                        if (aggregateStatus == TestCaseResult.UNKNOWN_RESULT) {
+                            aggregateStatus = TestCaseResult.TEST_CASE_RESULT_PASS;
+                        }
+                    } else if (result != TestCaseResult.TEST_CASE_RESULT_SKIP.getNumber()) {
+                        aggregateStatus = TestCaseResult.TEST_CASE_RESULT_FAIL;
                     }
-                } else if (testCase.result != TestCaseResult.TEST_CASE_RESULT_SKIP.getNumber()) {
-                    aggregateStatus = TestCaseResult.TEST_CASE_RESULT_FAIL;
-                }
 
-                String systraceUrl = null;
+                    String systraceUrl = null;
 
-                if (testCase.systraceUrl != null) {
-                    LinkDisplay validatedLink = UrlUtil.processUrl(testCase.systraceUrl);
-                    if (validatedLink != null) {
-                        systraceUrl = validatedLink.url;
-                    } else {
-                        logger.log(Level.WARNING, "Invalid systrace URL : " + testCase.systraceUrl);
+                    if (testCaseEntity.getSystraceUrl() != null) {
+                        String url = testCaseEntity.getSystraceUrl();
+                        LinkDisplay validatedLink = UrlUtil.processUrl(url);
+                        if (validatedLink != null) {
+                            systraceUrl = validatedLink.url;
+                        } else {
+                            logger.log(Level.WARNING, "Invalid systrace URL : " + url);
+                        }
                     }
-                }
 
-                int index = testCaseNameMap.get(testCase.testCaseName);
-                String classNames = "test-case-status ";
-                String glyph = "";
-                TestCaseResult testCaseResult = TestCaseResult.valueOf(testCase.result);
-                if (testCaseResult != null)
-                    classNames += testCaseResult.toString();
-                else
-                    classNames += TestCaseResult.UNKNOWN_RESULT.toString();
+                    int index = testCaseNameMap.get(name);
+                    String classNames = "test-case-status ";
+                    String glyph = "";
+                    TestCaseResult testCaseResult = TestCaseResult.valueOf(result);
+                    if (testCaseResult != null)
+                        classNames += testCaseResult.toString();
+                    else
+                        classNames += TestCaseResult.UNKNOWN_RESULT.toString();
 
-                if (systraceUrl != null) {
-                    classNames += " width-1";
-                    glyph += "<a href=\"" + systraceUrl + "\" "
-                            + "class=\"waves-effect waves-light btn red right inline-btn\">"
-                            + "<i class=\"material-icons inline-icon\">info_outline</i></a>";
+                    if (systraceUrl != null) {
+                        classNames += " width-1";
+                        glyph += "<a href=\"" + systraceUrl + "\" "
+                                + "class=\"waves-effect waves-light btn red right inline-btn\">"
+                                + "<i class=\"material-icons inline-icon\">info_outline</i></a>";
+                    }
+                    resultsGrid[index][col + 1] =
+                            "<div class=\"" + classNames + "\">&nbsp;</div>" + glyph;
                 }
-                resultsGrid[index][col + 1] =
-                        "<div class=\"" + classNames + "\">&nbsp;</div>" + glyph;
             }
             String passInfo;
             try {

@@ -159,6 +159,7 @@ public class TestRunEntity implements DashboardEntity {
     @Override
     public Entity toEntity() {
         Entity testRunEntity = new Entity(this.key);
+        testRunEntity.setProperty(TEST_NAME, this.key.getParent().getName());
         testRunEntity.setProperty(TYPE, this.type.getNumber());
         testRunEntity.setProperty(START_TIMESTAMP, this.startTimestamp);
         testRunEntity.setUnindexedProperty(END_TIMESTAMP, this.endTimestamp);

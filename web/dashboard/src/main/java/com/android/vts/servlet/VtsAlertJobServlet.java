@@ -18,7 +18,9 @@ package com.android.vts.servlet;
 
 import com.android.vts.entity.DeviceInfoEntity;
 import com.android.vts.entity.TestCaseRunEntity;
+import com.android.vts.entity.TestCaseRunEntity.TestCase;
 import com.android.vts.entity.TestEntity;
+import com.android.vts.entity.TestEntity.TestCaseReference;
 import com.android.vts.entity.TestRunEntity;
 import com.android.vts.proto.VtsReportMessage.TestCaseResult;
 import com.android.vts.util.EmailHelper;
@@ -112,7 +114,7 @@ public class VtsAlertJobServlet extends BaseServlet {
      *
      * @param test The TestEntity object for the test.
      * @param link The string URL linking to the test's status table.
-     * @param failedTestcaseIdMap The map of test case names to ID for those failing in the
+     * @param failedTestCaseMap The map of test case names to TestCase for those failing in the
      *     last status update.
      * @param emailAddresses The list of email addresses to send notifications to.
      * @param messages The email Message queue.
@@ -120,16 +122,16 @@ public class VtsAlertJobServlet extends BaseServlet {
      * @throws IOException
      */
     public TestEntity getTestStatus(TestEntity test, String link,
-            Map<String, Long> failedTestcaseIdMap, List<String> emailAddresses,
+            Map<String, TestCase> failedTestCaseMap, List<String> emailAddresses,
             List<Message> messages) throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         String footer = getFooter(link);
 
         TestRunEntity mostRecentRun = null;
-        Map<String, TestCaseRunEntity> mostRecentTestCaseResults = new HashMap<>();
-        Map<String, Long> testBreakageIdMap = new HashMap<>();
+        Map<String, TestCaseResult> mostRecentTestCaseResults = new HashMap<>();
+        Map<String, TestCase> testCaseBreakageMap = new HashMap<>();
         int passingTestcaseCount = 0;
-        List<Long> failingTestcaseIds = new ArrayList<>();
+        List<TestCaseReference> failingTestCases = new ArrayList<>();
         Set<String> fixedTestcases = new HashSet<>();
         Set<String> newTestcaseFailures = new HashSet<>();
         Set<String> continuedTestcaseFailures = new HashSet<>();
@@ -161,8 +163,7 @@ public class VtsAlertJobServlet extends BaseServlet {
             Map<Key, Entity> entityMap = datastore.get(testCaseKeys);
             for (Key testCaseKey : testCaseKeys) {
                 if (!entityMap.containsKey(testCaseKey)) {
-                    logger.log(Level.WARNING,
-                            "Test case missing from test: " + testCaseKey);
+                    logger.log(Level.WARNING, "Test case entity missing: " + testCaseKey);
                     continue;
                 }
                 Entity testCaseRun = entityMap.get(testCaseKey);
@@ -171,33 +172,34 @@ public class VtsAlertJobServlet extends BaseServlet {
                     logger.log(Level.WARNING, "Invalid test case run: " + testCaseRun.getKey());
                     continue;
                 }
-                String testCaseName = testCaseRunEntity.testCaseName;
-                TestCaseResult result = TestCaseResult.valueOf(testCaseRunEntity.result);
+                for (TestCase testCase : testCaseRunEntity.testCases) {
+                    String testCaseName = testCase.name;
+                    TestCaseResult result = TestCaseResult.valueOf(testCase.result);
 
-                if (mostRecentRun == testRunEntity) {
-                    mostRecentTestCaseResults.put(testCaseName, testCaseRunEntity);
-                } else {
-                    if (!mostRecentTestCaseResults.containsKey(testCaseName)) {
-                        // Deprecate notifications for tests that are not present on newer runs
-                        continue;
-                    }
-                    TestCaseResult mostRecentRes = TestCaseResult.valueOf(
-                            mostRecentTestCaseResults.get(testCaseName).result);
-                    if (mostRecentRes == TestCaseResult.TEST_CASE_RESULT_SKIP) {
-                        mostRecentTestCaseResults.put(testCaseName, testCaseRunEntity);
-                    } else if (mostRecentRes == TestCaseResult.TEST_CASE_RESULT_PASS) {
-                        // Test is passing now, witnessed a transient failure
-                        if (result != TestCaseResult.TEST_CASE_RESULT_PASS
-                                && result != TestCaseResult.TEST_CASE_RESULT_SKIP) {
-                            transientTestcaseFailures.add(testCaseName);
+                    if (mostRecentRun == testRunEntity) {
+                        mostRecentTestCaseResults.put(testCaseName, result);
+                    } else {
+                        if (!mostRecentTestCaseResults.containsKey(testCaseName)) {
+                            // Deprecate notifications for tests that are not present on newer runs
+                            continue;
+                        }
+                        TestCaseResult mostRecentRes = mostRecentTestCaseResults.get(testCaseName);
+                        if (mostRecentRes == TestCaseResult.TEST_CASE_RESULT_SKIP) {
+                            mostRecentTestCaseResults.put(testCaseName, result);
+                        } else if (mostRecentRes == TestCaseResult.TEST_CASE_RESULT_PASS) {
+                            // Test is passing now, witnessed a transient failure
+                            if (result != TestCaseResult.TEST_CASE_RESULT_PASS
+                                    && result != TestCaseResult.TEST_CASE_RESULT_SKIP) {
+                                transientTestcaseFailures.add(testCaseName);
+                            }
                         }
                     }
-                }
 
-                // Record test case breakages
-                if (result != TestCaseResult.TEST_CASE_RESULT_PASS
-                        && result != TestCaseResult.TEST_CASE_RESULT_SKIP) {
-                    testBreakageIdMap.put(testCaseName, testCaseRunEntity.key.getId());
+                    // Record test case breakages
+                    if (result != TestCaseResult.TEST_CASE_RESULT_PASS
+                            && result != TestCaseResult.TEST_CASE_RESULT_SKIP) {
+                        testCaseBreakageMap.put(testCaseName, testCase);
+                    }
                 }
             }
         }
@@ -208,13 +210,13 @@ public class VtsAlertJobServlet extends BaseServlet {
         }
 
         for (String testCaseName : mostRecentTestCaseResults.keySet()) {
-            TestCaseRunEntity testCaseRunEntity = mostRecentTestCaseResults.get(testCaseName);
-            TestCaseResult mostRecentResult = TestCaseResult.valueOf(testCaseRunEntity.result);
-            boolean previouslyFailed = failedTestcaseIdMap.containsKey(testCaseName);
+            TestCaseResult mostRecentResult = mostRecentTestCaseResults.get(testCaseName);
+            boolean previouslyFailed = failedTestCaseMap.containsKey(testCaseName);
             if (mostRecentResult == TestCaseResult.TEST_CASE_RESULT_SKIP) {
                 // persist previous status
                 if (previouslyFailed) {
-                    failingTestcaseIds.add(failedTestcaseIdMap.get(testCaseName));
+                    failingTestCases.add(
+                            new TestCaseReference(failedTestCaseMap.get(testCaseName)));
                 } else {
                     ++passingTestcaseCount;
                 }
@@ -226,10 +228,12 @@ public class VtsAlertJobServlet extends BaseServlet {
             } else {
                 if (!previouslyFailed) {
                     newTestcaseFailures.add(testCaseName);
-                    failingTestcaseIds.add(testBreakageIdMap.get(testCaseName));
+                    failingTestCases.add(
+                            new TestCaseReference(testCaseBreakageMap.get(testCaseName)));
                 } else {
                     continuedTestcaseFailures.add(testCaseName);
-                    failingTestcaseIds.add(failedTestcaseIdMap.get(testCaseName));
+                    failingTestCases.add(
+                            new TestCaseReference(failedTestCaseMap.get(testCaseName)));
                 }
             }
         }
@@ -332,7 +336,7 @@ public class VtsAlertJobServlet extends BaseServlet {
             }
         }
         return new TestEntity(test.testName, mostRecentRun.startTimestamp, passingTestcaseCount,
-                failingTestcaseIds.size(), failingTestcaseIds);
+                failingTestCases.size(), failingTestCases);
     }
 
     /**
@@ -341,23 +345,33 @@ public class VtsAlertJobServlet extends BaseServlet {
      * @param testEntity The TestEntity object for the test.
      * @returns a map from test case name to the test case run ID for which the test case failed.
      */
-    public static Map<String, Long> getCurrentFailures(TestEntity testEntity) {
-        if (testEntity.failingTestcaseIds == null) {
+    public static Map<String, TestCase> getCurrentFailures(TestEntity testEntity) {
+        if (testEntity.failingTestCases == null || testEntity.failingTestCases.size() == 0) {
             return new HashMap<>();
         }
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Map<String, Long> failingTestcases = new HashMap<>();
-        for (long testCaseId : testEntity.failingTestcaseIds) {
-            try {
-                Entity testCaseRun =
-                        datastore.get(KeyFactory.createKey(TestCaseRunEntity.KIND, testCaseId));
-                TestCaseRunEntity testCaseRunEntity = TestCaseRunEntity.fromEntity(testCaseRun);
-                if (testCaseRunEntity != null) {
-                    failingTestcases.put(testCaseRunEntity.testCaseName, testCaseId);
-                }
-            } catch (EntityNotFoundException e) {
-                // not found
+        Map<String, TestCase> failingTestcases = new HashMap<>();
+        Set<Key> gets = new HashSet<>();
+        for (TestCaseReference testCaseRef : testEntity.failingTestCases) {
+            gets.add(KeyFactory.createKey(TestCaseRunEntity.KIND, testCaseRef.parentId));
+        }
+        if (gets.size() == 0) {
+            return failingTestcases;
+        }
+        Map<Key, Entity> testCaseMap = datastore.get(gets);
+
+        for (TestCaseReference testCaseRef : testEntity.failingTestCases) {
+            Key key = KeyFactory.createKey(TestCaseRunEntity.KIND, testCaseRef.parentId);
+            if (!testCaseMap.containsKey(key)) {
+                continue;
             }
+            Entity testCaseRun = testCaseMap.get(key);
+            TestCaseRunEntity testCaseRunEntity = TestCaseRunEntity.fromEntity(testCaseRun);
+            if (testCaseRunEntity.testCases.size() <= testCaseRef.offset) {
+                continue;
+            }
+            TestCase testCase = testCaseRunEntity.testCases.get(testCaseRef.offset);
+            failingTestcases.put(testCase.name, testCase);
         }
         return failingTestcases;
     }
@@ -385,7 +399,7 @@ public class VtsAlertJobServlet extends BaseServlet {
             String link = baseUrl + "/show_table?testName=" + testEntity.testName;
 
             List<Message> messageQueue = new ArrayList<>();
-            Map<String, Long> failedTestcaseMap = getCurrentFailures(testEntity);
+            Map<String, TestCase> failedTestcaseMap = getCurrentFailures(testEntity);
 
             TestEntity newTestEntity =
                     getTestStatus(testEntity, link, failedTestcaseMap, emails, messageQueue);

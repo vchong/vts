@@ -87,16 +87,21 @@ class BaseTestClass(object):
         self.results = records.TestResult()
         self.currentTestName = None
 
-        # Setup test filters (optional)
-        if keys.ConfigKeys.KEY_TEST_SUITE in self.user_params:
-            test_suite = self.user_params[keys.ConfigKeys.KEY_TEST_SUITE]
-            filters = [
-                keys.ConfigKeys.KEY_INCLUDE_FILTER,
+        # Setup test filters
+        self.include_filter = self.getUserParam(
+            [
+                keys.ConfigKeys.KEY_TEST_SUITE,
+                keys.ConfigKeys.KEY_INCLUDE_FILTER
+            ],
+            default_value=[])
+        self.exclude_filter = self.getUserParam(
+            [
+                keys.ConfigKeys.KEY_TEST_SUITE,
                 keys.ConfigKeys.KEY_EXCLUDE_FILTER
-            ]
-            for filter in filters:
-                if filter in test_suite:
-                    setattr(self, filter, test_suite[filter])
+            ],
+            default_value=[])
+        self.include_filter = list_utils.ItemsToStr(self.include_filter)
+        self.exclude_filter = list_utils.ItemsToStr(self.exclude_filter)
 
         # TODO: get abi information differently for multi-device support.
         # Set other optional parameters
@@ -174,7 +179,8 @@ class BaseTestClass(object):
                      param_name,
                      error_if_not_found=False,
                      log_warning_and_continue_if_not_found=False,
-                     default_value=None):
+                     default_value=None,
+                     to_str=False):
         """Get the value of a single user parameter.
 
         This method returns the value of specified user parameter.
@@ -192,16 +198,25 @@ class BaseTestClass(object):
                                                    not found.
             default_value: object, default value to return if not found. If error_if_not_found is
                            True, this parameter has no effect. Default: None
+            to_str: boolean, whether to convert the result object to string if not None.
+                    Note, strings passing in from java json config are usually unicode.
 
         Returns:
             object, value of the specified parameter name chain if exists;
             <default_value> if not exists.
         """
+
+        def ToStr(return_value):
+            """Check to_str option and convert to string if not None"""
+            if to_str and return_value is not None:
+                return str(return_value)
+            return return_value
+
         if not param_name:
             if error_if_not_found:
                 raise errors.BaseTestError("empty param_name provided")
             logging.error("empty param_name")
-            return default_value
+            return ToStr(default_value)
 
         if not isinstance(param_name, list):
             param_name = [param_name]
@@ -214,10 +229,10 @@ class BaseTestClass(object):
                     raise errors.BaseTestError(msg)
                 elif log_warning_and_continue_if_not_found:
                     logging.warn(msg)
-                return default_value
+                return ToStr(default_value)
             curr_obj = curr_obj[param]
 
-        return curr_obj
+        return ToStr(curr_obj)
 
     def _setUpClass(self):
         """Proxy function to guarantee the base implementation of setUpClass
@@ -481,16 +496,13 @@ class BaseTestClass(object):
             signals.TestSilent if a test should not be executed
             signals.TestSkip if a test should be logged but not be executed
         """
-        if (hasattr(self, keys.ConfigKeys.KEY_INCLUDE_FILTER) and
-                getattr(self, keys.ConfigKeys.KEY_INCLUDE_FILTER)):
-            if test_name not in getattr(self,
-                                        keys.ConfigKeys.KEY_INCLUDE_FILTER):
+        if self.include_filter:
+            if test_name not in self.include_filter:
                 logging.info(
                     "Test case '%s' not in include filter." % test_name)
                 raise signals.TestSilent(
                     "Test case '%s' not in include filter." % test_name)
-        elif (hasattr(self, keys.ConfigKeys.KEY_EXCLUDE_FILTER) and
-              test_name in getattr(self, keys.ConfigKeys.KEY_EXCLUDE_FILTER)):
+        elif test_name in self.exclude_filter:
             logging.info("Test case '%s' in exclude filter." % test_name)
             raise signals.TestSilent(
                 "Test case '%s' in exclude filter." % test_name)
@@ -762,7 +774,8 @@ class BaseTestClass(object):
                 else:
                     self.execOneTest(test_name, test_func, None)
             if self._skip_all_testcases and not self.results.executed:
-                self.results.skipClass(self.TAG,
+                self.results.skipClass(
+                    self.TAG,
                     "All test cases skipped; unable to find any test case.")
             return self.results
         except signals.TestAbortClass:

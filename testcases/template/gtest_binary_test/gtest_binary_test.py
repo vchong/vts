@@ -133,6 +133,20 @@ class GtestBinaryTest(binary_test.BinaryTest):
     def VerifyTestResult(self, test_case, command_results):
         '''Parse Gtest xml result output.
 
+        Sample
+        <testsuites tests="1" failures="1" disabled="0" errors="0"
+         timestamp="2017-05-24T18:32:10" time="0.012" name="AllTests">
+          <testsuite name="ConsumerIrHidlTest"
+           tests="1" failures="1" disabled="0" errors="0" time="0.01">
+            <testcase name="TransmitTest" status="run" time="0.01"
+             classname="ConsumerIrHidlTest">
+              <failure message="hardware/interfaces..." type="">
+                <![CDATA[hardware/interfaces...]]>
+              </failure>
+            </testcase>
+          </testsuite>
+        </testsuites>
+
         Args:
             test_case: GtestTestCase object, the test being run. This param
                        is not currently used in this method.
@@ -162,16 +176,14 @@ class GtestBinaryTest(binary_test.BinaryTest):
                 for line in stdout.split('\n'):
                     logging.info(line)
 
-        asserts.assertFalse(
-            any(command_results[const.EXIT_CODE]),
-            'Some commands failed: %s' % command_results)
+        asserts.assertFalse(command_results[const.EXIT_CODE][1],
+            'Failed to show Gtest XML output: %s' % command_results)
 
         root = xml.etree.ElementTree.fromstring(xml_str)
         asserts.assertEqual(root.get('tests'), '1', 'No tests available')
-        asserts.assertEqual(
-            root.get('errors'), '0', 'Error happened during test')
-        asserts.assertEqual(
-            root.get('failures'), '0', 'Gtest test case failed')
+        if root.get('errors') != '0' or root.get('failures') != '0':
+            messages = [x.get('message') for x in root.findall('.//failure')]
+            asserts.fail('\n'.join([x for x in messages if x]))
         asserts.skipIf(root.get('disabled') == '1', 'Gtest test case disabled')
 
     def _ParseBatchResults(self, test_case_original, xml_str):

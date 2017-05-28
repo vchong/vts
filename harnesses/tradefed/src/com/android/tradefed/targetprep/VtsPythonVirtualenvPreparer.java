@@ -125,7 +125,7 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
                     JSONObject vendorConfigJson = new JSONObject(content);
                     try {
                         String pypiPath = vendorConfigJson.getString(LOCAL_PYPI_PATH_KEY);
-                        if (pypiPath.length() > 0) {
+                        if (pypiPath.length() > 0 && dirExistsAndHaveReadAccess(pypiPath)) {
                             mLocalPypiPath = pypiPath;
                             CLog.i(String.format(
                                     "Loaded %s: %s", LOCAL_PYPI_PATH_KEY, mLocalPypiPath));
@@ -144,18 +144,38 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
         }
 
         // If loading path from vendor config file is unsuccessful,
-        // set local PyPI path to LOCAL_PYPI_PACKAGES_PATH
+        // check local pypi path defined by LOCAL_PYPI_PATH_ENV_VAR_NAME
         if (mLocalPypiPath == null) {
             CLog.i("Checking whether local pypi packages directory exists");
-            mLocalPypiPath = System.getenv(LOCAL_PYPI_PATH_ENV_VAR_NAME);
-            if (mLocalPypiPath != null) {
-                CLog.i("Confirmed existence of local pypi packages directory at %s",
-                        mLocalPypiPath);
-            } else {
-                CLog.i("Local pypi packages directory does not exist. Therefore internet connection"
-                        + "to https://pypi.python.org/simple/ must be available to run VTS tests.");
+            String pypiPath = System.getenv(LOCAL_PYPI_PATH_ENV_VAR_NAME);
+            if (pypiPath == null) {
+                CLog.i("Local pypi packages directory not specified by env var %s",
+                        LOCAL_PYPI_PATH_ENV_VAR_NAME);
+            } else if (dirExistsAndHaveReadAccess(pypiPath)) {
+                mLocalPypiPath = pypiPath;
+                CLog.i("Set local pypi packages directory to %s", pypiPath);
             }
         }
+
+        if (mLocalPypiPath == null) {
+            CLog.i("Failed to set local pypi packages path. Therefore internet connection to "
+                    + "https://pypi.python.org/simple/ must be available to run VTS tests.");
+        }
+    }
+
+    /**
+     * This method returns whether the given path is a dir that exists and the user has read access.
+     */
+    private boolean dirExistsAndHaveReadAccess(String path) {
+        File pathDir = new File(path);
+        if (!pathDir.exists()) {
+            CLog.i("Directory %s does not exist", path);
+            return false;
+        } else if (!pathDir.canRead()) {
+            CLog.i("User does not have read access to %s", path);
+            return false;
+        }
+        return true;
     }
 
     protected void installDeps(IBuildInfo buildInfo) throws TargetSetupError {

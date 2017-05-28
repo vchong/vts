@@ -78,10 +78,14 @@ public class VtsMultiDeviceTestResultParser {
     // constants for parsing json file
     static final String RESULTS = "Results";
     static final String BEGIN_TIME = "Begin Time";
+    static final String DETAILS = "Details";
     static final String END_TIME = "End Time";
     static final String TEST_CLASS = "Test Class";
     static final String TEST_NAME = "Test Name";
     static final String RESULT = "Result";
+
+    // default message for test failure
+    static final String UNKNOWN_ERROR = "Unknown error.";
 
     // Enumeration for parser state.
     static enum ParserState {
@@ -352,6 +356,8 @@ public class VtsMultiDeviceTestResultParser {
                     String result = (String) resultObject.get(RESULT);
                     String testClass = (String) resultObject.get(TEST_CLASS);
                     String testName = (String) resultObject.get(TEST_NAME);
+                    String details =
+                            resultObject.isNull(DETAILS) ? "" : resultObject.getString(DETAILS);
 
                     // mark test started
                     TestIdentifier testIdentifier = new TestIdentifier(testClass, testName);
@@ -368,7 +374,8 @@ public class VtsMultiDeviceTestResultParser {
                             /* Skip is not recognized in TF*/
                             break;
                         case FAIL:
-                            listener.testFailed(testIdentifier, FAIL);
+                            listener.testFailed(
+                                    testIdentifier, details.isEmpty() ? UNKNOWN_ERROR : details);
                         default:
                             break;
                     }

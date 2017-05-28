@@ -16,7 +16,9 @@
 
 package com.android.vts.entity;
 
+import com.android.vts.entity.TestCaseRunEntity.TestCase;
 import com.google.appengine.api.datastore.Entity;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,13 +33,41 @@ public class TestEntity implements DashboardEntity {
     public static final String PASS_COUNT = "passCount";
     public static final String FAIL_COUNT = "failCount";
     public static final String UPDATED_TIMESTAMP = "updatedTimestamp";
-    public static final String FAILING_IDS = "failingTestcaseIds";
+
+    protected static final String FAILING_IDS = "failingTestcaseIds";
+    protected static final String FAILING_OFFSETS = "failingTestcaseOffsets";
 
     public final String testName;
     public final int passCount;
     public final int failCount;
     public final long timestamp;
-    public final List<Long> failingTestcaseIds;
+    public final List<TestCaseReference> failingTestCases;
+
+    /**
+     * Object representing a reference to a test case.
+     */
+    public static class TestCaseReference {
+        public final long parentId;
+        public final int offset;
+
+        /**
+         * Create a test case reference.
+         * @param parentId The ID of the TestCaseRunEntity containing the test case.
+         * @param offset The offset of the test case into the TestCaseRunEntity.
+         */
+        public TestCaseReference(long parentId, int offset) {
+            this.parentId = parentId;
+            this.offset = offset;
+        }
+
+        /**
+         * Create a test case reference.
+         * @param testCase The TestCase to reference.
+         */
+        public TestCaseReference(TestCase testCase) {
+            this(testCase.parentId, testCase.offset);
+        }
+    }
 
     /**
      * Create a TestEntity object with status metadata.
@@ -46,15 +76,15 @@ public class TestEntity implements DashboardEntity {
      * @param timestamp The timestamp indicating the most recent test run event in the test state.
      * @param passCount The number of tests passing up to the timestamp specified.
      * @param failCount The number of tests failing up to the timestamp specified.
-     * @param failingTestcaseIds The key IDs of the last observed failing test cases.
+     * @param failingTestCases The TestCaseReferences of the last observed failing test cases.
      */
     public TestEntity(String testName, long timestamp, int passCount, int failCount,
-            List<Long> failingTestcaseIds) {
+            List<TestCaseReference> failingTestCases) {
         this.testName = testName;
         this.timestamp = timestamp;
         this.passCount = passCount;
         this.failCount = failCount;
-        this.failingTestcaseIds = failingTestcaseIds;
+        this.failingTestCases = failingTestCases;
     }
 
     /**
@@ -63,7 +93,7 @@ public class TestEntity implements DashboardEntity {
      * @param testName The name of the test.
      */
     public TestEntity(String testName) {
-        this(testName, 0, -1, -1, null);
+        this(testName, 0, -1, -1, new ArrayList<TestCaseReference>());
     }
 
     @Override
@@ -73,8 +103,15 @@ public class TestEntity implements DashboardEntity {
             testEntity.setProperty(UPDATED_TIMESTAMP, this.timestamp);
             testEntity.setProperty(PASS_COUNT, this.passCount);
             testEntity.setProperty(FAIL_COUNT, this.failCount);
-            if (this.failingTestcaseIds != null && this.failingTestcaseIds.size() > 0) {
-                testEntity.setProperty(FAILING_IDS, this.failingTestcaseIds);
+            if (this.failingTestCases.size() > 0) {
+                List<Long> failingTestcaseIds = new ArrayList<>();
+                List<Integer> failingTestcaseOffsets = new ArrayList<>();
+                for (TestCaseReference testCase : this.failingTestCases) {
+                    failingTestcaseIds.add(testCase.parentId);
+                    failingTestcaseOffsets.add(testCase.offset);
+                }
+                testEntity.setUnindexedProperty(FAILING_IDS, failingTestcaseIds);
+                testEntity.setUnindexedProperty(FAILING_OFFSETS, failingTestcaseOffsets);
             }
         }
         return testEntity;
@@ -96,7 +133,7 @@ public class TestEntity implements DashboardEntity {
         long timestamp = 0;
         int passCount = -1;
         int failCount = -1;
-        List<Long> failingTestcaseIds = null;
+        List<TestCaseReference> failingTestCases = new ArrayList<>();
         try {
             if (e.hasProperty(UPDATED_TIMESTAMP)) {
                 timestamp = (long) e.getProperty(UPDATED_TIMESTAMP);
@@ -107,13 +144,20 @@ public class TestEntity implements DashboardEntity {
             if (e.hasProperty(FAIL_COUNT)) {
                 failCount = ((Long) e.getProperty(FAIL_COUNT)).intValue();
             }
-            if (e.hasProperty(FAILING_IDS)) {
-                failingTestcaseIds = (List<Long>) e.getProperty(FAILING_IDS);
+            if (e.hasProperty(FAILING_IDS) && e.hasProperty(FAILING_OFFSETS)) {
+                List<Long> ids = (List<Long>) e.getProperty(FAILING_IDS);
+                List<Long> offsets = (List<Long>) e.getProperty(FAILING_OFFSETS);
+                if (ids.size() == offsets.size()) {
+                    for (int i = 0; i < ids.size(); i++) {
+                        failingTestCases.add(
+                                new TestCaseReference(ids.get(i), offsets.get(i).intValue()));
+                    }
+                }
             }
         } catch (ClassCastException exception) {
             // Invalid contents or null values
             logger.log(Level.WARNING, "Error parsing test entity.", exception);
         }
-        return new TestEntity(testName, timestamp, passCount, failCount, failingTestcaseIds);
+        return new TestEntity(testName, timestamp, passCount, failCount, failingTestCases);
     }
 }

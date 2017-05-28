@@ -22,16 +22,16 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilter;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,8 +51,6 @@ public class DashboardMainServlet extends BaseServlet {
     private static final String DASHBOARD_FAVORITES_LINK = "/";
     private static final String ALL_HEADER = "All Tests";
     private static final String FAVORITES_HEADER = "Favorites";
-    private static final String NO_FAVORITES_ERROR =
-            "No subscribed tests. Click the edit button to add to favorites.";
     private static final String NO_TESTS_ERROR = "No test results available.";
     private static final String FAVORITES_BUTTON = "Show Favorites";
     private static final String ALL_BUTTON = "Show All";
@@ -71,16 +69,19 @@ public class DashboardMainServlet extends BaseServlet {
     /** Helper class for displaying test entries on the main dashboard. */
     public class TestDisplay implements Comparable<TestDisplay> {
         private final Key testKey;
+        private final int passCount;
         private final int failCount;
 
         /**
          * Test display constructor.
          *
          * @param testKey The key of the test.
+         * @param passCount The number of tests passing.
          * @param failCount The number of tests failing.
          */
-        public TestDisplay(Key testKey, int failCount) {
+        public TestDisplay(Key testKey, int passCount, int failCount) {
             this.testKey = testKey;
+            this.passCount = passCount;
             this.failCount = failCount;
         }
 
@@ -91,6 +92,15 @@ public class DashboardMainServlet extends BaseServlet {
          */
         public String getName() {
             return this.testKey.getName();
+        }
+
+        /**
+         * Get the number of passing test cases.
+         *
+         * @return The number of passing test cases.
+         */
+        public int getPassCount() {
+            return this.passCount;
         }
 
         /**
@@ -117,8 +127,10 @@ public class DashboardMainServlet extends BaseServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
         List<TestDisplay> displayedTests = new ArrayList<>();
+        List<String> allTests = new ArrayList<>();
 
-        Map<Key, Integer> failCountMap = new HashMap<>(); // map from table name to fail count
+        Map<Key, TestDisplay> testMap = new HashMap<>(); // map from table key to TestDisplay
+        Map<String, String> subscriptionMap = new HashMap<>();
 
         boolean showAll = request.getParameter("showAll") != null;
         String header;
@@ -128,43 +140,45 @@ public class DashboardMainServlet extends BaseServlet {
         String error = null;
 
         Query q = new Query(TestEntity.KIND)
+                          .addProjection(new PropertyProjection(TestEntity.PASS_COUNT, Long.class))
                           .addProjection(new PropertyProjection(TestEntity.FAIL_COUNT, Long.class));
         for (Entity test : datastore.prepare(q).asIterable()) {
             TestEntity testEntity = TestEntity.fromEntity(test);
             if (test != null) {
-                failCountMap.put(test.getKey(), testEntity.failCount);
+                TestDisplay display =
+                        new TestDisplay(test.getKey(), testEntity.passCount, testEntity.failCount);
+                testMap.put(test.getKey(), display);
+                allTests.add(test.getKey().getName());
             }
         }
 
+        if (testMap.size() == 0) {
+            error = NO_TESTS_ERROR;
+        }
+
         if (showAll) {
-            for (Key testKey : failCountMap.keySet()) {
-                TestDisplay test = new TestDisplay(testKey, failCountMap.get(testKey));
-                displayedTests.add(test);
-            }
-            if (displayedTests.size() == 0) {
-                error = NO_TESTS_ERROR;
+            for (Key testKey : testMap.keySet()) {
+                displayedTests.add(testMap.get(testKey));
             }
             header = ALL_HEADER;
             buttonLabel = FAVORITES_BUTTON;
             buttonIcon = UP_ARROW;
             buttonLink = DASHBOARD_FAVORITES_LINK;
         } else {
-            if (failCountMap.size() > 0) {
+            if (testMap.size() > 0) {
                 Filter userFilter = new FilterPredicate(
                         UserFavoriteEntity.USER, FilterOperator.EQUAL, currentUser);
-                Filter propertyFilter = new FilterPredicate(
-                        UserFavoriteEntity.TEST_KEY, FilterOperator.IN, failCountMap.keySet());
-                CompositeFilter filter = CompositeFilterOperator.and(userFilter, propertyFilter);
-                q = new Query(UserFavoriteEntity.KIND).setFilter(filter);
+                q = new Query(UserFavoriteEntity.KIND).setFilter(userFilter);
 
                 for (Entity favorite : datastore.prepare(q).asIterable()) {
                     Key testKey = (Key) favorite.getProperty(UserFavoriteEntity.TEST_KEY);
-                    TestDisplay test = new TestDisplay(testKey, failCountMap.get(testKey));
-                    displayedTests.add(test);
+                    if (!testMap.containsKey(testKey)) {
+                        continue;
+                    }
+                    displayedTests.add(testMap.get(testKey));
+                    subscriptionMap.put(
+                            testKey.getName(), KeyFactory.keyToString(favorite.getKey()));
                 }
-            }
-            if (displayedTests.size() == 0) {
-                error = NO_FAVORITES_ERROR;
             }
             header = FAVORITES_HEADER;
             buttonLabel = ALL_BUTTON;
@@ -174,6 +188,8 @@ public class DashboardMainServlet extends BaseServlet {
         Collections.sort(displayedTests);
 
         response.setStatus(HttpServletResponse.SC_OK);
+        request.setAttribute("allTestsJson", new Gson().toJson(allTests));
+        request.setAttribute("subscriptionMapJson", new Gson().toJson(subscriptionMap));
         request.setAttribute("testNames", displayedTests);
         request.setAttribute("headerLabel", header);
         request.setAttribute("showAll", showAll);

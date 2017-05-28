@@ -18,20 +18,25 @@
     right: 25px;
 }
 
-th {
-    background: #551A8B;  /* Darken header a bit */
-    font-weight: bold;
-    color: white;
+.input-field {
+    margin-bottom: 50px;
 }
 
-td {
-    background: #912CEE;
-    text-align: center;
+#add-button-wrapper {
+    margin-top: 10px;
+    height: 61px;
 }
 
-.row .col.s12.card.option {
-    padding: 10px 30px;
-    margin: 8px;
+.btn-flat.clear-button {
+    margin-top: 8px;
+    user-select: none;
+    color: grey;
+}
+
+.row .col.card.option {
+    padding: 6px 15px 6px 15px;
+    margin: 5px 0;
+    border-radius: 25px;
 }
 
 #error-container {
@@ -40,7 +45,7 @@ td {
 }
 
 .entry {
-    font-size: 21px;
+    font-size: 20px;
     font-weight: 300;
     position: relative;
 }
@@ -54,11 +59,7 @@ td {
     right: 0;
     min-width: 40px;
     border-radius: 10px;
-    margin-top: 6px;
-}
-
-#options {
-    min-height: 80%;
+    margin-top: 5px;
 }
 
 #show-button {
@@ -78,7 +79,31 @@ td {
 #section-header:after {
     border: 1px solid #ee6e73;
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 0;
     display: block;
     content: " ";
+}
+
+.ui-menu {
+    overflow-y: auto;
+    z-index: 100;
+    max-height: 50%;
+}
+
+.ui-menu-item {
+    font-size: 16px;
+    padding: 4px 10px;
+    transition: background-color .25s;
+}
+
+.ui-menu-item:hover {
+    background-color: #e0f2f1;
+}
+
+.ui-menu-item:active {
+    background-color: #b2dfdb;
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
 }

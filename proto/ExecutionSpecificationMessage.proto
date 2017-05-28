@@ -23,5 +23,5 @@ import "test/vts/proto/ComponentSpecificationMessage.proto";
 // Specifies API call sequence.
 message ExecutionSpecificationMessage {
   // Lists API calls.
-  repeated FunctionSpecificationMessage api = 1;
+  repeated FunctionCallMessage function_call = 1;
 }

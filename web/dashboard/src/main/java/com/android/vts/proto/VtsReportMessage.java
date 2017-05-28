@@ -15930,18 +15930,18 @@ public final class VtsReportMessage {
   }
 
   public interface TestPlanReportMessageOrBuilder extends com.google.protobuf.MessageOrBuilder {
-      // repeated bytes test_module_name = 11;
+      // repeated string test_module_name = 11;
       /**
-       * <code>repeated bytes test_module_name = 11;</code>
+       * <code>repeated string test_module_name = 11;</code>
        *
        * <pre>
        * Keys used to find all TestReportMessage messages of test modules in
        * this plan.
        * </pre>
        */
-      java.util.List<com.google.protobuf.ByteString> getTestModuleNameList();
+      java.util.List<java.lang.String> getTestModuleNameList();
       /**
-       * <code>repeated bytes test_module_name = 11;</code>
+       * <code>repeated string test_module_name = 11;</code>
        *
        * <pre>
        * Keys used to find all TestReportMessage messages of test modules in
@@ -15950,14 +15950,23 @@ public final class VtsReportMessage {
        */
       int getTestModuleNameCount();
       /**
-       * <code>repeated bytes test_module_name = 11;</code>
+       * <code>repeated string test_module_name = 11;</code>
        *
        * <pre>
        * Keys used to find all TestReportMessage messages of test modules in
        * this plan.
        * </pre>
        */
-      com.google.protobuf.ByteString getTestModuleName(int index);
+      java.lang.String getTestModuleName(int index);
+      /**
+       * <code>repeated string test_module_name = 11;</code>
+       *
+       * <pre>
+       * Keys used to find all TestReportMessage messages of test modules in
+       * this plan.
+       * </pre>
+       */
+      com.google.protobuf.ByteString getTestModuleNameBytes(int index);
 
       // repeated int64 test_module_start_timestamp = 12;
       /**
@@ -15973,9 +15982,9 @@ public final class VtsReportMessage {
        */
       long getTestModuleStartTimestamp(int index);
 
-      // optional bytes test_plan_name = 21;
+      // optional string test_plan_name = 21;
       /**
-       * <code>optional bytes test_plan_name = 21;</code>
+       * <code>optional string test_plan_name = 21;</code>
        *
        * <pre>
        * The test plan name.
@@ -15983,13 +15992,21 @@ public final class VtsReportMessage {
        */
       boolean hasTestPlanName();
       /**
-       * <code>optional bytes test_plan_name = 21;</code>
+       * <code>optional string test_plan_name = 21;</code>
        *
        * <pre>
        * The test plan name.
        * </pre>
        */
-      com.google.protobuf.ByteString getTestPlanName();
+      java.lang.String getTestPlanName();
+      /**
+       * <code>optional string test_plan_name = 21;</code>
+       *
+       * <pre>
+       * The test plan name.
+       * </pre>
+       */
+      com.google.protobuf.ByteString getTestPlanNameBytes();
 
       // repeated .android.vts.UrlResourceMessage partner_report = 31;
       /**
@@ -16092,8 +16109,7 @@ public final class VtsReportMessage {
                       }
                       case 90: {
                           if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                              testModuleName_ =
-                                      new java.util.ArrayList<com.google.protobuf.ByteString>();
+                              testModuleName_ = new com.google.protobuf.LazyStringArrayList();
                               mutable_bitField0_ |= 0x00000001;
                           }
                           testModuleName_.add(input.readBytes());
@@ -16147,7 +16163,8 @@ public final class VtsReportMessage {
                       .setUnfinishedMessage(this);
           } finally {
               if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                  testModuleName_ = java.util.Collections.unmodifiableList(testModuleName_);
+                  testModuleName_ =
+                          new com.google.protobuf.UnmodifiableLazyStringList(testModuleName_);
               }
               if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                   testModuleStartTimestamp_ =
@@ -16192,22 +16209,22 @@ public final class VtsReportMessage {
       }
 
       private int bitField0_;
-      // repeated bytes test_module_name = 11;
+      // repeated string test_module_name = 11;
       public static final int TEST_MODULE_NAME_FIELD_NUMBER = 11;
-      private java.util.List<com.google.protobuf.ByteString> testModuleName_;
+      private com.google.protobuf.LazyStringList testModuleName_;
       /**
-       * <code>repeated bytes test_module_name = 11;</code>
+       * <code>repeated string test_module_name = 11;</code>
        *
        * <pre>
        * Keys used to find all TestReportMessage messages of test modules in
        * this plan.
        * </pre>
        */
-      public java.util.List<com.google.protobuf.ByteString> getTestModuleNameList() {
+      public java.util.List<java.lang.String> getTestModuleNameList() {
           return testModuleName_;
       }
       /**
-       * <code>repeated bytes test_module_name = 11;</code>
+       * <code>repeated string test_module_name = 11;</code>
        *
        * <pre>
        * Keys used to find all TestReportMessage messages of test modules in
@@ -16218,15 +16235,26 @@ public final class VtsReportMessage {
           return testModuleName_.size();
       }
       /**
-       * <code>repeated bytes test_module_name = 11;</code>
+       * <code>repeated string test_module_name = 11;</code>
        *
        * <pre>
        * Keys used to find all TestReportMessage messages of test modules in
        * this plan.
        * </pre>
        */
-      public com.google.protobuf.ByteString getTestModuleName(int index) {
+      public java.lang.String getTestModuleName(int index) {
           return testModuleName_.get(index);
+      }
+      /**
+       * <code>repeated string test_module_name = 11;</code>
+       *
+       * <pre>
+       * Keys used to find all TestReportMessage messages of test modules in
+       * this plan.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getTestModuleNameBytes(int index) {
+          return testModuleName_.getByteString(index);
       }
 
       // repeated int64 test_module_start_timestamp = 12;
@@ -16251,11 +16279,11 @@ public final class VtsReportMessage {
           return testModuleStartTimestamp_.get(index);
       }
 
-      // optional bytes test_plan_name = 21;
+      // optional string test_plan_name = 21;
       public static final int TEST_PLAN_NAME_FIELD_NUMBER = 21;
-      private com.google.protobuf.ByteString testPlanName_;
+      private java.lang.Object testPlanName_;
       /**
-       * <code>optional bytes test_plan_name = 21;</code>
+       * <code>optional string test_plan_name = 21;</code>
        *
        * <pre>
        * The test plan name.
@@ -16265,14 +16293,42 @@ public final class VtsReportMessage {
           return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional bytes test_plan_name = 21;</code>
+       * <code>optional string test_plan_name = 21;</code>
        *
        * <pre>
        * The test plan name.
        * </pre>
        */
-      public com.google.protobuf.ByteString getTestPlanName() {
-          return testPlanName_;
+      public java.lang.String getTestPlanName() {
+          java.lang.Object ref = testPlanName_;
+          if (ref instanceof java.lang.String) {
+              return (java.lang.String) ref;
+          } else {
+              com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+              java.lang.String s = bs.toStringUtf8();
+              if (bs.isValidUtf8()) {
+                  testPlanName_ = s;
+              }
+              return s;
+          }
+      }
+      /**
+       * <code>optional string test_plan_name = 21;</code>
+       *
+       * <pre>
+       * The test plan name.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getTestPlanNameBytes() {
+          java.lang.Object ref = testPlanName_;
+          if (ref instanceof java.lang.String) {
+              com.google.protobuf.ByteString b =
+                      com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+              testPlanName_ = b;
+              return b;
+          } else {
+              return (com.google.protobuf.ByteString) ref;
+          }
       }
 
       // repeated .android.vts.UrlResourceMessage partner_report = 31;
@@ -16335,9 +16391,9 @@ public final class VtsReportMessage {
       }
 
       private void initFields() {
-          testModuleName_ = java.util.Collections.emptyList();
+          testModuleName_ = com.google.protobuf.LazyStringArrayList.EMPTY;
           testModuleStartTimestamp_ = java.util.Collections.emptyList();
-          testPlanName_ = com.google.protobuf.ByteString.EMPTY;
+          testPlanName_ = "";
           partnerReport_ = java.util.Collections.emptyList();
       }
       private byte memoizedIsInitialized = -1;
@@ -16353,13 +16409,13 @@ public final class VtsReportMessage {
       public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
           getSerializedSize();
           for (int i = 0; i < testModuleName_.size(); i++) {
-              output.writeBytes(11, testModuleName_.get(i));
+              output.writeBytes(11, testModuleName_.getByteString(i));
           }
           for (int i = 0; i < testModuleStartTimestamp_.size(); i++) {
               output.writeInt64(12, testModuleStartTimestamp_.get(i));
           }
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
-              output.writeBytes(21, testPlanName_);
+              output.writeBytes(21, getTestPlanNameBytes());
           }
           for (int i = 0; i < partnerReport_.size(); i++) {
               output.writeMessage(31, partnerReport_.get(i));
@@ -16378,7 +16434,7 @@ public final class VtsReportMessage {
               int dataSize = 0;
               for (int i = 0; i < testModuleName_.size(); i++) {
                   dataSize += com.google.protobuf.CodedOutputStream.computeBytesSizeNoTag(
-                          testModuleName_.get(i));
+                          testModuleName_.getByteString(i));
               }
               size += dataSize;
               size += 1 * getTestModuleNameList().size();
@@ -16393,7 +16449,8 @@ public final class VtsReportMessage {
               size += 1 * getTestModuleStartTimestampList().size();
           }
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
-              size += com.google.protobuf.CodedOutputStream.computeBytesSize(21, testPlanName_);
+              size += com.google.protobuf.CodedOutputStream.computeBytesSize(
+                      21, getTestPlanNameBytes());
           }
           for (int i = 0; i < partnerReport_.size(); i++) {
               size += com.google.protobuf.CodedOutputStream.computeMessageSize(
@@ -16528,11 +16585,11 @@ public final class VtsReportMessage {
 
           public Builder clear() {
               super.clear();
-              testModuleName_ = java.util.Collections.emptyList();
+              testModuleName_ = com.google.protobuf.LazyStringArrayList.EMPTY;
               bitField0_ = (bitField0_ & ~0x00000001);
               testModuleStartTimestamp_ = java.util.Collections.emptyList();
               bitField0_ = (bitField0_ & ~0x00000002);
-              testPlanName_ = com.google.protobuf.ByteString.EMPTY;
+              testPlanName_ = "";
               bitField0_ = (bitField0_ & ~0x00000004);
               if (partnerReportBuilder_ == null) {
                   partnerReport_ = java.util.Collections.emptyList();
@@ -16572,7 +16629,8 @@ public final class VtsReportMessage {
               int from_bitField0_ = bitField0_;
               int to_bitField0_ = 0;
               if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                  testModuleName_ = java.util.Collections.unmodifiableList(testModuleName_);
+                  testModuleName_ =
+                          new com.google.protobuf.UnmodifiableLazyStringList(testModuleName_);
                   bitField0_ = (bitField0_ & ~0x00000001);
               }
               result.testModuleName_ = testModuleName_;
@@ -16637,7 +16695,9 @@ public final class VtsReportMessage {
                   onChanged();
               }
               if (other.hasTestPlanName()) {
-                  setTestPlanName(other.getTestPlanName());
+                  bitField0_ |= 0x00000004;
+                  testPlanName_ = other.testPlanName_;
+                  onChanged();
               }
               if (partnerReportBuilder_ == null) {
                   if (!other.partnerReport_.isEmpty()) {
@@ -16693,29 +16753,28 @@ public final class VtsReportMessage {
           }
           private int bitField0_;
 
-          // repeated bytes test_module_name = 11;
-          private java.util.List<com.google.protobuf.ByteString> testModuleName_ =
-                  java.util.Collections.emptyList();
+          // repeated string test_module_name = 11;
+          private com.google.protobuf.LazyStringList testModuleName_ =
+                  com.google.protobuf.LazyStringArrayList.EMPTY;
           private void ensureTestModuleNameIsMutable() {
               if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-                  testModuleName_ =
-                          new java.util.ArrayList<com.google.protobuf.ByteString>(testModuleName_);
+                  testModuleName_ = new com.google.protobuf.LazyStringArrayList(testModuleName_);
                   bitField0_ |= 0x00000001;
               }
           }
           /**
-           * <code>repeated bytes test_module_name = 11;</code>
+           * <code>repeated string test_module_name = 11;</code>
            *
            * <pre>
            * Keys used to find all TestReportMessage messages of test modules in
            * this plan.
            * </pre>
            */
-          public java.util.List<com.google.protobuf.ByteString> getTestModuleNameList() {
+          public java.util.List<java.lang.String> getTestModuleNameList() {
               return java.util.Collections.unmodifiableList(testModuleName_);
           }
           /**
-           * <code>repeated bytes test_module_name = 11;</code>
+           * <code>repeated string test_module_name = 11;</code>
            *
            * <pre>
            * Keys used to find all TestReportMessage messages of test modules in
@@ -16726,25 +16785,36 @@ public final class VtsReportMessage {
               return testModuleName_.size();
           }
           /**
-           * <code>repeated bytes test_module_name = 11;</code>
+           * <code>repeated string test_module_name = 11;</code>
            *
            * <pre>
            * Keys used to find all TestReportMessage messages of test modules in
            * this plan.
            * </pre>
            */
-          public com.google.protobuf.ByteString getTestModuleName(int index) {
+          public java.lang.String getTestModuleName(int index) {
               return testModuleName_.get(index);
           }
           /**
-           * <code>repeated bytes test_module_name = 11;</code>
+           * <code>repeated string test_module_name = 11;</code>
            *
            * <pre>
            * Keys used to find all TestReportMessage messages of test modules in
            * this plan.
            * </pre>
            */
-          public Builder setTestModuleName(int index, com.google.protobuf.ByteString value) {
+          public com.google.protobuf.ByteString getTestModuleNameBytes(int index) {
+              return testModuleName_.getByteString(index);
+          }
+          /**
+           * <code>repeated string test_module_name = 11;</code>
+           *
+           * <pre>
+           * Keys used to find all TestReportMessage messages of test modules in
+           * this plan.
+           * </pre>
+           */
+          public Builder setTestModuleName(int index, java.lang.String value) {
               if (value == null) {
                   throw new NullPointerException();
               }
@@ -16754,14 +16824,14 @@ public final class VtsReportMessage {
               return this;
           }
           /**
-           * <code>repeated bytes test_module_name = 11;</code>
+           * <code>repeated string test_module_name = 11;</code>
            *
            * <pre>
            * Keys used to find all TestReportMessage messages of test modules in
            * this plan.
            * </pre>
            */
-          public Builder addTestModuleName(com.google.protobuf.ByteString value) {
+          public Builder addTestModuleName(java.lang.String value) {
               if (value == null) {
                   throw new NullPointerException();
               }
@@ -16771,22 +16841,21 @@ public final class VtsReportMessage {
               return this;
           }
           /**
-           * <code>repeated bytes test_module_name = 11;</code>
+           * <code>repeated string test_module_name = 11;</code>
            *
            * <pre>
            * Keys used to find all TestReportMessage messages of test modules in
            * this plan.
            * </pre>
            */
-          public Builder addAllTestModuleName(
-                  java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+          public Builder addAllTestModuleName(java.lang.Iterable<java.lang.String> values) {
               ensureTestModuleNameIsMutable();
               super.addAll(values, testModuleName_);
               onChanged();
               return this;
           }
           /**
-           * <code>repeated bytes test_module_name = 11;</code>
+           * <code>repeated string test_module_name = 11;</code>
            *
            * <pre>
            * Keys used to find all TestReportMessage messages of test modules in
@@ -16794,8 +16863,25 @@ public final class VtsReportMessage {
            * </pre>
            */
           public Builder clearTestModuleName() {
-              testModuleName_ = java.util.Collections.emptyList();
+              testModuleName_ = com.google.protobuf.LazyStringArrayList.EMPTY;
               bitField0_ = (bitField0_ & ~0x00000001);
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>repeated string test_module_name = 11;</code>
+           *
+           * <pre>
+           * Keys used to find all TestReportMessage messages of test modules in
+           * this plan.
+           * </pre>
+           */
+          public Builder addTestModuleNameBytes(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              ensureTestModuleNameIsMutable();
+              testModuleName_.add(value);
               onChanged();
               return this;
           }
@@ -16866,11 +16952,10 @@ public final class VtsReportMessage {
               return this;
           }
 
-          // optional bytes test_plan_name = 21;
-          private com.google.protobuf.ByteString testPlanName_ =
-                  com.google.protobuf.ByteString.EMPTY;
+          // optional string test_plan_name = 21;
+          private java.lang.Object testPlanName_ = "";
           /**
-           * <code>optional bytes test_plan_name = 21;</code>
+           * <code>optional string test_plan_name = 21;</code>
            *
            * <pre>
            * The test plan name.
@@ -16880,23 +16965,48 @@ public final class VtsReportMessage {
               return ((bitField0_ & 0x00000004) == 0x00000004);
           }
           /**
-           * <code>optional bytes test_plan_name = 21;</code>
+           * <code>optional string test_plan_name = 21;</code>
            *
            * <pre>
            * The test plan name.
            * </pre>
            */
-          public com.google.protobuf.ByteString getTestPlanName() {
-              return testPlanName_;
+          public java.lang.String getTestPlanName() {
+              java.lang.Object ref = testPlanName_;
+              if (!(ref instanceof java.lang.String)) {
+                  java.lang.String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+                  testPlanName_ = s;
+                  return s;
+              } else {
+                  return (java.lang.String) ref;
+              }
           }
           /**
-           * <code>optional bytes test_plan_name = 21;</code>
+           * <code>optional string test_plan_name = 21;</code>
            *
            * <pre>
            * The test plan name.
            * </pre>
            */
-          public Builder setTestPlanName(com.google.protobuf.ByteString value) {
+          public com.google.protobuf.ByteString getTestPlanNameBytes() {
+              java.lang.Object ref = testPlanName_;
+              if (ref instanceof String) {
+                  com.google.protobuf.ByteString b =
+                          com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+                  testPlanName_ = b;
+                  return b;
+              } else {
+                  return (com.google.protobuf.ByteString) ref;
+              }
+          }
+          /**
+           * <code>optional string test_plan_name = 21;</code>
+           *
+           * <pre>
+           * The test plan name.
+           * </pre>
+           */
+          public Builder setTestPlanName(java.lang.String value) {
               if (value == null) {
                   throw new NullPointerException();
               }
@@ -16906,7 +17016,7 @@ public final class VtsReportMessage {
               return this;
           }
           /**
-           * <code>optional bytes test_plan_name = 21;</code>
+           * <code>optional string test_plan_name = 21;</code>
            *
            * <pre>
            * The test plan name.
@@ -16915,6 +17025,22 @@ public final class VtsReportMessage {
           public Builder clearTestPlanName() {
               bitField0_ = (bitField0_ & ~0x00000004);
               testPlanName_ = getDefaultInstance().getTestPlanName();
+              onChanged();
+              return this;
+          }
+          /**
+           * <code>optional string test_plan_name = 21;</code>
+           *
+           * <pre>
+           * The test plan name.
+           * </pre>
+           */
+          public Builder setTestPlanNameBytes(com.google.protobuf.ByteString value) {
+              if (value == null) {
+                  throw new NullPointerException();
+              }
+              bitField0_ |= 0x00000004;
+              testPlanName_ = value;
               onChanged();
               return this;
           }
@@ -18702,9 +18828,9 @@ public final class VtsReportMessage {
                       + "\001(\003\0224\n\010coverage\030g \003(\0132\".android.vts.Cove",
               "rageReportMessage\022%\n\003log\030\351\007 \003(\0132\027.androi"
                       + "d.vts.LogMessage\"\247\001\n\025TestPlanReportMessa"
-                      + "ge\022\030\n\020test_module_name\030\013 \003(\014\022#\n\033test_mod"
+                      + "ge\022\030\n\020test_module_name\030\013 \003(\t\022#\n\033test_mod"
                       + "ule_start_timestamp\030\014 \003(\003\022\026\n\016test_plan_n"
-                      + "ame\030\025 \001(\014\0227\n\016partner_report\030\037 \003(\0132\037.andr"
+                      + "ame\030\025 \001(\t\0227\n\016partner_report\030\037 \003(\0132\037.andr"
                       + "oid.vts.UrlResourceMessage\"\237\001\n\024Dashboard"
                       + "PostMessage\022\024\n\014access_token\030\001 \001(\t\0223\n\013tes"
                       + "t_report\030\002 \003(\0132\036.android.vts.TestReportM"
@@ -18726,8 +18852,8 @@ public final class VtsReportMessage {
                       + "UNKNOWN_VTS_PROFILING_TYPE\020\000\022 \n\034VTS_PROF"
                       + "ILING_TYPE_TIMESTAMP\020\001\022%\n!VTS_PROFILING_"
                       + "TYPE_LABELED_VECTOR\020\002\022\'\n#VTS_PROFILING_T"
-                      + "YPE_UNLABELED_VECTOR\020\003B)\n\025com.android.vt"
-                      + "s.protoB\020VtsReportMessage"};
+                      + "YPE_UNLABELED_VECTOR\020\003B+\n\025com.android.vt"
+                      + "s.protoB\020VtsReportMessageP\000"};
       com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
               new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
                   public com.google.protobuf.ExtensionRegistry assignDescriptors(

@@ -46,11 +46,6 @@ Copyright 2016 Google Inc. All Rights Reserved.
 </servlet>
 
 <servlet>
-  <servlet-name>show_preferences</servlet-name>
-  <servlet-class>com.android.vts.servlet.ShowPreferencesServlet</servlet-class>
-</servlet>
-
-<servlet>
   <servlet-name>datastore</servlet-name>
   <servlet-class>com.android.vts.api.DatastoreRestServlet</servlet-class>
 </servlet>
@@ -58,6 +53,11 @@ Copyright 2016 Google Inc. All Rights Reserved.
 <servlet>
   <servlet-name>test_run</servlet-name>
   <servlet-class>com.android.vts.api.TestRunRestServlet</servlet-class>
+</servlet>
+
+<servlet>
+  <servlet-name>favorites</servlet-name>
+  <servlet-class>com.android.vts.api.UserFavoriteRestServlet</servlet-class>
 </servlet>
 
 <servlet>
@@ -78,11 +78,6 @@ Copyright 2016 Google Inc. All Rights Reserved.
 <servlet-mapping>
   <servlet-name>dashboard_main</servlet-name>
   <url-pattern>/</url-pattern>
-</servlet-mapping>
-
-<servlet-mapping>
-  <servlet-name>show_preferences</servlet-name>
-  <url-pattern>/show_preferences/*</url-pattern>
 </servlet-mapping>
 
 <servlet-mapping>
@@ -123,6 +118,11 @@ Copyright 2016 Google Inc. All Rights Reserved.
 <servlet-mapping>
   <servlet-name>test_run</servlet-name>
   <url-pattern>/api/test_run/*</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+  <servlet-name>favorites</servlet-name>
+  <url-pattern>/api/favorites/*</url-pattern>
 </servlet-mapping>
 
 <servlet-mapping>

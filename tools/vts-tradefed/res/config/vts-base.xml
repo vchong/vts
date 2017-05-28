@@ -17,5 +17,6 @@
   <include name="everything" />
   <option name="compatibility:skip-all-system-status-check" value="true" />
   <target_preparer class="com.android.tradefed.targetprep.VtsDeviceInfoCollector" />
+  <target_preparer class="com.android.tradefed.targetprep.VtsTestPlanResultReporter" />
   <template-include name="reporters" default="basic-reporters" />
 </configuration>

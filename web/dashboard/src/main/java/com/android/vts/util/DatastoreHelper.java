@@ -160,7 +160,7 @@ public class DatastoreHelper {
         long coveredLineCount = 0;
         long totalLineCount = 0;
 
-        List<Entity> testCasePuts = new ArrayList<>();
+        List<TestCaseRunEntity> testCases = new ArrayList<>();
 
         // Process test cases
         for (TestCaseReportMessage testCase : report.getTestCaseList()) {
@@ -198,11 +198,21 @@ public class DatastoreHelper {
                 }
                 puts.add(profilingEntity.toEntity());
             }
-            KeyRange keys = datastore.allocateIds(TestCaseRunEntity.KIND, 1);
-            testCaseIds.add(keys.getStart().getId());
-            TestCaseRunEntity testCaseRunEntity = new TestCaseRunEntity(
-                    keys.getStart(), testCaseName, result.getNumber(), systraceLink);
-            testCasePuts.add(testCaseRunEntity.toEntity());
+
+            int lastIndex = testCases.size() - 1;
+            if (lastIndex < 0 || testCases.get(lastIndex).isFull()) {
+                KeyRange keys = datastore.allocateIds(TestCaseRunEntity.KIND, 1);
+                testCaseIds.add(keys.getStart().getId());
+                testCases.add(new TestCaseRunEntity(keys.getStart()));
+                ++lastIndex;
+            }
+            TestCaseRunEntity testCaseEntity = testCases.get(lastIndex);
+            testCaseEntity.addTestCase(testCaseName, result.getNumber());
+            testCaseEntity.setSystraceUrl(systraceLink);
+        }
+        List<Entity> testCasePuts = new ArrayList<>();
+        for (TestCaseRunEntity testCaseEntity : testCases) {
+            testCasePuts.add(testCaseEntity.toEntity());
         }
         datastore.put(testCasePuts);
 

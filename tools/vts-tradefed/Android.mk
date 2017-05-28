@@ -27,6 +27,11 @@ LOCAL_SUITE_TARGET_ARCH := $(TARGET_ARCH)
 LOCAL_SUITE_NAME := VTS
 LOCAL_SUITE_FULLNAME := "Vendor Test Suite"
 LOCAL_SUITE_VERSION := 1.0
+LOCAL_STATIC_JAVA_LIBRARIES := \
+    libvts_protos_host \
+
+LOCAL_STATIC_JAVA_LIBRARIES += \
+    google-api-java-client-min-repackaged \
 
 LOCAL_JAR_MANIFEST := MANIFEST.mf
 
