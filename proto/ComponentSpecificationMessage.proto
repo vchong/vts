@@ -300,45 +300,6 @@ message EnumDataValueMessage {
   optional bytes scalar_type = 3;
 }
 
-// To keep the value of a memory variable.
-message MemoryDataValueMessage {
-  optional int64 size = 1;
-  optional bytes contents = 2;
-}
-
-// Type of a file descriptor.
-enum FdType {
-  FILE_TYPE = 1;
-  DIR_TYPE = 2;
-  DEV_TYPE = 3;
-  PIPE_TYPE = 4;
-  SOCKET_TYPE = 5;
-  LINK_TYPE = 6;
-}
-
-// To keep the value of a file-descriptor.
-message FdMessage {
-  optional FdType type = 1;
-  optional uint32 mode = 2;
-  optional int32 flags = 3;
-  optional bytes file_name = 4;
-  // For shared memory.
-  optional MemoryDataValueMessage memory = 6;
-}
-
-// To keep the value of a handle variable.
-message HandleDataValueMessage {
-  // sizeof(native_handle_t)
-  optional int32 version = 1;
-  // number of file-descriptors.
-  optional int32 num_fds = 2;
-  // number of ints.
-  optional int32 num_ints = 3;
-  // file-descriptor values.
-  repeated FdMessage fd_val = 4;
-  // ints values
-  repeated int32 int_val = 5;
-}
 
 // To specify a function argument or an attribute in general.
 message VariableSpecificationMessage {
@@ -391,12 +352,6 @@ message VariableSpecificationMessage {
 
   // for TYPE_REF.
   optional VariableSpecificationMessage ref_value = 171;
-
-  // for TYPE_HIDL_MEMROY.
-  optional MemoryDataValueMessage hidl_memory_value =172;
-
-  // for TYPE_HANDLE.
-  optional HandleDataValueMessage handle_value =181;
 
   // for non HIDL HAL, to use a custom type defined in C/C++.
   optional bytes predefined_type = 201;

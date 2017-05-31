@@ -1,8 +1,4 @@
 #include "android/hardware/nfc/1.0/Nfc.vts.h"
-#include <cutils/ashmem.h>
-#include <fcntl.h>
-#include <fmq/MessageQueue.h>
-#include <sys/stat.h>
 
 using namespace android::hardware::nfc::V1_0;
 using namespace android::hardware;
@@ -55,7 +51,6 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_nfc_V1_0_INfc(
                     auto *arg_0 = msg.add_arg();
                     sp<::android::hardware::nfc::V1_0::INfcClientCallback> *arg_val_0 = reinterpret_cast<sp<::android::hardware::nfc::V1_0::INfcClientCallback>*> ((*args)[0]);
                     arg_0->set_type(TYPE_HIDL_CALLBACK);
-                    arg_0->set_predefined_type("::android::hardware::nfc::V1_0::INfcClientCallback");
                     break;
                 }
                 case details::HidlInstrumentor::CLIENT_API_EXIT:

@@ -118,27 +118,19 @@ class VtscTester(unittest.TestCase):
     def TestProfiler(self):
         """Run tests for PROFILER mode. """
         logging.info("Running TestProfiler test case.")
-        #self.GenerateVtsFile("android.hardware.nfc@1.0")
-        for package_path, component_names in zip(
-            ["android.hardware.nfc@1.0",
-             "android.hardware.tests.bar@1.0",
-             "android.hardware.tests.msgq@1.0",
-             "android.hardware.tests.memory@1.0"],
-            [["Nfc", "NfcClientCallback", "types"],
-             ["Bar"], ["TestMsgQ"], ["MemoryTest"]]):
-            self.GenerateVtsFile(package_path)
-            for component_name in component_names:
-                self.RunTest(
-                    "PROFILER",
-                    os.path.join(self._temp_dir, component_name + ".vts"),
-                    "%s.vts.h" % component_name,
-                    header_file_name="%s.vts.h" % component_name,
-                    file_type="HEADER")
-                self.RunTest(
-                    "PROFILER",
-                    os.path.join(self._temp_dir, component_name + ".vts"),
-                    "%s.profiler.cpp" % component_name,
-                    file_type="SOURCE")
+        self.GenerateVtsFile("android.hardware.nfc@1.0")
+        for component_name in ["Nfc", "types", "NfcClientCallback"]:
+            self.RunTest(
+                "PROFILER",
+                os.path.join(self._temp_dir, component_name + ".vts"),
+                "%s.vts.h" % component_name,
+                header_file_name="%s.vts.h" % component_name,
+                file_type="HEADER")
+            self.RunTest(
+                "PROFILER",
+                os.path.join(self._temp_dir, component_name + ".vts"),
+                "%s.profiler.cpp" % component_name,
+                file_type="SOURCE")
 
     def TestFuzzer(self):
         """Run tests for Fuzzer mode. """
