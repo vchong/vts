@@ -77,6 +77,8 @@ vts_test_lib_packages += \
     libtest_init_fini_order_root2 \
     libtest_init_fini_order_root \
     libtest_ifunc \
+    libtest_ifunc_variable \
+    libtest_ifunc_variable_impl \
     libtest_nodelete_1 \
     libtest_nodelete_2 \
     libtest_nodelete_dt_flags_1 \
@@ -112,6 +114,8 @@ vts_test_lib_packages += \
     libtest_invalid-zero_shstrndx.so \
     libtest_invalid-textrels.so \
     libtest_invalid-textrels2.so \
+    preinit_getauxval_test_helper \
+    preinit_syscall_test_helper \
     libnstest_private_external \
     libnstest_dlopened \
     libnstest_private \

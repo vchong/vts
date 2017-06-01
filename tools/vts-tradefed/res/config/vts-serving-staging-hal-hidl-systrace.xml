@@ -18,9 +18,11 @@
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts-star" />
 
-  <option name="compatibility:include-filter" value="HwBinderBinderizeThroughputSystraceTest" />
-  <option name="compatibility:include-filter" value="HwBinderPassthroughThroughputSystraceTest" />
+  <option name="compatibility:include-filter" value="HwBinderBinderizeLatencySystraceTest" />
   <option name="compatibility:include-filter" value="HwBinderBinderizePerformanceSystraceTest" />
+  <option name="compatibility:include-filter" value="HwBinderBinderizeThroughputSystraceTest" />
+  <option name="compatibility:include-filter" value="HwBinderPassthroughLatencySystraceTest" />
   <option name="compatibility:include-filter" value="HwBinderPassthroughPerformanceSystraceTest" />
+  <option name="compatibility:include-filter" value="HwBinderPassthroughThroughputSystraceTest" />
 
 </configuration>

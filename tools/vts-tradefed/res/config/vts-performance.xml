@@ -19,11 +19,16 @@
   <option name="test-tag" value="vts-star" />
 
   <!-- For Kernel HwBinder and Binder Profiling -->
-  <option name="compatibility:include-filter" value="BinderThroughputBenchmark" />
   <option name="compatibility:include-filter" value="BinderPerformanceTest" />
-  <option name="compatibility:include-filter" value="HwBinderBinderizeThroughputTest" />
+  <option name="compatibility:include-filter" value="BinderThroughputBenchmark" />
+  <option name="compatibility:include-filter" value="HwBinderBinderizeLatencyTest" />
   <option name="compatibility:include-filter" value="HwBinderBinderizePerformanceTest" />
-  <option name="compatibility:include-filter" value="HwBinderPassthroughThroughputTest" />
+  <option name="compatibility:include-filter" value="HwBinderBinderizeThroughputTest" />
+  <option name="compatibility:include-filter" value="HwBinderPassthroughLatencyTest" />
   <option name="compatibility:include-filter" value="HwBinderPassthroughPerformanceTest" />
+  <option name="compatibility:include-filter" value="HwBinderPassthroughThroughputTest" />
+
+  <!-- For FMQ -->
   <option name="compatibility:include-filter" value="FmqPerformanceTest" />
+
 </configuration>

@@ -73,6 +73,12 @@ function vts_multidevice_target_setup {
   adb shell mkdir -p /data/local/tmp/spec
   adb push ${ANDROID_BUILD_TOP}/test/vts/specification/hal/conventional /data/local/tmp/spec/hal/conventional
   adb push ${ANDROID_BUILD_TOP}/test/vts/specification/lib /data/local/tmp/spec/lib
+  hidl-gen -o ${ANDROID_BUILD_TOP}/output -L vts -r android.hardware:hardware/interfaces -r android.hidl:system/libhidl/transport android.hardware.camera.provider@2.4
+  hidl-gen -o ${ANDROID_BUILD_TOP}/output -L vts -r android.hardware:hardware/interfaces -r android.hidl:system/libhidl/transport android.hardware.camera.common@1.0
+  hidl-gen -o ${ANDROID_BUILD_TOP}/output -L vts -r android.hardware:hardware/interfaces -r android.hidl:system/libhidl/transport android.hardware.camera.device@1.0
+  hidl-gen -o ${ANDROID_BUILD_TOP}/output -L vts -r android.hardware:hardware/interfaces -r android.hidl:system/libhidl/transport android.hardware.camera.device@3.2
+  hidl-gen -o ${ANDROID_BUILD_TOP}/output -L vts -r android.hardware:hardware/interfaces -r android.hidl:system/libhidl/transport android.hardware.camera.metadata@3.2
+  hidl-gen -o ${ANDROID_BUILD_TOP}/output -L vts -r android.hardware:hardware/interfaces -r android.hidl:system/libhidl/transport android.hardware.gnss@1.0
   hidl-gen -o ${ANDROID_BUILD_TOP}/output -L vts -r android.hardware:hardware/interfaces -r android.hidl:system/libhidl/transport android.hardware.nfc@1.0
   hidl-gen -o ${ANDROID_BUILD_TOP}/output -L vts -r android.hardware:hardware/interfaces -r android.hidl:system/libhidl/transport android.hardware.vr@1.0
   hidl-gen -o ${ANDROID_BUILD_TOP}/output -L vts -r android.hardware:hardware/interfaces -r android.hidl:system/libhidl/transport android.hardware.automotive.vehicle@2.0
