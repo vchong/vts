@@ -313,6 +313,46 @@ bool SpecificationBuilder::LoadTargetComponent(
 
 const string empty_string = string();
 
+FuzzerBase* SpecificationBuilder::GetFuzzerBase(
+    const string& name, const uint64_t interface_pt) const {
+  return wrapper_.GetFuzzer(name, interface_pt);
+}
+
+int32_t SpecificationBuilder::RegisterHidlInterface(
+    const string& name, const uint64_t interface_pt) {
+  FuzzerBase* fuzz_base_pt;
+  int32_t max_id = 0;
+  for (auto it : interface_map_) {
+    if (get<0>(it.second) == name && get<2>(it.second) == interface_pt) {
+      return it.first;
+    }
+    if (it.first > max_id) {
+      max_id = it.first;
+    }
+  }
+  max_id++;
+  fuzz_base_pt = GetFuzzerBase(name, interface_pt);
+  interface_map_.insert(
+      make_pair(max_id, make_tuple(name, fuzz_base_pt, interface_pt)));
+  return max_id;
+}
+
+uint64_t SpecificationBuilder::GetHidlInterfacePointer(const int32_t id) const {
+  cout << __func__ << " *** id " << id << endl;
+  auto res = interface_map_.find(id);
+  if (res == interface_map_.end()) return 0;
+  return reinterpret_cast<uint64_t>(get<2>(res->second));
+}
+
+FuzzerBase* SpecificationBuilder::GetHidlInterfaceFuzzerBase(
+    const int32_t id) const {
+  cout << __func__ << " *** id " << id << endl;
+  auto res = interface_map_.find(id);
+  if (res == interface_map_.end()) return nullptr;
+  cout << __func__ << " *** id " << id << " found" << endl;
+  return reinterpret_cast<FuzzerBase*>(get<1>(res->second));
+}
+
 const string& SpecificationBuilder::CallFunction(
     FunctionSpecificationMessage* func_msg) {
   cout << __func__ << ":" << __LINE__ << " entry" << endl;
@@ -337,8 +377,13 @@ const string& SpecificationBuilder::CallFunction(
       return empty_string;
     }
   } else {
-    func_fuzzer = GetFuzzerBase(*if_spec_msg_, dll_file_name_,
-                                func_msg->name().c_str());
+    if (func_msg->hidl_interface_id() == 0 ||
+        (if_spec_msg_ && if_spec_msg_->component_class() != HAL_HIDL)) {
+      func_fuzzer = GetFuzzerBase(*if_spec_msg_, dll_file_name_,
+                                  func_msg->name().c_str());
+    } else {
+      func_fuzzer = GetHidlInterfaceFuzzerBase(func_msg->hidl_interface_id());
+    }
   }
   cout << __func__ << ":" << __LINE__ << endl;
   if (!func_fuzzer) {
@@ -392,6 +437,16 @@ const string& SpecificationBuilder::CallFunction(
       cerr << __func__ << " function not found - todo handle more explicitly"
            << endl;
       return *(new string("error"));
+    }
+
+    for (int index = 0; index < result_msg.return_type_hidl_size(); index++) {
+      VariableSpecificationMessage* return_val =
+          result_msg.mutable_return_type_hidl(index);
+      if (return_val->hidl_interface_pointer() != 0) {
+        return_val->set_hidl_interface_id(
+            RegisterHidlInterface(return_val->predefined_type(),
+                                  return_val->hidl_interface_pointer()));
+      }
     }
   } else {
     if (!func_fuzzer->Fuzz(func_msg, &result, callback_socket_name_)) {

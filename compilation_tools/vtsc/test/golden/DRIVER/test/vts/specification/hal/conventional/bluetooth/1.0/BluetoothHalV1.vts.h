@@ -30,7 +30,7 @@ class FuzzerExtended_bluetooth_module_t : public FuzzerBase {
 
 
 extern "C" {
-extern android::vts::FuzzerBase* vts_func_1_7_1_();
+extern android::vts::FuzzerBase* vts_func_1_7_V1_0_();
 }
 }  // namespace vts
 }  // namespace android

@@ -17,6 +17,7 @@
 package com.android.vts.api;
 
 import com.android.vts.proto.VtsReportMessage.DashboardPostMessage;
+import com.android.vts.proto.VtsReportMessage.TestPlanReportMessage;
 import com.android.vts.proto.VtsReportMessage.TestReportMessage;
 import com.android.vts.util.DatastoreHelper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -78,7 +79,11 @@ public class DatastoreRestServlet extends HttpServlet {
         }
 
         for (TestReportMessage testReportMessage : postMessage.getTestReportList()) {
-            DatastoreHelper.insertData(testReportMessage);
+            DatastoreHelper.insertTestReport(testReportMessage);
+        }
+
+        for (TestPlanReportMessage planReportMessage : postMessage.getTestPlanReportList()) {
+            DatastoreHelper.insertTestPlanReport(planReportMessage);
         }
 
         response.setStatus(HttpServletResponse.SC_OK);

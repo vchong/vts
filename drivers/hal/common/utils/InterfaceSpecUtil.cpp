@@ -33,13 +33,14 @@ string GetFunctionNamePrefix(const ComponentSpecificationMessage& message) {
   if (message.component_class() != HAL_HIDL) {
     prefix_ss << VTS_INTERFACE_SPECIFICATION_FUNCTION_NAME_PREFIX
               << message.component_class() << "_" << message.component_type()
-              << "_" << int(message.component_type_version()) << "_";
+              << "_" << GetVersionString(message.component_type_version(), true)
+              << "_";
   } else {
     string package_as_function_name(message.package());
     ReplaceSubString(package_as_function_name, ".", "_");
     prefix_ss << VTS_INTERFACE_SPECIFICATION_FUNCTION_NAME_PREFIX
         << message.component_class() << "_" << package_as_function_name << "_"
-        << int(message.component_type_version()) << "_"
+        << GetVersionString(message.component_type_version(), true) << "_"
         << message.component_name() << "_";
   }
   return prefix_ss.str();

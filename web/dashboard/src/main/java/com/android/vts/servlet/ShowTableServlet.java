@@ -28,18 +28,21 @@ import com.android.vts.util.TestResults;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -173,46 +176,70 @@ public class ShowTableServlet extends BaseServlet {
             dir = SortDirection.ASCENDING;
         }
         Key testKey = KeyFactory.createKey(TestEntity.KIND, testName);
-        Filter deviceFilter = FilterUtil.getDeviceFilter(searchString);
+        Filter userTestFilter = FilterUtil.getUserTestFilter(searchString);
+        Filter userDeviceFilter = FilterUtil.getDeviceFilter(searchString);
 
-        Filter runTypeFilter =
-                FilterUtil.getTestTypeFilter(showPresubmit, showPostsubmit, unfiltered);
-        Filter testRunFilter = FilterUtil.getUserTestFilter(searchString, runTypeFilter);
-
-        Filter filter = FilterUtil.getTimeFilter(testKey, startTime, endTime, testRunFilter);
-        Query testRunQuery = new Query(TestRunEntity.KIND)
-                                     .setAncestor(testKey)
-                                     .setFilter(filter)
-                                     .addSort(Entity.KEY_RESERVED_PROPERTY, dir);
-        if (deviceFilter != null) {
-            testRunQuery.setKeysOnly();
-            for (Entity testRunKey : datastore.prepare(testRunQuery).asIterable()) {
-                Query deviceQuery = new Query(DeviceInfoEntity.KIND)
-                                            .setAncestor(testRunKey.getKey())
-                                            .setFilter(deviceFilter)
-                                            .setKeysOnly();
-                if (!DatastoreHelper.hasEntities(deviceQuery)) {
-                    // No devices matching device filter.
-                    continue;
-                }
-                Entity testRun;
-                try {
-                    testRun = datastore.get(testRunKey.getKey());
-                    processTestRun(testResults, testRun);
-                } catch (EntityNotFoundException e) {
-                    logger.log(Level.INFO, "Key not found.", e);
-                }
-                if (testResults.getSize() == MAX_BUILD_IDS_PER_PAGE) {
-                    break;
-                }
-            }
-        } else {
+        Filter typeFilter = FilterUtil.getTestTypeFilter(showPresubmit, showPostsubmit, unfiltered);
+        Filter testFilter = FilterUtil.getTimeFilter(testKey, startTime, endTime, typeFilter);
+        if (userTestFilter == null && userDeviceFilter == null) {
+            Query testRunQuery = new Query(TestRunEntity.KIND)
+                                         .setAncestor(testKey)
+                                         .setFilter(testFilter)
+                                         .addSort(Entity.KEY_RESERVED_PROPERTY, dir);
             for (Entity testRun :
                     datastore.prepare(testRunQuery)
                             .asIterable(FetchOptions.Builder.withLimit(MAX_BUILD_IDS_PER_PAGE))) {
                 processTestRun(testResults, testRun);
             }
+        } else {
+            List<Key> gets = new ArrayList<>();
+            Set<Key> matchingTestKeys = new HashSet<>();
+            if (userTestFilter != null) {
+                testFilter = CompositeFilterOperator.and(userTestFilter, testFilter);
+            }
+            Query testRunQuery = new Query(TestRunEntity.KIND)
+                                         .setAncestor(testKey)
+                                         .setFilter(testFilter)
+                                         .setKeysOnly();
+            for (Entity testRunKey : datastore.prepare(testRunQuery).asIterable()) {
+                matchingTestKeys.add(testRunKey.getKey());
+            }
+
+            Set<Key> allMatchingKeys;
+            if (userDeviceFilter == null) {
+                allMatchingKeys = matchingTestKeys;
+            } else {
+                allMatchingKeys = new HashSet<>();
+                Query deviceQuery = new Query(DeviceInfoEntity.KIND)
+                                            .setAncestor(testKey)
+                                            .setFilter(userDeviceFilter)
+                                            .setKeysOnly();
+                for (Entity device : datastore.prepare(deviceQuery).asIterable()) {
+                    if (matchingTestKeys.contains(device.getKey().getParent())) {
+                        allMatchingKeys.add(device.getKey().getParent());
+                    }
+                }
+            }
+            List<Key> allKeysSorted = new ArrayList<>(allMatchingKeys);
+            if (dir == SortDirection.DESCENDING) {
+                Collections.sort(allKeysSorted, Collections.reverseOrder());
+            } else {
+                Collections.sort(allKeysSorted);
+            }
+            allKeysSorted = allKeysSorted.subList(
+                    0, Math.min(allKeysSorted.size(), MAX_BUILD_IDS_PER_PAGE));
+            for (Key key : allKeysSorted) {
+                gets.add(key);
+            }
+            Map<Key, Entity> entityMap = datastore.get(gets);
+            for (Key key : allKeysSorted) {
+                if (!entityMap.containsKey(key)) {
+                    continue;
+                }
+                processTestRun(testResults, entityMap.get(key));
+            }
         }
+
         testResults.processReport();
 
         if (testResults.profilingPointNames.length == 0) {

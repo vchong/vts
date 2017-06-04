@@ -29,11 +29,11 @@ import com.android.vts.util.TestRunMetadata;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
@@ -173,52 +173,74 @@ public class ShowTreeServlet extends BaseServlet {
             dir = SortDirection.ASCENDING;
         }
         Key testKey = KeyFactory.createKey(TestEntity.KIND, testName);
-        Filter deviceFilter = FilterUtil.getDeviceFilter(searchString);
+        Filter userTestFilter = FilterUtil.getUserTestFilter(searchString);
+        Filter userDeviceFilter = FilterUtil.getDeviceFilter(searchString);
 
-        Filter runTypeFilter =
-                FilterUtil.getTestTypeFilter(showPresubmit, showPostsubmit, unfiltered);
-        Filter testRunFilter = FilterUtil.getUserTestFilter(searchString, runTypeFilter);
-
-        Filter filter = FilterUtil.getTimeFilter(testKey, startTime, endTime, testRunFilter);
-        Query testRunQuery = new Query(TestRunEntity.KIND)
-                                     .setAncestor(testKey)
-                                     .setFilter(filter)
-                                     .addSort(Entity.KEY_RESERVED_PROPERTY, dir);
+        Filter typeFilter = FilterUtil.getTestTypeFilter(showPresubmit, showPostsubmit, unfiltered);
+        Filter testFilter = FilterUtil.getTimeFilter(testKey, startTime, endTime, typeFilter);
 
         List<TestRunMetadata> testRunMetadata = new ArrayList<>();
-        if (deviceFilter != null) {
-            testRunQuery.setKeysOnly();
-            for (Entity testRunKey : datastore.prepare(testRunQuery).asIterable()) {
-                Query deviceQuery = new Query(DeviceInfoEntity.KIND)
-                                            .setAncestor(testRunKey.getKey())
-                                            .setFilter(deviceFilter)
-                                            .setKeysOnly();
-                if (!DatastoreHelper.hasEntities(deviceQuery)) {
-                    // No devices matching device filter.
-                    continue;
-                }
-                Entity testRun;
-                try {
-                    testRun = datastore.get(testRunKey.getKey());
-                } catch (EntityNotFoundException e) {
-                    logger.log(Level.INFO, "Key not found.", e);
-                    continue;
-                }
+        if (userTestFilter == null && userDeviceFilter == null) {
+            Query testRunQuery = new Query(TestRunEntity.KIND)
+                                         .setAncestor(testKey)
+                                         .setFilter(testFilter)
+                                         .addSort(Entity.KEY_RESERVED_PROPERTY, dir);
+            for (Entity testRun :
+                    datastore.prepare(testRunQuery)
+                            .asIterable(FetchOptions.Builder.withLimit(MAX_BUILD_IDS_PER_PAGE))) {
                 TestRunEntity testRunEntity = TestRunEntity.fromEntity(testRun);
                 if (testRunEntity == null) {
                     continue;
                 }
                 TestRunMetadata metadata = new TestRunMetadata(testName, testRunEntity);
                 testRunMetadata.add(metadata);
-                if (testRunMetadata.size() == MAX_BUILD_IDS_PER_PAGE) {
-                    break;
-                }
             }
         } else {
-            for (Entity testRun :
-                    datastore.prepare(testRunQuery)
-                            .asIterable(FetchOptions.Builder.withLimit(MAX_BUILD_IDS_PER_PAGE))) {
-                TestRunEntity testRunEntity = TestRunEntity.fromEntity(testRun);
+            List<Key> gets = new ArrayList<>();
+            Set<Key> matchingTestKeys = new HashSet<>();
+            if (userTestFilter != null) {
+                testFilter = CompositeFilterOperator.and(userTestFilter, testFilter);
+            }
+            Query testRunQuery = new Query(TestRunEntity.KIND)
+                                         .setAncestor(testKey)
+                                         .setFilter(testFilter)
+                                         .setKeysOnly();
+            for (Entity testRunKey : datastore.prepare(testRunQuery).asIterable()) {
+                matchingTestKeys.add(testRunKey.getKey());
+            }
+
+            Set<Key> allMatchingKeys;
+            if (userDeviceFilter == null) {
+                allMatchingKeys = matchingTestKeys;
+            } else {
+                allMatchingKeys = new HashSet<>();
+                Query deviceQuery = new Query(DeviceInfoEntity.KIND)
+                                            .setAncestor(testKey)
+                                            .setFilter(userDeviceFilter)
+                                            .setKeysOnly();
+                for (Entity device : datastore.prepare(deviceQuery).asIterable()) {
+                    if (matchingTestKeys.contains(device.getKey().getParent())) {
+                        allMatchingKeys.add(device.getKey().getParent());
+                    }
+                }
+            }
+            List<Key> allKeysSorted = new ArrayList<>(allMatchingKeys);
+            if (dir == SortDirection.DESCENDING) {
+                Collections.sort(allKeysSorted, Collections.reverseOrder());
+            } else {
+                Collections.sort(allKeysSorted);
+            }
+            allKeysSorted = allKeysSorted.subList(
+                    0, Math.min(allKeysSorted.size(), MAX_BUILD_IDS_PER_PAGE));
+            for (Key key : allKeysSorted) {
+                gets.add(key);
+            }
+            Map<Key, Entity> entityMap = datastore.get(gets);
+            for (Key key : allKeysSorted) {
+                if (!entityMap.containsKey(key)) {
+                    continue;
+                }
+                TestRunEntity testRunEntity = TestRunEntity.fromEntity(entityMap.get(key));
                 if (testRunEntity == null) {
                     continue;
                 }

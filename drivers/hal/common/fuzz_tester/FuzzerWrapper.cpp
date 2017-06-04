@@ -19,11 +19,13 @@
 #include <dlfcn.h>
 
 #include <iostream>
+#include <sstream>
 #include <string>
 
 #include "component_loader/DllLoader.h"
 #include "fuzz_tester/FuzzerBase.h"
 #include "utils/InterfaceSpecUtil.h"
+#include "utils/StringUtil.h"
 
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 
@@ -80,6 +82,27 @@ FuzzerBase* FuzzerWrapper::GetFuzzer(
       (char*)malloc(strlen(function_name_prefix_chars) + 1);
   strcpy(function_name_prefix_chars_, function_name_prefix_chars);
   return fuzzer_base_;
+}
+
+FuzzerBase* FuzzerWrapper::GetFuzzer(const string& name,
+                                     const uint64_t interface_pt) const {
+  // Assumption: no shared library lookup is needed because that is handled
+  // the by the driver's linking dependency.
+  // Example: name (android::hardware::gnss::V1_0::IAGnssRil) converted to
+  // function name (vts_func_4_android_hardware_tests_bar_V1_0_IBar_with_arg)
+  stringstream prefix_ss;
+  string mutable_name = name;
+  ReplaceSubString(mutable_name, "::", "_");
+  prefix_ss << VTS_INTERFACE_SPECIFICATION_FUNCTION_NAME_PREFIX << HAL_HIDL
+            << mutable_name << "_with_arg";
+  string function_name_prefix = prefix_ss.str();
+  loader_function_with_arg func =
+      dll_loader_.GetLoaderFunctionWithArg(function_name_prefix.c_str());
+  if (!func) {
+    cerr << __func__ << ": function not found." << endl;
+    return NULL;
+  }
+  return func(interface_pt);
 }
 
 }  // namespace vts

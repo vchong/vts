@@ -40,7 +40,7 @@ bool FuzzerExtended_wifi::VerifyResults(const FunctionSpecificationMessage&, con
     return true;
 }
 extern "C" {
-android::vts::FuzzerBase* vts_func_3_5_1_() {
+android::vts::FuzzerBase* vts_func_3_5_V1_0_() {
     return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_wifi();
 }
 

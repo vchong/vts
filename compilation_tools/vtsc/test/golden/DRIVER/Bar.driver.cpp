@@ -564,6 +564,7 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
         for (int i = 0; i < (int)result0.size(); i++) {
             auto *result_val_0_vector_i = result_val_0->add_vector_value();
             result_val_0_vector_i->set_type(TYPE_HIDL_INTERFACE);
+            result0[i]->incStrong(result0[i].get());
             result_val_0_vector_i->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(result0[i].get()));
             result_val_0_vector_i->set_predefined_type("::android::hardware::tests::foo::V1_0::ISimple");
         }
@@ -594,6 +595,7 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
         for (int i = 0; i < (int)result0.size(); i++) {
             auto *result_val_0_vector_i = result_val_0->add_vector_value();
             result_val_0_vector_i->set_type(TYPE_HIDL_INTERFACE);
+            result0[i]->incStrong(result0[i].get());
             result_val_0_vector_i->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(result0[i].get()));
             result_val_0_vector_i->set_predefined_type("::android::hidl::base::V1_0::IBase");
         }
@@ -787,6 +789,7 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
         result_msg->set_name("haveAInterface");
         VariableSpecificationMessage* result_val_0 = result_msg->add_return_type_hidl();
         result_val_0->set_type(TYPE_HIDL_INTERFACE);
+        result0->incStrong(result0.get());
         result_val_0->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(result0.get()));
         result_val_0->set_predefined_type("::android::hardware::tests::foo::V1_0::ISimple");
         cout << "called" << endl;
@@ -1038,15 +1041,17 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::VerifyResults(const Fu
 }
 
 extern "C" {
-android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_1_IBar_() {
+android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_() {
     return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_android_hardware_tests_bar_V1_0_IBar();
 }
 
-android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_1_IBar_with_arg(uint64_t hw_binder_proxy) {
-    return (android::vts::FuzzerBase*)
+android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_with_arg(uint64_t hw_binder_proxy) {
+    ::android::hardware::tests::bar::V1_0::IBar* arg = reinterpret_cast<::android::hardware::tests::bar::V1_0::IBar*>(hw_binder_proxy);
+    android::vts::FuzzerBase* result =
         new android::vts::FuzzerExtended_android_hardware_tests_bar_V1_0_IBar(
-            reinterpret_cast<::android::hardware::tests::bar::V1_0::IBar*>(
-                hw_binder_proxy));
+            arg);
+    arg->decStrong(arg);
+    return result;
 }
 
 }

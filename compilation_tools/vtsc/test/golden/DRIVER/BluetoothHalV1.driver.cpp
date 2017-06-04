@@ -68,7 +68,7 @@ bool FuzzerExtended_bluetooth_module_t::VerifyResults(const FunctionSpecificatio
     return true;
 }
 extern "C" {
-android::vts::FuzzerBase* vts_func_1_7_1_() {
+android::vts::FuzzerBase* vts_func_1_7_V1_0_() {
     return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_bluetooth_module_t();
 }
 

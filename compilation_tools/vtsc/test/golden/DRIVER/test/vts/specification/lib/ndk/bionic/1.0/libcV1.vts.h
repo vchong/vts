@@ -32,7 +32,7 @@ class FuzzerExtended_libc : public FuzzerBase {
 
 
 extern "C" {
-extern android::vts::FuzzerBase* vts_func_11_1002_1_();
+extern android::vts::FuzzerBase* vts_func_11_1002_V1_0_();
 }
 }  // namespace vts
 }  // namespace android

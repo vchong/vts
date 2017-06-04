@@ -17,6 +17,8 @@
 import os
 import struct
 
+from vts.utils.python.library import elf_consts
+
 
 class ElfError(Exception):
     """The exception raised by ElfParser."""
@@ -40,59 +42,6 @@ class ElfParser(object):
         _sh_strtab_index: Index of the section that contains section names.
         _section_headers: List of SectionHeader objects read from the ELF.
     """
-    _MAGIC_OFFSET = 0
-    _MAGIC_BYTES = b"\x7fELF"
-    _BITNESS_OFFSET = 4
-    _BITNESS_32 = 1
-    _BITNESS_64 = 2
-    # Section type
-    _SHT_DYNAMIC = 6
-    # Tag in dynamic section
-    _DT_NULL = 0
-    _DT_NEEDED = 1
-    _DT_STRTAB = 5
-    # Section name
-    _DYNSYM = ".dynsym"
-    _DYNSTR = ".dynstr"
-    # Symbol binding
-    _SYMBOL_BINDING_GLOBAL = 1
-    _SYMBOL_BINDING_WEAK = 2
-
-    class ElfOffsets32(object):
-        """Offset of each entry in 32-bit ELF"""
-        # offset from ELF header
-        SECTION_HEADER_OFFSET = 0x20
-        SECTION_HEADER_SIZE = 0x2e
-        SECTION_HEADER_COUNT = 0x30
-        SECTION_HEADER_STRTAB_INDEX = 0x32
-        # offset from section header
-        SECTION_NAME_OFFSET = 0x00
-        SECTION_TYPE = 0x04
-        SECTION_ADDRESS = 0x0c
-        SECTION_OFFSET = 0x10
-        SECTION_SIZE = 0x14
-        SECTION_ENTRY_SIZE = 0x24
-        # offset from symbol table entry
-        SYMBOL_NAME = 0x00
-        SYMBOL_INFO = 0x0c
-
-    class ElfOffsets64(object):
-        """Offset of each entry in 64-bit ELF"""
-        # offset from ELF header
-        SECTION_HEADER_OFFSET = 0x28
-        SECTION_HEADER_SIZE = 0x3a
-        SECTION_HEADER_COUNT = 0x3c
-        SECTION_HEADER_STRTAB_INDEX = 0x3e
-        # offset from section header
-        SECTION_NAME_OFFSET = 0x00
-        SECTION_TYPE = 0x04
-        SECTION_ADDRESS = 0x10
-        SECTION_OFFSET = 0x18
-        SECTION_SIZE = 0x20
-        SECTION_ENTRY_SIZE = 0x38
-        # offset from symbol table entry
-        SYMBOL_NAME = 0x00
-        SYMBOL_INFO = 0x04
 
     class SectionHeader(object):
         """Contains section header entries as attributes.
@@ -105,6 +54,7 @@ class ElfParser(object):
             size: Size of the section.
             entry_size: Size of each entry in the section.
         """
+
         def __init__(self, elf, offset):
             """Loads a section header from ELF file.
 
@@ -225,19 +175,19 @@ class ElfParser(object):
         except OSError as e:
             raise ElfError(e)
 
-        magic = self._SeekRead(self._MAGIC_OFFSET, 4)
-        if magic != self._MAGIC_BYTES:
+        magic = self._SeekRead(elf_consts.MAGIC_OFFSET, 4)
+        if magic != elf_consts.MAGIC_BYTES:
             raise ElfError("Wrong magic bytes.")
-        bitness = self._SeekRead8(self._BITNESS_OFFSET)
-        if bitness == self._BITNESS_32:
+        bitness = self._SeekRead8(elf_consts.BITNESS_OFFSET)
+        if bitness == elf_consts.BITNESS_32:
             self.bitness = 32
             self._address_size = 4
-            self._offsets = self.ElfOffsets32
+            self._offsets = elf_consts.ElfOffsets32
             self._seek_read_address = self._SeekRead32
-        elif bitness == self._BITNESS_64:
+        elif bitness == elf_consts.BITNESS_64:
             self.bitness = 64
             self._address_size = 8
-            self._offsets = self.ElfOffsets64
+            self._offsets = elf_consts.ElfOffsets64
             self._seek_read_address = self._SeekRead64
         else:
             raise ElfError("Wrong bitness value.")
@@ -281,11 +231,11 @@ class ElfParser(object):
             value = self._seek_read_address(offset)
             offset += self._address_size
 
-            if tag == self._DT_NULL:
+            if tag == elf_consts.DT_NULL:
                 break
-            if tag == self._DT_NEEDED:
+            if tag == elf_consts.DT_NEEDED:
                 name_offsets.append(value)
-            if tag == self._DT_STRTAB:
+            if tag == elf_consts.DT_STRTAB:
                 strtab_address = value
 
         if strtab_address is None:
@@ -309,7 +259,7 @@ class ElfParser(object):
         """
         deps = []
         for sh in self._section_headers:
-            if sh.type == self._SHT_DYNAMIC:
+            if sh.type == elf_consts.SHT_DYNAMIC:
                 deps.extend(self._LoadDtNeeded(sh.offset))
         return deps
 
@@ -323,9 +273,9 @@ class ElfParser(object):
         dynsym = None
         for sh in self._section_headers:
             name = self._LoadSectionName(sh)
-            if name == self._DYNSYM:
+            if name == elf_consts.DYNSYM:
                 dynsym = sh
-            elif name == self._DYNSTR:
+            elif name == elf_consts.DYNSTR:
                 dynstr = sh
         if not dynsym or not dynstr or dynsym.size == 0:
             raise ElfError("Cannot find dynamic symbol table.")
@@ -334,8 +284,8 @@ class ElfParser(object):
         for offset in range(
                 dynsym.offset, dynsym.offset + dynsym.size, dynsym.entry_size):
             sym_info = self._SeekRead8(offset + self._offsets.SYMBOL_INFO)
-            if sym_info >> 4 not in (self._SYMBOL_BINDING_GLOBAL,
-                                     self._SYMBOL_BINDING_WEAK):
+            if sym_info >> 4 not in (elf_consts.SYMBOL_BINDING_GLOBAL,
+                                     elf_consts.SYMBOL_BINDING_WEAK):
                 continue
             name_offset = self._SeekRead32(offset + self._offsets.SYMBOL_NAME)
             sym_names.append(self._SeekReadString(dynstr.offset + name_offset))

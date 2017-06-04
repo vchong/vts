@@ -46,16 +46,20 @@ class MirrorObject(object):
         _if_spec_msg: the interface specification message of a host object to
                       mirror.
         _callback_server: the instance of a callback server.
+        _interface_id: integer, used when this mirror object is for a
+                              nested HIDL HAL interface.
         _parent_path: the name of a sub struct this object mirrors.
         _last_raw_code_coverage_data: NativeCodeCoverageRawDataMessage,
                                       last seen raw code coverage data.
         __caller_uid: string, the caller's UID if not None.
     """
 
-    def __init__(self, client, msg, callback_server, parent_path=None):
+    def __init__(self, client, msg, callback_server, interface_id=None,
+                 parent_path=None):
         self._client = client
         self._if_spec_msg = msg
         self._callback_server = callback_server
+        self._interface_id = interface_id
         self._parent_path = parent_path
         self._last_raw_code_coverage_data = None
         self.__caller_uid = None
@@ -205,7 +209,7 @@ class MirrorObject(object):
             version: integer, optional used to override the loaded HAL's
                      component_type_version.
             package: integer, optional used to override the loaded HAL's
-                              package.
+                     package.
 
         Returns:
             a host-side mirror of a HIDL interface
@@ -221,6 +225,48 @@ class MirrorObject(object):
 
         logging.info("result %s", result)
         return mirror_object_for_types.MirrorObjectForTypes(result)
+
+    def GetHidlNestedInterface(self, interface_name, interface_id,
+                               target_class=None, target_type=None,
+                               version=None, package=None):
+        """Gets HIDL type interface's host-side mirror.
+
+        Args:
+            interface_name: string, the name of a target interface to read.
+            interface_id: integer, the ID of a target interface to
+                          control.
+            target_class: integer, optional used to override the loaded HAL's
+                          component_class.
+            target_type: integer, optional used to override the loaded HAL's
+                         component_type.
+            version: integer, optional used to override the loaded HAL's
+                     component_type_version.
+            package: integer, optional used to override the loaded HAL's
+                              package.
+
+        Returns:
+            a host-side mirror of a HIDL interface
+        """
+        msg = self._if_spec_msg
+        found_api_spec = self._client.ReadSpecification(
+            interface_name,
+            msg.component_class if target_class is None else target_class,
+            msg.component_type if target_type is None else target_type,
+            msg.component_type_version if version is None else version,
+            msg.package if package is None else package,
+            recursive=True)
+
+        found_api_spec = str(found_api_spec)
+        logging.debug("found_api_spec %s", found_api_spec)
+
+        if_spec_msg = CompSpecMsg.ComponentSpecificationMessage()
+        text_format.Merge(found_api_spec, if_spec_msg)
+
+        # Instantiate a MirrorObject and return it.
+        hal_mirror = MirrorObject(
+            self._client, if_spec_msg, None,
+            interface_id=interface_id)
+        return hal_mirror
 
     def CleanUp(self):
         self._client.Disconnect()
@@ -437,7 +483,7 @@ class MirrorObject(object):
             **kwargs: a dict for the arg name and value pairs
         """
         def RemoteCall(*args, **kwargs):
-            """Dynamically calls a remote API."""
+            """Dynamically calls a remote API and returns the result value."""
             func_msg = self.GetApi(api_name)
             if not func_msg:
                 raise MirrorObjectError("api %s unknown", func_msg)
@@ -464,6 +510,9 @@ class MirrorObject(object):
             if self._parent_path:
                 func_msg.parent_path = self._parent_path
 
+            if self._interface_id is not None:
+                func_msg.hidl_interface_id = self._interface_id
+
             if isinstance(self._if_spec_msg, CompSpecMsg.ComponentSpecificationMessage):
                 if self._if_spec_msg.component_class:
                     logging.info("component_class %s",
@@ -479,7 +528,19 @@ class MirrorObject(object):
             if (isinstance(result, tuple) and len(result) == 2 and
                 isinstance(result[1], dict) and "coverage" in result[1]):
                 self._last_raw_code_coverage_data = result[1]["coverage"]
-                return result[0]
+                result = result[0]
+
+            if (result and isinstance(result, CompSpecMsg.VariableSpecificationMessage)
+                and result.type == CompSpecMsg.TYPE_HIDL_INTERFACE):
+                if result.hidl_interface_id <= -1:
+                    return None
+                nested_interface_id = result.hidl_interface_id
+                nested_interface_name = result.predefined_type.split("::")[-1]
+                logging.debug("Nested interface name: %s",
+                              nested_interface_name)
+                nested_interface = self.GetHidlNestedInterface(
+                    nested_interface_name, nested_interface_id)
+                return nested_interface
             return result
 
         def MessageGenerator(*args, **kwargs):

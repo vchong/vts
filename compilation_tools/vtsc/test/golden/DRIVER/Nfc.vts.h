@@ -46,8 +46,8 @@ class FuzzerExtended_android_hardware_nfc_V1_0_INfc : public FuzzerBase {
 
 
 extern "C" {
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_1_INfc_();
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_1_INfc_with_arg(uint64_t hw_binder_proxy);
+extern android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_V1_0_INfc_();
+extern android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_V1_0_INfc_with_arg(uint64_t hw_binder_proxy);
 }
 }  // namespace vts
 }  // namespace android

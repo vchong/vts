@@ -30,7 +30,7 @@ class FuzzerExtended_wifi : public FuzzerBase {
 
 
 extern "C" {
-extern android::vts::FuzzerBase* vts_func_3_5_1_();
+extern android::vts::FuzzerBase* vts_func_3_5_V1_0_();
 }
 }  // namespace vts
 }  // namespace android

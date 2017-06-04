@@ -291,7 +291,7 @@ bool FuzzerExtended_bt_interface_t::VerifyResults(const FunctionSpecificationMes
     return true;
 }
 extern "C" {
-android::vts::FuzzerBase* vts_func_2_7_1_() {
+android::vts::FuzzerBase* vts_func_2_7_V1_0_() {
     return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_bt_interface_t();
 }
 

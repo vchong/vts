@@ -413,10 +413,13 @@ void HalHidlCodeGen::GenerateCppBodyGlobalFunctions(Formatter& out,
     out << "android::vts::FuzzerBase* " << function_name_prefix << "with_arg("
         << "uint64_t hw_binder_proxy) {\n";
     out.indent();
-    out << "return (android::vts::FuzzerBase*)" << "\n"
+    out << fqname.cppName() << "* arg = reinterpret_cast<" << fqname.cppName()
+        << "*>(hw_binder_proxy);\n";
+    out << "android::vts::FuzzerBase* result =" << "\n"
         << "    new android::vts::" << fuzzer_extended_class_name << "(\n"
-        << "        reinterpret_cast<" << fqname.cppName() << "*>(\n"
-        << "            hw_binder_proxy));\n";
+        << "        arg);\n";
+    out << "arg->decStrong(arg);" << "\n";
+    out << "return result;" << "\n";
     out.unindent();
     out << "}\n\n";
     if (print_extern_block) {
@@ -614,7 +617,8 @@ void HalHidlCodeGen::GeneratePublicFunctionDeclarations(
     Formatter& out, const ComponentSpecificationMessage& /*message*/) {
   out << "uint64_t GetHidlInterfaceProxy() const {\n";
   out.indent();
-  out << "return reinterpret_cast<uintptr_t>(hw_binder_proxy_.get());\n";
+  out << "return reinterpret_cast<uintptr_t>(" << kInstanceVariableName
+      << ".get());\n";
   out.unindent();
   out << "}\n";
 }
@@ -1378,6 +1382,7 @@ void HalHidlCodeGen::GenerateSetResultCodeForTypedVariable(Formatter& out,
              << "but predefined_type is unset." << endl;
         exit(-1);
       }
+      out << result_value << "->incStrong(" << result_value << ".get());\n";
       out << result_msg << "->set_hidl_interface_pointer("
           << "reinterpret_cast<uintptr_t>(" << result_value << ".get()));\n";
       out << result_msg << "->set_predefined_type(\"" << val.predefined_type()

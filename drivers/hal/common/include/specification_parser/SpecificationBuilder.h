@@ -91,6 +91,21 @@ class SpecificationBuilder {
   // Returns the loaded interface specification message.
   ComponentSpecificationMessage* GetComponentSpecification() const;
 
+ protected:
+  // Registers a HIDL interface (proxy) in a map.
+  int32_t RegisterHidlInterface(const string& name,
+                                const uint64_t interface_pt);
+
+  // Returns a pre-registered HIDL interface proxy object's pointer address.
+  uint64_t GetHidlInterfacePointer(const int32_t id) const;
+
+  // Returns FuzzerBase pointer of a pre-registered HIDL interface proxy.
+  FuzzerBase* GetHidlInterfaceFuzzerBase(const int32_t id) const;
+
+  // Creates and returns FuzzerBase pointer of a HIDL interface (proxy).
+  FuzzerBase* GetFuzzerBase(const string& name,
+                            const uint64_t interface_pt) const;
+
  private:
   // A FuzzerWrapper instance.
   FuzzerWrapper wrapper_;
@@ -113,6 +128,9 @@ class SpecificationBuilder {
   // map for submodule interface specification messages.
   map<string, ComponentSpecificationMessage*> submodule_if_spec_map_;
   map<string, FuzzerBase*> submodule_fuzzerbase_map_;
+  // mapping from a nested interface ID to a tuple containing
+  // its interface name, FuzzerBase pointer, and HIDL proxy pointer.
+  map<int32_t, tuple<string, FuzzerBase*, uint64_t>> interface_map_;
 };
 
 }  // namespace vts

@@ -219,15 +219,17 @@ bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::VerifyResults(const Function
 }
 
 extern "C" {
-android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_1_INfc_() {
+android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_V1_0_INfc_() {
     return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_android_hardware_nfc_V1_0_INfc();
 }
 
-android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_1_INfc_with_arg(uint64_t hw_binder_proxy) {
-    return (android::vts::FuzzerBase*)
+android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_V1_0_INfc_with_arg(uint64_t hw_binder_proxy) {
+    ::android::hardware::nfc::V1_0::INfc* arg = reinterpret_cast<::android::hardware::nfc::V1_0::INfc*>(hw_binder_proxy);
+    android::vts::FuzzerBase* result =
         new android::vts::FuzzerExtended_android_hardware_nfc_V1_0_INfc(
-            reinterpret_cast<::android::hardware::nfc::V1_0::INfc*>(
-                hw_binder_proxy));
+            arg);
+    arg->decStrong(arg);
+    return result;
 }
 
 }

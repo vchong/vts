@@ -167,13 +167,13 @@ public class TestRunEntity implements DashboardEntity {
         testRunEntity.setProperty(HOST_NAME, this.hostName.toLowerCase());
         testRunEntity.setProperty(PASS_COUNT, this.passCount);
         testRunEntity.setProperty(FAIL_COUNT, this.failCount);
-        testRunEntity.setProperty(TEST_CASE_IDS, this.testCaseIds);
+        testRunEntity.setUnindexedProperty(TEST_CASE_IDS, this.testCaseIds);
         if (this.totalLineCount > 0 && this.coveredLineCount >= 0) {
             testRunEntity.setProperty(COVERED_LINE_COUNT, this.coveredLineCount);
             testRunEntity.setProperty(TOTAL_LINE_COUNT, this.totalLineCount);
         }
         if (this.logLinks != null && this.logLinks.size() > 0) {
-            testRunEntity.setProperty(LOG_LINKS, this.logLinks);
+            testRunEntity.setUnindexedProperty(LOG_LINKS, this.logLinks);
         }
         return testRunEntity;
     }

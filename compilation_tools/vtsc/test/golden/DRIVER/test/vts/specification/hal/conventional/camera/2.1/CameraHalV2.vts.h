@@ -39,7 +39,7 @@ class FuzzerExtended_camera_module_t : public FuzzerBase {
 
 
 extern "C" {
-extern android::vts::FuzzerBase* vts_func_1_2_2_();
+extern android::vts::FuzzerBase* vts_func_1_2_V2_1_();
 }
 }  // namespace vts
 }  // namespace android

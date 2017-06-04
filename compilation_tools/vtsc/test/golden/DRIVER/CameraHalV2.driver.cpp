@@ -293,7 +293,7 @@ bool FuzzerExtended_camera_module_t::VerifyResults(const FunctionSpecificationMe
     return true;
 }
 extern "C" {
-android::vts::FuzzerBase* vts_func_1_2_2_() {
+android::vts::FuzzerBase* vts_func_1_2_V2_1_() {
     return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_camera_module_t();
 }
 

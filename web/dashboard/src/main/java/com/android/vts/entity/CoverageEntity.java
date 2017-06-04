@@ -77,13 +77,13 @@ public class CoverageEntity implements DashboardEntity {
     public Entity toEntity() {
         Entity coverageEntity = new Entity(KIND, parentKey);
         coverageEntity.setProperty(GROUP, group);
-        coverageEntity.setProperty(COVERED_LINE_COUNT, coveredLineCount);
-        coverageEntity.setProperty(TOTAL_LINE_COUNT, totalLineCount);
+        coverageEntity.setUnindexedProperty(COVERED_LINE_COUNT, coveredLineCount);
+        coverageEntity.setUnindexedProperty(TOTAL_LINE_COUNT, totalLineCount);
         coverageEntity.setProperty(FILE_PATH, filePath);
-        coverageEntity.setProperty(PROJECT_NAME, projectName);
-        coverageEntity.setProperty(PROJECT_VERSION, projectVersion);
+        coverageEntity.setUnindexedProperty(PROJECT_NAME, projectName);
+        coverageEntity.setUnindexedProperty(PROJECT_VERSION, projectVersion);
         if (lineCoverage != null && lineCoverage.size() > 0) {
-            coverageEntity.setProperty(LINE_COVERAGE, lineCoverage);
+            coverageEntity.setUnindexedProperty(LINE_COVERAGE, lineCoverage);
         }
         return coverageEntity;
     }

@@ -174,11 +174,10 @@ public class FilterUtil {
      * Get a filter on test runs from a user search string.
      *
      * @param searchString The user search string to parse.
-     * @param runTypeFilter An existing filter on test runs, or null.
      * @return A filter with the values from the user search string.
      */
-    public static Filter getUserTestFilter(String searchString, Filter runTypeFilter) {
-        Filter testRunFilter = runTypeFilter;
+    public static Filter getUserTestFilter(String searchString) {
+        Filter testRunFilter = null;
         if (searchString != null) {
             Matcher m = Pattern.compile(SEARCH_REGEX).matcher(searchString);
             while (m.find()) {

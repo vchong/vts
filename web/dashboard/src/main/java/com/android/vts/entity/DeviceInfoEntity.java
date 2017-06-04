@@ -29,7 +29,6 @@ public class DeviceInfoEntity implements DashboardEntity {
     public static final String KIND = "DeviceInfo";
 
     // Property keys
-    public static final String TEST_RUN_TIMESTAMP = "testRunTimestamp";
     public static final String BRANCH = "branch";
     public static final String PRODUCT = "product";
     public static final String BUILD_FLAVOR = "buildFlavor";
@@ -49,7 +48,7 @@ public class DeviceInfoEntity implements DashboardEntity {
     /**
      * Create a DeviceInfoEntity object.
      *
-     * @param parentKey The key for the parent TestRunEntity object in the database.
+     * @param parentKey The key for the parent entity in the database.
      * @param branch The build branch.
      * @param product The device product.
      * @param buildFlavor The device build flavor.
@@ -70,15 +69,17 @@ public class DeviceInfoEntity implements DashboardEntity {
 
     @Override
     public Entity toEntity() {
-        Entity testCaseRunEntity = new Entity(KIND, this.parentKey);
-        testCaseRunEntity.setProperty(BRANCH, this.branch.toLowerCase());
-        testCaseRunEntity.setProperty(PRODUCT, this.product.toLowerCase());
-        testCaseRunEntity.setProperty(BUILD_FLAVOR, this.buildFlavor.toLowerCase());
-        testCaseRunEntity.setProperty(BUILD_ID, this.buildId.toLowerCase());
-        testCaseRunEntity.setUnindexedProperty(ABI_BITNESS, this.abiBitness.toLowerCase());
-        testCaseRunEntity.setUnindexedProperty(ABI_NAME, this.abiName.toLowerCase());
+        Entity deviceEntity = new Entity(KIND, this.parentKey);
+        deviceEntity.setProperty(BRANCH, this.branch.toLowerCase());
+        deviceEntity.setProperty(PRODUCT, this.product.toLowerCase());
+        deviceEntity.setProperty(BUILD_FLAVOR, this.buildFlavor.toLowerCase());
+        deviceEntity.setProperty(BUILD_ID, this.buildId.toLowerCase());
+        if (this.abiBitness != null && this.abiName != null) {
+            deviceEntity.setUnindexedProperty(ABI_BITNESS, this.abiBitness.toLowerCase());
+            deviceEntity.setUnindexedProperty(ABI_NAME, this.abiName.toLowerCase());
+        }
 
-        return testCaseRunEntity;
+        return deviceEntity;
     }
 
     /**
@@ -100,8 +101,12 @@ public class DeviceInfoEntity implements DashboardEntity {
             String product = (String) e.getProperty(PRODUCT);
             String buildFlavor = (String) e.getProperty(BUILD_FLAVOR);
             String buildId = (String) e.getProperty(BUILD_ID);
-            String abiBitness = (String) e.getProperty(ABI_BITNESS);
-            String abiName = (String) e.getProperty(ABI_NAME);
+            String abiBitness = null;
+            String abiName = null;
+            if (e.hasProperty(ABI_BITNESS) && e.hasProperty(ABI_NAME)) {
+                abiBitness = (String) e.getProperty(ABI_BITNESS);
+                abiName = (String) e.getProperty(ABI_NAME);
+            }
             return new DeviceInfoEntity(
                     parentKey, branch, product, buildFlavor, buildId, abiBitness, abiName);
         } catch (ClassCastException exception) {
@@ -132,5 +137,28 @@ public class DeviceInfoEntity implements DashboardEntity {
         String abiName = device.getAbiName().toStringUtf8();
         return new DeviceInfoEntity(
                 parentKey, branch, product, buildFlavor, buildId, abiBitness, abiName);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof DeviceInfoEntity)) {
+            return false;
+        }
+        DeviceInfoEntity device2 = (DeviceInfoEntity) obj;
+        if (this.branch != device2.branch || this.product != device2.product
+                || this.buildFlavor != device2.buildFlavor || this.buildId != device2.buildId) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Create a copy of the device info under a near parent.
+     * @param parentKey The new parent key.
+     * @return A copy of the DeviceInfoEntity with the specified parent.
+     */
+    public DeviceInfoEntity copyWithParent(Key parentKey) {
+        return new DeviceInfoEntity(parentKey, this.branch, this.product, this.buildFlavor,
+                this.buildId, this.abiBitness, this.abiName);
     }
 }

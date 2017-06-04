@@ -18,6 +18,8 @@ import com.android.vts.entity.DeviceInfoEntity;
 import com.android.vts.entity.ProfilingPointRunEntity;
 import com.android.vts.entity.TestCaseRunEntity;
 import com.android.vts.entity.TestEntity;
+import com.android.vts.entity.TestPlanEntity;
+import com.android.vts.entity.TestPlanRunEntity;
 import com.android.vts.entity.TestRunEntity;
 import com.android.vts.entity.TestRunEntity.TestRunType;
 import com.android.vts.proto.VtsReportMessage.AndroidDeviceInfoMessage;
@@ -26,6 +28,7 @@ import com.android.vts.proto.VtsReportMessage.LogMessage;
 import com.android.vts.proto.VtsReportMessage.ProfilingReportMessage;
 import com.android.vts.proto.VtsReportMessage.TestCaseReportMessage;
 import com.android.vts.proto.VtsReportMessage.TestCaseResult;
+import com.android.vts.proto.VtsReportMessage.TestPlanReportMessage;
 import com.android.vts.proto.VtsReportMessage.TestReportMessage;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -43,7 +46,10 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Transaction;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,8 +65,8 @@ public class DatastoreHelper {
      * @return boolean True if there are newer data points.
      * @throws IOException
      */
-    public static boolean hasNewer(String testName, long lowerBound) throws IOException {
-        if (lowerBound <= 0)
+    public static boolean hasNewer(String testName, Long lowerBound) throws IOException {
+        if (lowerBound == null || lowerBound <= 0)
             return false;
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Key testKey = KeyFactory.createKey(TestEntity.KIND, testName);
@@ -82,8 +88,8 @@ public class DatastoreHelper {
      * @return boolean True if there are older data points.
      * @throws IOException
      */
-    public static boolean hasOlder(String testName, long upperBound) throws IOException {
-        if (upperBound <= 0)
+    public static boolean hasOlder(String testName, Long upperBound) throws IOException {
+        if (upperBound == null || upperBound <= 0)
             return false;
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Key testKey = KeyFactory.createKey(TestEntity.KIND, testName);
@@ -132,7 +138,7 @@ public class DatastoreHelper {
      *
      * @param report The test report containing data to upload.
      */
-    public static void insertData(TestReportMessage report) {
+    public static void insertTestReport(TestReportMessage report) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         List<Entity> puts = new ArrayList<>();
 
@@ -284,6 +290,96 @@ public class DatastoreHelper {
             if (txn.isActive()) {
                 logger.log(
                         Level.WARNING, "Transaction rollback forced for run: " + testRunEntity.key);
+                txn.rollback();
+            }
+        }
+    }
+
+    /**
+     * Upload data from a test plan report message
+     *
+     * @param report The test plan report containing data to upload.
+     */
+    public static void insertTestPlanReport(TestPlanReportMessage report) {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        List<Entity> puts = new ArrayList<>();
+
+        List<String> testModules = report.getTestModuleNameList();
+        List<Long> testTimes = report.getTestModuleStartTimestampList();
+        if (testModules.size() != testTimes.size() || !report.hasTestPlanName()) {
+            logger.log(Level.WARNING, "TestPlanReportMessage is missing information.");
+            return;
+        }
+
+        String testPlanName = report.getTestPlanName();
+        Entity testPlanEntity = new TestPlanEntity(testPlanName).toEntity();
+        List<Key> testRunKeys = new ArrayList<>();
+        for (int i = 0; i < testModules.size(); i++) {
+            String test = testModules.get(i);
+            long time = testTimes.get(i);
+            Key parentKey = KeyFactory.createKey(TestEntity.KIND, test);
+            Key testRunKey = KeyFactory.createKey(parentKey, TestRunEntity.KIND, time);
+            testRunKeys.add(testRunKey);
+        }
+        Map<Key, Entity> testRuns = datastore.get(testRunKeys);
+        long passCount = 0;
+        long failCount = 0;
+        long startTimestamp = -1;
+        String testBuildId = null;
+        TestRunType type = null;
+        Set<DeviceInfoEntity> devices = new HashSet<>();
+        for (Key testRunKey : testRuns.keySet()) {
+            TestRunEntity testRun = TestRunEntity.fromEntity(testRuns.get(testRunKey));
+            if (testRun == null) {
+                continue; // not a valid test run
+            }
+            passCount += testRun.passCount;
+            failCount += testRun.failCount;
+            if (startTimestamp < 0 || testRunKey.getId() < startTimestamp) {
+                startTimestamp = testRunKey.getId();
+            }
+            if (type == null) {
+                type = testRun.type;
+            } else if (type != testRun.type) {
+                type = TestRunType.OTHER;
+            }
+            testBuildId = testRun.testBuildId;
+            Query deviceInfoQuery = new Query(DeviceInfoEntity.KIND).setAncestor(testRunKey);
+            for (Entity deviceInfoEntity : datastore.prepare(deviceInfoQuery).asIterable()) {
+                DeviceInfoEntity device = DeviceInfoEntity.fromEntity(deviceInfoEntity);
+                if (device == null) {
+                    continue; // invalid entity
+                }
+                devices.add(device);
+            }
+        }
+        if (startTimestamp < 0 || testBuildId == null || type == null) {
+            logger.log(Level.WARNING, "Couldn't infer test run information from runs.");
+            return;
+        }
+        TestPlanRunEntity testPlanRun = new TestPlanRunEntity(testPlanEntity.getKey(), testPlanName,
+                type, startTimestamp, testBuildId, passCount, failCount, testRunKeys);
+
+        // Create the device infos.
+        for (DeviceInfoEntity device : devices) {
+            puts.add(device.copyWithParent(testPlanRun.key).toEntity());
+        }
+        puts.add(testPlanRun.toEntity());
+
+        Transaction txn = datastore.beginTransaction();
+        try {
+            // Check if test already exists in the database
+            try {
+                datastore.get(testPlanEntity.getKey());
+            } catch (EntityNotFoundException e) {
+                puts.add(testPlanEntity);
+            }
+            datastore.put(puts);
+            txn.commit();
+        } finally {
+            if (txn.isActive()) {
+                logger.log(Level.WARNING,
+                        "Transaction rollback forced for plan run: " + testPlanRun.key);
                 txn.rollback();
             }
         }
