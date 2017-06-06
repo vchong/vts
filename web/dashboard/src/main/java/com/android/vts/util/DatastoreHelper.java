@@ -153,8 +153,6 @@ public class DatastoreHelper {
         String testBuildId = report.getBuildInfo().getId().toStringUtf8();
         String hostName = report.getHostInfo().getHostname().toStringUtf8();
 
-        TestRunType testRunType = TestRunType.POSTSUBMIT;
-
         Entity testEntity = new TestEntity(testName).toEntity();
         List<Long> testCaseIds = new ArrayList<>();
 
@@ -223,16 +221,29 @@ public class DatastoreHelper {
         datastore.put(testCasePuts);
 
         // Process device information
+        TestRunType testRunType = null;
         for (AndroidDeviceInfoMessage device : report.getDeviceInfoList()) {
             DeviceInfoEntity deviceInfoEntity =
                     DeviceInfoEntity.fromDeviceInfoMessage(testRunKey, device);
             if (deviceInfoEntity == null) {
                 logger.log(Level.WARNING, "Invalid device info in test run " + testRunKey);
             }
-            if (deviceInfoEntity.buildId.charAt(0) == 'p') {
-                testRunType = TestRunType.PRESUBMIT; // pre-submit builds begin with the letter 'p'
+
+            // Run type on devices must be the same, else set to OTHER
+            TestRunType runType = TestRunType.fromBuildId(deviceInfoEntity.buildId);
+            if (testRunType == null) {
+                testRunType = runType;
+            } else if (runType != testRunType) {
+                testRunType = TestRunType.OTHER;
             }
             puts.add(deviceInfoEntity.toEntity());
+        }
+
+        // Overall run type should be determined by the device builds unless test build is OTHER
+        if (testRunType == null) {
+            testRunType = TestRunType.fromBuildId(testBuildId);
+        } else if (TestRunType.fromBuildId(testBuildId) == TestRunType.OTHER) {
+            testRunType = TestRunType.OTHER;
         }
 
         // Process global coverage data
@@ -266,11 +277,6 @@ public class DatastoreHelper {
             logLinks.add(log.getUrl().toStringUtf8());
         }
 
-        try {
-            Integer.parseInt(testBuildId);
-        } catch (NumberFormatException e) {
-            testRunType = TestRunType.OTHER;
-        }
         TestRunEntity testRunEntity = new TestRunEntity(testEntity.getKey(), testRunType,
                 startTimestamp, endTimestamp, testBuildId, hostName, passCount, failCount,
                 testCaseIds, logLinks, coveredLineCount, totalLineCount);

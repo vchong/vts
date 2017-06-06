@@ -70,6 +70,33 @@ public class TestRunEntity implements DashboardEntity {
                 return TestRunType.OTHER;
             }
         }
+
+        /**
+         * Determine the test run type based on the build ID.
+         *
+         * Postsubmit runs are expected to have integer build IDs, while presubmit runs are integers
+         * prefixed by the character P. All other runs (e.g. local builds) are classified as OTHER.
+         *
+         * @param buildId The build ID.
+         * @return the TestRunType.
+         */
+        public static TestRunType fromBuildId(String buildId) {
+            try {
+                Integer.parseInt(buildId);
+                return TestRunType.POSTSUBMIT;
+            } catch (NumberFormatException e) {
+                // Not an integer
+            }
+            if (Character.toLowerCase(buildId.charAt(0)) == 'p') {
+                try {
+                    Integer.parseInt(buildId.substring(1));
+                    return TestRunType.PRESUBMIT;
+                } catch (NumberFormatException e) {
+                    // Not an integer
+                }
+            }
+            return TestRunType.OTHER;
+        }
     }
 
     public static final String KIND = "TestRun";

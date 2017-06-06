@@ -17,6 +17,7 @@
   <include name="vts-base" />
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts" />
+  <option name="vts-plan-result:plan-name" value="vts-hal-hidl" />
 
   <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:gtest-batch-mode:true" />
   <option name="compatibility:include-filter" value="VtsHalBluetoothV1_0Target" />

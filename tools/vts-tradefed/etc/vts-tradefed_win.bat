@@ -26,9 +26,16 @@ where %ADB% || (echo Unable to find %ADB% && goto:eof)
 where %JAVA% || (echo Unable to find %JAVA% && goto:eof)
 
 :: check java version
-%JAVA% -version 2>&1 | findstr /R "version\ \"1\.[678].*\"$" || (
-    echo Wrong java version. 1.6, 1.7 or 1.8 is required.
-    goto:eof
+if [%EXPERIMENTAL_USE_OPENJDK9%] == [] (
+    %JAVA% -version 2>&1 | findstr /R "version\ \"1\.[678].*\"$" || (
+        echo Wrong java version. 1.6, 1.7 or 1.8 is required.
+        goto:eof
+    )
+) else (
+    %JAVA% -version 2>&1 | findstr /R "java .*\"9.*\"$" || (
+        echo Wrong java version. Version 9 is required.
+        goto:eof
+    )
 )
 
 :: check debug flag and set up remote debugging

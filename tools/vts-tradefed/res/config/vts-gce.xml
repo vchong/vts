@@ -16,6 +16,7 @@
 <configuration description="VTS GCE (Google Compute Engine) Test Plan (Experimental)">
   <include name="vts-base" />
   <option name="gce-device" value="true" />
+  <option name="vts-plan-result:plan-name" value="vts-gce" />
 
   <build_provider class="com.google.android.tradefed.build.DeviceLaunchControlProvider">
       <option name="test-tag" value="staging-gce" />

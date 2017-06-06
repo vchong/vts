@@ -23,11 +23,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Base64;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 import com.android.tradefed.build.IBuildInfo;
+import com.android.tradefed.config.Option;
+import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.ITestDevice;
 import com.android.tradefed.log.LogUtil.CLog;
 import com.android.tradefed.util.CommandResult;
@@ -50,6 +53,7 @@ import com.google.api.client.json.JsonFactory;
  * Uploads the VTS test plan execution result to the web DB using a RESTful API and
  * an OAuth2 credential kept in a json file.
  */
+@OptionClass(alias = "vts-plan-result")
 public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleaner {
     private static final String PLUS_ME = "https://www.googleapis.com/auth/plus.me";
     private static final String TEST_PLAN_EXECUTION_RESULT = "vts-test-plan-execution-result";
@@ -57,6 +61,8 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
     private static VtsVendorConfigFileUtil configReader = null;
     private static final int BASE_TIMEOUT_MSECS = 1000 * 60;
     IRunUtil mRunUtil = new RunUtil();
+
+    @Option(name = "plan-name", description = "The plan name") private String mPlanName = null;
 
     /**
      * {@inheritDoc}
@@ -85,8 +91,11 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
     public void tearDown(ITestDevice device, IBuildInfo buildInfo, Throwable e) {
         File reportFile = buildInfo.getFile(TEST_PLAN_REPORT_FILE);
         String repotFilePath = reportFile.getAbsolutePath();
+        DashboardPostMessage postMessage = new DashboardPostMessage();
+        TestPlanReportMessage testPlanMessage = new TestPlanReportMessage();
+        testPlanMessage.setTestPlanName(mPlanName);
+        boolean found = false;
         try (BufferedReader br = new BufferedReader(new FileReader(repotFilePath))) {
-            DashboardPostMessage postMessage = new DashboardPostMessage();
             String currentLine;
             while ((currentLine = br.readLine()) != null) {
                 String[] lineWords = currentLine.split("\\s+");
@@ -94,15 +103,17 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
                     CLog.e(String.format("Invalid keys %s", currentLine));
                     continue;
                 }
-                TestPlanReportMessage testPlanMessage = new TestPlanReportMessage();
                 testPlanMessage.addTestModuleName(lineWords[0]);
                 testPlanMessage.addTestModuleStartTimestamp(Long.parseLong(lineWords[1]));
-                postMessage.addTestPlanReport(testPlanMessage);
+                found = true;
             }
-            Upload(postMessage);
         } catch (IOException ex) {
             CLog.d(String.format("Can't read the test plan result file %s", repotFilePath));
             return;
+        }
+        postMessage.addTestPlanReport(testPlanMessage);
+        if (found) {
+            Upload(postMessage);
         }
     }
 
@@ -146,7 +157,8 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
         message.setAccessToken(GetToken());
         try {
             String commandTemplate = configReader.GetVendorConfigVariable("dashboard_post_command");
-            String filePath = WriteToTempFile(message.toByteArray());
+            String filePath = WriteToTempFile(
+                    Base64.getEncoder().encodeToString(message.toByteArray()).getBytes());
             commandTemplate = commandTemplate.replace("{path}", filePath);
             commandTemplate = commandTemplate.replace("'", "");
             CLog.i(String.format("Upload command: %s", commandTemplate));
@@ -157,6 +169,7 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
                 CLog.e("Stdout: %s", c.getStdout());
                 CLog.e("Stderr: %s", c.getStderr());
             }
+            FileUtil.deleteFile(new File(filePath));
         } catch (NoSuchElementException e) {
             CLog.e("dashboard_post_command unspecified in vendor config.");
         } catch (IOException e) {

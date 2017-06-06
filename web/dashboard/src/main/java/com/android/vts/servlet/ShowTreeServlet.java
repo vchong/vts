@@ -273,7 +273,7 @@ public class ShowTreeServlet extends BaseServlet {
         if (testRunMetadata.size() > 0) {
             TestRunMetadata firstRun = testRunMetadata.get(0);
             topBuild = firstRun.getDeviceInfo();
-            startTime = firstRun.testRun.startTimestamp;
+            endTime = firstRun.testRun.startTimestamp;
             TestRunDetails topDetails = firstRun.getDetails();
             if (topDetails == null) {
                 topDetails = processTestDetails(firstRun);
@@ -281,7 +281,7 @@ public class ShowTreeServlet extends BaseServlet {
             topBuildResultCounts = topDetails.resultCounts;
 
             TestRunMetadata lastRun = testRunMetadata.get(testRunMetadata.size() - 1);
-            endTime = lastRun.testRun.startTimestamp;
+            startTime = lastRun.testRun.startTimestamp;
         }
 
         Set<String> profilingPoints = new HashSet<>();

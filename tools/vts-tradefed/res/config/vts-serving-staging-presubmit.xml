@@ -18,6 +18,7 @@
   <option name="compatibility:primary-abi-only" value="true" />
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts-star" />
+  <option name="vts-plan-result:plan-name" value="vts-serving-staging-presubmit" />
 
   <!-- For vts-hal-conventional -->
   <!-- option name="compatibility:include-filter" value="SampleLightTest" / -->

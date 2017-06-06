@@ -17,6 +17,8 @@
   <include name="vts-base" />
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts-star" />
+  <option name="vts-plan-result:plan-name" value="vts-serving-staging-hal-hidl-profiling-passthrough" />
+
   <!--  Set passthrough-mode for all tests -->
   <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:passthrough-mode:true" />
   <!--  Include all profiling tests -->
