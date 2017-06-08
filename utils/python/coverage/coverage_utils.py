@@ -65,7 +65,8 @@ class CoverageFeature(feature_utils.Feature):
     ]
     _OPTIONAL_PARAMS = [
         keys.ConfigKeys.IKEY_MODULES,
-        keys.ConfigKeys.IKEY_OUTPUT_COVERAGE_REPORT
+        keys.ConfigKeys.IKEY_OUTPUT_COVERAGE_REPORT,
+        keys.ConfigKeys.IKEY_GLOBAL_COVERAGE
     ]
 
     def __init__(self, user_params, web=None, local_coverage_path=None):
@@ -74,6 +75,7 @@ class CoverageFeature(feature_utils.Feature):
         Args:
             user_params: A dictionary from parameter name (String) to parameter value.
             web: (optional) WebFeature, object storing web feature util for test run
+            local_coverage_path: (optional) path to store the .gcda files and coverage reports.
         """
         self.ParseParameters(self._TOGGLE_PARAM, self._REQUIRED_PARAMS,
                              self._OPTIONAL_PARAMS, user_params)
@@ -90,6 +92,8 @@ class CoverageFeature(feature_utils.Feature):
                 shutil.rmtree(self.local_coverage_path)
             os.makedirs(self.local_coverage_path)
 
+        self.global_coverage = getattr(
+                    self, keys.ConfigKeys.IKEY_GLOBAL_COVERAGE, True)
         logging.info("Coverage enabled: %s", self.enabled)
 
     def _ExtractSourceName(self, gcno_summary, file_name):
@@ -197,15 +201,22 @@ class CoverageFeature(feature_utils.Feature):
                 gcda_dict[basename] = gcda_content
         return gcda_dict
 
-    def _OutputCoverageReport(self):
+    def _OutputCoverageReport(self, isGlobal):
         logging.info("outputing coverage data")
-        coverage_report_file = os.path.join(self.local_coverage_path,
-                                            "coverage_report.txt")
+        timestamp_seconds = str(int(time.time() * 1000000))
+        coverage_report_file = os.path.join(
+            self.local_coverage_path,
+            "coverage_report_" + timestamp_seconds + ".txt")
         logging.info("Storing coverage report to: %s", coverage_report_file)
         coverage_report_msg = ReportMsg.TestReportMessage()
-        for c in self.web.report_msg.coverage:
-            coverage = coverage_report_msg.coverage.add()
-            coverage.CopyFrom(c)
+        if isGlobal:
+            for c in self.web.report_msg.coverage:
+                coverage = coverage_report_msg.coverage.add()
+                coverage.CopyFrom(c)
+        else:
+            for c in self.web.current_test_report_msg.coverage:
+                coverage = coverage_report_msg.coverage.add()
+                coverage.CopyFrom(c)
         with open(coverage_report_file, 'w+') as f:
             f.write(str(coverage_report_msg))
 
@@ -303,7 +314,7 @@ class CoverageFeature(feature_utils.Feature):
                                            total_count, isGlobal)
 
         if output_coverage_report:
-            self._OutputCoverageReport()
+            self._OutputCoverageReport(isGlobal)
 
     def _ManualProcess(self, gcda_dict, isGlobal):
         """Process coverage data and appends coverage reports to the report message.
@@ -404,7 +415,7 @@ class CoverageFeature(feature_utils.Feature):
                                                total_count, isGlobal)
 
         if output_coverage_report:
-            self._OutputCoverageReport()
+            self._OutputCoverageReport(isGlobal)
 
     def LoadArtifacts(self):
         """Initializes the test for coverage instrumentation.

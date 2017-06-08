@@ -83,9 +83,11 @@ class VtscTester(unittest.TestCase):
         # Tests for Hidl Hals.
         for package_path, component_names in zip(
             ["android.hardware.nfc@1.0",
-             "android.hardware.tests.bar@1.0"],
+             "android.hardware.tests.bar@1.0",
+             "android.hardware.tests.msgq@1.0",
+             "android.hardware.tests.memory@1.0"],
             [["Nfc", "NfcClientCallback", "types"],
-             ["Bar"]]):
+             ["Bar"], ["TestMsgQ"], ["MemoryTest"]]):
             self.GenerateVtsFile(package_path)
             for component_name in component_names:
                 self.RunTest(

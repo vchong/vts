@@ -61,7 +61,7 @@ public class DashboardMainServlet extends BaseServlet {
     public List<String[]> getNavbarLinks(HttpServletRequest request) {
         List<String[]> links = new ArrayList<>();
         Page root = Page.HOME;
-        String[] rootEntry = new String[] {CURRENT_PAGE, root.getName()};
+        String[] rootEntry = new String[] {root.getUrl(), root.getName()};
         links.add(rootEntry);
         return links;
     }

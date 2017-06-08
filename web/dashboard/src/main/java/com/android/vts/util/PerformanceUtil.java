@@ -174,8 +174,8 @@ public class PerformanceUtil {
      * Updates a PerformanceSummary object with data in the specified window.
      *
      * @param testName The name of the table whose profiling vectors to retrieve.
-     * @param startTime The (inclusive) start time in milliseconds to scan from.
-     * @param endTime The (inclusive) end time in milliseconds at which to stop scanning.
+     * @param startTime The (inclusive) start time in microseconds to scan from.
+     * @param endTime The (inclusive) end time in microseconds at which to stop scanning.
      * @param selectedDevice The name of the device whose data to query for, or null for unfiltered.
      * @param perfSummary The PerformanceSummary object to update with data.
      * @throws IOException

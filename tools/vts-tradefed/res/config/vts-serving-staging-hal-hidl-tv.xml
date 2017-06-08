@@ -18,6 +18,7 @@
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts" />
   <option name="vts-plan-result:plan-name" value="vts-serving-staging-hal-hidl-tv" />
+  <option name="vts-plan-result:default-type" value="staging" />
 
   <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:gtest-batch-mode:true" />
   <option name="compatibility:include-filter" value="VtsHalTvCecV1_0Host" />

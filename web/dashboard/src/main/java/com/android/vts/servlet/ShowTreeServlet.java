@@ -314,10 +314,10 @@ public class ShowTreeServlet extends BaseServlet {
         request.setAttribute("topBuildId", topBuild);
         request.setAttribute("startTime", new Gson().toJson(startTime));
         request.setAttribute("endTime", new Gson().toJson(endTime));
-        request.setAttribute(
-                "hasNewer", new Gson().toJson(DatastoreHelper.hasNewer(testName, endTime)));
-        request.setAttribute(
-                "hasOlder", new Gson().toJson(DatastoreHelper.hasOlder(testName, startTime)));
+        request.setAttribute("hasNewer",
+                new Gson().toJson(DatastoreHelper.hasNewer(testKey, TestRunEntity.KIND, endTime)));
+        request.setAttribute("hasOlder", new Gson().toJson(DatastoreHelper.hasOlder(
+                                                 testKey, TestRunEntity.KIND, startTime)));
         request.setAttribute("unfiltered", unfiltered);
         request.setAttribute("showPresubmit", showPresubmit);
         request.setAttribute("showPostsubmit", showPostsubmit);

@@ -244,12 +244,12 @@ void HalHidlCodeGen::GenerateDriverImplForMethod(Formatter& out,
           arg.scalar_type() == "void_pointer" ||
           arg.scalar_type() == "function_pointer"))) {
       out << var_type << " " << cur_arg_name << " = nullptr;\n";
-    } else {
+    } else if (arg.type() == TYPE_SCALAR) {
+      out << var_type << " " << cur_arg_name << " = 0;\n";
+    } else if (arg.type() != TYPE_FMQ_SYNC && arg.type() != TYPE_FMQ_UNSYNC) {
       out << var_type << " " << cur_arg_name << ";\n";
     }
-    if (arg.type() == TYPE_SCALAR) {
-      out << cur_arg_name << " = 0;\n";
-    }
+
     GenerateDriverImplForTypedVariable(
         out, arg, cur_arg_name, "func_msg.arg(" + std::to_string(i) + ")");
   }
@@ -262,9 +262,17 @@ void HalHidlCodeGen::GenerateDriverImplForMethod(Formatter& out,
 
   // Define the return results and call the HAL function.
   for (int index = 0; index < func_msg.return_type_hidl_size(); index++) {
-    const auto& return_type = func_msg.return_type_hidl(index);
-    out << GetCppVariableType(return_type, &message) << " result" << index
-        << ";\n";
+    const auto& return_val = func_msg.return_type_hidl(index);
+    if (return_val.type() != TYPE_FMQ_SYNC &&
+        return_val.type() != TYPE_FMQ_UNSYNC) {
+      out << GetCppVariableType(return_val, &message) << " result" << index
+          << ";\n";
+    } else {
+      // Use pointer to store return results with fmq type as copy assignment
+      // is not allowed for fmq descriptor.
+      out << "std::unique_ptr<" << GetCppVariableType(return_val, &message)
+          << "> result" << index << ";\n";
+    }
   }
   if (CanElideCallback(func_msg)) {
     out << "result0 = ";
@@ -297,7 +305,7 @@ void HalHidlCodeGen::GenerateHalFunctionCall(Formatter& out,
   out << kInstanceVariableName << "->" << func_msg.name() << "(";
   for (int index = 0; index < func_msg.arg_size(); index++) {
     out << "arg" << index;
-    if (index != (func_msg.arg_size() - 1)) out << ",";
+    if (index != (func_msg.arg_size() - 1)) out << ", ";
   }
   if (func_msg.return_type_hidl_size()== 0 || CanElideCallback(func_msg)) {
     out << ");\n";
@@ -329,9 +337,14 @@ void HalHidlCodeGen::GenerateSyncCallbackFunctionImpl(Formatter& out,
 
   for (int index = 0; index < func_msg.return_type_hidl_size(); index++) {
     const auto& return_val = func_msg.return_type_hidl(index);
-    if (return_val.type() != TYPE_FMQ_SYNC
-        && return_val.type() != TYPE_FMQ_UNSYNC)
+    if (return_val.type() != TYPE_FMQ_SYNC &&
+        return_val.type() != TYPE_FMQ_UNSYNC) {
       out << "result" << index << " = arg" << index << ";\n";
+    } else {
+      out << "result" << index << ".reset(new (std::nothrow) "
+          << GetCppVariableType(return_val, &message) << "(arg" << index
+          << "));\n";
+    }
   }
   out.unindent();
   out << "}";
@@ -601,6 +614,10 @@ void HalHidlCodeGen::GenerateSourceIncludeFiles(Formatter& out,
           << import_package_version << "/" << import_component_name << ".h>\n";
     }
   }
+  out << "#include <android/hidl/allocator/1.0/IAllocator.h>\n";
+  out << "#include <fmq/MessageQueue.h>\n";
+  out << "#include <sys/stat.h>\n";
+  out << "#include <unistd.h>\n";
 }
 
 void HalHidlCodeGen::GenerateAdditionalFuctionDeclarations(Formatter& out,
@@ -947,7 +964,117 @@ void HalHidlCodeGen::GenerateDriverImplForTypedVariable(Formatter& out,
     }
     case TYPE_HANDLE:
     {
-      out << "/* ERROR: TYPE_HANDLE is not supported yet. */\n";
+      out << "if (" << arg_value_name << ".has_handle_value()) {\n";
+      out.indent();
+      out << "native_handle_t* handle = native_handle_create(" << arg_value_name
+          << ".handle_value().num_fds(), " << arg_value_name
+          << ".handle_value().num_ints());\n";
+      out << "if (!handle) {\n";
+      out.indent();
+      out << "cerr << \"Failed to create handle. \" << endl;\n";
+      out << "exit(-1);\n";
+      out.unindent();
+      out << "}\n";
+      out << "for (int fd_index = 0; fd_index < " << arg_value_name
+          << ".handle_value().num_fds() + " << arg_value_name
+          << ".handle_value().num_ints(); fd_index++) {\n";
+      out.indent();
+      out << "if (fd_index < " << arg_value_name
+          << ".handle_value().num_fds()) {\n";
+      out.indent();
+      out << "FdMessage fd_val = " << arg_value_name
+          << ".handle_value().fd_val(fd_index);\n";
+      out << "string file_name = fd_val.file_name();\n";
+      out << "switch (fd_val.type()) {\n";
+      out.indent();
+      out << "case FdType::FILE_TYPE:\n";
+      out << "{\n";
+      out.indent();
+      // Create the parent path recursively if not exist.
+      out << "size_t pre = 0; size_t pos = 0;\n";
+      out << "string dir;\n";
+      out << "struct stat st;\n";
+      out << "while((pos=file_name.find_first_of('/', pre)) "
+          << "!= string::npos){\n";
+      out.indent();
+      out << "dir = file_name.substr(0, pos++);\n";
+      out << "pre = pos;\n";
+      out << "if(dir.size() == 0) continue; // ignore leading /\n";
+      out << "if (stat(dir.c_str(), &st) == -1) {\n";
+      out << "cout << \" Creating dir: \" << dir << endl;\n";
+      out.indent();
+      out << "mkdir(dir.c_str(), 0700);\n";
+      out.unindent();
+      out << "}\n";
+      out.unindent();
+      out << "}\n";
+      out << "int fd = open(file_name.c_str(), "
+          << "fd_val.flags() | O_CREAT, fd_val.mode());\n";
+      out << "if (fd == -1) {\n";
+      out.indent();
+      out << "cout << \"Failed to open file: \" << file_name << \" error: \" "
+          << "<< errno << endl;\n";
+      out << "exit (-1);\n";
+      out.unindent();
+      out << "}\n";
+      out << "handle->data[fd_index] = fd;\n";
+      out << "break;\n";
+      out.unindent();
+      out << "}\n";
+      out << "case FdType::DIR_TYPE:\n";
+      out << "{\n";
+      out.indent();
+      out << "struct stat st;\n";
+      out << "if (!stat(file_name.c_str(), &st)) {\n";
+      out.indent();
+      out << "mkdir(file_name.c_str(), fd_val.mode());\n";
+      out.unindent();
+      out << "}\n";
+      out << "handle->data[fd_index] = open(file_name.c_str(), O_DIRECTORY, "
+          << "fd_val.mode());\n";
+      out << "break;\n";
+      out.unindent();
+      out << "}\n";
+      out << "case FdType::DEV_TYPE:\n";
+      out << "{\n";
+      out.indent();
+      out << "if(file_name == \"/dev/ashmem\") {\n";
+      out.indent();
+      out << "handle->data[fd_index] = ashmem_create_region(\"SharedMemory\", "
+          << "fd_val.memory().size());\n";
+      out.unindent();
+      out << "}\n";
+      out << "break;\n";
+      out.unindent();
+      out << "}\n";
+      out << "case FdType::PIPE_TYPE:\n";
+      out << "case FdType::SOCKET_TYPE:\n";
+      out << "case FdType::LINK_TYPE:\n";
+      out << "{\n";
+      out.indent();
+      out << "cout << \"Not supported yet. \" << endl;\n";
+      out << "break;\n";
+      out.unindent();
+      out << "}\n";
+      out.unindent();
+      out << "}\n";
+      out.unindent();
+      out << "} else {\n";
+      out.indent();
+      out << "handle->data[fd_index] = " << arg_value_name
+          << ".handle_value().int_val(fd_index -" << arg_value_name
+          << ".handle_value().num_fds());\n";
+      out.unindent();
+      out << "}\n";
+      out.unindent();
+      out << "}\n";
+      out << arg_name << " = handle;\n";
+      out.unindent();
+      out << "} else {\n";
+      out.indent();
+      out << arg_name << " = nullptr;\n";
+      out.unindent();
+      out << "}\n";
       break;
     }
     case TYPE_HIDL_INTERFACE:
@@ -957,7 +1084,30 @@ void HalHidlCodeGen::GenerateDriverImplForTypedVariable(Formatter& out,
     }
     case TYPE_HIDL_MEMORY:
     {
-      out << "/* ERROR: TYPE_HIDL_MEMORY is not supported yet. */\n";
+      out << "sp<::android::hidl::allocator::V1_0::IAllocator> ashmemAllocator"
+          << " = ::android::hidl::allocator::V1_0::IAllocator::getService(\""
+          << "ashmem\");\n";
+      out << "if (ashmemAllocator == nullptr) {\n";
+      out.indent();
+      out << "cerr << \"Failed to get ashmemAllocator! \" << endl;\n";
+      out << "exit(-1);\n";
+      out.unindent();
+      out << "}\n";
+      // TODO(zhuoyao): initialize memory with recorded contents.
+      out << "auto res = ashmemAllocator->allocate(" << arg_value_name
+          << ".hidl_memory_value().size(), [&](bool success, "
+          << "const hardware::hidl_memory& memory) {\n";
+      out.indent();
+      out << "if (!success) {\n";
+      out.indent();
+      out << "cerr << \"Failed to allocate memory! \" << endl;\n";
+      out << arg_name << " = ::android::hardware::hidl_memory();\n";
+      out << "return;\n";
+      out.unindent();
+      out << "}\n";
+      out << arg_name << " = memory;\n";
+      out.unindent();
+      out << "});\n";
       break;
     }
     case TYPE_POINTER:
@@ -967,12 +1117,56 @@ void HalHidlCodeGen::GenerateDriverImplForTypedVariable(Formatter& out,
     }
     case TYPE_FMQ_SYNC:
     {
-      out << "/* ERROR: TYPE_FMQ_SYNC is not supported yet. */\n";
+      if (arg_name.find("->") != std::string::npos) {
+        cout << "Nested structure with fmq is not supported yet." << endl;
+      } else {
+        std::string element_type =
+            GetCppVariableType(val.fmq_value(0), nullptr);
+        std::string queue_name = arg_name + "_sync_q";
+        // TODO(zhuoyao): consider record and use the queue capacity.
+        out << "::android::hardware::MessageQueue<" << element_type
+            << ", ::android::hardware::kSynchronizedReadWrite> " << queue_name
+            << "(1024);\n";
+        out << "for (int i = 0; i < (int)" << arg_value_name
+            << ".fmq_value_size(); i++) {\n";
+        out.indent();
+        std::string fmq_item_name = queue_name + "_item";
+        out << element_type << " " << fmq_item_name << ";\n";
+        GenerateDriverImplForTypedVariable(out, val.fmq_value(0), fmq_item_name,
+                                           arg_value_name + ".fmq_value(i)");
+        out << queue_name << ".write(&" << fmq_item_name << ");\n";
+        out.unindent();
+        out << "}\n";
+        out << GetCppVariableType(val, nullptr) << " " << arg_name << "(*"
+            << queue_name << ".getDesc());\n";
+      }
       break;
     }
     case TYPE_FMQ_UNSYNC:
     {
-      out << "/* ERROR: TYPE_FMQ_UNSYNC is not supported yet. */\n";
+      if (arg_name.find("->") != std::string::npos) {
+        cout << "Nested structure with fmq is not supported yet." << endl;
+      } else {
+        std::string element_type =
+            GetCppVariableType(val.fmq_value(0), nullptr);
+        std::string queue_name = arg_name + "_unsync_q";
+        // TODO(zhuoyao): consider record and use the queue capacity.
+        out << "::android::hardware::MessageQueue<" << element_type << ", "
+            << "::android::hardware::kUnsynchronizedWrite> " << queue_name
+            << "(1024);\n";
+        out << "for (int i = 0; i < (int)" << arg_value_name
+            << ".fmq_value_size(); i++) {\n";
+        out.indent();
+        std::string fmq_item_name = queue_name + "_item";
+        out << element_type << " " << fmq_item_name << ";\n";
+        GenerateDriverImplForTypedVariable(out, val.fmq_value(0), fmq_item_name,
+                                           arg_value_name + ".fmq_value(i)");
+        out << queue_name << ".write(&" << fmq_item_name << ");\n";
+        out.unindent();
+        out << "}\n";
+        out << GetCppVariableType(val, nullptr) << " " << arg_name << "(*"
+            << queue_name << ".getDesc());\n";
+      }
       break;
     }
     case TYPE_REF:

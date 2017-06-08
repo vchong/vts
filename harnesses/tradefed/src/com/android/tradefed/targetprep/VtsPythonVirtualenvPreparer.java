@@ -28,6 +28,7 @@ import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.IRunUtil;
 import com.android.tradefed.util.RunUtil;
 import com.android.tradefed.util.StreamUtil;
+import com.android.tradefed.util.VtsVendorConfigFileUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,8 +57,6 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
     private static final String OS_NAME = "os.name";
     private static final String WINDOWS = "Windows";
     private static final String LOCAL_PYPI_PATH_ENV_VAR_NAME = "VTS_PYPI_PATH";
-    private static final String VENDOR_TEST_CONFIG_FILE_PATH =
-            "/config/google-tradefed-vts-config.config";
     private static final String LOCAL_PYPI_PATH_KEY = "pypi_packages_path";
     protected static final String PYTHONPATH = "PYTHONPATH";
     protected static final String VIRTUAL_ENV_PATH = "VIRTUALENVPATH";
@@ -77,6 +76,7 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
     @Option(name = "dep-module", description = "modules which need to be installed by pip")
     private Collection<String> mDepModules = new TreeSet<>(Arrays.asList(DEFAULT_DEP_MODULES));
 
+    IBuildInfo mBuildInfo = null;
     IRunUtil mRunUtil = new RunUtil();
     String mPip = PIP;
     String mLocalPypiPath = null;
@@ -87,6 +87,7 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
     @Override
     public void setUp(ITestDevice device, IBuildInfo buildInfo)
             throws TargetSetupError, BuildError, DeviceNotAvailableException {
+        mBuildInfo = buildInfo;
         startVirtualenv(buildInfo);
         setLocalPypiPath();
         installDeps(buildInfo);
@@ -113,34 +114,18 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
      * @throws JSONException
      */
     protected void setLocalPypiPath() throws RuntimeException {
-        CLog.i("Loading vendor test config %s", VENDOR_TEST_CONFIG_FILE_PATH);
-        InputStream config = getClass().getResourceAsStream(VENDOR_TEST_CONFIG_FILE_PATH);
-
-        // First try to load local PyPI directory path from vendor config file
-        if (config != null) {
+        VtsVendorConfigFileUtil configReader = new VtsVendorConfigFileUtil();
+        if (configReader.LoadVendorConfig(mBuildInfo)) {
+            // First try to load local PyPI directory path from vendor config file
             try {
-                String content = StreamUtil.getStringFromStream(config);
-                CLog.i("Loaded vendor test config %s", content);
-                if (content != null) {
-                    JSONObject vendorConfigJson = new JSONObject(content);
-                    try {
-                        String pypiPath = vendorConfigJson.getString(LOCAL_PYPI_PATH_KEY);
-                        if (pypiPath.length() > 0 && dirExistsAndHaveReadAccess(pypiPath)) {
-                            mLocalPypiPath = pypiPath;
-                            CLog.i(String.format(
-                                    "Loaded %s: %s", LOCAL_PYPI_PATH_KEY, mLocalPypiPath));
-                        }
-                    } catch (NoSuchElementException e) {
-                        CLog.i("Vendor test config file does not define %s", LOCAL_PYPI_PATH_KEY);
-                    }
+                String pypiPath = configReader.GetVendorConfigVariable(LOCAL_PYPI_PATH_KEY);
+                if (pypiPath.length() > 0 && dirExistsAndHaveReadAccess(pypiPath)) {
+                    mLocalPypiPath = pypiPath;
+                    CLog.i(String.format("Loaded %s: %s", LOCAL_PYPI_PATH_KEY, mLocalPypiPath));
                 }
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to read vendor config json file");
-            } catch (JSONException e) {
-                throw new RuntimeException("Failed to parse vendor config json data");
+            } catch (NoSuchElementException e) {
+                /* continue */
             }
-        } else {
-            CLog.i("Vendor test config file %s does not exist", VENDOR_TEST_CONFIG_FILE_PATH);
         }
 
         // If loading path from vendor config file is unsuccessful,
@@ -167,13 +152,34 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
      * This method returns whether the given path is a dir that exists and the user has read access.
      */
     private boolean dirExistsAndHaveReadAccess(String path) {
-        CommandResult c = mRunUtil.runTimedCmd(BASE_TIMEOUT * 5, "ls", path);
-        if (c.getStatus() != CommandStatus.SUCCESS) {
-            CLog.i(String.format("Failed to read dir: %s. Result %s. stdout: %s, stderr: %s", path,
-                    c.getStatus(), c.getStdout(), c.getStderr()));
+        File pathDir = new File(path);
+        if (!pathDir.exists() || !pathDir.isDirectory()) {
+            CLog.i("Directory %s does not exist.", pathDir);
             return false;
         }
-        return true;
+
+        if (!isOnWindows()) {
+            CommandResult c = mRunUtil.runTimedCmd(BASE_TIMEOUT * 5, "ls", path);
+            if (c.getStatus() != CommandStatus.SUCCESS) {
+                CLog.i(String.format("Failed to read dir: %s. Result %s. stdout: %s, stderr: %s",
+                        path, c.getStatus(), c.getStdout(), c.getStderr()));
+                return false;
+            }
+            return true;
+        } else {
+            try {
+                String[] pathDirList = pathDir.list();
+                if (pathDirList == null) {
+                    CLog.i("Failed to read dir: %s. Please check access permission.", pathDir);
+                    return false;
+                }
+            } catch (SecurityException e) {
+                CLog.i(String.format(
+                        "Failed to read dir %s with SecurityException %s", pathDir, e));
+                return false;
+            }
+            return true;
+        }
     }
 
     protected void installDeps(IBuildInfo buildInfo) throws TargetSetupError {

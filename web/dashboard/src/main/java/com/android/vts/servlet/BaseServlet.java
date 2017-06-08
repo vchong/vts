@@ -37,19 +37,17 @@ public abstract class BaseServlet extends HttpServlet {
     protected static final String ANALYTICS_ID = System.getProperty("ANALYTICS_ID");
 
     // Common constants
-    protected static final long ONE_DAY = 86400000000L; // units microseconds
-    protected static final long MILLI_TO_MICRO =
-            1000; // conversion factor from milli to micro units
-    protected static final String TABLE_PREFIX = "result_";
     protected static final String CURRENT_PAGE = "#";
 
     public enum Page {
         HOME("VTS Dashboard Home", "/"),
-        PREFERENCES("Preferences", "/show_preferences"),
         TABLE("", "/show_table"),
         GRAPH("Profiling", "/show_graph"),
         COVERAGE("Coverage", "/show_coverage"),
-        PERFORMANCE("Performance Digest", "/show_performance_digest");
+        PERFORMANCE("Performance Digest", "/show_performance_digest"),
+        PLAN_RELEASE("", "/show_plan_release"),
+        PLAN_RUN("Run", "/show_plan_run"),
+        ;
 
         private final String name;
         private final String url;

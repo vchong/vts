@@ -191,20 +191,21 @@ public class ShowPerformanceDigestServlet extends BaseServlet {
 
         // Add today to the list of time intervals to analyze
         List<TimeInterval> timeIntervals = new ArrayList<>();
-        TimeInterval today = new TimeInterval(startTime - ONE_DAY, startTime);
+        TimeInterval today = new TimeInterval(startTime - TimeUnit.DAYS.toMicros(1), startTime);
         timeIntervals.add(today);
 
         // Add yesterday as a baseline time interval for analysis
-        long oneDayAgo = startTime - ONE_DAY;
-        TimeInterval yesterday = new TimeInterval(oneDayAgo - ONE_DAY, oneDayAgo);
+        long oneDayAgo = startTime - TimeUnit.DAYS.toMicros(1);
+        TimeInterval yesterday = new TimeInterval(oneDayAgo - TimeUnit.DAYS.toMicros(1), oneDayAgo);
         timeIntervals.add(yesterday);
 
         // Add last week as a baseline time interval for analysis
-        long oneWeek = 7 * ONE_DAY;
+        long oneWeek = TimeUnit.DAYS.toMicros(7);
         long oneWeekAgo = startTime - oneWeek;
         String spanString = "<span class='date-label'>";
-        String label = spanString + (oneWeekAgo - oneWeek) + "</span>";
-        label += " - " + spanString + oneWeekAgo + "</span>";
+        String label =
+                spanString + TimeUnit.MICROSECONDS.toMillis(oneWeekAgo - oneWeek) + "</span>";
+        label += " - " + spanString + TimeUnit.MICROSECONDS.toMillis(oneWeekAgo) + "</span>";
         TimeInterval lastWeek = new TimeInterval(oneWeekAgo - oneWeek, oneWeekAgo, label);
         timeIntervals.add(lastWeek);
 

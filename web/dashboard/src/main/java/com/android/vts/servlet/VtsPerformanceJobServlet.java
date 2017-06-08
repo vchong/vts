@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -174,9 +175,9 @@ public class VtsPerformanceJobServlet extends BaseServlet {
                 tableHTML += "</td><td style='" + INNER_CELL_STYLE + "'>";
                 tableHTML += FORMATTER.format(stats.getBestCase()) + "</td>";
                 tableHTML += "<td style='" + INNER_CELL_STYLE + "'>";
-                tableHTML +=  FORMATTER.format(stats.getMean()) + "</td>";
+                tableHTML += FORMATTER.format(stats.getMean()) + "</td>";
                 tableHTML += "<td style='" + OUTER_CELL_STYLE + "'>";
-                tableHTML +=  FORMATTER.format(stats.getStd()) + "</td>";
+                tableHTML += FORMATTER.format(stats.getStd()) + "</td>";
                 for (int i = 1; i < perfSummaries.size(); i++) {
                     PerformanceSummary oldPerfSummary = perfSummaries.get(i);
                     if (oldPerfSummary.hasProfilingPoint(profilingPoint)) {
@@ -217,21 +218,24 @@ public class VtsPerformanceJobServlet extends BaseServlet {
 
         // Add today to the list of time intervals to analyze
         List<TimeInterval> timeIntervals = new ArrayList<>();
-        long now = System.currentTimeMillis();
-        String dateString = new SimpleDateFormat("MM-dd-yyyy").format(new Date(now));
-        TimeInterval today = new TimeInterval(now - ONE_DAY / MILLI_TO_MICRO, now, dateString);
+        long nowMilli = System.currentTimeMillis();
+        long nowMicro = TimeUnit.MILLISECONDS.toMicros(nowMilli);
+        String dateString = new SimpleDateFormat("MM-dd-yyyy").format(new Date(nowMilli));
+        TimeInterval today =
+                new TimeInterval(nowMicro - TimeUnit.DAYS.toMicros(1), nowMicro, dateString);
         timeIntervals.add(today);
 
         // Add yesterday as a baseline time interval for analysis
-        long oneDayAgo = now - ONE_DAY / MILLI_TO_MICRO;
-        String dateStringYesterday = new SimpleDateFormat("MM-dd-yyyy").format(new Date(oneDayAgo));
+        long oneDayAgo = nowMicro - TimeUnit.DAYS.toMicros(1);
+        String dateStringYesterday = new SimpleDateFormat(
+                "MM-dd-yyyy").format(new Date(TimeUnit.MICROSECONDS.toMillis(oneDayAgo)));
         TimeInterval yesterday = new TimeInterval(
-                oneDayAgo - ONE_DAY / MILLI_TO_MICRO, oneDayAgo, dateStringYesterday);
+                oneDayAgo - TimeUnit.DAYS.toMicros(1), oneDayAgo, dateStringYesterday);
         timeIntervals.add(yesterday);
 
         // Add last week as a baseline time interval for analysis
-        long oneWeek = 7 * ONE_DAY / MILLI_TO_MICRO;
-        long oneWeekAgo = now - oneWeek;
+        long oneWeek = TimeUnit.DAYS.toMicros(7);
+        long oneWeekAgo = nowMicro - oneWeek;
         TimeInterval lastWeek = new TimeInterval(oneWeekAgo - oneWeek, oneWeekAgo, LAST_WEEK);
         timeIntervals.add(lastWeek);
 

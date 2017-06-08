@@ -34,6 +34,7 @@ import com.android.tradefed.util.StreamUtil;
 import com.android.tradefed.util.JsonUtil;
 import com.android.tradefed.util.IRunUtil;
 import com.android.tradefed.util.RunUtil;
+import com.android.tradefed.util.VtsVendorConfigFileUtil;
 import com.android.tradefed.testtype.IAbi;
 
 import org.json.JSONArray;
@@ -109,6 +110,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     static final String GTEST_BATCH_MODE = "gtest_match_mode";
     static final String SAVE_TRACE_FIEL_REMOTE = "save_trace_file_remote";
     static final String OUTPUT_COVERAGE_REPORT = "output_coverage_report";
+    static final String GLOBAL_COVERAGE = "global_coverage";
     static final String NATIVE_SERVER_PROCESS_NAME = "native_server_process_name";
     static final String PASSTHROUGH_MODE = "passthrough_mode";
     static final String PRECONDITION_HWBINDER_SERVICE = "precondition_hwbinder_service";
@@ -128,7 +130,6 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     static final String TEST_RUN_SUMMARY_FILE_NAME = "test_run_summary.json";
     static final float DEFAULT_TARGET_VERSION = -1;
     static final String DEFAULT_TESTCASE_CONFIG_PATH = "vts/tools/vts-tradefed/res/default/DefaultTestCase.config";
-    static final int MAX_TEST_NAME_LENGTH = 43;
 
     private ITestDevice mDevice = null;
     private IAbi mAbi = null;
@@ -197,6 +198,11 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
                           "ro.vts.coverage system must have value \"1\" to indicate the target " +
                           "build is coverage instrumented.")
     private boolean mEnableCoverage = true;
+
+    @Option(name = "global-coverage", description = "True to measure coverage for entire test, "
+                    + "measure coverage for each test case otherwise. Currently, only global "
+                    + "coverage is supported for binary tests")
+    private boolean mGlobalCoverage = true;
 
     @Option(name = "output-coverage-report", description = "Whether to store raw coverage report.")
     private boolean mOutputCoverageReport = false;
@@ -469,6 +475,10 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
                 }
                 CLog.i("Using default test case template at %s.", template);
                 setTestCasePath(template);
+                if (mEnableCoverage && !mGlobalCoverage) {
+                    CLog.e("Only global coverage is supported for test type %s.", mBinaryTestType);
+                    throw new RuntimeException("Failed to produce VTS runner test config");
+                }
             } else if (mBinaryTestType.equals(BINARY_TEST_TYPE_HAL_HIDL_REPLAY_TEST)) {
                 setTestCasePath(TEMPLATE_HAL_HIDL_REPLAY_TEST_PATH);
             } else if (mBinaryTestType.equals(BINARY_TEST_TYPE_LLVMFUZZER)) {
@@ -534,20 +544,11 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
      */
     private void updateVtsRunnerTestConfig(JSONObject jsonObject)
             throws IOException, JSONException, RuntimeException {
-        CLog.i("Load vendor test config %s", "/config/google-tradefed-vts-config.config");
-        InputStream config = getClass().getResourceAsStream("/config/google-tradefed-vts-config.config");
-        if (config != null) {
-            try {
-                String content = StreamUtil.getStringFromStream(config);
-                CLog.i("Loaded vendor test config %s", content);
-                if (content != null) {
-                    JSONObject vendorConfigJson = new JSONObject(content);
-                    JsonUtil.deepMergeJsonObjects(jsonObject, vendorConfigJson);
-                }
-            } catch(IOException e) {
-                throw new RuntimeException("Failed to read vendor config json file");
-            } catch(JSONException e) {
-                throw new RuntimeException("Failed to build updated vendor config json data");
+        VtsVendorConfigFileUtil configReader = new VtsVendorConfigFileUtil();
+        if (configReader.LoadVendorConfig(mBuildInfo)) {
+            JSONObject vendorConfigJson = configReader.GetVendorConfigJson();
+            if (vendorConfigJson != null) {
+                JsonUtil.deepMergeJsonObjects(jsonObject, vendorConfigJson);
             }
         }
 
@@ -555,13 +556,14 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
         String content = null;
 
         if (mTestConfigPath != null) {
-            content = FileUtil.readStringFromFile(new File(Paths.get(mTestCaseDataDir, mTestConfigPath).toString()));
+            content = FileUtil.readStringFromFile(
+                    new File(Paths.get(mTestCaseDataDir, mTestConfigPath).toString()));
+            CLog.i("Loaded original test config %s", content);
+            if (content != null) {
+                JsonUtil.deepMergeJsonObjects(jsonObject, new JSONObject(content));
+            }
         }
 
-        CLog.i("Loaded original test config %s", content);
-        if (content != null) {
-            JsonUtil.deepMergeJsonObjects(jsonObject, new JSONObject(content));
-        }
         populateDefaultJsonFields(jsonObject, mTestCaseDataDir);
         CLog.i("Built a Json object using the loaded original test config");
 
@@ -600,11 +602,6 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
                     throw new RuntimeException(
                         "Failed to derive test module name; use --test-module-name option");
                 }
-            }
-            if (testName.length() > MAX_TEST_NAME_LENGTH) {
-                throw new RuntimeException(
-                    "Test module name is too long: " + testName + ". (" +
-                    testName.length() + ">" +   MAX_TEST_NAME_LENGTH + ")");
             }
             CLog.logAndDisplay(LogLevel.INFO, "Setting test name as %s", testName);
             device.put(NAME, testName);
@@ -693,6 +690,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
             CLog.i("Added %s to the Json object", ENABLE_SYSTRACE);
         }
         if (mEnableCoverage) {
+            jsonObject.put(GLOBAL_COVERAGE, mGlobalCoverage);
             if (coverageBuild) {
                 jsonObject.put(ENABLE_COVERAGE, mEnableCoverage);
                 CLog.i("Added %s to the Json object", ENABLE_COVERAGE);

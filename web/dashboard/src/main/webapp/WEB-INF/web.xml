@@ -36,6 +36,16 @@ Copyright 2016 Google Inc. All Rights Reserved.
 </servlet>
 
 <servlet>
+  <servlet-name>show_plan_release</servlet-name>
+  <servlet-class>com.android.vts.servlet.ShowPlanReleaseServlet</servlet-class>
+</servlet>
+
+<servlet>
+  <servlet-name>show_plan_run</servlet-name>
+  <servlet-class>com.android.vts.servlet.ShowPlanRunServlet</servlet-class>
+</servlet>
+
+<servlet>
   <servlet-name>show_performance_digest</servlet-name>
   <servlet-class>com.android.vts.servlet.ShowPerformanceDigestServlet</servlet-class>
 </servlet>
@@ -93,6 +103,16 @@ Copyright 2016 Google Inc. All Rights Reserved.
 <servlet-mapping>
   <servlet-name>show_graph</servlet-name>
   <url-pattern>/show_graph/*</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+  <servlet-name>show_plan_release</servlet-name>
+  <url-pattern>/show_plan_release/*</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+  <servlet-name>show_plan_run</servlet-name>
+  <url-pattern>/show_plan_run/*</url-pattern>
 </servlet-mapping>
 
 <servlet-mapping>

@@ -14,41 +14,7 @@
  * permissions and limitations under the License.
  */
 
-(function ($) {
-
-  /**
-   * Renders a timestamp in the user timezone.
-   * @param timestamp The long timestamp to render (in microseconds).
-   * @param showTimezone True if the timezone should be rendered, false otherwise.
-   * @returns the string-formatted version of the provided timestamp.
-   */
-  function renderTime(timestamp, showTimezone) {
-    var time = moment(timestamp / 1000);
-    var format = 'H:mm:ss';
-    if (!time.isSame(moment(), 'd')) {
-        format = 'M/D/YY ' + format;
-    }
-    if (!!showTimezone) {
-        format = format + 'ZZ';
-    }
-    return time.format(format);
-  }
-
-  /**
-   * Renders a duration in the user timezone.
-   * @param durationTimestamp The long duration to render (in microseconds).
-   * @returns the string-formatted duration of the provided duration timestamp.
-   */
-  function renderDuration(durationTimestamp) {
-    var fmt = 's[s]';
-    var duration = moment.utc(durationTimestamp / 1000);
-    if (duration.hours() > 0) {
-      fmt = 'H[h], m[m], ' + fmt;
-    } else if (duration.minutes() > 0) {
-      fmt = 'm[m], ' + fmt;
-    }
-    return duration.format(fmt);
-  }
+(function ($, moment) {
 
   /**
    * Display the log links in a modal window.
@@ -196,12 +162,7 @@
     return link;
   }
 
-  /**
-   * Display test metadata in a vertical popout.
-   * @param container The jquery object in which to insert the test metadata.
-   * @param metadataList The list of metadata objects to render on the display.
-   */
-  function displayTestMetadata(container, metadataList) {
+  function displayTestMetadata(container, metadataList, showTestNames=false) {
     var popout = $('<ul></ul>');
     popout.attr('data-collapsible', 'expandable');
     popout.addClass('collapsible popout test-runs');
@@ -223,6 +184,10 @@
       span.addClass('test-run-metadata');
       span.appendTo(div);
       span.click(function() { return false; });
+      if (showTestNames) {
+          $('<span class="test-run-label"></span>').text(test).appendTo(span);
+          span.append('<br>');
+      }
       $('<b></b>').text(metadata.deviceInfo).appendTo(span);
       span.append('<br>');
       $('<b></b>').text('ABI: ')
@@ -235,9 +200,9 @@
             .appendTo(span)
       span.append(metadata.testRun.hostName).append('<br>');
       var timeString = (
-        renderTime(startTime, false) + ' - ' +
-        renderTime(endTime, true) + ' (' +
-        renderDuration(endTime - startTime) + ')');
+        moment().renderTime(startTime, false) + ' - ' +
+        moment().renderTime(endTime, true) + ' (' +
+        moment().renderDuration(endTime - startTime) + ')');
       span.append(timeString);
       var indicator = $('<span></span>');
       var color = metadata.testRun.failCount > 0 ? 'red' : 'green';
@@ -289,8 +254,14 @@
     });
   }
 
-  $.fn.showTests = function(metadataList) {
-    displayTestMetadata($(this), metadataList);
+  /**
+   * Display test metadata in a vertical popout.
+   * @param container The jquery object in which to insert the test metadata.
+   * @param metadataList The list of metadata objects to render on the display.
+   * @param showTestNames True to label each entry with the test module name.
+   */
+  $.fn.showTests = function(metadataList, showTestNames=false) {
+    displayTestMetadata($(this), metadataList, showTestNames);
   }
 
-})(jQuery);
+})(jQuery, moment);

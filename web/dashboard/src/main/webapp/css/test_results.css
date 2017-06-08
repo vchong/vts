@@ -71,3 +71,8 @@ li.test-run-container.active {
 i.material-icons.inline-icon {
     font-size: inherit;
 }
+.test-run-label {
+    font-size: 18px;
+    line-height: 35px;
+    font-weight: 300;
+}

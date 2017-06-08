@@ -5,6 +5,10 @@
 #include <android/hardware/nfc/1.0/INfcClientCallback.h>
 #include "android/hardware/nfc/1.0/types.vts.h"
 #include <android/hidl/base/1.0/types.h>
+#include <android/hidl/allocator/1.0/IAllocator.h>
+#include <fmq/MessageQueue.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 
 using namespace android::hardware::nfc::V1_0;

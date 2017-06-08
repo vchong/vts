@@ -10,6 +10,10 @@
 #include <android/hardware/tests/foo/1.0/ITheirTypes.h>
 #include <android/hardware/tests/foo/1.0/types.h>
 #include <android/hidl/base/1.0/types.h>
+#include <android/hidl/allocator/1.0/IAllocator.h>
+#include <fmq/MessageQueue.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 
 using namespace android::hardware::tests::bar::V1_0;
@@ -64,8 +68,7 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
     const char* func_name = func_msg.name().c_str();
     cout << "Function: " << __func__ << " " << func_name << endl;
     if (!strcmp(func_name, "doThis")) {
-        float arg0;
-        arg0 = 0;
+        float arg0 = 0;
         arg0 = func_msg.arg(0).scalar_value().float_t();
         VtsMeasurement vts_measurement;
         vts_measurement.Start();
@@ -79,8 +82,7 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
         return true;
     }
     if (!strcmp(func_name, "doThatAndReturnSomething")) {
-        int64_t arg0;
-        arg0 = 0;
+        int64_t arg0 = 0;
         arg0 = func_msg.arg(0).scalar_value().int64_t();
         VtsMeasurement vts_measurement;
         vts_measurement.Start();
@@ -99,24 +101,20 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
         return true;
     }
     if (!strcmp(func_name, "doQuiteABit")) {
-        int32_t arg0;
-        arg0 = 0;
+        int32_t arg0 = 0;
         arg0 = func_msg.arg(0).scalar_value().int32_t();
-        int64_t arg1;
-        arg1 = 0;
+        int64_t arg1 = 0;
         arg1 = func_msg.arg(1).scalar_value().int64_t();
-        float arg2;
-        arg2 = 0;
+        float arg2 = 0;
         arg2 = func_msg.arg(2).scalar_value().float_t();
-        double arg3;
-        arg3 = 0;
+        double arg3 = 0;
         arg3 = func_msg.arg(3).scalar_value().double_t();
         VtsMeasurement vts_measurement;
         vts_measurement.Start();
         cout << "Call an API" << endl;
         cout << "local_device = " << hw_binder_proxy_.get() << endl;
         double result0;
-        result0 = hw_binder_proxy_->doQuiteABit(arg0,arg1,arg2,arg3);
+        result0 = hw_binder_proxy_->doQuiteABit(arg0, arg1, arg2, arg3);
         vector<float>* measured = vts_measurement.Stop();
         cout << "time " << (*measured)[0] << endl;
         result_msg->set_name("doQuiteABit");
@@ -650,8 +648,7 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
         return true;
     }
     if (!strcmp(func_name, "createHandles")) {
-        uint32_t arg0;
-        arg0 = 0;
+        uint32_t arg0 = 0;
         arg0 = func_msg.arg(0).scalar_value().uint32_t();
         VtsMeasurement vts_measurement;
         vts_measurement.Start();
@@ -702,7 +699,71 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
     }
     if (!strcmp(func_name, "expectNullHandle")) {
         ::android::hardware::hidl_handle arg0;
-        /* ERROR: TYPE_HANDLE is not supported yet. */
+        if (func_msg.arg(0).has_handle_value()) {
+            native_handle_t* handle = native_handle_create(func_msg.arg(0).handle_value().num_fds(), func_msg.arg(0).handle_value().num_ints());
+            if (!handle) {
+                cerr << "Failed to create handle. " << endl;
+                exit(-1);
+            }
+            for (int fd_index = 0; fd_index < func_msg.arg(0).handle_value().num_fds() + func_msg.arg(0).handle_value().num_ints(); fd_index++) {
+                if (fd_index < func_msg.arg(0).handle_value().num_fds()) {
+                    FdMessage fd_val = func_msg.arg(0).handle_value().fd_val(fd_index);
+                    string file_name = fd_val.file_name();
+                    switch (fd_val.type()) {
+                        case FdType::FILE_TYPE:
+                        {
+                            size_t pre = 0; size_t pos = 0;
+                            string dir;
+                            struct stat st;
+                            while((pos=file_name.find_first_of('/', pre)) != string::npos){
+                                dir = file_name.substr(0, pos++);
+                                pre = pos;
+                                if(dir.size() == 0) continue; // ignore leading /
+                                if (stat(dir.c_str(), &st) == -1) {
+                                cout << " Creating dir: " << dir << endl;
+                                    mkdir(dir.c_str(), 0700);
+                                }
+                            }
+                            int fd = open(file_name.c_str(), fd_val.flags() | O_CREAT, fd_val.mode());
+                            if (fd == -1) {
+                                cout << "Failed to open file: " << file_name << " error: " << errno << endl;
+                                exit (-1);
+                            }
+                            handle->data[fd_index] = fd;
+                            break;
+                        }
+                        case FdType::DIR_TYPE:
+                        {
+                            struct stat st;
+                            if (!stat(file_name.c_str(), &st)) {
+                                mkdir(file_name.c_str(), fd_val.mode());
+                            }
+                            handle->data[fd_index] = open(file_name.c_str(), O_DIRECTORY, fd_val.mode());
+                            break;
+                        }
+                        case FdType::DEV_TYPE:
+                        {
+                            if(file_name == "/dev/ashmem") {
+                                handle->data[fd_index] = ashmem_create_region("SharedMemory", fd_val.memory().size());
+                            }
+                            break;
+                        }
+                        case FdType::PIPE_TYPE:
+                        case FdType::SOCKET_TYPE:
+                        case FdType::LINK_TYPE:
+                        {
+                            cout << "Not supported yet. " << endl;
+                            break;
+                        }
+                    }
+                } else {
+                    handle->data[fd_index] = func_msg.arg(0).handle_value().int_val(fd_index -func_msg.arg(0).handle_value().num_fds());
+                }
+            }
+            arg0 = handle;
+        } else {
+            arg0 = nullptr;
+        }
         ::android::hardware::tests::foo::V1_0::Abc arg1;
         MessageTo__android__hardware__tests__foo__V1_0__Abc(func_msg.arg(1), &(arg1));
         VtsMeasurement vts_measurement;
@@ -711,7 +772,7 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
         cout << "local_device = " << hw_binder_proxy_.get() << endl;
         bool result0;
         bool result1;
-        hw_binder_proxy_->expectNullHandle(arg0,arg1, [&](bool arg0,bool arg1){
+        hw_binder_proxy_->expectNullHandle(arg0, arg1, [&](bool arg0,bool arg1){
             cout << "callback expectNullHandle called" << endl;
             result0 = arg0;
             result1 = arg1;
@@ -747,7 +808,7 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
         uint8_t result1;
         uint8_t result2;
         uint8_t result3;
-        hw_binder_proxy_->takeAMask(arg0,arg1,arg2,arg3, [&](::android::hardware::tests::foo::V1_0::IFoo::BitField arg0,uint8_t arg1,uint8_t arg2,uint8_t arg3){
+        hw_binder_proxy_->takeAMask(arg0, arg1, arg2, arg3, [&](::android::hardware::tests::foo::V1_0::IFoo::BitField arg0,uint8_t arg1,uint8_t arg2,uint8_t arg3){
             cout << "callback takeAMask called" << endl;
             result0 = arg0;
             result1 = arg1;

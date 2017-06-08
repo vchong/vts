@@ -21,9 +21,10 @@
   <%@ include file="header.jsp" %>
   <link type='text/css' href='/css/show_test_runs_common.css' rel='stylesheet'>
   <link type='text/css' href='/css/test_results.css' rel='stylesheet'>
-  <script src='js/test_results.js'></script>
   <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
   <script src='https://www.gstatic.com/external_hosted/moment/min/moment-with-locales.min.js'></script>
+  <script src='js/time.js'></script>
+  <script src='js/test_results.js'></script>
   <script type='text/javascript'>
       google.charts.load('current', {'packages':['table', 'corechart']});
       google.charts.setOnLoadCallback(drawPieChart);

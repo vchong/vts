@@ -270,10 +270,10 @@ public class ShowTableServlet extends BaseServlet {
         request.setAttribute("topBuildId", testResults.totBuildId);
         request.setAttribute("startTime", new Gson().toJson(testResults.startTime));
         request.setAttribute("endTime", new Gson().toJson(testResults.endTime));
-        request.setAttribute("hasNewer",
-                new Gson().toJson(DatastoreHelper.hasNewer(testName, testResults.endTime)));
-        request.setAttribute("hasOlder",
-                new Gson().toJson(DatastoreHelper.hasOlder(testName, testResults.startTime)));
+        request.setAttribute("hasNewer", new Gson().toJson(DatastoreHelper.hasNewer(testKey,
+                                                 TestRunEntity.KIND, testResults.endTime)));
+        request.setAttribute("hasOlder", new Gson().toJson(DatastoreHelper.hasOlder(testKey,
+                                                 TestRunEntity.KIND, testResults.startTime)));
         request.setAttribute("unfiltered", unfiltered);
         request.setAttribute("showPresubmit", showPresubmit);
         request.setAttribute("showPostsubmit", showPostsubmit);

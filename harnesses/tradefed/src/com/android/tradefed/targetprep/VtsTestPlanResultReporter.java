@@ -64,6 +64,14 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
 
     @Option(name = "plan-name", description = "The plan name") private String mPlanName = null;
 
+    @Option(name = "file-path",
+            description = "The path of a VTS vendor config file (format: json).")
+    private String mVendorConfigFilePath = null;
+
+    @Option(name = "default-type",
+            description = "The default config file type, e.g., `prod` or `staging`.")
+    private String mDefaultType = VtsVendorConfigFileUtil.VENDOR_TEST_CONFIG_DEFAULT_TYPE;
+
     /**
      * {@inheritDoc}
      */
@@ -80,8 +88,14 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
             CLog.e("Can't create a temp dir to store test execution results.");
             return;
         }
+
+        // Use IBuildInfo to pass the uesd vendor config information to the rest of workflow.
+        buildInfo.addBuildAttribute(
+                VtsVendorConfigFileUtil.KEY_VENDOR_TEST_CONFIG_DEFAULT_TYPE, mDefaultType);
+        buildInfo.addBuildAttribute(
+                VtsVendorConfigFileUtil.KEY_VENDOR_TEST_CONFIG_FILE_PATH, mVendorConfigFilePath);
         configReader = new VtsVendorConfigFileUtil();
-        configReader.LoadVendorConfig(null);
+        configReader.LoadVendorConfig(buildInfo);
     }
 
     /**

@@ -37,6 +37,7 @@ import org.apache.commons.codec.binary.Base64;
 /** REST endpoint for posting data to the Dashboard. */
 public class DatastoreRestServlet extends HttpServlet {
     private static final String SERVICE_CLIENT_ID = System.getProperty("SERVICE_CLIENT_ID");
+    private static final String SERVICE_NAME = "VTS Dashboard";
     private static final Logger logger = Logger.getLogger(DatastoreRestServlet.class.getName());
 
     @Override
@@ -66,6 +67,7 @@ public class DatastoreRestServlet extends HttpServlet {
             GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);
             Oauth2 oauth2 =
                     new Oauth2.Builder(new NetHttpTransport(), new JacksonFactory(), credential)
+                            .setApplicationName(SERVICE_NAME)
                             .build();
             Tokeninfo tokenInfo = oauth2.tokeninfo().setAccessToken(accessToken).execute();
             if (tokenInfo.getIssuedTo().equals(SERVICE_CLIENT_ID)) {

@@ -155,7 +155,7 @@ public class ShowGraphServlet extends BaseServlet {
             }
         }
         if (endTime == null) {
-            endTime = System.currentTimeMillis() * MILLI_TO_MICRO;
+            endTime = TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis());
         }
         Long startTime = endTime - TimeUnit.DAYS.toMicros(1);
 

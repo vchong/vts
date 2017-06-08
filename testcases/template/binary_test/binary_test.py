@@ -165,7 +165,7 @@ class BinaryTest(base_test.BaseTestClass):
         self._dut.shell.InvokeTerminal("one", int(self.abi_bitness))
         self.shell = self._dut.shell.one
 
-        if self.coverage.enabled:
+        if self.coverage.enabled and self.coverage.global_coverage:
             self.coverage.LoadArtifacts()
             self.coverage.InitializeDeviceCoverage(self._dut)
 
@@ -305,7 +305,7 @@ class BinaryTest(base_test.BaseTestClass):
             self._dut.start()
 
         # Retrieve coverage if applicable
-        if self.coverage.enabled:
+        if self.coverage.enabled and self.coverage.global_coverage:
             self.coverage.SetCoverageData(dut=self._dut, isGlobal=True)
 
         # Clean up the pushed binaries

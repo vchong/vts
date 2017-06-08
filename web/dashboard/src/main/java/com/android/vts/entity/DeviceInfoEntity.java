@@ -145,11 +145,18 @@ public class DeviceInfoEntity implements DashboardEntity {
             return false;
         }
         DeviceInfoEntity device2 = (DeviceInfoEntity) obj;
-        if (this.branch != device2.branch || this.product != device2.product
-                || this.buildFlavor != device2.buildFlavor || this.buildId != device2.buildId) {
+        if (!this.branch.equals(device2.branch) || !this.product.equals(device2.product)
+                || !this.buildFlavor.equals(device2.buildFlavor)
+                || !this.buildId.equals(device2.buildId)) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        String deviceId = this.branch + this.product + this.buildFlavor + this.buildId;
+        return deviceId.hashCode();
     }
 
     /**

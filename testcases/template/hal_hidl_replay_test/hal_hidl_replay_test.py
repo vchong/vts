@@ -53,6 +53,9 @@ class HalHidlReplayTest(binary_test.BinaryTest):
                                           "hal-hidl-trace", trace_path),
                 path_utils.JoinTargetPath(self.DEVICE_TMP_DIR,
                                           "vts_replay_trace", trace_file_name))
+        if self.coverage.enabled:
+            # enable passthrough mode to measure code coverage.
+            self.shell.Execute('setprop vts.hidl.get_stub true')
 
     def getServiceName(self):
         """Get service name(s) for the given hal."""
@@ -113,7 +116,6 @@ class HalHidlReplayTest(binary_test.BinaryTest):
 
         test_suite = ''
         for trace_path in self.trace_paths:
-            logging.info("trace_path: %s", trace_path)
             trace_file_name = str(os.path.basename(trace_path))
             trace_path = path_utils.JoinTargetPath(
                 self.DEVICE_TMP_DIR, "vts_replay_trace", trace_file_name)
@@ -139,11 +141,32 @@ class HalHidlReplayTest(binary_test.BinaryTest):
                 trace_file_name = str(os.path.basename(trace_path))
                 target_trace_path = path_utils.JoinTargetPath(
                     self.DEVICE_TMP_DIR, "vts_replay_trace", trace_file_name)
-                cmd_results = self.shell.Execute("rm -f %s" % target_trace_path)
+                cmd_results = self.shell.Execute("rm -f %s" %
+                                                 target_trace_path)
                 if not cmd_results or any(cmd_results[const.EXIT_CODE]):
                     logging.warning("Failed to remove: %s", cmd_results)
 
+        if self.coverage.enabled:
+            # disable passthrough mode.
+            self.shell.Execute('setprop vts.hidl.get_stub false')
         super(HalHidlReplayTest, self).tearDownClass()
+
+    def setUp(self):
+        """Setup for code coverage for each test case."""
+        super(HalHidlReplayTest, self).setUp()
+        if self.coverage.enabled and not self.coverage.global_coverage:
+            # enable passthrough mode to measure code coverage.
+            self.shell.Execute('setprop vts.hidl.get_stub true')
+            self.coverage.LoadArtifacts()
+            self.coverage.InitializeDeviceCoverage(self._dut)
+
+    def tearDown(self):
+        """Generate the coverage data for each test case."""
+        if self.coverage.enabled and not self.coverage.global_coverage:
+            self.coverage.SetCoverageData(dut=self._dut, isGlobal=False)
+            # disable passthrough mode.
+            self.shell.Execute('setprop vts.hidl.get_stub false')
+        super(HalHidlReplayTest, self).tearDown()
 
 
 if __name__ == "__main__":

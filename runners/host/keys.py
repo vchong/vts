@@ -94,6 +94,7 @@ class ConfigKeys(object):
     IKEY_SERVICE_JSON_PATH = "service_key_json_path"
     IKEY_DASHBOARD_POST_COMMAND = "dashboard_post_command"
     IKEY_OUTPUT_COVERAGE_REPORT = "output_coverage_report"
+    IKEY_GLOBAL_COVERAGE = "global_coverage"
 
     # Keys for the HAL HIDL GTest type (see VtsMultiDeviceTest.java).
     IKEY_PRECONDITION_HWBINDER_SERVICE = "precondition_hwbinder_service"
