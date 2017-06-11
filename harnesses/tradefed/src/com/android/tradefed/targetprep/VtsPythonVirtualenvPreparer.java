@@ -36,6 +36,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.NoSuchElementException;
@@ -261,17 +263,38 @@ public class VtsPythonVirtualenvPreparer implements ITargetPreparer, ITargetClea
         try {
             mVenvDir = buildInfo.getFile(VIRTUAL_ENV_PATH);
             if (mVenvDir == null) {
-                mVenvDir = FileUtil.createTempDir(buildInfo.getTestTag() + "-virtualenv");
+                mVenvDir = FileUtil.createTempDir(getMD5(buildInfo.getTestTag()) + "-virtualenv");
             }
             String virtualEnvPath = mVenvDir.getAbsolutePath();
-            mRunUtil.runTimedCmd(BASE_TIMEOUT, "virtualenv", virtualEnvPath);
+            CommandResult c = mRunUtil.runTimedCmd(BASE_TIMEOUT, "virtualenv", virtualEnvPath);
+            if (c.getStatus() != CommandStatus.SUCCESS) {
+                CLog.e(String.format("Failed to create virtualenv with : %s.", virtualEnvPath));
+                throw new TargetSetupError("Failed to create virtualenv");
+            }
             CLog.i(VIRTUAL_ENV_PATH + " = " + virtualEnvPath + "\n");
             buildInfo.setFile(VIRTUAL_ENV_PATH, new File(virtualEnvPath),
                               buildInfo.getBuildId());
             activate();
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             CLog.e("Failed to create temp directory for virtualenv");
             throw new TargetSetupError("Error creating virtualenv", e);
+        }
+    }
+
+    /**
+     * This method returns a MD5 hash string for the given string.
+     */
+    private String getMD5(String str) throws RuntimeException {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(str.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error generating MD5 hash.", e);
         }
     }
 

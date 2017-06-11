@@ -23,14 +23,16 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.protobuf.ByteString;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /** Entity describing a profiling point execution. */
 public class ProfilingPointRunEntity implements DashboardEntity {
-    protected static final Logger logger = Logger.getLogger(
-            ProfilingPointRunEntity.class.getName());
+    protected static final Logger logger =
+            Logger.getLogger(ProfilingPointRunEntity.class.getName());
 
     public static final String KIND = "ProfilingPointRun";
 
@@ -41,6 +43,7 @@ public class ProfilingPointRunEntity implements DashboardEntity {
     public static final String VALUES = "values";
     public static final String X_LABEL = "xLabel";
     public static final String Y_LABEL = "yLabel";
+    public static final String OPTIONS = "options";
 
     private final Key parentKey;
 
@@ -51,6 +54,7 @@ public class ProfilingPointRunEntity implements DashboardEntity {
     public final List<Long> values;
     public final String xLabel;
     public final String yLabel;
+    public final List<String> options;
 
     /**
      * Create a ProfilingPointRunEntity object.
@@ -63,9 +67,11 @@ public class ProfilingPointRunEntity implements DashboardEntity {
      * @param values List of data values.
      * @param xLabel The x axis label.
      * @param yLabel The y axis label.
+     * @param options The list of key=value options for the profiling point run.
      */
     public ProfilingPointRunEntity(Key parentKey, String name, int type, int regressionMode,
-            List<String> labels, List<Long> values, String xLabel, String yLabel) {
+            List<String> labels, List<Long> values, String xLabel, String yLabel,
+            List<String> options) {
         this.parentKey = parentKey;
         this.name = name;
         this.type = VtsProfilingType.valueOf(type);
@@ -74,6 +80,7 @@ public class ProfilingPointRunEntity implements DashboardEntity {
         this.values = new ArrayList<>(values);
         this.xLabel = xLabel;
         this.yLabel = yLabel;
+        this.options = options;
     }
 
     @Override
@@ -87,6 +94,9 @@ public class ProfilingPointRunEntity implements DashboardEntity {
         profilingRun.setUnindexedProperty(VALUES, this.values);
         profilingRun.setUnindexedProperty(X_LABEL, this.xLabel);
         profilingRun.setUnindexedProperty(Y_LABEL, this.yLabel);
+        if (this.options != null) {
+            profilingRun.setUnindexedProperty(OPTIONS, this.options);
+        }
 
         return profilingRun;
     }
@@ -118,8 +128,12 @@ public class ProfilingPointRunEntity implements DashboardEntity {
             if (e.hasProperty(LABELS)) {
                 labels = (List<String>) e.getProperty(LABELS);
             }
+            List<String> options = null;
+            if (e.hasProperty(OPTIONS)) {
+                options = (List<String>) e.getProperty(OPTIONS);
+            }
             return new ProfilingPointRunEntity(
-                    parentKey, name, type, regressionMode, labels, values, xLabel, yLabel);
+                    parentKey, name, type, regressionMode, labels, values, xLabel, yLabel, options);
         } catch (ClassCastException exception) {
             // Invalid cast
             logger.log(Level.WARNING, "Error parsing profiling point run entity.", exception);
@@ -177,7 +191,14 @@ public class ProfilingPointRunEntity implements DashboardEntity {
             default: // should never happen
                 return null;
         }
+        List<String> options = null;
+        if (profilingReport.getOptionsCount() > 0) {
+            options = new ArrayList<>();
+            for (ByteString optionBytes : profilingReport.getOptionsList()) {
+                options.add(optionBytes.toStringUtf8());
+            }
+        }
         return new ProfilingPointRunEntity(parentKey, name, type.getNumber(),
-                regressionMode.getNumber(), labels, values, xLabel, yLabel);
+                regressionMode.getNumber(), labels, values, xLabel, yLabel, options);
     }
 }

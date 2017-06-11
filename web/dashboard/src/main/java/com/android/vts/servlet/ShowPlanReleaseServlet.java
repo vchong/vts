@@ -52,18 +52,15 @@ public class ShowPlanReleaseServlet extends BaseServlet {
     private static final int MAX_RUNS_PER_PAGE = 90;
 
     @Override
-    public List<String[]> getNavbarLinks(HttpServletRequest request) {
-        List<String[]> links = new ArrayList<>();
-        Page root = Page.HOME;
-        String[] rootEntry = new String[] {root.getUrl(), root.getName()};
-        links.add(rootEntry);
+    public PageType getNavParentType() {
+        return PageType.RELEASE;
+    }
 
-        Page release = Page.PLAN_RELEASE;
+    @Override
+    public List<Page> getBreadcrumbLinks(HttpServletRequest request) {
+        List<Page> links = new ArrayList<>();
         String planName = request.getParameter("plan");
-        String name = release.getName() + planName.toUpperCase();
-        String url = release.getUrl() + "?plan=" + planName;
-        String[] tableEntry = new String[] {url, name};
-        links.add(tableEntry);
+        links.add(new Page(PageType.PLAN_RELEASE, planName.toUpperCase(), "?plan=" + planName));
         return links;
     }
 

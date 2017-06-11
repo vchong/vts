@@ -67,7 +67,7 @@ public class VtsPerformanceJobServletTest {
             valueList.add(value);
         }
         return new ProfilingPointRunEntity(KeyFactory.createKey(TestEntity.KIND, "test"), "name", 0,
-                regressionMode.getNumber(), labelList, valueList, "", "");
+                regressionMode.getNumber(), labelList, valueList, "", "", null);
     }
 
     /** Asserts whether text is the same as the contents in the baseline file specified. */

@@ -58,12 +58,13 @@ public class DashboardMainServlet extends BaseServlet {
     private static final String DOWN_ARROW = "keyboard_arrow_down";
 
     @Override
-    public List<String[]> getNavbarLinks(HttpServletRequest request) {
-        List<String[]> links = new ArrayList<>();
-        Page root = Page.HOME;
-        String[] rootEntry = new String[] {root.getUrl(), root.getName()};
-        links.add(rootEntry);
-        return links;
+    public PageType getNavParentType() {
+        return PageType.TOT;
+    }
+
+    @Override
+    public List<Page> getBreadcrumbLinks(HttpServletRequest request) {
+        return null;
     }
 
     /** Helper class for displaying test entries on the main dashboard. */

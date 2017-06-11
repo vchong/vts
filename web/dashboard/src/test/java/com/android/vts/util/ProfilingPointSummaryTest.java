@@ -54,7 +54,7 @@ public class ProfilingPointSummaryTest {
             valueList.add(value);
         }
         return new ProfilingPointRunEntity(KeyFactory.createKey(TestEntity.KIND, "test"), "name", 0,
-                regressionMode.getNumber(), labelList, valueList, "x", "y");
+                regressionMode.getNumber(), labelList, valueList, "x", "y", null);
     }
 
     @Before

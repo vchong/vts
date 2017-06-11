@@ -66,23 +66,16 @@ public class ShowPerformanceDigestServlet extends BaseServlet {
     }
 
     @Override
-    public List<String[]> getNavbarLinks(HttpServletRequest request) {
-        List<String[]> links = new ArrayList<>();
-        Page root = Page.HOME;
-        String[] rootEntry = new String[] {root.getUrl(), root.getName()};
-        links.add(rootEntry);
+    public PageType getNavParentType() {
+        return PageType.TOT;
+    }
 
-        Page table = Page.TABLE;
+    @Override
+    public List<Page> getBreadcrumbLinks(HttpServletRequest request) {
+        List<Page> links = new ArrayList<>();
         String testName = request.getParameter("testName");
-        String name = table.getName() + testName;
-        String url = table.getUrl() + "?testName=" + testName;
-        String[] tableEntry = new String[] {url, name};
-        links.add(tableEntry);
-
-        Page perf = Page.PERFORMANCE;
-        url = perf.getUrl() + "?testName=" + testName;
-        String[] perfEntry = new String[] {url, perf.getName()};
-        links.add(perfEntry);
+        links.add(new Page(PageType.TABLE, testName, "?testName=" + testName));
+        links.add(new Page(PageType.PERFORMANCE, "?testName=" + testName));
         return links;
     }
 

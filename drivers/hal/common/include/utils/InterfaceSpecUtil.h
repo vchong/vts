@@ -34,6 +34,10 @@ string GetFunctionNamePrefix(const ComponentSpecificationMessage& message);
 // Get HAL version string to be used to build a relevant dir path.
 string GetVersionString(float version, bool for_macro=false);
 
+// Get the full interface name for a Hidl Hal,
+// e.g. ::android::hardware::nfc::V1_0::INfc.
+string GetFullInterfaceName(const string& package_name, const float version,
+                            const string& interface_name);
 }  // namespace vts
 }  // namespace android
 

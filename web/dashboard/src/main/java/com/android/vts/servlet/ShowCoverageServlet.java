@@ -42,24 +42,18 @@ public class ShowCoverageServlet extends BaseServlet {
     private static final String COVERAGE_JSP = "WEB-INF/jsp/show_coverage.jsp";
 
     @Override
-    public List<String[]> getNavbarLinks(HttpServletRequest request) {
-        List<String[]> links = new ArrayList<>();
-        Page root = Page.HOME;
-        String[] rootEntry = new String[] {root.getUrl(), root.getName()};
-        links.add(rootEntry);
+    public PageType getNavParentType() {
+        return PageType.TOT;
+    }
 
-        Page table = Page.TABLE;
+    @Override
+    public List<Page> getBreadcrumbLinks(HttpServletRequest request) {
+        List<Page> links = new ArrayList<>();
         String testName = request.getParameter("testName");
-        String name = table.getName() + testName;
-        String url = table.getUrl() + "?testName=" + testName;
-        String[] tableEntry = new String[] {url, name};
-        links.add(tableEntry);
+        links.add(new Page(PageType.TABLE, testName, "?testName=" + testName));
 
-        Page coverage = Page.COVERAGE;
         String startTime = request.getParameter("startTime");
-        url = coverage.getUrl() + "?testName=" + testName + "&startTime=" + startTime;
-        String[] coverageEntry = new String[] {url, coverage.getName()};
-        links.add(coverageEntry);
+        links.add(new Page(PageType.COVERAGE, "?testName=" + testName + "&startTime=" + startTime));
         return links;
     }
 

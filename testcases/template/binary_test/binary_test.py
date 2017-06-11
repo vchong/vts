@@ -187,9 +187,6 @@ class BinaryTest(base_test.BaseTestClass):
             logging.error('Failed to set permission to some of the binaries:\n'
                           '%s\n%s', cmd, cmd_results)
 
-        self.include_filter = self.ExpandListItemTags(self.include_filter)
-        self.exclude_filter = self.ExpandListItemTags(self.exclude_filter)
-
         stop_requested = False
 
         if getattr(self, keys.ConfigKeys.IKEY_BINARY_TEST_DISABLE_FRAMEWORK,

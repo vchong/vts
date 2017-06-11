@@ -59,9 +59,9 @@ class BaseTestClass(object):
              name.
         results: A records.TestResult object for aggregating test results from
                  the execution of test cases.
-        currentTestName: A string that's the name of the test case currently
-                           being executed. If no test is executing, this should
-                           be None.
+        _current_record: A records.TestResultRecord object for the test case
+                         currently being executed. If no test is running, this
+                         should be None.
         include_filer: A list of string, each representing a test case name to
                        include.
         exclude_filer: A list of string, each representing a test case name to
@@ -85,7 +85,7 @@ class BaseTestClass(object):
         for name, value in configs.items():
             setattr(self, name, value)
         self.results = records.TestResult()
-        self.currentTestName = None
+        self._current_record = None
 
         # Setup test filters
         self.include_filter = self.getUserParam(
@@ -100,8 +100,13 @@ class BaseTestClass(object):
                 keys.ConfigKeys.KEY_EXCLUDE_FILTER
             ],
             default_value=[])
-        self.include_filter = list_utils.ItemsToStr(self.include_filter)
-        self.exclude_filter = list_utils.ItemsToStr(self.exclude_filter)
+
+        self.include_filter = self.ExpandFilterBitness(
+            list_utils.ExpandItemDelimiters(
+                list_utils.ItemsToStr(self.include_filter), ','))
+        self.exclude_filter = self.ExpandFilterBitness(
+            list_utils.ExpandItemDelimiters(
+                list_utils.ItemsToStr(self.exclude_filter), ','))
 
         # TODO: get abi information differently for multi-device support.
         # Set other optional parameters
@@ -271,11 +276,16 @@ class BaseTestClass(object):
         """
         pass
 
-    def _testEntry(self, test_name):
-        """Internal function to be called upon entry of a test case."""
-        self.currentTestName = test_name
+    def _testEntry(self, test_record):
+        """Internal function to be called upon entry of a test case.
+
+        Args:
+            test_record: The TestResultRecord object for the test case going to
+                         be executed.
+        """
+        self._current_record = test_record
         if self.web.enabled:
-            self.web.AddTestReport(test_name)
+            self.web.AddTestReport(test_record.test_name)
 
     def _setUp(self, test_name):
         """Proxy function to guarantee the base implementation of setUp is
@@ -296,9 +306,9 @@ class BaseTestClass(object):
         Implementation is optional.
         """
 
-    def _testExit(self, test_name):
+    def _testExit(self):
         """Internal function to be called upon exit of a test."""
-        self.currentTestName = None
+        self._current_record = None
 
     def _tearDown(self, test_name):
         """Proxy function to guarantee the base implementation of tearDown
@@ -315,14 +325,11 @@ class BaseTestClass(object):
         Implementation is optional.
         """
 
-    def _onFail(self, record):
+    def _onFail(self):
         """Proxy function to guarantee the base implementation of onFail is
         called.
-
-        Args:
-            record: The records.TestResultRecord object for the failed test
-                    case.
         """
+        record = self._current_record
         test_name = record.test_name
         logging.error(record.details)
         begin_time = logger.epochToLogLineTimestamp(record.begin_time)
@@ -341,14 +348,11 @@ class BaseTestClass(object):
             begin_time: Logline format timestamp taken when the test started.
         """
 
-    def _onPass(self, record):
+    def _onPass(self):
         """Proxy function to guarantee the base implementation of onPass is
         called.
-
-        Args:
-            record: The records.TestResultRecord object for the passed test
-                    case.
         """
+        record = self._current_record
         test_name = record.test_name
         begin_time = logger.epochToLogLineTimestamp(record.begin_time)
         msg = record.details
@@ -369,14 +373,11 @@ class BaseTestClass(object):
             begin_time: Logline format timestamp taken when the test started.
         """
 
-    def _onSkip(self, record):
+    def _onSkip(self):
         """Proxy function to guarantee the base implementation of onSkip is
         called.
-
-        Args:
-            record: The records.TestResultRecord object for the skipped test
-                    case.
         """
+        record = self._current_record
         test_name = record.test_name
         begin_time = logger.epochToLogLineTimestamp(record.begin_time)
         logging.info(RESULT_LINE_TEMPLATE, test_name, record.result)
@@ -395,14 +396,11 @@ class BaseTestClass(object):
             begin_time: Logline format timestamp taken when the test started.
         """
 
-    def _onSilent(self, record):
+    def _onSilent(self):
         """Proxy function to guarantee the base implementation of onSilent is
         called.
-
-        Args:
-            record: The records.TestResultRecord object for the skipped test
-                    case.
         """
+        record = self._current_record
         test_name = record.test_name
         begin_time = logger.epochToLogLineTimestamp(record.begin_time)
         if self.web.enabled:
@@ -419,14 +417,11 @@ class BaseTestClass(object):
             begin_time: Logline format timestamp taken when the test started.
         """
 
-    def _onException(self, record):
+    def _onException(self):
         """Proxy function to guarantee the base implementation of onException
         is called.
-
-        Args:
-            record: The records.TestResultRecord object for the failed test
-                    case.
         """
+        record = self._current_record
         test_name = record.test_name
         logging.exception(record.details)
         begin_time = logger.epochToLogLineTimestamp(record.begin_time)
@@ -445,7 +440,7 @@ class BaseTestClass(object):
             begin_time: Logline format timestamp taken when the test started.
         """
 
-    def _exec_procedure_func(self, func, tr_record):
+    def _exec_procedure_func(self, func):
         """Executes a procedure function like onPass, onFail etc.
 
         This function will alternate the 'Result' of the test's record if
@@ -456,17 +451,55 @@ class BaseTestClass(object):
 
         Args:
             func: The procedure function to be executed.
-            tr_record: The TestResultRecord object associated with the test
-                       case executed.
         """
+        record = self._current_record
+        if record is None:
+            logging.error("Cannot execute %s. No record for current test.",
+                          func.__name__)
+            return
         try:
-            func(tr_record)
+            func()
         except signals.TestAbortAll:
             raise
         except Exception as e:
             logging.exception("Exception happened when executing %s for %s.",
-                              func.__name__, self.currentTestName)
-            tr_record.addError(func.__name__, e)
+                              func.__name__, record.test_name)
+            record.addError(func.__name__, e)
+
+    def addTableToResult(self, name, rows):
+        """Adds a table to current test record.
+
+        A subclass can call this method to add a table to _current_record when
+        running test cases.
+
+        Args:
+            name: String, the table name.
+            rows: A 2-dimensional list which contains the data.
+        """
+        self._current_record.addTable(name, rows)
+
+    def ExpandFilterBitness(self, input_list):
+        '''Expand filter items with bitness suffix.
+
+        If a filter item contains bitness suffix, only test name with that tag will be included
+        in output.
+        Otherwise, both 32bit and 64bit suffix will be paired to the test name in output
+        list.
+
+        Args:
+            input_list: list of string, the list to expand
+
+        Returns:
+            A list of string
+        '''
+        result = []
+        for item in input_list:
+            result.append(str(item))
+            if (not item.endswith(const.SUFFIX_32BIT) and
+                    not item.endswith(const.SUFFIX_64BIT)):
+                result.append("%s_%s" % (item, const.SUFFIX_32BIT))
+                result.append("%s_%s" % (item, const.SUFFIX_64BIT))
+        return list_utils.DeduplicateKeepOrder(result)
 
     def filterOneTest(self, test_name):
         """Check test filters for a test name.
@@ -498,14 +531,15 @@ class BaseTestClass(object):
         """
         if self.include_filter:
             if test_name not in self.include_filter:
-                logging.info(
-                    "Test case '%s' not in include filter." % test_name)
-                raise signals.TestSilent(
-                    "Test case '%s' not in include filter." % test_name)
+                msg = "Test case '%s' not in include filter %s." % (
+                    test_name, self.include_filter)
+                logging.info(msg)
+                raise signals.TestSilent(msg)
         elif test_name in self.exclude_filter:
-            logging.info("Test case '%s' in exclude filter." % test_name)
-            raise signals.TestSilent(
-                "Test case '%s' in exclude filter." % test_name)
+            msg = "Test case '%s' in exclude filter %s." % (
+                test_name, self.exclude_filter)
+            logging.info(msg)
+            raise signals.TestSilent(msg)
 
         if self._skip_all_testcases:
             raise signals.TestSkip("All test cases skipped.")
@@ -540,7 +574,7 @@ class BaseTestClass(object):
         logging.info("%s %s", TEST_CASE_TOKEN, test_name)
         verdict = None
         try:
-            ret = self._testEntry(test_name)
+            ret = self._testEntry(tr_record)
             asserts.assertTrue(ret is not False,
                                "Setup test entry for %s failed." % test_name)
             self.filterOneTest(test_name)
@@ -557,11 +591,11 @@ class BaseTestClass(object):
                 self._tearDown(test_name)
         except (signals.TestFailure, AssertionError) as e:
             tr_record.testFail(e)
-            self._exec_procedure_func(self._onFail, tr_record)
+            self._exec_procedure_func(self._onFail)
         except signals.TestSkip as e:
             # Test skipped.
             tr_record.testSkip(e)
-            self._exec_procedure_func(self._onSkip, tr_record)
+            self._exec_procedure_func(self._onSkip)
         except (signals.TestAbortClass, signals.TestAbortAll) as e:
             # Abort signals, pass along.
             tr_record.testFail(e)
@@ -569,34 +603,34 @@ class BaseTestClass(object):
         except signals.TestPass as e:
             # Explicit test pass.
             tr_record.testPass(e)
-            self._exec_procedure_func(self._onPass, tr_record)
+            self._exec_procedure_func(self._onPass)
         except signals.TestSilent as e:
             # Suppress test reporting.
             is_silenced = True
-            self._exec_procedure_func(self._onSilent, tr_record)
+            self._exec_procedure_func(self._onSilent)
             self.results.requested.remove(test_name)
         except Exception as e:
             # Exception happened during test.
             logging.exception(e)
             tr_record.testError(e)
-            self._exec_procedure_func(self._onException, tr_record)
-            self._exec_procedure_func(self._onFail, tr_record)
+            self._exec_procedure_func(self._onException)
+            self._exec_procedure_func(self._onFail)
         else:
             # Keep supporting return False for now.
             # TODO(angli): Deprecate return False support.
             if verdict or (verdict is None):
                 # Test passed.
                 tr_record.testPass()
-                self._exec_procedure_func(self._onPass, tr_record)
+                self._exec_procedure_func(self._onPass)
                 return
             # Test failed because it didn't return True.
             # This should be removed eventually.
             tr_record.testFail()
-            self._exec_procedure_func(self._onFail, tr_record)
+            self._exec_procedure_func(self._onFail)
         finally:
             if not is_silenced:
                 self.results.addRecord(tr_record)
-            self._testExit(test_name)
+            self._testExit()
 
     def runGeneratedTests(self,
                           test_func,

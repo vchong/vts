@@ -62,7 +62,7 @@ public class PerformanceSummary {
         }
 
         String name = pt.name;
-        String optionSuffix = PerformanceUtil.getOptionAlias(profilingRun, optionSplitKeys);
+        String optionSuffix = PerformanceUtil.getOptionAlias(pt, optionSplitKeys);
 
         if (pt.labels != null) {
             if (pt.labels.size() != pt.values.size()) {

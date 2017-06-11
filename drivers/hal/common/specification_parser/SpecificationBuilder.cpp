@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 #include "specification_parser/SpecificationBuilder.h"
 
 #include <dirent.h>
@@ -29,11 +28,11 @@
 #include "fuzz_tester/FuzzerBase.h"
 #include "fuzz_tester/FuzzerWrapper.h"
 #include "specification_parser/InterfaceSpecificationParser.h"
+#include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 #include "utils/InterfaceSpecUtil.h"
 #include "utils/StringUtil.h"
 
 #include <google/protobuf/text_format.h>
-#include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 
 namespace android {
 namespace vts {
@@ -57,7 +56,7 @@ SpecificationBuilder::FindComponentSpecification(const int target_class,
                                                  const string component_name) {
   DIR* dir;
   struct dirent* ent;
-  cerr << __func__ << ": component " << component_name << endl;
+  cout << __func__ << ": component " << component_name << endl;
 
   // Derive the package-specific dir which contains .vts files
   string target_dir_path = dir_path_;
@@ -125,44 +124,25 @@ FuzzerBase* SpecificationBuilder::GetFuzzerBase(
     const vts::ComponentSpecificationMessage& iface_spec_msg,
     const char* dll_file_name, const char* /*target_func_name*/) {
   cout << __func__ << ":" << __LINE__ << " " << "entry" << endl;
-  FuzzerBase* fuzzer = wrapper_.GetFuzzer(iface_spec_msg);
-  if (!fuzzer) {
-    cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
-    return NULL;
-  }
 
-  // TODO: don't load multiple times. reuse FuzzerBase*.
-  cout << __func__ << ":" << __LINE__ << " " << "got fuzzer" << endl;
+  FuzzerBase* fuzzer = nullptr;
   if (iface_spec_msg.component_class() == HAL_HIDL) {
-    char get_sub_property[PROPERTY_VALUE_MAX];
-    bool get_stub = false;  /* default is binderized */
-    if (property_get("vts.hidl.get_stub", get_sub_property, "") > 0) {
-      if (!strcmp(get_sub_property, "true") ||
-          !strcmp(get_sub_property, "True") ||
-          !strcmp(get_sub_property, "1")) {
-        get_stub = true;
-      }
-    }
-    const char* service_name;
-    if (hw_binder_service_name_ && strlen(hw_binder_service_name_) > 0) {
-      service_name = hw_binder_service_name_;
-    } else {
-      service_name = iface_spec_msg.package().substr(
-          iface_spec_msg.package().find_last_of(".") + 1).c_str();
-    }
-    if (!fuzzer->GetService(get_stub, service_name)) {
-      cerr << __FUNCTION__ << ": couldn't get service" << endl;
+    fuzzer = GetHidlInterfaceFuzzerBase(iface_spec_msg.package(),
+                                        iface_spec_msg.component_type_version(),
+                                        iface_spec_msg.component_name(), "");
+  } else {
+    fuzzer = wrapper_.GetFuzzer(iface_spec_msg);
+    if (!fuzzer) {
+      cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
       return NULL;
     }
-  } else {
     if (!fuzzer->LoadTargetComponent(dll_file_name)) {
       cerr << __FUNCTION__ << ": couldn't load target component file, "
            << dll_file_name << endl;
       return NULL;
     }
   }
-  cout << __func__ << ":" << __LINE__ << " "
-       << "loaded target comp" << endl;
+  cout << __func__ << ":" << __LINE__ << " loaded target comp" << endl;
 
   return fuzzer;
   /*
@@ -284,11 +264,11 @@ bool SpecificationBuilder::LoadTargetComponent(
   if (target_class == HAL_HIDL) {
     asprintf(&spec_lib_file_path_, "%s@%s-vts.driver.so", target_package,
              GetVersionString(target_version).c_str());
-    cout << __func__ << " spec lib path " << spec_lib_file_path_ << endl;
   } else {
     spec_lib_file_path_ = (char*)malloc(strlen(spec_lib_file_path) + 1);
     strcpy(spec_lib_file_path_, spec_lib_file_path);
   }
+  cout << __func__ << " spec lib path " << spec_lib_file_path_ << endl;
 
   dll_file_name_ = (char*)malloc(strlen(dll_file_name) + 1);
   strcpy(dll_file_name_, dll_file_name);
@@ -308,22 +288,23 @@ bool SpecificationBuilder::LoadTargetComponent(
     cout << __func__ << ":" << __LINE__ << " hw_binder_service_name "
          << hw_binder_service_name_ << endl;
   }
+
+  if (!wrapper_.LoadInterfaceSpecificationLibrary(spec_lib_file_path_)) {
+    cerr << __func__ << ":" << __LINE__ << " lib loading failed" << endl;
+    return false;
+  }
   return true;
 }
 
 const string empty_string = string();
 
-FuzzerBase* SpecificationBuilder::GetFuzzerBase(
-    const string& name, const uint64_t interface_pt) const {
-  return wrapper_.GetFuzzer(name, interface_pt);
-}
-
 int32_t SpecificationBuilder::RegisterHidlInterface(
-    const string& name, const uint64_t interface_pt) {
+    const string& interface_name, const uint64_t interface_pt) {
   FuzzerBase* fuzz_base_pt;
   int32_t max_id = 0;
   for (auto it : interface_map_) {
-    if (get<0>(it.second) == name && get<2>(it.second) == interface_pt) {
+    if (get<0>(it.second) == interface_name &&
+        get<2>(it.second) == interface_pt) {
       return it.first;
     }
     if (it.first > max_id) {
@@ -331,9 +312,9 @@ int32_t SpecificationBuilder::RegisterHidlInterface(
     }
   }
   max_id++;
-  fuzz_base_pt = GetFuzzerBase(name, interface_pt);
-  interface_map_.insert(
-      make_pair(max_id, make_tuple(name, fuzz_base_pt, interface_pt)));
+  fuzz_base_pt = wrapper_.GetFuzzer(interface_name, interface_pt);
+  interface_map_.insert(make_pair(
+      max_id, make_tuple(interface_name, fuzz_base_pt, interface_pt)));
   return max_id;
 }
 
@@ -344,25 +325,75 @@ uint64_t SpecificationBuilder::GetHidlInterfacePointer(const int32_t id) const {
   return reinterpret_cast<uint64_t>(get<2>(res->second));
 }
 
-FuzzerBase* SpecificationBuilder::GetHidlInterfaceFuzzerBase(
+FuzzerBase* SpecificationBuilder::GetHidlInterfaceFuzzerBaseById(
     const int32_t id) const {
   cout << __func__ << " *** id " << id << endl;
   auto res = interface_map_.find(id);
-  if (res == interface_map_.end()) return nullptr;
+  if (res == interface_map_.end()) {
+    cerr << "Failed to find FuzzerBase with id: " << id << endl;
+    return nullptr;
+  }
   cout << __func__ << " *** id " << id << " found" << endl;
   return reinterpret_cast<FuzzerBase*>(get<1>(res->second));
+}
+
+FuzzerBase* SpecificationBuilder::GetHidlInterfaceFuzzerBase(
+    const string& package_name, const float version,
+    const string& interface_name, const string& hal_service_name) {
+  const string& full_interface_name =
+      GetFullInterfaceName(package_name, version, interface_name);
+  // Search for interface_map_, if found, return directly.
+  for (auto it : interface_map_) {
+    // Note there might be multiple instances of the same interface registered
+    // in the map, for now, just return the first one that matches.
+    if (get<0>(it.second) == full_interface_name) {
+      return get<1>(it.second);
+    }
+  }
+  // Otherwise, try to create a new FuzzerBase based on iface_spec_msg.
+  string service_name;
+  if (!hal_service_name.empty()) {
+    service_name = hal_service_name;
+  } else if (hw_binder_service_name_ && strlen(hw_binder_service_name_) > 0) {
+    service_name = string(hw_binder_service_name_);
+  } else {
+    service_name = package_name.substr(package_name.find_last_of(".") + 1);
+  }
+
+  if (!if_spec_msg_) {
+    if (!LoadTargetComponent("", "", HAL_HIDL, 0, version, package_name.c_str(),
+                             interface_name.c_str(), service_name.c_str(),
+                             "")) {
+      cerr << __func__ << ": can not load target component.";
+      return nullptr;
+    }
+  }
+  FuzzerBase* fuzzer = wrapper_.GetFuzzer(*if_spec_msg_);
+  if (!fuzzer) {
+    cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
+    return nullptr;
+  }
+  cout << __func__ << ":" << __LINE__ << " "
+       << "got fuzzer" << endl;
+  char get_sub_property[PROPERTY_VALUE_MAX];
+  bool get_stub = false; /* default is binderized */
+  if (property_get("vts.hidl.get_stub", get_sub_property, "") > 0) {
+    if (!strcmp(get_sub_property, "true") ||
+        !strcmp(get_sub_property, "True") || !strcmp(get_sub_property, "1")) {
+      get_stub = true;
+    }
+  }
+  if (!fuzzer->GetService(get_stub, service_name.c_str())) {
+    cerr << __FUNCTION__ << ": couldn't get service" << endl;
+    return NULL;
+  }
+  cout << __func__ << ":" << __LINE__ << " loaded target comp" << endl;
+  return fuzzer;
 }
 
 const string& SpecificationBuilder::CallFunction(
     FunctionSpecificationMessage* func_msg) {
   cout << __func__ << ":" << __LINE__ << " entry" << endl;
-  if (!wrapper_.LoadInterfaceSpecificationLibrary(spec_lib_file_path_)) {
-    cerr << __func__ << ":" << __LINE__ << " lib loading failed" << endl;
-    return empty_string;
-  }
-  cout << __func__ << ":" << __LINE__ << " "
-       << "loaded if_spec lib " << func_msg << endl;
-  cout << __func__ << " " << dll_file_name_ << " " << func_msg->name() << endl;
 
   FuzzerBase* func_fuzzer;
   if (func_msg->submodule_name().size() > 0) {
@@ -377,12 +408,18 @@ const string& SpecificationBuilder::CallFunction(
       return empty_string;
     }
   } else {
-    if (func_msg->hidl_interface_id() == 0 ||
-        (if_spec_msg_ && if_spec_msg_->component_class() != HAL_HIDL)) {
+    // If hidl_interface_id is specified, get fuzzer base from the interface_map
+    // directly.
+    if (func_msg->hidl_interface_id() != 0) {
+      func_fuzzer =
+          GetHidlInterfaceFuzzerBaseById(func_msg->hidl_interface_id());
+    } else {
+      if (!if_spec_msg_) {
+        cerr << "interface specification not loaded. " << endl;
+        return empty_string;
+      }
       func_fuzzer = GetFuzzerBase(*if_spec_msg_, dll_file_name_,
                                   func_msg->name().c_str());
-    } else {
-      func_fuzzer = GetHidlInterfaceFuzzerBase(func_msg->hidl_interface_id());
     }
   }
   cout << __func__ << ":" << __LINE__ << endl;

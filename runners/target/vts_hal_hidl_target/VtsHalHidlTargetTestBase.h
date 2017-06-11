@@ -19,6 +19,7 @@
 
 #include <gtest/gtest.h>
 #include <hidl/HidlSupport.h>
+#include <utils/Log.h>
 #include <utils/RefBase.h>
 
 #define VTS_HAL_HIDL_GET_STUB "VTS_HAL_HIDL_GET_STUB"
@@ -30,16 +31,51 @@ using ::android::sp;
 // VTS target side test template
 class VtsHalHidlTargetTestBase : public ::testing::Test {
  public:
+  virtual void SetUp() override {
+    ALOGI("[Test Case] %s.%s BEGIN", getTestSuiteName().c_str(),
+          getTestCaseName().c_str());
+    ::std::string testCaseInfo = getTestCaseInfo();
+    if (testCaseInfo.size()) {
+      ALOGD("Test case info: %s", testCaseInfo.c_str());
+    }
+  }
+
+  virtual void TearDown() override {
+    ALOGI("[Test Case] %s.%s END", getTestSuiteName().c_str(),
+          getTestCaseName().c_str());
+  }
+
+  /*
+   * Return test suite name as string.
+   */
+  ::std::string getTestSuiteName() {
+    return ::testing::UnitTest::GetInstance()->current_test_info()->name();
+  }
+
+  /*
+   * Return test case name as string.
+   */
+  ::std::string getTestCaseName() {
+    return ::testing::UnitTest::GetInstance()
+        ->current_test_info()
+        ->test_case_name();
+  }
+
+  /*
+   * Return test case info as string.
+   */
+  ::std::string getTestCaseInfo() { return ""; }
+
   /*
    * Get value of system property as string on target
    */
-  static std::string PropertyGet(const char* name);
+  static ::std::string PropertyGet(const char* name);
 
   /*
    * Call interface's getService and use passthrough mode if set from host.
    */
   template <class T>
-  static sp<T> getService(const std::string& serviceName = "default") {
+  static sp<T> getService(const ::std::string& serviceName = "default") {
     return T::getService(serviceName, VtsHalHidlTargetTestBase::VtsGetStub());
   }
 

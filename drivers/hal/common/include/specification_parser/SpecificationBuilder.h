@@ -27,7 +27,7 @@
 
 using namespace std;
 
-#define DEFAULT_SPEC_DIR_PATH "/system/etc/"
+#define DEFAULT_SPEC_DIR_PATH "/data/local/tmp/spec/"
 #define SPEC_FILE_EXT ".vts"
 
 namespace android {
@@ -80,9 +80,9 @@ class SpecificationBuilder {
                            const char* hw_binder_service_name,
                            const char* module_name);
 
-  FuzzerBase* GetFuzzerBase(
-      const ComponentSpecificationMessage& iface_spec_msg,
-      const char* dll_file_name, const char* target_func_name);
+  FuzzerBase* GetFuzzerBase(const ComponentSpecificationMessage& iface_spec_msg,
+                            const char* dll_file_name,
+                            const char* target_func_name);
 
   FuzzerBase* GetFuzzerBaseSubModule(
       const vts::ComponentSpecificationMessage& iface_spec_msg,
@@ -91,20 +91,22 @@ class SpecificationBuilder {
   // Returns the loaded interface specification message.
   ComponentSpecificationMessage* GetComponentSpecification() const;
 
+  // Gets the FuzzerBase pointer for a Hidl Hal interface.
+  FuzzerBase* GetHidlInterfaceFuzzerBase(const string& package_name,
+                                         const float version,
+                                         const string& interface_name,
+                                         const string& hal_service_name);
+
  protected:
   // Registers a HIDL interface (proxy) in a map.
-  int32_t RegisterHidlInterface(const string& name,
+  int32_t RegisterHidlInterface(const string& interface_name,
                                 const uint64_t interface_pt);
 
   // Returns a pre-registered HIDL interface proxy object's pointer address.
   uint64_t GetHidlInterfacePointer(const int32_t id) const;
 
   // Returns FuzzerBase pointer of a pre-registered HIDL interface proxy.
-  FuzzerBase* GetHidlInterfaceFuzzerBase(const int32_t id) const;
-
-  // Creates and returns FuzzerBase pointer of a HIDL interface (proxy).
-  FuzzerBase* GetFuzzerBase(const string& name,
-                            const uint64_t interface_pt) const;
+  FuzzerBase* GetHidlInterfaceFuzzerBaseById(const int32_t id) const;
 
  private:
   // A FuzzerWrapper instance.

@@ -17,6 +17,7 @@
 """
 
 import json
+import logging
 import pprint
 
 from vts.runners.host import signals
@@ -39,6 +40,7 @@ class TestResultEnums(object):
     RECORD_EXTRAS = "Extras"
     RECORD_EXTRA_ERRORS = "Extra Errors"
     RECORD_DETAILS = "Details"
+    RECORD_TABLES = "Tables"
     TEST_RESULT_PASS = "PASS"
     TEST_RESULT_FAIL = "FAIL"
     TEST_RESULT_SKIP = "SKIP"
@@ -52,10 +54,11 @@ class TestResultRecord(object):
         test_name: A string representing the name of the test case.
         begin_time: Epoch timestamp of when the test case started.
         end_time: Epoch timestamp of when the test case ended.
-        self.uid: Unique identifier of a test case.
-        self.result: Test result, PASS/FAIL/SKIP.
-        self.extras: User defined extra information of the test result.
-        self.details: A string explaining the details of the test case.
+        uid: Unique identifier of a test case.
+        result: Test result, PASS/FAIL/SKIP.
+        extras: User defined extra information of the test result.
+        details: A string explaining the details of the test case.
+        tables: A dict of 2-dimensional lists containing tabular results.
     """
 
     def __init__(self, t_name, t_class=None):
@@ -68,6 +71,7 @@ class TestResultRecord(object):
         self.extras = None
         self.details = None
         self.extra_errors = {}
+        self.tables = {}
 
     def testBegin(self):
         """Call this when the test case it records begins execution.
@@ -143,6 +147,17 @@ class TestResultRecord(object):
         self.result = TestResultEnums.TEST_RESULT_ERROR
         self.extra_errors[tag] = str(e)
 
+    def addTable(self, name, rows):
+        """Add a table as part of the test result.
+
+        Args:
+            name: The table name.
+            rows: A 2-dimensional list which contains the data.
+        """
+        if name in self.tables:
+            logging.warning("Overwrite table %s" % name)
+        self.tables[name] = rows
+
     def __str__(self):
         d = self.getDict()
         l = ["%s = %s" % (k, v) for k, v in d.items()]
@@ -170,6 +185,7 @@ class TestResultRecord(object):
         d[TestResultEnums.RECORD_EXTRAS] = self.extras
         d[TestResultEnums.RECORD_DETAILS] = self.details
         d[TestResultEnums.RECORD_EXTRA_ERRORS] = self.extra_errors
+        d[TestResultEnums.RECORD_TABLES] = self.tables
         return d
 
     def jsonString(self):

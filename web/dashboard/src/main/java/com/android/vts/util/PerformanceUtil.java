@@ -43,6 +43,7 @@ public class PerformanceUtil {
 
     private static final DecimalFormat FORMATTER;
     private static final String NAME_DELIMITER = ", ";
+    private static final String OPTION_DELIMITER = "=";
 
     /**
      * Initialize the decimal formatter.
@@ -220,21 +221,24 @@ public class PerformanceUtil {
      * @param optionKeys A list of keys to match against the optionsList key value pairs.
      * @return The values in optionsList whose key match a key in optionKeys.
      */
-    public static String getOptionAlias(Entity profilingRun, Set<String> optionKeys) {
+    public static String getOptionAlias(
+            ProfilingPointRunEntity profilingRun, Set<String> optionKeys) {
         String name = "";
-        List<String> nameSuffixes = new ArrayList<String>();
-        for (String key : optionKeys) {
-            if (profilingRun.hasProperty(key)) {
-                try {
-                    nameSuffixes.add((String) profilingRun.getProperty(key));
-                } catch (ClassCastException e) {
+        List<String> nameSuffixes = new ArrayList<>();
+        if (profilingRun.options != null) {
+            for (String optionString : profilingRun.options) {
+                String[] optionParts = optionString.split(OPTION_DELIMITER);
+                if (optionParts.length != 2) {
                     continue;
                 }
+                if (optionKeys.contains(optionParts[0].trim().toLowerCase())) {
+                    nameSuffixes.add(optionParts[1].trim().toLowerCase());
+                }
             }
-        }
-        if (nameSuffixes.size() > 0) {
-            StringUtils.join(nameSuffixes, NAME_DELIMITER);
-            name += StringUtils.join(nameSuffixes, NAME_DELIMITER);
+            if (nameSuffixes.size() > 0) {
+                StringUtils.join(nameSuffixes, NAME_DELIMITER);
+                name += StringUtils.join(nameSuffixes, NAME_DELIMITER);
+            }
         }
         return name;
     }

@@ -42,9 +42,10 @@ class FuzzerWrapper {
   // specification message.
   FuzzerBase* GetFuzzer(const vts::ComponentSpecificationMessage& message);
 
-  // Returns FuzzerBase of a nested interface specified by 'name' and its
-  // HIDL proxy interface pointer ('interface_pt').
-  FuzzerBase* GetFuzzer(const string& name, const uint64_t interface_pt) const;
+  // Returns FuzzerBase of a nested interface specified by 'interface_name' and
+  // its HIDL proxy interface pointer ('interface_pt').
+  FuzzerBase* GetFuzzer(const string& interface_name,
+                        const uint64_t interface_pt) const;
 
  private:
   // loaded file path.

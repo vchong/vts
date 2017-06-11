@@ -84,14 +84,14 @@ FuzzerBase* FuzzerWrapper::GetFuzzer(
   return fuzzer_base_;
 }
 
-FuzzerBase* FuzzerWrapper::GetFuzzer(const string& name,
+FuzzerBase* FuzzerWrapper::GetFuzzer(const string& interface_name,
                                      const uint64_t interface_pt) const {
   // Assumption: no shared library lookup is needed because that is handled
   // the by the driver's linking dependency.
   // Example: name (android::hardware::gnss::V1_0::IAGnssRil) converted to
   // function name (vts_func_4_android_hardware_tests_bar_V1_0_IBar_with_arg)
   stringstream prefix_ss;
-  string mutable_name = name;
+  string mutable_name = interface_name;
   ReplaceSubString(mutable_name, "::", "_");
   prefix_ss << VTS_INTERFACE_SPECIFICATION_FUNCTION_NAME_PREFIX << HAL_HIDL
             << mutable_name << "_with_arg";

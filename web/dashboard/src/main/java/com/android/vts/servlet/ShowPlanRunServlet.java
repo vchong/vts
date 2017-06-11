@@ -48,25 +48,18 @@ public class ShowPlanRunServlet extends BaseServlet {
     private static final String PROFILING_DATA_ALERT = "No profiling data was found.";
 
     @Override
-    public List<String[]> getNavbarLinks(HttpServletRequest request) {
-        List<String[]> links = new ArrayList<>();
-        Page root = Page.HOME;
-        String[] rootEntry = new String[] {root.getUrl(), root.getName()};
-        links.add(rootEntry);
+    public PageType getNavParentType() {
+        return PageType.RELEASE;
+    }
 
-        Page release = Page.PLAN_RELEASE;
+    @Override
+    public List<Page> getBreadcrumbLinks(HttpServletRequest request) {
+        List<Page> links = new ArrayList<>();
         String planName = request.getParameter("plan");
-        String name = release.getName() + planName.toUpperCase();
-        String url = release.getUrl() + "?plan=" + planName;
-        String[] tableEntry = new String[] {url, name};
-        links.add(tableEntry);
+        links.add(new Page(PageType.PLAN_RELEASE, planName.toUpperCase(), "?plan=" + planName));
 
-        Page planRun = Page.PLAN_RUN;
         String time = request.getParameter("time");
-        name = planRun.getName();
-        url = planRun.getUrl() + "?plan=" + planName + "&time=" + time;
-        tableEntry = new String[] {url, name};
-        links.add(tableEntry);
+        links.add(new Page(PageType.PLAN_RUN, "?plan=" + planName + "&time=" + time));
         return links;
     }
 

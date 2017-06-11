@@ -17,6 +17,7 @@
 #define __VTS_SYSFUZZER_COMMON_REPLAYER_VTSHIDLHALREPLAYER_H__
 
 #include "fuzz_tester/FuzzerWrapper.h"
+#include "specification_parser/SpecificationBuilder.h"
 #include "test/vts/proto/VtsProfilingMessage.pb.h"
 
 namespace android {
@@ -30,25 +31,20 @@ namespace vts {
 // 3) Verify the return results of each API calls.
 class VtsHidlHalReplayer {
  public:
-  VtsHidlHalReplayer(const std::string& spec_path,
-      const std::string& callback_socket_name);
-
-  // Loads the given interface specification (.vts file) and parses it to
-  // ComponentSpecificationMessage.
-  bool LoadComponentSpecification(const std::string& package,
-                                  float version,
-                                  const std::string& interface_name,
-                                  ComponentSpecificationMessage* message);
+  VtsHidlHalReplayer(SpecificationBuilder* spec_build,
+                     std::string& callback_socket_name)
+      : spec_builder_(spec_build),
+        callback_socket_name_(callback_socket_name) {}
 
   // Replays the API call sequence parsed from the trace file.
-  bool ReplayTrace(const std::string& spec_lib_file_path,
-      const std::string& trace_file, const std::string& hal_service_name);
+  bool ReplayTrace(const std::string& trace_file,
+                   const std::string& hal_service_name);
 
  private:
+  // Used to load the vts spec and driver library. Does not own.
+  SpecificationBuilder* spec_builder_;
   // A FuzzerWrapper instance.
   FuzzerWrapper wrapper_;
-  // The interface specification ASCII proto file.
-  std::string spec_path_;
   // The server socket port # of the agent.
   std::string callback_socket_name_;
 };

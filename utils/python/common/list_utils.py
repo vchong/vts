@@ -64,3 +64,16 @@ def ExpandItemDelimiters(input_list,
         for s in itertools.chain.from_iterable(expended_list_generator)
     ]
     return filter(lambda s: str(s) != '', result) if remove_empty else result
+
+
+def DeduplicateKeepOrder(input):
+    '''Remove duplicate items from a sequence while keeping the item order
+
+    Args:
+        input: a sequence that might have duplicated items.
+
+    Returns:
+        A deduplicated list where item order is kept
+    '''
+    seen = set()
+    return [x for x in input if not (x in seen or seen.add(x))]

@@ -21,6 +21,11 @@ Copyright 2016 Google Inc. All Rights Reserved.
 </servlet>
 
 <servlet>
+  <servlet-name>show_release</servlet-name>
+  <servlet-class>com.android.vts.servlet.ShowReleaseServlet</servlet-class>
+</servlet>
+
+<servlet>
   <servlet-name>show_tree</servlet-name>
   <servlet-class>com.android.vts.servlet.ShowTreeServlet</servlet-class>
 </servlet>
@@ -88,6 +93,11 @@ Copyright 2016 Google Inc. All Rights Reserved.
 <servlet-mapping>
   <servlet-name>dashboard_main</servlet-name>
   <url-pattern>/</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+  <servlet-name>show_release</servlet-name>
+  <url-pattern>/show_release/*</url-pattern>
 </servlet-mapping>
 
 <servlet-mapping>

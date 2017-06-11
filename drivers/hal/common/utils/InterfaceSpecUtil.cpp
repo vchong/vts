@@ -72,5 +72,15 @@ string GetVersionString(float version, bool for_macro) {
   return out.str();
 }
 
+string GetFullInterfaceName(const string& package_name, const float version,
+                            const string& interface_name) {
+  string mutable_package_name = package_name;
+  ReplaceSubString(mutable_package_name, ".", "::");
+  string version_str = GetVersionString(version, true);
+  string full_interface_name =
+      "::" + mutable_package_name + "::" + version_str + "::" + interface_name;
+  return full_interface_name;
+}
+
 }  // namespace vts
 }  // namespace android

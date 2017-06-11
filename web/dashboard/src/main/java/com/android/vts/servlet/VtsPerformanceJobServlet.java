@@ -38,11 +38,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Represents the notifications service which is automatically called on a fixed schedule. */
-public class VtsPerformanceJobServlet extends BaseServlet {
+public class VtsPerformanceJobServlet extends HttpServlet {
     private static final String MEAN = "Mean";
     private static final String MAX = "Max";
     private static final String MIN = "Min";
@@ -78,11 +79,6 @@ public class VtsPerformanceJobServlet extends BaseServlet {
     static {
         FORMATTER = new DecimalFormat("#.##");
         FORMATTER.setRoundingMode(RoundingMode.HALF_UP);
-    }
-
-    @Override
-    public List<String[]> getNavbarLinks(HttpServletRequest request) {
-        return null;
     }
 
     /**
@@ -199,12 +195,6 @@ public class VtsPerformanceJobServlet extends BaseServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        doGetHandler(request, response);
-    }
-
-    @Override
-    public void doGetHandler(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Set<Key> allTestKeys = new HashSet<>();
 

@@ -21,6 +21,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServlet;
@@ -36,25 +37,47 @@ public abstract class BaseServlet extends HttpServlet {
     protected static final String CLIENT_ID = System.getProperty("CLIENT_ID");
     protected static final String ANALYTICS_ID = System.getProperty("ANALYTICS_ID");
 
-    // Common constants
-    protected static final String CURRENT_PAGE = "#";
-
-    public enum Page {
-        HOME("VTS Dashboard Home", "/"),
+    public enum PageType {
+        TOT("ToT", "/"),
+        RELEASE("Release", "/show_release"),
         TABLE("", "/show_table"),
+        TREE("", "/show_tree"),
         GRAPH("Profiling", "/show_graph"),
         COVERAGE("Coverage", "/show_coverage"),
         PERFORMANCE("Performance Digest", "/show_performance_digest"),
         PLAN_RELEASE("", "/show_plan_release"),
-        PLAN_RUN("Run", "/show_plan_run"),
-        ;
+        PLAN_RUN("Plan Run", "/show_plan_run");
 
+        public final String defaultName;
+        public final String defaultUrl;
+
+        PageType(String defaultName, String defaultUrl) {
+            this.defaultName = defaultName;
+            this.defaultUrl = defaultUrl;
+        }
+    }
+
+    public static class Page {
+        private final PageType type;
         private final String name;
         private final String url;
 
-        Page(String name, String url) {
-            this.name = name;
-            this.url = url;
+        public Page(PageType type) {
+            this.type = type;
+            this.name = type.defaultName;
+            this.url = type.defaultUrl;
+        }
+
+        public Page(PageType type, String name, String url) {
+            this.type = type;
+            this.name = type.defaultName + name;
+            this.url = type.defaultUrl + url;
+        }
+
+        public Page(PageType type, String url) {
+            this.type = type;
+            this.name = type.defaultName;
+            this.url = type.defaultUrl + url;
         }
 
         public String getName() {
@@ -66,13 +89,24 @@ public abstract class BaseServlet extends HttpServlet {
         }
     }
 
+    public static final List<Page> navbarLinks;
+
+    static {
+        List<Page> links = new ArrayList<>();
+        links.add(new Page(PageType.TOT));
+        links.add(new Page(PageType.RELEASE));
+        navbarLinks = links;
+    }
+
+    public abstract PageType getNavParentType();
+
     /**
-     * Get a list of URL/Display name pairs for the navbar heirarchy.
+     * Get a list of URL/Display name pairs for the breadcrumb hierarchy.
      *
      * @param request The HttpServletRequest object for the page request.
-     * @return a list of 2-entried String arrays in the order [page url, page name]
+     * @return a list of Page entries.
      */
-    public abstract List<String[]> getNavbarLinks(HttpServletRequest request);
+    public abstract List<Page> getBreadcrumbLinks(HttpServletRequest request);
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -88,11 +122,22 @@ public abstract class BaseServlet extends HttpServlet {
             response.sendRedirect(loginURI);
             return;
         }
+        PageType parentType = getNavParentType();
+        int activeIndex;
+        switch (getNavParentType()) {
+            case RELEASE:
+                activeIndex = 1;
+                break;
+            default:
+                activeIndex = 0;
+                break;
+        }
         request.setAttribute("logoutURL", logoutURI);
         request.setAttribute("email", currentUser.getEmail());
         request.setAttribute("analyticsID", new Gson().toJson(ANALYTICS_ID));
-        request.setAttribute("navbarLinksJson", new Gson().toJson(getNavbarLinks(request)));
-        request.setAttribute("navbarLinks", getNavbarLinks(request));
+        request.setAttribute("breadcrumbLinks", getBreadcrumbLinks(request));
+        request.setAttribute("navbarLinks", navbarLinks);
+        request.setAttribute("activeIndex", activeIndex);
         response.setContentType("text/html");
         doGetHandler(request, response);
     }

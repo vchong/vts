@@ -13,16 +13,16 @@
   ~ implied. See the License for the specific language governing
   ~ permissions and limitations under the License.
   --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType='text/html;charset=UTF-8' language='java' %>
+<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 
 <head>
-  <link rel='stylesheet' href='/css/navbar.css'>
-  <link rel='stylesheet' href='/css/common.css'>
   <link rel='stylesheet' href='https://www.gstatic.com/external_hosted/materialize/all_styles-bundle.css'>
   <link rel='icon' href='https://www.gstatic.com/images/branding/googleg/1x/googleg_standard_color_32dp.png' sizes='32x32'>
   <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700'>
+  <link rel='stylesheet' href='/css/navbar.css'>
+  <link rel='stylesheet' href='/css/common.css'>
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
   <script src='https://www.gstatic.com/external_hosted/materialize/materialize.min.js'></script>
   <script type='text/javascript'>
@@ -35,18 +35,20 @@
         ga('create', ${analyticsID}, 'auto');
         ga('send', 'pageview');
     }
-    links = ${navbarLinksJson};
   </script>
   <title>VTS Dashboard</title>
 </head>
 <body>
   <nav id='navbar'>
     <div class='nav-wrapper'>
-      <span>
-        <c:forEach items='${navbarLinks}' var='link'>
-          <a href='${link[0]}' class='breadcrumb'>${link[1]}</a>
+      <a href='#' class='brand-logo center'>VTS Dashboard</a>
+      <ul class='nav-list'>
+        <c:forEach items='${navbarLinks}' var='link' varStatus='loop'>
+          <li class='${loop.index == activeIndex ? "active" : ""}'>
+            <a class='nav-list-item' href='${link.url}'>${link.name}</a>
+          </li>
         </c:forEach>
-      </span>
+      </ul>
       <ul class='right'><li>
         <a id='dropdown-button' class='dropdown-button btn red lighten-3' href='#' data-activates='dropdown'>
           ${email}
@@ -55,7 +57,13 @@
       <ul id='dropdown' class='dropdown-content'>
         <li><a href='${logoutURL}'>Log out</a></li>
       </ul>
-      </div>
+      <c:if test='${breadcrumbLinks != null}'>
+        <div id='nav-sublist'>
+          <c:forEach items='${breadcrumbLinks}' var='link'>
+            <a href='${link.url}' class='nav-sublist-item breadcrumb'>${link.name}</a>
+          </c:forEach>
+        </div>
+      </c:if>
     </div>
   </nav>
 </body>

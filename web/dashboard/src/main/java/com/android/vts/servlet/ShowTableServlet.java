@@ -67,18 +67,15 @@ public class ShowTableServlet extends BaseServlet {
             + StringUtils.join(FilterUtil.FilterKey.values(), ", ") + ".";
 
     @Override
-    public List<String[]> getNavbarLinks(HttpServletRequest request) {
-        List<String[]> links = new ArrayList<>();
-        Page root = Page.HOME;
-        String[] rootEntry = new String[] {root.getUrl(), root.getName()};
-        links.add(rootEntry);
+    public PageType getNavParentType() {
+        return PageType.TOT;
+    }
 
-        Page table = Page.TABLE;
+    @Override
+    public List<Page> getBreadcrumbLinks(HttpServletRequest request) {
+        List<Page> links = new ArrayList<>();
         String testName = request.getParameter("testName");
-        String name = table.getName() + testName;
-        String url = table.getUrl() + "?testName=" + testName;
-        String[] tableEntry = new String[] {url, name};
-        links.add(tableEntry);
+        links.add(new Page(PageType.TABLE, testName, "?testName=" + testName));
         return links;
     }
 
