@@ -223,13 +223,14 @@ public class FilterUtil {
      * Get the time range filter to apply to a query.
      *
      * @param testKey The key of the parent TestEntity object.
+     * @param kind The kind to use for the filters.
      * @param startTime The start time in microseconds, or null if unbounded.
      * @param endTime The end time in microseconds, or null if unbounded.
      * @param testRunFilter The existing filter on test runs to apply, or null.
      * @return A filter to apply on test runs.
      */
     public static Filter getTimeFilter(
-            Key testKey, Long startTime, Long endTime, Filter testRunFilter) {
+            Key testKey, String kind, Long startTime, Long endTime, Filter testRunFilter) {
         if (startTime == null && endTime == null) {
             endTime = TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis());
         }
@@ -238,13 +239,13 @@ public class FilterUtil {
         Filter endFilter = null;
         Filter filter = null;
         if (startTime != null) {
-            Key startKey = KeyFactory.createKey(testKey, TestRunEntity.KIND, startTime);
+            Key startKey = KeyFactory.createKey(testKey, kind, startTime);
             startFilter = new FilterPredicate(
                     Entity.KEY_RESERVED_PROPERTY, FilterOperator.GREATER_THAN_OR_EQUAL, startKey);
             filter = startFilter;
         }
         if (endTime != null) {
-            Key endKey = KeyFactory.createKey(testKey, TestRunEntity.KIND, endTime);
+            Key endKey = KeyFactory.createKey(testKey, kind, endTime);
             endFilter = new FilterPredicate(
                     Entity.KEY_RESERVED_PROPERTY, FilterOperator.LESS_THAN_OR_EQUAL, endKey);
             filter = endFilter;
@@ -258,7 +259,7 @@ public class FilterUtil {
         return filter;
     }
 
-    public static Filter getTimeFilter(Key testKey, Long startTime, Long endTime) {
-        return getTimeFilter(testKey, startTime, endTime, null);
+    public static Filter getTimeFilter(Key testKey, String kind, Long startTime, Long endTime) {
+        return getTimeFilter(testKey, kind, startTime, endTime, null);
     }
 }

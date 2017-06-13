@@ -177,7 +177,8 @@ public class ShowTableServlet extends BaseServlet {
         Filter userDeviceFilter = FilterUtil.getDeviceFilter(searchString);
 
         Filter typeFilter = FilterUtil.getTestTypeFilter(showPresubmit, showPostsubmit, unfiltered);
-        Filter testFilter = FilterUtil.getTimeFilter(testKey, startTime, endTime, typeFilter);
+        Filter testFilter = FilterUtil.getTimeFilter(
+                testKey, TestRunEntity.KIND, startTime, endTime, typeFilter);
         if (userTestFilter == null && userDeviceFilter == null) {
             Query testRunQuery = new Query(TestRunEntity.KIND)
                                          .setAncestor(testKey)

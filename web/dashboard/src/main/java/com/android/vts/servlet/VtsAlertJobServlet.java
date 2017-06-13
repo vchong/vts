@@ -23,10 +23,13 @@ import com.android.vts.entity.TestEntity;
 import com.android.vts.entity.TestEntity.TestCaseReference;
 import com.android.vts.entity.TestRunEntity;
 import com.android.vts.proto.VtsReportMessage.TestCaseResult;
+import com.android.vts.util.DatastoreHelper;
 import com.android.vts.util.EmailHelper;
 import com.android.vts.util.FilterUtil;
+import com.google.appengine.api.datastore.DatastoreFailureException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
@@ -40,6 +43,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,6 +59,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.math3.analysis.function.Add;
 
 /** Represents the notifications service which is automatically called on a fixed schedule. */
 public class VtsAlertJobServlet extends HttpServlet {
@@ -93,8 +98,8 @@ public class VtsAlertJobServlet extends HttpServlet {
             Date lastUpload = new Date(TimeUnit.MICROSECONDS.toMillis(test.timestamp));
             String uploadTimeString =
                     new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(lastUpload);
-            String subject = "Warning! Inactive test: " + test;
-            String body = "Hello,<br><br>Test \"" + test + "\" is inactive. "
+            String subject = "Warning! Inactive test: " + test.testName;
+            String body = "Hello,<br><br>Test \"" + test.testName + "\" is inactive. "
                     + "No new data has been uploaded since " + uploadTimeString + "."
                     + getFooter(link);
             try {
@@ -139,8 +144,8 @@ public class VtsAlertJobServlet extends HttpServlet {
         String testName = test.testName;
         Key testKey = KeyFactory.createKey(TestEntity.KIND, testName);
         Filter testTypeFilter = FilterUtil.getTestTypeFilter(false, true, false);
-        Filter runFilter =
-                FilterUtil.getTimeFilter(testKey, test.timestamp + 1, null, testTypeFilter);
+        Filter runFilter = FilterUtil.getTimeFilter(
+                testKey, TestRunEntity.KIND, test.timestamp + 1, null, testTypeFilter);
         Query q = new Query(TestRunEntity.KIND)
                           .setAncestor(testKey)
                           .setFilter(runFilter)
@@ -404,26 +409,37 @@ public class VtsAlertJobServlet extends HttpServlet {
                 continue;
             }
 
-            Transaction txn = datastore.beginTransaction();
-            try {
+            int retries = 0;
+            while (true) {
+                Transaction txn = datastore.beginTransaction();
                 try {
-                    testEntity = TestEntity.fromEntity(datastore.get(test.getKey()));
+                    try {
+                        testEntity = TestEntity.fromEntity(datastore.get(test.getKey()));
 
-                    // Another job updated the test entity
-                    if (testEntity == null || testEntity.timestamp >= newTestEntity.timestamp) {
-                        txn.rollback();
-                    } else { // This update is most recent.
-                        datastore.put(newTestEntity.toEntity());
-                        txn.commit();
-                        EmailHelper.sendAll(messageQueue);
+                        // Another job updated the test entity
+                        if (testEntity == null || testEntity.timestamp >= newTestEntity.timestamp) {
+                            txn.rollback();
+                        } else { // This update is most recent.
+                            datastore.put(newTestEntity.toEntity());
+                            txn.commit();
+                            EmailHelper.sendAll(messageQueue);
+                        }
+                    } catch (EntityNotFoundException e) {
+                        logger.log(Level.INFO,
+                                "Test disappeared during updated: " + newTestEntity.testName);
                     }
-                } catch (EntityNotFoundException e) {
-                    logger.log(Level.INFO,
-                            "Test disappeared during updated: " + newTestEntity.testName);
-                }
-            } finally {
-                if (txn.isActive()) {
-                    txn.rollback();
+                    break;
+                } catch (ConcurrentModificationException | DatastoreFailureException
+                        | DatastoreTimeoutException e) {
+                    logger.log(Level.WARNING, "Retrying alert job insert: " + test.getKey());
+                    if (retries++ >= DatastoreHelper.MAX_WRITE_RETRIES) {
+                        logger.log(Level.SEVERE, "Exceeded alert job retries: " + test.getKey());
+                        throw e;
+                    }
+                } finally {
+                    if (txn.isActive()) {
+                        txn.rollback();
+                    }
                 }
             }
         }

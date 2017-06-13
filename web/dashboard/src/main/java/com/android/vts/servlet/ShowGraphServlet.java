@@ -160,7 +160,8 @@ public class ShowGraphServlet extends BaseServlet {
 
         // Create a query for test runs matching the time window filter
         Key parentKey = KeyFactory.createKey(TestEntity.KIND, testName);
-        Filter timeFilter = FilterUtil.getTimeFilter(parentKey, startTime, endTime);
+        Filter timeFilter =
+                FilterUtil.getTimeFilter(parentKey, TestRunEntity.KIND, startTime, endTime);
         Query testRunQuery = new Query(TestRunEntity.KIND)
                                      .setAncestor(parentKey)
                                      .setFilter(timeFilter)

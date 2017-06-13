@@ -174,7 +174,8 @@ public class ShowTreeServlet extends BaseServlet {
         Filter userDeviceFilter = FilterUtil.getDeviceFilter(searchString);
 
         Filter typeFilter = FilterUtil.getTestTypeFilter(showPresubmit, showPostsubmit, unfiltered);
-        Filter testFilter = FilterUtil.getTimeFilter(testKey, startTime, endTime, typeFilter);
+        Filter testFilter = FilterUtil.getTimeFilter(
+                testKey, TestRunEntity.KIND, startTime, endTime, typeFilter);
 
         List<TestRunMetadata> testRunMetadata = new ArrayList<>();
         if (userTestFilter == null && userDeviceFilter == null) {

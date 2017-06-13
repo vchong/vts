@@ -129,7 +129,8 @@ public class ShowPlanReleaseServlet extends BaseServlet {
         }
         String testPlan = request.getParameter("plan");
         Key testPlanKey = KeyFactory.createKey(TestPlanEntity.KIND, testPlan);
-        Filter testPlanRunFilter = FilterUtil.getTimeFilter(testPlanKey, startTime, endTime, null);
+        Filter testPlanRunFilter =
+                FilterUtil.getTimeFilter(testPlanKey, TestPlanRunEntity.KIND, startTime, endTime);
 
         Query testPlanRunQuery = new Query(TestPlanRunEntity.KIND)
                                          .setAncestor(testPlanKey)
@@ -174,10 +175,8 @@ public class ShowPlanReleaseServlet extends BaseServlet {
         request.setAttribute("hasOlder", new Gson().toJson(DatastoreHelper.hasOlder(
                                                  testPlanKey, TestPlanRunEntity.KIND, startTime)));
         request.setAttribute("planRuns", new Gson().toJson(testPlanRunObjects));
-        request.setAttribute("startTime",
-                new Gson().toJson(TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis())));
-        request.setAttribute("endTime",
-                new Gson().toJson(TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis())));
+        request.setAttribute("startTime", new Gson().toJson(startTime));
+        request.setAttribute("endTime", new Gson().toJson(endTime));
         response.setStatus(HttpServletResponse.SC_OK);
         RequestDispatcher dispatcher = request.getRequestDispatcher(PLAN_RELEASE_JSP);
         try {

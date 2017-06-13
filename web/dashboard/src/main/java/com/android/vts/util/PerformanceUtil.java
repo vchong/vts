@@ -186,7 +186,8 @@ public class PerformanceUtil {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Key testKey = KeyFactory.createKey(TestEntity.KIND, testName);
         Filter testTypeFilter = FilterUtil.getTestTypeFilter(false, true, false);
-        Filter runFilter = FilterUtil.getTimeFilter(testKey, startTime, endTime, testTypeFilter);
+        Filter runFilter = FilterUtil.getTimeFilter(
+                testKey, TestRunEntity.KIND, startTime, endTime, testTypeFilter);
 
         Filter deviceFilter = null;
         if (selectedDevice != null) {

@@ -249,6 +249,7 @@ public class TestResults {
             String abiInfo = StringUtils.join(abiInfoList, ",");
             String vtsBuildId = testRun.testBuildId;
 
+            int totalCount = 0;
             int passCount = (int) testRun.passCount;
             int nonpassCount = (int) testRun.failCount;
             TestCaseResult aggregateStatus = TestCaseResult.UNKNOWN_RESULT;
@@ -258,6 +259,7 @@ public class TestResults {
             // Process test case results
             for (TestCaseRunEntity testCaseEntity : testCaseRunMap.get(testRun.key)) {
                 // Update the aggregated test run status
+                totalCount += testCaseEntity.testCases.size();
                 for (TestCase testCase : testCaseEntity.testCases) {
                     int result = testCase.result;
                     String name = testCase.name;
@@ -362,7 +364,7 @@ public class TestResults {
                     + "<br>" + abiInfo + "<br>" + vtsBuildId + "<br>" + hostname;
 
             // Populate the test summary grid
-            summaryGrid[0][col + 1] = Integer.toString(testCaseRunMap.get(testRun.key).size());
+            summaryGrid[0][col + 1] = Integer.toString(totalCount);
             summaryGrid[1][col + 1] = Integer.toString(passCount);
             summaryGrid[2][col + 1] = Integer.toString(nonpassCount);
             summaryGrid[3][col + 1] = passInfo;

@@ -30,8 +30,10 @@ import com.android.vts.proto.VtsReportMessage.TestCaseReportMessage;
 import com.android.vts.proto.VtsReportMessage.TestCaseResult;
 import com.android.vts.proto.VtsReportMessage.TestPlanReportMessage;
 import com.android.vts.proto.VtsReportMessage.TestReportMessage;
+import com.google.appengine.api.datastore.DatastoreFailureException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
@@ -46,6 +48,7 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Transaction;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +59,7 @@ import java.util.logging.Logger;
 /** DatastoreHelper, a helper class for interacting with Cloud Datastore. */
 public class DatastoreHelper {
     protected static final Logger logger = Logger.getLogger(DatastoreHelper.class.getName());
+    public static final int MAX_WRITE_RETRIES = 5;
 
     /**
      * Returns true if there are data points newer than lowerBound in the results table.
@@ -134,7 +138,7 @@ public class DatastoreHelper {
      */
     public static void insertTestReport(TestReportMessage report) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        List<Entity> puts = new ArrayList<>();
+        Set<Entity> puts = new HashSet<>();
 
         if (!report.hasStartTimestamp() || !report.hasEndTimestamp() || !report.hasTest()
                 || !report.hasHostInfo() || !report.hasBuildInfo()) {
@@ -276,21 +280,34 @@ public class DatastoreHelper {
                 testCaseIds, logLinks, coveredLineCount, totalLineCount);
         puts.add(testRunEntity.toEntity());
 
-        Transaction txn = datastore.beginTransaction();
-        try {
-            // Check if test already exists in the database
+        int retries = 0;
+        while (true) {
+            Transaction txn = datastore.beginTransaction();
             try {
-                datastore.get(testEntity.getKey());
-            } catch (EntityNotFoundException e) {
-                puts.add(testEntity);
-            }
-            datastore.put(puts);
-            txn.commit();
-        } finally {
-            if (txn.isActive()) {
-                logger.log(
-                        Level.WARNING, "Transaction rollback forced for run: " + testRunEntity.key);
-                txn.rollback();
+                // Check if test already exists in the database
+                try {
+                    datastore.get(testEntity.getKey());
+                } catch (EntityNotFoundException e) {
+                    puts.add(testEntity);
+                }
+                datastore.put(puts);
+                txn.commit();
+                break;
+            } catch (ConcurrentModificationException | DatastoreFailureException
+                    | DatastoreTimeoutException e) {
+                puts.remove(testEntity);
+                logger.log(Level.WARNING, "Retrying test run insert: " + testEntity.getKey());
+                if (retries++ >= MAX_WRITE_RETRIES) {
+                    logger.log(Level.SEVERE,
+                            "Exceeded maximum test run retries: " + testEntity.getKey());
+                    throw e;
+                }
+            } finally {
+                if (txn.isActive()) {
+                    logger.log(Level.WARNING,
+                            "Transaction rollback forced for run: " + testRunEntity.key);
+                    txn.rollback();
+                }
             }
         }
     }
@@ -370,21 +387,34 @@ public class DatastoreHelper {
         }
         puts.add(testPlanRun.toEntity());
 
-        Transaction txn = datastore.beginTransaction();
-        try {
-            // Check if test already exists in the database
+        int retries = 0;
+        while (true) {
+            Transaction txn = datastore.beginTransaction();
             try {
-                datastore.get(testPlanEntity.getKey());
-            } catch (EntityNotFoundException e) {
-                puts.add(testPlanEntity);
-            }
-            datastore.put(puts);
-            txn.commit();
-        } finally {
-            if (txn.isActive()) {
-                logger.log(Level.WARNING,
-                        "Transaction rollback forced for plan run: " + testPlanRun.key);
-                txn.rollback();
+                // Check if test already exists in the database
+                try {
+                    datastore.get(testPlanEntity.getKey());
+                } catch (EntityNotFoundException e) {
+                    puts.add(testPlanEntity);
+                }
+                datastore.put(puts);
+                txn.commit();
+                break;
+            } catch (ConcurrentModificationException | DatastoreFailureException
+                    | DatastoreTimeoutException e) {
+                puts.remove(testPlanEntity);
+                logger.log(Level.WARNING, "Retrying test plan insert: " + testPlanEntity.getKey());
+                if (retries++ >= MAX_WRITE_RETRIES) {
+                    logger.log(Level.SEVERE,
+                            "Exceeded maximum test plan retries: " + testPlanEntity.getKey());
+                    throw e;
+                }
+            } finally {
+                if (txn.isActive()) {
+                    logger.log(Level.WARNING,
+                            "Transaction rollback forced for plan run: " + testPlanRun.key);
+                    txn.rollback();
+                }
             }
         }
     }
