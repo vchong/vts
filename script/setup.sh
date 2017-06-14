@@ -28,27 +28,7 @@ sudo apt-get -y install python-pip
 sudo apt-get -y install python3-pip
 sudo apt-get -y install python-virtualenv
 
-echo "Install Python modules for VTS Runner"
-sudo pip install future
-sudo pip install futures
-sudo pip install enum
-sudo pip install protobuf
-sudo pip install setuptools
-sudo pip install requests
-sudo pip install httplib2
-sudo pip install oauth2client
-sudo pip install google-api-python-client
-sudo pip install google-cloud-pubsub
-
-echo "Install packages for Kernel tests"
-sudo pip install parse
-sudo pip install ply
-
 echo "Install packages for Camera ITS tests"
 sudo apt-get -y install python-tk
-sudo pip install numpy
-sudo pip install scipy
-sudo pip install matplotlib
 sudo apt-get -y install libjpeg-dev
 sudo apt-get -y install libtiff-dev
-sudo pip install Pillow
