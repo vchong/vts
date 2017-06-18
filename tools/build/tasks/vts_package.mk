@@ -30,7 +30,6 @@ include $(LOCAL_PATH)/list/vts_test_host_bin_package_list.mk
 include $(LOCAL_PATH)/list/vts_test_hidl_hal_hash_list.mk
 -include external/linux-kselftest/android/kselftest_test_list.mk
 -include external/ltp/android/ltp_package_list.mk
--include vendor/google_vts/tools/build/tasks/list/vts_apk_package_list_vendor.mk
 
 VTS_OUT_ROOT := $(HOST_OUT)/vts
 VTS_TESTCASES_OUT := $(HOST_OUT)/vts/android-vts/testcases
@@ -101,14 +100,6 @@ target_trace_copy_pairs := \
 $(foreach f,$(target_trace_files),\
     test/vts-testcase/hal-trace/$(f):$(VTS_TESTCASES_OUT)/hal-hidl-trace/test/vts-testcase/hal-trace/$(f))
 
-target_prebuilt_apk_modules := \
-    $(vts_prebuilt_apk_packages) \
-
-target_prebuilt_apk_copy_pairs :=
-$(foreach m,$(target_prebuilt_apk_modules),\
-  $(if $(wildcard $(m)),\
-    $(eval target_prebuilt_apk_copy_pairs += $(m):$(VTS_TESTCASES_OUT)/prebuilt-apk/$(m))))
-
 target_hal_hash_modules := \
     $(vts_test_hidl_hal_hash_list) \
 
@@ -139,9 +130,7 @@ $(foreach m,$(target_hostdriven_modules),\
   ))
 
 host_additional_deps_copy_pairs := \
-  test/vts/tools/vts-tradefed/etc/vts-tradefed_win.bat:$(VTS_TOOLS_OUT)/vts-tradefed_win.bat \
-  $(foreach d,$(ADDITIONAL_VTS_JARS),\
-    $(d):$(VTS_TOOLS_OUT)/$(notdir $(d)))
+  test/vts/tools/vts-tradefed/etc/vts-tradefed_win.bat:$(VTS_TOOLS_OUT)/vts-tradefed_win.bat
 
 # Packaging rule for host-side Python logic, configs, and data files
 
@@ -158,7 +147,7 @@ host_testcase_files := \
   $(call find-files-in-subdirs,test/vts-testcase,"*.py" -and -type f,.) \
   $(call find-files-in-subdirs,test/vts-testcase,"*.config" -and -type f,.) \
   $(call find-files-in-subdirs,test/vts-testcase,"*.push" -and -type f,.) \
-  $(call find-files-in-subdirs,test/vts-testcase,"android-base.cfg" -and -type f,.)
+  $(call find-files-in-subdirs,test/vts-testcase,"android-base*.cfg" -and -type f,.)
 
 host_testcase_copy_pairs := \
   $(foreach f,$(host_testcase_files),\
@@ -207,7 +196,6 @@ $(compatibility_zip): \
   $(call copy-many-files,$(target_spec_copy_pairs)) \
   $(call copy-many-files,$(target_trace_copy_pairs)) \
   $(call copy-many-files,$(target_hostdriven_copy_pairs)) \
-  $(call copy-many-files,$(target_prebuilt_apk_copy_pairs)) \
   $(call copy-many-files,$(target_hal_hash_copy_pairs)) \
   $(call copy-many-files,$(host_additional_deps_copy_pairs)) \
   $(call copy-many-files,$(host_framework_copy_pairs)) \
@@ -218,26 +206,4 @@ $(compatibility_zip): \
   $(call copy-many-files,$(performance_test_res_copy_pairs)) \
   $(call copy-many-files,$(audio_test_res_copy_pairs)) \
 
-# vendor-specific host logic
-vendor_testcase_files := \
-  $(call find-files-in-subdirs,vendor/google_vts/testcases,"*.py" -and -type f,.) \
-  $(call find-files-in-subdirs,vendor/google_vts/testcases,"*.config" -and -type f,.) \
-  $(call find-files-in-subdirs,vendor/google_vts/testcases,"*.push" -and -type f,.) \
-
-vendor_testcase_copy_pairs := \
-  $(foreach f,$(vendor_testcase_files),\
-    vendor/google_vts/testcases/$(f):$(VTS_TESTCASES_OUT)/vts/testcases/$(f))
-
-vendor_tf_files :=
-ifeq ($(BUILD_GOOGLE_VTS), true)
-  vendor_tf_files += \
-    $(HOST_OUT_JAVA_LIBRARIES)/google-tradefed-vts-prebuilt.jar
-endif
-
-vendor_tf_copy_pairs := \
-  $(foreach f,$(vendor_tf_files),\
-    $(f):$(VTS_OUT_ROOT)/android-vts/tools/$(notdir $(f)))
-
-$(compatibility_zip): \
-  $(call copy-many-files,$(vendor_testcase_copy_pairs)) \
-  $(call copy-many-files,$(vendor_tf_copy_pairs))
+-include vendor/google_vts/tools/build/vts_package_vendor.mk

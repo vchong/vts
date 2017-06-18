@@ -12,7 +12,7 @@ using namespace android::hardware;
 namespace android {
 namespace vts {
 void profile____android__hardware__tests__bar__V1_0__IBar__SomethingRelated(VariableSpecificationMessage* arg_name,
-::android::hardware::tests::bar::V1_0::IBar::SomethingRelated arg_val_name) {
+::android::hardware::tests::bar::V1_0::IBar::SomethingRelated arg_val_name __attribute__((__unused__))) {
     arg_name->set_type(TYPE_STRUCT);
     auto *arg_name_myRelated = arg_name->add_struct_value();
     arg_name_myRelated->set_type(TYPE_STRUCT);
@@ -21,12 +21,12 @@ void profile____android__hardware__tests__bar__V1_0__IBar__SomethingRelated(Vari
 
 
 void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_bar_V1_0_IBar(
-        details::HidlInstrumentor::InstrumentationEvent event,
+        details::HidlInstrumentor::InstrumentationEvent event __attribute__((__unused__)),
         const char* package,
         const char* version,
         const char* interface,
-        const char* method,
-        std::vector<void *> *args) {
+        const char* method __attribute__((__unused__)),
+        std::vector<void *> *args __attribute__((__unused__))) {
     if (strcmp(package, "android.hardware.tests.bar") != 0) {
         LOG(WARNING) << "incorrect package.";
         return;

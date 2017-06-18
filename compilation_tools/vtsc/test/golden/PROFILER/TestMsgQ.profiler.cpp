@@ -12,7 +12,7 @@ using namespace android::hardware;
 namespace android {
 namespace vts {
 void profile____android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(VariableSpecificationMessage* arg_name,
-::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits arg_val_name) {
+::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits arg_val_name __attribute__((__unused__))) {
     arg_name->set_type(TYPE_ENUM);
     arg_name->mutable_scalar_value()->set_uint32_t(static_cast<uint32_t>(arg_val_name));
     arg_name->set_scalar_type("uint32_t");
@@ -20,12 +20,12 @@ void profile____android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(V
 
 
 void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
-        details::HidlInstrumentor::InstrumentationEvent event,
+        details::HidlInstrumentor::InstrumentationEvent event __attribute__((__unused__)),
         const char* package,
         const char* version,
         const char* interface,
-        const char* method,
-        std::vector<void *> *args) {
+        const char* method __attribute__((__unused__)),
+        std::vector<void *> *args __attribute__((__unused__))) {
     if (strcmp(package, "android.hardware.tests.msgq") != 0) {
         LOG(WARNING) << "incorrect package.";
         return;

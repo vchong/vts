@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+import base64
 import getpass
 import logging
 import os
@@ -26,6 +27,7 @@ from vts.utils.python.web import dashboard_rest_client
 from vts.utils.python.web import feature_utils
 
 _PROFILING_POINTS = "profiling_points"
+_REPORT_MESSAGE_FILE_NAME = "report_proto.msg"
 
 
 class WebFeature(feature_utils.Feature):
@@ -42,10 +44,8 @@ class WebFeature(feature_utils.Feature):
     _REQUIRED_PARAMS = [
         keys.ConfigKeys.IKEY_DASHBOARD_POST_COMMAND,
         keys.ConfigKeys.IKEY_SERVICE_JSON_PATH,
-        keys.ConfigKeys.KEY_TESTBED_NAME,
-        keys.ConfigKeys.IKEY_BUILD,
-        keys.ConfigKeys.IKEY_ANDROID_DEVICE,
-        keys.ConfigKeys.IKEY_ABI_NAME,
+        keys.ConfigKeys.KEY_TESTBED_NAME, keys.ConfigKeys.IKEY_BUILD,
+        keys.ConfigKeys.IKEY_ANDROID_DEVICE, keys.ConfigKeys.IKEY_ABI_NAME,
         keys.ConfigKeys.IKEY_ABI_BITNESS
     ]
     _OPTIONAL_PARAMS = []
@@ -68,7 +68,8 @@ class WebFeature(feature_utils.Feature):
 
         # Initialize the dashboard client
         post_cmd = getattr(self, keys.ConfigKeys.IKEY_DASHBOARD_POST_COMMAND)
-        service_json_path = str(getattr(self, keys.ConfigKeys.IKEY_SERVICE_JSON_PATH))
+        service_json_path = str(
+            getattr(self, keys.ConfigKeys.IKEY_SERVICE_JSON_PATH))
         self.rest_client = dashboard_rest_client.DashboardRestClient(
             post_cmd, service_json_path)
         if not self.rest_client.Initialize():
@@ -369,14 +370,16 @@ class WebFeature(feature_utils.Feature):
         """
         return self.report_msg.test, self.report_msg.start_timestamp
 
-    def Upload(self, requested, executed):
+    def GenerateReportMessage(self,
+                              requested,
+                              executed):
         """Uploads the result to the web service.
 
         Requires the feature to be enabled; no-op otherwise.
 
         Args:
-            requested: list, A list of test case names requested to run
-            executed: list, A list of test case names that were executed
+            requested: list, A list of test case records requested to run
+            executed: list, A list of test case records that were executed
         """
         if not self.enabled:
             return
@@ -391,7 +394,7 @@ class WebFeature(feature_utils.Feature):
 
         for test in requested[start_index:]:
             msg = self.report_msg.test_case.add()
-            msg.name = test
+            msg.name = test.test_name
             msg.start_timestamp = feature_utils.GetTimestamp()
             msg.end_timestamp = msg.start_timestamp
             msg.test_result = ReportMsg.TEST_CASE_RESULT_FAIL
@@ -410,8 +413,17 @@ class WebFeature(feature_utils.Feature):
             post_msg = ReportMsg.DashboardPostMessage()
             post_msg.test_report.extend([self.report_msg])
 
-            # Post new data to the dashboard
-            self.rest_client.PostData(post_msg)
+            report_proto_path = os.path.join(logging.log_path,
+                                             _REPORT_MESSAGE_FILE_NAME)
+
+            self.rest_client.AddAuthToken(post_msg)
+
+            # Write the new address book back to disk.
+            logging.info('Result proto message path: %s',
+                         report_proto_path)
+            with open(report_proto_path, "wb") as f:
+                f.write(base64.b64encode(post_msg.SerializeToString()))
+            logging.info('Result proto message saved')
 
             logging.info("_tearDownClass hook: status upload time stamp %s",
                          str(self.report_msg.start_timestamp))

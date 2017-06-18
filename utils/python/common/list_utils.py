@@ -67,13 +67,25 @@ def ExpandItemDelimiters(input_list,
 
 
 def DeduplicateKeepOrder(input):
-    '''Remove duplicate items from a sequence while keeping the item order
+    '''Remove duplicate items from a sequence while keeping the item order.
 
     Args:
         input: a sequence that might have duplicated items.
 
     Returns:
-        A deduplicated list where item order is kept
+        A deduplicated list where item order is kept.
+    '''
+    return MergeUniqueKeepOrder(input)
+
+
+def MergeUniqueKeepOrder(*lists):
+    '''Merge two list, remove duplicate items, and order.
+
+    Args:
+        lists: any number of lists
+
+    Returns:
+        A merged list where items are unique and original order is kept.
     '''
     seen = set()
-    return [x for x in input if not (x in seen or seen.add(x))]
+    return [x for x in itertools.chain(*lists) if not (x in seen or seen.add(x))]

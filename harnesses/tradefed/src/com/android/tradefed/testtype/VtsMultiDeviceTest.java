@@ -34,6 +34,7 @@ import com.android.tradefed.util.StreamUtil;
 import com.android.tradefed.util.JsonUtil;
 import com.android.tradefed.util.IRunUtil;
 import com.android.tradefed.util.RunUtil;
+import com.android.tradefed.util.VtsDashboardUtil;
 import com.android.tradefed.util.VtsVendorConfigFileUtil;
 import com.android.tradefed.testtype.IAbi;
 
@@ -120,6 +121,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     static final String ENABLE_SYSTRACE = "enable_systrace";
     static final String HAL_HIDL_REPLAY_TEST_TRACE_PATHS = "hal_hidl_replay_test_trace_paths";
     static final String HAL_HIDL_PACKAGE_NAME = "hal_hidl_package_name";
+    static final String REPORT_MESSAGE_FILE_NAME = "report_proto.msg";
     static final String SYSTRACE_PROCESS_NAME = "systrace_process_name";
     static final String TEMPLATE_BINARY_TEST_PATH = "vts/testcases/template/binary_test/binary_test";
     static final String TEMPLATE_GTEST_BINARY_TEST_PATH = "vts/testcases/template/gtest_binary_test/gtest_binary_test";
@@ -348,6 +350,8 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     // the path of a dir which contains the test data files.
     private String mTestCaseDataDir = "./";
 
+    private VtsVendorConfigFileUtil configReader = null;
+
     /**
      * @return the mRunUtil
      */
@@ -544,7 +548,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
      */
     private void updateVtsRunnerTestConfig(JSONObject jsonObject)
             throws IOException, JSONException, RuntimeException {
-        VtsVendorConfigFileUtil configReader = new VtsVendorConfigFileUtil();
+        configReader = new VtsVendorConfigFileUtil();
         if (configReader.LoadVendorConfig(mBuildInfo)) {
             JSONObject vendorConfigJson = configReader.GetVendorConfigJson();
             if (vendorConfigJson != null) {
@@ -923,6 +927,27 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
             }
         }
         printVtsLogs(vtsRunnerLogDir);
+
+        File reportMsg;
+        int waitCount = 0;
+        // Wait python process to finish for 30 seconds at most
+        while ((reportMsg = FileUtil.findFile(vtsRunnerLogDir, REPORT_MESSAGE_FILE_NAME)) == null
+                && waitCount < 30) {
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            waitCount++;
+        }
+
+        CLog.i("Report message path: %s", reportMsg);
+        if (reportMsg != null) {
+            VtsDashboardUtil dashboardUtil = new VtsDashboardUtil(configReader);
+            dashboardUtil.Upload(reportMsg.getAbsolutePath());
+        } else {
+            CLog.e("Cannot find report message proto file.");
+        }
         FileUtil.recursiveDelete(vtsRunnerLogDir);
         CLog.i("Deleted the runner log dir, %s.", vtsRunnerLogDir);
         if (jsonFilePath != null) {

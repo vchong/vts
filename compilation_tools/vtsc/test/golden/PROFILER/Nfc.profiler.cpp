@@ -13,12 +13,12 @@ namespace android {
 namespace vts {
 
 void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_nfc_V1_0_INfc(
-        details::HidlInstrumentor::InstrumentationEvent event,
+        details::HidlInstrumentor::InstrumentationEvent event __attribute__((__unused__)),
         const char* package,
         const char* version,
         const char* interface,
-        const char* method,
-        std::vector<void *> *args) {
+        const char* method __attribute__((__unused__)),
+        std::vector<void *> *args __attribute__((__unused__))) {
     if (strcmp(package, "android.hardware.nfc") != 0) {
         LOG(WARNING) << "incorrect package.";
         return;

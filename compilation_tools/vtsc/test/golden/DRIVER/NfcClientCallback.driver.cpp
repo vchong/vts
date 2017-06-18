@@ -16,8 +16,8 @@ namespace android {
 namespace vts {
 
 ::android::hardware::Return<void> Vts_android_hardware_nfc_V1_0_INfcClientCallback::sendEvent(
-    ::android::hardware::nfc::V1_0::NfcEvent arg0,
-    ::android::hardware::nfc::V1_0::NfcStatus arg1) {
+    ::android::hardware::nfc::V1_0::NfcEvent arg0 __attribute__((__unused__)),
+    ::android::hardware::nfc::V1_0::NfcStatus arg1 __attribute__((__unused__))) {
     cout << "sendEvent called" << endl;
     AndroidSystemCallbackRequestMessage callback_message;
     callback_message.set_id(GetCallbackID("sendEvent"));
@@ -33,7 +33,7 @@ namespace vts {
 }
 
 ::android::hardware::Return<void> Vts_android_hardware_nfc_V1_0_INfcClientCallback::sendData(
-    const ::android::hardware::hidl_vec<uint8_t>& arg0) {
+    const ::android::hardware::hidl_vec<uint8_t>& arg0 __attribute__((__unused__))) {
     cout << "sendData called" << endl;
     AndroidSystemCallbackRequestMessage callback_message;
     callback_message.set_id(GetCallbackID("sendData"));

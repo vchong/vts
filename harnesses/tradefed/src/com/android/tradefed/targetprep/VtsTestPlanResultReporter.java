@@ -38,16 +38,11 @@ import com.android.tradefed.util.CommandStatus;
 import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.IRunUtil;
 import com.android.tradefed.util.RunUtil;
+import com.android.tradefed.util.VtsDashboardUtil;
 import com.android.tradefed.util.VtsVendorConfigFileUtil;
 
 import com.android.vts.proto.VtsReportMessage.DashboardPostMessage;
 import com.android.vts.proto.VtsReportMessage.TestPlanReportMessage;
-
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.json.JsonFactory;
 
 /**
  * Uploads the VTS test plan execution result to the web DB using a RESTful API and
@@ -59,6 +54,7 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
     private static final String TEST_PLAN_EXECUTION_RESULT = "vts-test-plan-execution-result";
     private static final String TEST_PLAN_REPORT_FILE = "TEST_PLAN_REPORT_FILE";
     private static VtsVendorConfigFileUtil configReader = null;
+    private static VtsDashboardUtil dashboardUtil = null;
     private static final int BASE_TIMEOUT_MSECS = 1000 * 60;
     IRunUtil mRunUtil = new RunUtil();
 
@@ -96,6 +92,7 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
                 VtsVendorConfigFileUtil.KEY_VENDOR_TEST_CONFIG_FILE_PATH, mVendorConfigFilePath);
         configReader = new VtsVendorConfigFileUtil();
         configReader.LoadVendorConfig(buildInfo);
+        dashboardUtil = new VtsDashboardUtil(configReader);
     }
 
     /**
@@ -127,82 +124,8 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
         }
         postMessage.addTestPlanReport(testPlanMessage);
         if (found) {
-            Upload(postMessage);
+            dashboardUtil.Upload(postMessage);
         }
     }
 
-    /*
-     * Returns an OAuth2 token string obtained using a service account json keyfile.
-     *
-     * Uses the service account keyfile located at config variable 'service_key_json_path'
-     * to request an OAuth2 token.
-     */
-    private String GetToken() {
-        String keyFilePath;
-        try {
-            keyFilePath = configReader.GetVendorConfigVariable("service_key_json_path");
-        } catch (NoSuchElementException e) {
-            return null;
-        }
-
-        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        Credential credential = null;
-        try {
-            List<String> listStrings = new LinkedList<String>();
-            listStrings.add(PLUS_ME);
-            credential = GoogleCredential.fromStream(new FileInputStream(keyFilePath))
-                                 .createScoped(listStrings);
-            credential.refreshToken();
-            return credential.getAccessToken();
-        } catch (FileNotFoundException e) {
-            CLog.e(String.format("Service key file %s doesn't exist.", keyFilePath));
-        } catch (IOException e) {
-            CLog.e(String.format("Can't read the service key file, %s", keyFilePath));
-        }
-        return null;
-    }
-
-    /*
-     * Uploads the given message to the web DB.
-     *
-     * @param message, DashboardPostMessage that keeps the result to upload.
-     */
-    private void Upload(DashboardPostMessage message) {
-        message.setAccessToken(GetToken());
-        try {
-            String commandTemplate = configReader.GetVendorConfigVariable("dashboard_post_command");
-            String filePath = WriteToTempFile(
-                    Base64.getEncoder().encodeToString(message.toByteArray()).getBytes());
-            commandTemplate = commandTemplate.replace("{path}", filePath);
-            commandTemplate = commandTemplate.replace("'", "");
-            CLog.i(String.format("Upload command: %s", commandTemplate));
-            CommandResult c =
-                    mRunUtil.runTimedCmd(BASE_TIMEOUT_MSECS * 3, commandTemplate.split(" "));
-            if (c == null || c.getStatus() != CommandStatus.SUCCESS) {
-                CLog.e("Uploading the test plan execution result to GAE DB faiied.");
-                CLog.e("Stdout: %s", c.getStdout());
-                CLog.e("Stderr: %s", c.getStderr());
-            }
-            FileUtil.deleteFile(new File(filePath));
-        } catch (NoSuchElementException e) {
-            CLog.e("dashboard_post_command unspecified in vendor config.");
-        } catch (IOException e) {
-            CLog.e("Couldn't write a proto message to a temp file.");
-        }
-    }
-
-    /*
-     * Simple wrapper to write data to a temp file.
-     *
-     * @param data, actual data to write to a file.
-     * @throws IOException
-     */
-    private String WriteToTempFile(byte[] data) throws IOException {
-        File tempFile = File.createTempFile("tempfile", ".tmp");
-        String filePath = tempFile.getAbsolutePath();
-        FileOutputStream out = new FileOutputStream(filePath);
-        out.write(data);
-        out.close();
-        return filePath;
-    }
 }

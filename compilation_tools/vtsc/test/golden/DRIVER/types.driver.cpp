@@ -26,12 +26,12 @@ namespace vts {
     if (choice == (uint32_t) 6) return ::android::hardware::nfc::V1_0::NfcEvent::ERROR;
     return ::android::hardware::nfc::V1_0::NfcEvent::OPEN_CPLT;
 }
-bool Verify__android__hardware__nfc__V1_0__NfcEvent(const VariableSpecificationMessage& expected_result, const VariableSpecificationMessage& actual_result){
+bool Verify__android__hardware__nfc__V1_0__NfcEvent(const VariableSpecificationMessage& expected_result __attribute__((__unused__)), const VariableSpecificationMessage& actual_result __attribute__((__unused__))){
     if (actual_result.scalar_value().uint32_t() != expected_result.scalar_value().uint32_t()) { return false; }
     return true;
 }
 
-void SetResult__android__hardware__nfc__V1_0__NfcEvent(VariableSpecificationMessage* result_msg, ::android::hardware::nfc::V1_0::NfcEvent result_value){
+void SetResult__android__hardware__nfc__V1_0__NfcEvent(VariableSpecificationMessage* result_msg, ::android::hardware::nfc::V1_0::NfcEvent result_value __attribute__((__unused__))){
     result_msg->set_type(TYPE_ENUM);
     result_msg->set_scalar_type("uint32_t");
     result_msg->mutable_scalar_value()->set_uint32_t(static_cast<uint32_t>(result_value));
@@ -49,12 +49,12 @@ void SetResult__android__hardware__nfc__V1_0__NfcEvent(VariableSpecificationMess
     if (choice == (uint32_t) 4) return ::android::hardware::nfc::V1_0::NfcStatus::REFUSED;
     return ::android::hardware::nfc::V1_0::NfcStatus::OK;
 }
-bool Verify__android__hardware__nfc__V1_0__NfcStatus(const VariableSpecificationMessage& expected_result, const VariableSpecificationMessage& actual_result){
+bool Verify__android__hardware__nfc__V1_0__NfcStatus(const VariableSpecificationMessage& expected_result __attribute__((__unused__)), const VariableSpecificationMessage& actual_result __attribute__((__unused__))){
     if (actual_result.scalar_value().uint32_t() != expected_result.scalar_value().uint32_t()) { return false; }
     return true;
 }
 
-void SetResult__android__hardware__nfc__V1_0__NfcStatus(VariableSpecificationMessage* result_msg, ::android::hardware::nfc::V1_0::NfcStatus result_value){
+void SetResult__android__hardware__nfc__V1_0__NfcStatus(VariableSpecificationMessage* result_msg, ::android::hardware::nfc::V1_0::NfcStatus result_value __attribute__((__unused__))){
     result_msg->set_type(TYPE_ENUM);
     result_msg->set_scalar_type("uint32_t");
     result_msg->mutable_scalar_value()->set_uint32_t(static_cast<uint32_t>(result_value));

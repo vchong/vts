@@ -146,8 +146,8 @@ class ProfilerCodeGenBase {
       const ComponentSpecificationMessage&) {};
   // Generates sanity check for profiler. These codes will be generated at the
   // beginning of the main profiler function.
-  virtual void GenerateProfierSanityCheck(Formatter&,
-    const ComponentSpecificationMessage&) {};
+  virtual void GenerateProfilerSanityCheck(
+      Formatter&, const ComponentSpecificationMessage&){};
   // Generate local variable definition. These codes will be generated after
   // the sanity check code.
   virtual void GenerateLocalVariableDefinition(Formatter&,

@@ -211,8 +211,7 @@ class TestResult(object):
     This class is essentially a container of TestResultRecord objects.
 
     Attributes:
-        self.requested: A list of strings, each is the name of a test requested
-            by user.
+        self.requested: A list of records for tests requested by user.
         self.failed: A list of records for tests failed.
         self.executed: A list of records for tests that were actually executed.
         self.passed: A list of records for tests passed.
@@ -278,8 +277,33 @@ class TestResult(object):
                 setattr(sum_result, name, l_value + r_value)
         return sum_result
 
+    def removeRecord(self, record):
+        """Remove a test record from test results.
+
+        Records will be ed using test_name and test_class attribute.
+        All entries that match the provided record in all result lists will
+        be removed after calling this method.
+
+        Args:
+            record: A test record object to add.
+        """
+        lists = [
+            self.requested, self.failed, self.executed, self.passed,
+            self.skipped, self.error
+        ]
+        for l in lists:
+            indexToRemove = []
+
+            for idx in len(l):
+                if (l[idx].test_name == record.test_name and
+                        l[idx].test_class == record.test_class):
+                    indexToRemove.append(idx)
+
+            for idx in reversed(indexToRemove):
+                del l[idx]
+
     def addRecord(self, record):
-        """Adds a test record to test result.
+        """Adds a test record to test results.
 
         A record is considered executed once it's added to the test result.
 

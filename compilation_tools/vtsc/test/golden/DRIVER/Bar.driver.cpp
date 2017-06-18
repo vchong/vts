@@ -19,15 +19,15 @@
 using namespace android::hardware::tests::bar::V1_0;
 namespace android {
 namespace vts {
-void MessageTo__android__hardware__tests__bar__V1_0__IBar__SomethingRelated(const VariableSpecificationMessage& var_msg, ::android::hardware::tests::bar::V1_0::IBar::SomethingRelated* arg) {
+void MessageTo__android__hardware__tests__bar__V1_0__IBar__SomethingRelated(const VariableSpecificationMessage& var_msg __attribute__((__unused__)), ::android::hardware::tests::bar::V1_0::IBar::SomethingRelated* arg __attribute__((__unused__))) {
     MessageTo__android__hardware__tests__foo__V1_0__Unrelated(var_msg.struct_value(0), &(arg->myRelated));
 }
-bool Verify__android__hardware__tests__bar__V1_0__IBar__SomethingRelated(const VariableSpecificationMessage& expected_result, const VariableSpecificationMessage& actual_result){
+bool Verify__android__hardware__tests__bar__V1_0__IBar__SomethingRelated(const VariableSpecificationMessage& expected_result __attribute__((__unused__)), const VariableSpecificationMessage& actual_result __attribute__((__unused__))){
     if (!Verify__android__hardware__tests__foo__V1_0__Unrelated(expected_result.struct_value(0), actual_result.struct_value(0))) { return false; }
     return true;
 }
 
-void SetResult__android__hardware__tests__bar__V1_0__IBar__SomethingRelated(VariableSpecificationMessage* result_msg, ::android::hardware::tests::bar::V1_0::IBar::SomethingRelated result_value){
+void SetResult__android__hardware__tests__bar__V1_0__IBar__SomethingRelated(VariableSpecificationMessage* result_msg, ::android::hardware::tests::bar::V1_0::IBar::SomethingRelated result_value __attribute__((__unused__))){
     result_msg->set_type(TYPE_STRUCT);
     auto *result_msg_myRelated = result_msg->add_struct_value();
     result_msg_myRelated->set_type(TYPE_STRUCT);
@@ -54,17 +54,20 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::GetService(bool get_st
 }
 
 bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::Fuzz(
-    FunctionSpecificationMessage* func_msg,
-    void** result, const string& callback_socket_name) {
+    FunctionSpecificationMessage* /*func_msg*/,
+    void** /*result*/, const string& /*callback_socket_name*/) {
     return true;
 }
 bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::GetAttribute(
-    FunctionSpecificationMessage* func_msg,
-    void** result) {
+    FunctionSpecificationMessage* /*func_msg*/,
+    void** /*result*/) {
     cerr << "attribute not found" << endl;
     return false;
 }
-bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const FunctionSpecificationMessage& func_msg, const string& callback_socket_name, FunctionSpecificationMessage* result_msg) {
+bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(
+    const FunctionSpecificationMessage& func_msg,
+    const string& callback_socket_name __attribute__((__unused__)),
+    FunctionSpecificationMessage* result_msg) {
     const char* func_name = func_msg.name().c_str();
     cout << "Function: " << __func__ << " " << func_name << endl;
     if (!strcmp(func_name, "doThis")) {
@@ -866,7 +869,8 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(const Fun
     return false;
 }
 
-bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::VerifyResults(const FunctionSpecificationMessage& expected_result, const FunctionSpecificationMessage& actual_result) {
+bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::VerifyResults(const FunctionSpecificationMessage& expected_result __attribute__((__unused__)),
+    const FunctionSpecificationMessage& actual_result __attribute__((__unused__))) {
     if (!strcmp(actual_result.name().c_str(), "doThis")) {
         if (actual_result.return_type_hidl_size() != expected_result.return_type_hidl_size() ) { return false; }
         return true;

@@ -265,7 +265,9 @@ class BaseTestClass(object):
         if self.log_uploading.enabled:
             self.log_uploading.UploadLogs()
         if self.web.enabled:
-            self.web.Upload(self.results.requested, self.results.executed)
+            self.web.GenerateReportMessage(
+                self.results.requested,
+                self.results.executed)
         return ret
 
     def tearDownClass(self):
@@ -573,6 +575,7 @@ class BaseTestClass(object):
         tr_record.testBegin()
         logging.info("%s %s", TEST_CASE_TOKEN, test_name)
         verdict = None
+        finished = False
         try:
             ret = self._testEntry(tr_record)
             asserts.assertTrue(ret is not False,
@@ -587,34 +590,41 @@ class BaseTestClass(object):
                     verdict = test_func(*args, **kwargs)
                 else:
                     verdict = test_func()
+                finished = True
             finally:
                 self._tearDown(test_name)
         except (signals.TestFailure, AssertionError) as e:
             tr_record.testFail(e)
             self._exec_procedure_func(self._onFail)
+            finished = True
         except signals.TestSkip as e:
             # Test skipped.
             tr_record.testSkip(e)
             self._exec_procedure_func(self._onSkip)
+            finished = True
         except (signals.TestAbortClass, signals.TestAbortAll) as e:
             # Abort signals, pass along.
             tr_record.testFail(e)
+            finished = True
             raise e
         except signals.TestPass as e:
             # Explicit test pass.
             tr_record.testPass(e)
             self._exec_procedure_func(self._onPass)
+            finished = True
         except signals.TestSilent as e:
             # Suppress test reporting.
             is_silenced = True
             self._exec_procedure_func(self._onSilent)
-            self.results.requested.remove(test_name)
+            self.results.removeRecord(tr_record)
+            finished = True
         except Exception as e:
             # Exception happened during test.
             logging.exception(e)
             tr_record.testError(e)
             self._exec_procedure_func(self._onException)
             self._exec_procedure_func(self._onFail)
+            finished = True
         else:
             # Keep supporting return False for now.
             # TODO(angli): Deprecate return False support.
@@ -627,7 +637,14 @@ class BaseTestClass(object):
             # This should be removed eventually.
             tr_record.testFail()
             self._exec_procedure_func(self._onFail)
+            finished = True
         finally:
+            if not finished:
+                logging.error('Test timed out.')
+                tr_record.testError()
+                self._exec_procedure_func(self._onException)
+                self._exec_procedure_func(self._onFail)
+
             if not is_silenced:
                 self.results.addRecord(tr_record)
             self._testExit()
@@ -676,7 +693,9 @@ class BaseTestClass(object):
                     logging.exception(("Failed to get test name from "
                                        "test_func. Fall back to default %s"),
                                       test_name)
-            self.results.requested.append(test_name)
+
+            tr_record = records.TestResultRecord(test_name, self.TAG)
+            self.results.requested.append(tr_record)
             if len(test_name) > utils.MAX_FILENAME_LEN:
                 test_name = test_name[:utils.MAX_FILENAME_LEN]
             previous_success_cnt = len(self.results.passed)
@@ -783,8 +802,8 @@ class BaseTestClass(object):
                 # No test case specified by user, execute all in the test class
                 test_names = self._get_all_test_names()
         self.results.requested = [
-            test_name for test_name in test_names
-            if test_name.startswith(STR_TEST)
+            records.TestResultRecord(test_name, self.TAG)
+            for test_name in test_names if test_name.startswith(STR_TEST)
         ]
         tests = self._get_test_funcs(test_names)
         # Setup for the class.

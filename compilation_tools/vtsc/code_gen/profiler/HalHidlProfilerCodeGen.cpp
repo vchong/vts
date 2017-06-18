@@ -458,8 +458,8 @@ void HalHidlProfilerCodeGen::GenerateMacros(Formatter& out,
   out << "\n";
 }
 
-void HalHidlProfilerCodeGen::GenerateProfierSanityCheck(Formatter& out,
-  const ComponentSpecificationMessage& message) {
+void HalHidlProfilerCodeGen::GenerateProfilerSanityCheck(
+    Formatter& out, const ComponentSpecificationMessage& message) {
   out << "if (strcmp(package, \"" << GetPackageName(message) << "\") != 0) {\n";
   out.indent();
   out << "LOG(WARNING) << \"incorrect package.\";\n";

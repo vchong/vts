@@ -103,7 +103,8 @@ class ElfParser(object):
 
     def Close(self):
         """Closes the ELF file."""
-        self._file.close()
+        if hasattr(self, "_file"):
+            self._file.close()
 
     def _SeekRead(self, offset, read_size):
         """Reads a byte string at specific offset in the file.

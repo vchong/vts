@@ -62,7 +62,7 @@ void HalHidlCodeGen::GenerateCppBodyCallbackFunction(Formatter& out,
         } else {
           out << GetCppVariableType(arg, &message, true);
         }
-        out << " arg" << index;
+        out << " arg" << index << " __attribute__((__unused__))";
         if (index != (api.arg_size() - 1))
           out << ",\n";
       }
@@ -170,9 +170,10 @@ void HalHidlCodeGen::GenerateCppBodyFuzzFunction(
     Formatter& out, const ComponentSpecificationMessage& /*message*/,
     const string& fuzzer_extended_class_name) {
     out << "bool " << fuzzer_extended_class_name << "::Fuzz(" << "\n";
-    out << "    FunctionSpecificationMessage* func_msg," << "\n";
-    out << "    void** result, const string& callback_socket_name) {\n";
     out.indent();
+    out << "FunctionSpecificationMessage* /*func_msg*/,"
+        << "\n";
+    out << "void** /*result*/, const string& /*callback_socket_name*/) {\n";
     out << "return true;\n";
     out.unindent();
     out << "}\n";
@@ -184,10 +185,13 @@ void HalHidlCodeGen::GenerateDriverFunctionImpl(Formatter& out,
   if (message.component_name() != "types"
       && !endsWith(message.component_name(), "Callback")) {
     out << "bool " << fuzzer_extended_class_name << "::CallFunction("
-        << "const FunctionSpecificationMessage& func_msg, "
-        << "const string& callback_socket_name, "
-        << "FunctionSpecificationMessage* result_msg) {\n";
+        << "\n";
     out.indent();
+    out << "const FunctionSpecificationMessage& func_msg,"
+        << "\n";
+    out << "const string& callback_socket_name __attribute__((__unused__)),"
+        << "\n";
+    out << "FunctionSpecificationMessage* result_msg) {\n";
 
     out << "const char* func_name = func_msg.name().c_str();" << "\n";
     out << "cout << \"Function: \" << __func__ << \" \" << func_name << endl;"
@@ -356,9 +360,11 @@ void HalHidlCodeGen::GenerateCppBodyGetAttributeFunction(
   if (message.component_name() != "types" &&
       !endsWith(message.component_name(), "Callback")) {
     out << "bool " << fuzzer_extended_class_name << "::GetAttribute(" << "\n";
-    out << "    FunctionSpecificationMessage* func_msg," << "\n";
-    out << "    void** result) {" << "\n";
     out.indent();
+    out << "FunctionSpecificationMessage* /*func_msg*/,"
+        << "\n";
+    out << "void** /*result*/) {"
+        << "\n";
     // TOOD: impl
     out << "cerr << \"attribute not found\" << endl;\n"
         << "return false;\n";
@@ -764,9 +770,10 @@ void HalHidlCodeGen::GenerateDriverImplForAttribute(Formatter& out,
       }
       string func_name = "MessageTo"
           + ClearStringWithNameSpaceAccess(attribute.name());
-      out << "void " << func_name
-          << "(const VariableSpecificationMessage& var_msg, "
-          << attribute.name() << "* arg) {" << "\n";
+      out << "void " << func_name << "(const VariableSpecificationMessage& "
+                                     "var_msg __attribute__((__unused__)), "
+          << attribute.name() << "* arg __attribute__((__unused__))) {"
+          << "\n";
       out.indent();
       int struct_index = 0;
       for (const auto& struct_value : attribute.struct_value()) {
@@ -1190,10 +1197,13 @@ void HalHidlCodeGen::GenerateVerificationFunctionImpl(Formatter& out,
   if (message.component_name() != "types"
       && !endsWith(message.component_name(), "Callback")) {
     // Generate the main profiler function.
-    out << "\nbool " << fuzzer_extended_class_name
-        << "::VerifyResults(const FunctionSpecificationMessage& expected_result, "
-        << "const FunctionSpecificationMessage& actual_result) {\n";
+    out << "\nbool " << fuzzer_extended_class_name;
     out.indent();
+    out << "::VerifyResults(const FunctionSpecificationMessage& "
+           "expected_result __attribute__((__unused__)),"
+        << "\n";
+    out << "const FunctionSpecificationMessage& actual_result "
+           "__attribute__((__unused__))) {\n";
     for (const FunctionSpecificationMessage api : message.interface().api()) {
       out << "if (!strcmp(actual_result.name().c_str(), \"" << api.name()
           << "\")) {\n";
@@ -1420,8 +1430,10 @@ void HalHidlCodeGen::GenerateVerificationImplForAttribute(Formatter& out,
   }
   std::string func_name = "bool Verify"
       + ClearStringWithNameSpaceAccess(attribute.name());
-  out << func_name << "(const VariableSpecificationMessage& expected_result, "
-      << "const VariableSpecificationMessage& actual_result){\n";
+  out << func_name << "(const VariableSpecificationMessage& expected_result "
+                      "__attribute__((__unused__)), "
+      << "const VariableSpecificationMessage& actual_result "
+         "__attribute__((__unused__))){\n";
   out.indent();
   GenerateVerificationCodeForTypedVariable(out, attribute, "expected_result",
                                            "actual_result");
@@ -1652,7 +1664,7 @@ void HalHidlCodeGen::GenerateSetResultImplForAttribute(Formatter& out,
   string func_name = "void SetResult"
       + ClearStringWithNameSpaceAccess(attribute.name());
   out << func_name << "(VariableSpecificationMessage* result_msg, "
-      << attribute.name() << " result_value){\n";
+      << attribute.name() << " result_value __attribute__((__unused__))){\n";
   out.indent();
   GenerateSetResultCodeForTypedVariable(out, attribute, "result_msg",
                                         "result_value");

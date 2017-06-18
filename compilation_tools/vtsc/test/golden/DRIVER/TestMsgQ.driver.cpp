@@ -22,12 +22,12 @@ namespace vts {
     if (choice == (uint32_t) 2) return ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits::FMQ_NOT_FULL;
     return ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits::FMQ_NOT_EMPTY;
 }
-bool Verify__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(const VariableSpecificationMessage& expected_result, const VariableSpecificationMessage& actual_result){
+bool Verify__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(const VariableSpecificationMessage& expected_result __attribute__((__unused__)), const VariableSpecificationMessage& actual_result __attribute__((__unused__))){
     if (actual_result.scalar_value().uint32_t() != expected_result.scalar_value().uint32_t()) { return false; }
     return true;
 }
 
-void SetResult__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(VariableSpecificationMessage* result_msg, ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits result_value){
+void SetResult__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(VariableSpecificationMessage* result_msg, ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits result_value __attribute__((__unused__))){
     result_msg->set_type(TYPE_ENUM);
     result_msg->set_scalar_type("uint32_t");
     result_msg->mutable_scalar_value()->set_uint32_t(static_cast<uint32_t>(result_value));
@@ -52,17 +52,20 @@ bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::GetService(bool 
 }
 
 bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::Fuzz(
-    FunctionSpecificationMessage* func_msg,
-    void** result, const string& callback_socket_name) {
+    FunctionSpecificationMessage* /*func_msg*/,
+    void** /*result*/, const string& /*callback_socket_name*/) {
     return true;
 }
 bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::GetAttribute(
-    FunctionSpecificationMessage* func_msg,
-    void** result) {
+    FunctionSpecificationMessage* /*func_msg*/,
+    void** /*result*/) {
     cerr << "attribute not found" << endl;
     return false;
 }
-bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::CallFunction(const FunctionSpecificationMessage& func_msg, const string& callback_socket_name, FunctionSpecificationMessage* result_msg) {
+bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::CallFunction(
+    const FunctionSpecificationMessage& func_msg,
+    const string& callback_socket_name __attribute__((__unused__)),
+    FunctionSpecificationMessage* result_msg) {
     const char* func_name = func_msg.name().c_str();
     cout << "Function: " << __func__ << " " << func_name << endl;
     if (!strcmp(func_name, "configureFmqSyncReadWrite")) {
@@ -247,7 +250,8 @@ bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::CallFunction(con
     return false;
 }
 
-bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::VerifyResults(const FunctionSpecificationMessage& expected_result, const FunctionSpecificationMessage& actual_result) {
+bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::VerifyResults(const FunctionSpecificationMessage& expected_result __attribute__((__unused__)),
+    const FunctionSpecificationMessage& actual_result __attribute__((__unused__))) {
     if (!strcmp(actual_result.name().c_str(), "configureFmqSyncReadWrite")) {
         if (actual_result.return_type_hidl_size() != expected_result.return_type_hidl_size() ) { return false; }
         if (actual_result.return_type_hidl(0).scalar_value().bool_t() != expected_result.return_type_hidl(0).scalar_value().bool_t()) { return false; }

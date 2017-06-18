@@ -34,17 +34,20 @@ bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::GetService(bool get_stub, co
 }
 
 bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::Fuzz(
-    FunctionSpecificationMessage* func_msg,
-    void** result, const string& callback_socket_name) {
+    FunctionSpecificationMessage* /*func_msg*/,
+    void** /*result*/, const string& /*callback_socket_name*/) {
     return true;
 }
 bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::GetAttribute(
-    FunctionSpecificationMessage* func_msg,
-    void** result) {
+    FunctionSpecificationMessage* /*func_msg*/,
+    void** /*result*/) {
     cerr << "attribute not found" << endl;
     return false;
 }
-bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::CallFunction(const FunctionSpecificationMessage& func_msg, const string& callback_socket_name, FunctionSpecificationMessage* result_msg) {
+bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::CallFunction(
+    const FunctionSpecificationMessage& func_msg,
+    const string& callback_socket_name __attribute__((__unused__)),
+    FunctionSpecificationMessage* result_msg) {
     const char* func_name = func_msg.name().c_str();
     cout << "Function: " << __func__ << " " << func_name << endl;
     if (!strcmp(func_name, "open")) {
@@ -183,7 +186,8 @@ bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::CallFunction(const FunctionS
     return false;
 }
 
-bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::VerifyResults(const FunctionSpecificationMessage& expected_result, const FunctionSpecificationMessage& actual_result) {
+bool FuzzerExtended_android_hardware_nfc_V1_0_INfc::VerifyResults(const FunctionSpecificationMessage& expected_result __attribute__((__unused__)),
+    const FunctionSpecificationMessage& actual_result __attribute__((__unused__))) {
     if (!strcmp(actual_result.name().c_str(), "open")) {
         if (actual_result.return_type_hidl_size() != expected_result.return_type_hidl_size() ) { return false; }
         if(!Verify__android__hardware__nfc__V1_0__NfcStatus(expected_result.return_type_hidl(0), actual_result.return_type_hidl(0))) { return false; }

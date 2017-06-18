@@ -80,6 +80,9 @@ def GetHalDescriptions(vintf_xml):
     passthrough_hals = dict()
 
     for xml_hal in xml_root:
+        if xml_hal.tag != 'hal':
+            logging.debug('vintf has a non-hal child with tag: %s', xml_hal.tag)
+            continue
         hal_name = None
         hal_transport = None
         hal_version = None

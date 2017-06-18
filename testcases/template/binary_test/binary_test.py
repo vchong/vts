@@ -23,7 +23,6 @@ from vts.runners.host import base_test
 from vts.runners.host import const
 from vts.runners.host import keys
 from vts.runners.host import test_runner
-from vts.utils.python.controllers import android_device
 from vts.utils.python.common import list_utils
 from vts.utils.python.os import path_utils
 from vts.utils.python.precondition import precondition_utils
@@ -159,11 +158,8 @@ class BinaryTest(base_test.BaseTestClass):
                     tag, path = token.split(self.TAG_DELIMITER)
                 self.profiling_library_path[tag] = path
 
-        if not hasattr(self, "_dut"):
-            self._dut = self.registerController(android_device)[0]
-
-        self._dut.shell.InvokeTerminal("one", int(self.abi_bitness))
-        self.shell = self._dut.shell.one
+        self._dut = self.android_devices[0]
+        self.shell = self._dut.shell
 
         if self.coverage.enabled and self.coverage.global_coverage:
             self.coverage.LoadArtifacts()
@@ -173,7 +169,7 @@ class BinaryTest(base_test.BaseTestClass):
         self.shell.Execute("setenforce 0")  # SELinux permissive mode
 
         if not precondition_utils.CanRunHidlHalTest(self, self._dut,
-                                                    self._dut.shell.one):
+                                                    self.shell):
             self._skip_all_testcases = True
 
         self.testcases = []
