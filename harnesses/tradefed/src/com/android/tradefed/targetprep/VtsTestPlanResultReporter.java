@@ -122,6 +122,9 @@ public class VtsTestPlanResultReporter implements ITargetPreparer, ITargetCleane
             CLog.d(String.format("Can't read the test plan result file %s", repotFilePath));
             return;
         }
+        File reportDir = reportFile.getParentFile();
+        CLog.d(String.format("Delete report dir %s", reportDir.getAbsolutePath()));
+        FileUtil.recursiveDelete(reportDir);
         postMessage.addTestPlanReport(testPlanMessage);
         if (found) {
             dashboardUtil.Upload(postMessage);

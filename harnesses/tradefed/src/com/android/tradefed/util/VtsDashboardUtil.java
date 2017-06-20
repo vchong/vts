@@ -128,7 +128,7 @@ public class VtsDashboardUtil {
                 CLog.e("Stdout: %s", c.getStdout());
                 CLog.e("Stderr: %s", c.getStderr());
             }
-            //        FileUtil.deleteFile(new File(messageFilePath));
+            FileUtil.deleteFile(new File(messageFilePath));
         } catch (NoSuchElementException e) {
             CLog.e("dashboard_post_command unspecified in vendor config.");
         }

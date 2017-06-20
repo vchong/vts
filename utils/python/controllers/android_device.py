@@ -816,12 +816,23 @@ class AndroidDevice(object):
             ed = self._getSl4aEventDispatcher(droid)
         self.sl4a_event = ed
 
-    def getVintfXml(self):
-        """Return vendor interface manifest string."""
-        # TODO: (b/36137939) use vintf instead of lshal.
+    def getVintfXml(self, use_lshal=True):
+        """Reads the vendor interface manifest Xml.
+
+        Args:
+            use_hal: bool, set True to use lshal command and False to fetch
+                     /vendor/manifest.xml directly.
+
+        Returns:
+            Vendor interface manifest string.
+        """
         try:
-            stdout = self.adb.shell('"lshal --init-vintf 2> /dev/null"')
-            return str(stdout)
+            if use_lshal:
+                stdout = self.adb.shell('"lshal --init-vintf 2> /dev/null"')
+                return str(stdout)
+            else:
+                stdout = self.adb.shell('cat /vendor/manifest.xml')
+                return str(stdout)
         except adb.AdbError as e:
             return None
 

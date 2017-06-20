@@ -311,7 +311,7 @@ class BinaryTest(base_test.BaseTestClass):
         sources = set(filter(bool, sources))
         paths = [dst for src, dst, tag in sources if src and dst]
         cmd = ['rm -rf %s' % dst for dst in paths]
-        cmd_results = self.shell.Execute(cmd)
+        cmd_results = self.shell.Execute(cmd, no_except=True)
         if not cmd_results or any(cmd_results[const.EXIT_CODE]):
             logging.warning('Failed to clean up test class: %s', cmd_results)
 
@@ -321,7 +321,7 @@ class BinaryTest(base_test.BaseTestClass):
         dirs = list(dir_set)
         dirs.sort(lambda x, y: cmp(len(y), len(x)))
         cmd = ['rmdir %s' % d for d in dirs]
-        cmd_results = self.shell.Execute(cmd)
+        cmd_results = self.shell.Execute(cmd, no_except=True)
         if not cmd_results or any(cmd_results[const.EXIT_CODE]):
             logging.warning('Failed to remove: %s', cmd_results)
 

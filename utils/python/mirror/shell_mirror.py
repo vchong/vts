@@ -66,7 +66,8 @@ class ShellMirror(object):
         if not instance_name:
             raise error.ComponentLoadingError("instance_name is None")
         if bits not in [32, 64]:
-            raise error.ComponentLoadingError("Invalid value for bits: %s" % bits)
+            raise error.ComponentLoadingError(
+                "Invalid value for bits: %s" % bits)
 
         client = vts_tcp_client.VtsTcpClient()
         client.Connect(command_port=self._host_command_port)
@@ -95,6 +96,6 @@ class ShellMirror(object):
             self.InvokeTerminal(name)
         return getattr(self, name)
 
-    def Execute(self, command):
+    def Execute(self, command, no_except=False):
         """Execute a shell command with default shell terminal"""
-        return self.default.Execute(command)
+        return self.default.Execute(command, no_except)

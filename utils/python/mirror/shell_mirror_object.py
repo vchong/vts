@@ -16,18 +16,28 @@
 
 
 class ShellMirrorObject(object):
-    """The class that mirrors a shell on the native side.
+    '''The class that mirrors a shell on the native side.
 
     Attributes:
         _client: the TCP client instance.
-    """
+    '''
 
     def __init__(self, client):
         self._client = client
 
-    def Execute(self, command):
-        result = self._client.ExecuteShellCommand(command)
-        return result
+    def Execute(self, command, no_except=False):
+        '''Execute remote shell commands on device.
+
+        Args:
+            command: string or a list of string, shell commands to execute on
+                     device.
+            no_except: bool, if set to True, no exception will be thrown and
+                       error code will be -1 with error message on stderr.
+
+        Returns:
+            A dictionary containing shell command execution results
+        '''
+        return self._client.ExecuteShellCommand(command, no_except)
 
     def CleanUp(self):
         self._client.Disconnect()

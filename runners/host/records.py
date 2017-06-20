@@ -22,6 +22,7 @@ import pprint
 
 from vts.runners.host import signals
 from vts.runners.host import utils
+from vts.utils.python.common import list_utils
 
 
 class TestResultEnums(object):
@@ -247,6 +248,7 @@ class TestResult(object):
         if not isinstance(r, TestResult):
             raise TypeError("Operand %s of type %s is not a TestResult." %
                             (r, type(r)))
+        r.reportNonExecutedRecord()
         sum_result = TestResult()
         for name in sum_result.__dict__:
             if name.startswith("_test_module"):
@@ -276,6 +278,26 @@ class TestResult(object):
                 r_value = list(getattr(r, name))
                 setattr(sum_result, name, l_value + r_value)
         return sum_result
+
+    def reportNonExecutedRecord(self):
+        """Check and report any requested tests that did not finish.
+
+        Adds a test record to self.error list iff it is in requested list but not
+        self.executed result list.
+        """
+        for requested in self.requested:
+            found = False
+
+            for executed in self.executed:
+                if (requested.test_name == executed.test_name and
+                        requested.test_class == executed.test_class):
+                    found = True
+                    break
+
+            if not found:
+                requested.testBegin()
+                requested.testError()
+                self.error.append(requested)
 
     def removeRecord(self, record):
         """Remove a test record from test results.
@@ -368,8 +390,11 @@ class TestResult(object):
         Returns:
             A json-format string representing the test results.
         """
+        records = list_utils.MergeUniqueKeepOrder(
+            self.executed, self.failed, self.passed, self.skipped, self.error)
+        executed = [record.getDict() for record in records]
+
         d = {}
-        executed = [record.getDict() for record in self.executed]
         d["Results"] = executed
         d["Summary"] = self.summaryDict()
         d["TestModule"] = self.testModuleDict()

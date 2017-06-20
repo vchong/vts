@@ -118,6 +118,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     static final String PRECONDITION_FEATURE = "precondition_feature";
     static final String PRECONDITION_FILE_PATH_PREFIX = "precondition_file_path_prefix";
     static final String PRECONDITION_LSHAL = "precondition_lshal";
+    static final String PRECONDITION_VINTF = "precondition_vintf";
     static final String ENABLE_SYSTRACE = "enable_systrace";
     static final String HAL_HIDL_REPLAY_TEST_TRACE_PATHS = "hal_hidl_replay_test_trace_paths";
     static final String HAL_HIDL_PACKAGE_NAME = "hal_hidl_package_name";
@@ -168,6 +169,12 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     @Option(name = "precondition-lshal",
         description = "The name of a `lshal`-listable feature needed to run the test.")
     private String mPreconditionLshal = null;
+
+    @Option(name = "precondition-vintf",
+            description = "The full name of a HAL specified in vendor/manifest.xml and "
+                    + "needed to run the test (e.g., android.hardware.graphics.mapper@2.0). "
+                    + "this can override precondition-lshal option.")
+    private String mPreconditionVintf = null;
 
     @Option(name = "use-stdout-logs",
             description = "Flag that determines whether to use std:out to parse output.")
@@ -725,6 +732,11 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
         if (mPreconditionLshal != null) {
             jsonObject.put(PRECONDITION_LSHAL, mPreconditionLshal);
             CLog.i("Added %s to the Json object", PRECONDITION_LSHAL);
+        }
+
+        if (mPreconditionVintf != null) {
+            jsonObject.put(PRECONDITION_VINTF, mPreconditionVintf);
+            CLog.i("Added %s to the Json object", PRECONDITION_VINTF);
         }
 
         if (!mBinaryTestProfilingLibraryPath.isEmpty()) {
