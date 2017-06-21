@@ -942,9 +942,9 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
 
         File reportMsg;
         int waitCount = 0;
-        // Wait python process to finish for 30 seconds at most
+        // Wait python process to finish for 3 minutes at most
         while ((reportMsg = FileUtil.findFile(vtsRunnerLogDir, REPORT_MESSAGE_FILE_NAME)) == null
-                && waitCount < 30) {
+                && waitCount < 180) {
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
@@ -953,7 +953,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
             waitCount++;
         }
 
-        CLog.i("Report message path: %s", reportMsg);
+        CLog.i("Report message path: %s, size: %s", reportMsg, reportMsg.length());
         if (reportMsg != null) {
             VtsDashboardUtil dashboardUtil = new VtsDashboardUtil(configReader);
             dashboardUtil.Upload(reportMsg.getAbsolutePath());

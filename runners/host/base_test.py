@@ -640,6 +640,9 @@ class BaseTestClass(object):
             finished = True
         finally:
             if not finished:
+                for device in self.android_devices:
+                    device.shell.enabled = False
+
                 logging.error('Test timed out.')
                 tr_record.testError()
                 self._exec_procedure_func(self._onException)
