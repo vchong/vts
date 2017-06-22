@@ -21,6 +21,48 @@ from vts.runners.host import keys
 from vts.utils.python.common import vintf_utils
 
 
+def IsHalRegisteredInVintfXml(hal, vintf_xml):
+    """Checks whether a HAL is registered in a VINTF XML.
+
+    Args:
+        hal: string, the full name of a HAL (e.g., package@version)
+        vintf_xml: string, the VINTF XML content.
+
+    Returns:
+        True if found or vintf_xml is malformed, False otherwise.
+    """
+    result = True
+    hwbinder_hals, passthrough_hals = vintf_utils.GetHalDescriptions(
+        vintf_xml)
+    if not hwbinder_hals or not passthrough_hals:
+        logging.error("can't check precondition due to a "
+                  "VINTF XML format error.")
+        # Assume it's satisfied.
+    elif (hal not in hwbinder_hals and
+          hal not in passthrough_hals):
+        logging.warn(
+            "The required HAL %s not found in VINTF XML.",
+            hal)
+        result = False
+    elif (hal not in hwbinder_hals and
+          hal in passthrough_hals):
+        if hasattr(test_instance, keys.ConfigKeys.IKEY_ABI_BITNESS):
+            bitness = getattr(test_instance,
+                              keys.ConfigKeys.IKEY_ABI_BITNESS)
+            if (bitness not in
+                passthrough_hals[hal].hal_archs):
+                logging.warn(
+                    "The required feature %s found as a "
+                    "passthrough HAL but the client bitness %s "
+                    "unsupported",
+                    hal, bitness)
+                result = False
+    else:
+        logging.info(
+            "The feature %s found in VINTF XML", hal)
+    return result
+
+
 def CanRunHidlHalTest(test_instance, dut, shell=None):
     """Checks HAL precondition of a test instance.
 
@@ -90,42 +132,26 @@ def CanRunHidlHalTest(test_instance, dut, shell=None):
         keys.ConfigKeys.IKEY_PRECONDITION_VINTF, ""))
     vintf_xml = None
     if hal:
-        vintf_xml = dut.getVintfXml(use_lshal=False)
+        use_lshal = False
+        vintf_xml = dut.getVintfXml(use_lshal=use_lshal)
         logging.debug("precondition-vintf used to retrieve VINTF xml.")
     else:
+        use_lshal = True
         hal = str(getattr(test_instance,
             keys.ConfigKeys.IKEY_PRECONDITION_LSHAL, ""))
         if hal:
-            vintf_xml = dut.getVintfXml(use_lshal=True)
+            vintf_xml = dut.getVintfXml(use_lshal=use_lshal)
             logging.debug("precondition-lshal used to retrieve VINTF xml.")
 
     if vintf_xml:
-        hwbinder_hals, passthrough_hals = vintf_utils.GetHalDescriptions(
-            vintf_xml)
-        if not hwbinder_hals or not passthrough_hals:
-            logging.error("can't check precondition due to a "
-                      "lshal output format error.")
-        elif (hal not in hwbinder_hals and
-              hal not in passthrough_hals):
-            logging.warn(
-                "The required hal %s not found by lshal.",
-                hal)
-            return False
-        elif (hal not in hwbinder_hals and
-              hal in passthrough_hals):
-            if hasattr(test_instance, keys.ConfigKeys.IKEY_ABI_BITNESS):
-                bitness = getattr(test_instance,
-                                  keys.ConfigKeys.IKEY_ABI_BITNESS)
-                if (bitness not in
-                    passthrough_hals[hal].hal_archs):
-                    logging.warn(
-                        "The required feature %s found as a "
-                        "passthrough hal but the client bitness %s "
-                        "not supported",
-                        hal, bitness)
-                    return False
-        else:
-            logging.info(
-                "The feature %s found in vintf xml", hal)
+        result = IsHalRegisteredInVintfXml(hal, vintf_xml)
+        if not result and use_lshal:
+            # this is for when a test is configured to use the runtime HAL
+            # service availability (the default mode for HIDL tests).
+            # if a HAL is in vendor/manifest.xml, test is supposed to fail
+            # even though a respective HIDL HAL service is not running.
+            vintf_xml = dut.getVintfXml(use_lshal=False)
+            return IsHalRegisteredInVintfXml(hal, vintf_xml)
+        return result
 
     return True

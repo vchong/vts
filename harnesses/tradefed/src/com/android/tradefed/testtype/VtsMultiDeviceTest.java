@@ -953,8 +953,10 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
             waitCount++;
         }
 
-        CLog.i("Report message path: %s, size: %s", reportMsg, reportMsg.length());
+        CLog.i("Report message path: %s", reportMsg);
+
         if (reportMsg != null) {
+            CLog.i("Uploading report message. File size: %s", reportMsg.length());
             VtsDashboardUtil dashboardUtil = new VtsDashboardUtil(configReader);
             dashboardUtil.Upload(reportMsg.getAbsolutePath());
         } else {
