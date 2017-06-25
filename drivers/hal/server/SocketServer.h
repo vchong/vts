@@ -21,6 +21,7 @@
 
 #include <VtsDriverCommUtil.h>
 
+#include "driver_manager/VtsHalDriverManager.h"
 #include "specification_parser/SpecificationBuilder.h"
 
 namespace android {
@@ -28,9 +29,11 @@ namespace vts {
 
 class VtsDriverHalSocketServer : public VtsDriverCommUtil {
  public:
-  VtsDriverHalSocketServer(android::vts::SpecificationBuilder& spec_builder,
+  VtsDriverHalSocketServer(VtsHalDriverManager* driver_manager,
                            const char* lib_path)
-      : VtsDriverCommUtil(), spec_builder_(spec_builder), lib_path_(lib_path) {}
+      : VtsDriverCommUtil(),
+        driver_manager_(driver_manager),
+        lib_path_(lib_path) {}
 
   // Start a session to handle a new request.
   bool ProcessOneCommand();
@@ -44,20 +47,20 @@ class VtsDriverHalSocketServer : public VtsDriverCommUtil {
                   const string& hw_binder_service_name,
                   const string& module_name);
   int32_t Status(int32_t type);
-  const char* ReadSpecification(
-      const string& name, int target_class, int target_type,
-      float target_version, const string& target_package);
+  const char* ReadSpecification(const string& name, int target_class,
+                                int target_type, float target_version,
+                                const string& target_package);
   const char* Call(const string& arg);
   const char* GetAttribute(const string& arg);
   string ListFunctions() const;
 
  private:
-  android::vts::SpecificationBuilder& spec_builder_;
+  android::vts::VtsHalDriverManager* driver_manager_;
   const char* lib_path_;
 };
 
 extern int StartSocketServer(const string& socket_port_file,
-                             android::vts::SpecificationBuilder& spec_builder,
+                             VtsHalDriverManager* driver_manager,
                              const char* lib_path);
 
 }  // namespace vts

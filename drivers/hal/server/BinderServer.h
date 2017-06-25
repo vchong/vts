@@ -19,13 +19,14 @@
 #ifndef __VTS_DRIVER_HAL_BINDER_SERVER_
 #define __VTS_DRIVER_HAL_BINDER_SERVER_
 
+#include "driver_manager/VtsHalDriverManager.h"
 #include "specification_parser/SpecificationBuilder.h"
 
 namespace android {
 namespace vts {
 
 extern void StartBinderServer(const string& service_name,
-                              android::vts::SpecificationBuilder& spec_builder,
+                              android::vts::VtsHalDriverManager* driver_manager,
                               const char* lib_path);
 
 }  // namespace vts

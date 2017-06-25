@@ -32,19 +32,20 @@ class VtsCodelabHelloWorldTest(base_test.BaseTestClass):
 
     def testEcho1(self):
         """A simple testcase which sends a command."""
-        results = self.shell.Execute("echo hello_world")  # runs a shell command.
+        results = self.shell.Execute(
+            "echo hello_world")  # runs a shell command.
         logging.info(str(results[const.STDOUT]))  # prints the stdout
-        asserts.assertEqual(results[const.STDOUT][0].strip(), "hello_world")  # checks the stdout
-        asserts.assertEqual(results[const.EXIT_CODE][0], 0)  # checks the exit code
+        asserts.assertEqual(results[const.STDOUT][0].strip(),
+                            "hello_world")  # checks the stdout
+        asserts.assertEqual(results[const.EXIT_CODE][0],
+                            0)  # checks the exit code
 
     def testEcho2(self):
         """A simple testcase which sends two commands."""
-        terminal_session_name = "my_shell2"
-        self.dut.shell.InvokeTerminal(terminal_session_name)
-        my_shell = getattr(self.dut.shell, terminal_session_name)
-        results = my_shell.Execute(["echo hello", "echo world"])
+        results = self.shell.Execute(["echo hello", "echo world"])
         logging.info(str(results[const.STDOUT]))
-        asserts.assertEqual(len(results[const.STDOUT]), 2)  # check the number of processed commands
+        asserts.assertEqual(len(results[const.STDOUT]),
+                            2)  # check the number of processed commands
         asserts.assertEqual(results[const.STDOUT][0].strip(), "hello")
         asserts.assertEqual(results[const.STDOUT][1].strip(), "world")
         asserts.assertEqual(results[const.EXIT_CODE][0], 0)

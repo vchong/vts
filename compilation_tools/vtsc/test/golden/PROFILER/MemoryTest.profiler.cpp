@@ -52,8 +52,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_memory_V1_0_IMemoryTes
                         LOG(ERROR) << "Number of arguments does not match. expect: 1, actual: " << (*args).size() << ", method name: haveSomeMemory, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    ::android::hardware::hidl_memory *arg_val_0 = reinterpret_cast<::android::hardware::hidl_memory*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    ::android::hardware::hidl_memory *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<::android::hardware::hidl_memory*> ((*args)[0]);
                     arg_0->set_type(TYPE_HIDL_MEMORY);
                     arg_0->mutable_hidl_memory_value()->set_size((*arg_val_0).size());
                     break;
@@ -66,8 +66,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_memory_V1_0_IMemoryTes
                         LOG(ERROR) << "Number of return values does not match. expect: 1, actual: " << (*args).size() << ", method name: haveSomeMemory, event type: " << event;
                         break;
                     }
-                    auto *result_0 = msg.add_return_type_hidl();
-                    ::android::hardware::hidl_memory *result_val_0 = reinterpret_cast<::android::hardware::hidl_memory*> ((*args)[0]);
+                    auto *result_0 __attribute__((__unused__)) = msg.add_return_type_hidl();
+                    ::android::hardware::hidl_memory *result_val_0 __attribute__((__unused__)) = reinterpret_cast<::android::hardware::hidl_memory*> ((*args)[0]);
                     result_0->set_type(TYPE_HIDL_MEMORY);
                     result_0->mutable_hidl_memory_value()->set_size((*result_val_0).size());
                     break;
@@ -96,12 +96,12 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_memory_V1_0_IMemoryTes
                         LOG(ERROR) << "Number of arguments does not match. expect: 2, actual: " << (*args).size() << ", method name: fillMemory, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    ::android::hardware::hidl_memory *arg_val_0 = reinterpret_cast<::android::hardware::hidl_memory*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    ::android::hardware::hidl_memory *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<::android::hardware::hidl_memory*> ((*args)[0]);
                     arg_0->set_type(TYPE_HIDL_MEMORY);
                     arg_0->mutable_hidl_memory_value()->set_size((*arg_val_0).size());
-                    auto *arg_1 = msg.add_arg();
-                    uint8_t *arg_val_1 = reinterpret_cast<uint8_t*> ((*args)[1]);
+                    auto *arg_1 __attribute__((__unused__)) = msg.add_arg();
+                    uint8_t *arg_val_1 __attribute__((__unused__)) = reinterpret_cast<uint8_t*> ((*args)[1]);
                     arg_1->set_type(TYPE_SCALAR);
                     arg_1->mutable_scalar_value()->set_uint8_t((*arg_val_1));
                     break;

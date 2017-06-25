@@ -52,11 +52,10 @@ cc_library_shared {
             srcs: [
                 "binder/VtsFuzzerBinderService.cpp",
                 "component_loader/DllLoader.cpp",
+                "driver_manager/VtsHalDriverManager.cpp",
                 "fuzz_tester/FuzzerBase.cpp",
                 "fuzz_tester/FuzzerCallbackBase.cpp",
-                "fuzz_tester/FuzzerWrapper.cpp",
                 "specification_parser/SpecificationBuilder.cpp",
-                "replayer/VtsHidlHalReplayer.cpp",
             ],
             shared_libs: [
                 "libbinder",

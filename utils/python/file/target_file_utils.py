@@ -22,6 +22,7 @@ _READ_PERMISSION = 4
 _WRITE_PERMISSION = 2
 _EXECUTE_PERMISSION = 1
 
+
 def Exists(filepath, shell):
     """Determines if a file exists.
 
@@ -30,7 +31,8 @@ def Exists(filepath, shell):
         shell: an instance of the VTS shell
 
     Returns:
-        True if the file exists, False otherwise"""
+        True if the file exists, False otherwise
+    """
     cmd = "ls %s" % filepath
     results = shell.Execute(cmd)
     if results[const.EXIT_CODE][0] != 0:
@@ -38,6 +40,7 @@ def Exists(filepath, shell):
 
     out_str = str(results[const.STDOUT][0]).strip()
     return out_str.find(filepath) == 0
+
 
 def FindFiles(shell, path, name_pattern):
     """Searches a path for files on device.
@@ -65,6 +68,7 @@ def FindFiles(shell, path, name_pattern):
     stdout = str(results[const.STDOUT][0])
     return stdout.strip().split("\n")
 
+
 def ReadFileContent(filepath, shell):
     """Read the content of a file and perform assertions.
 
@@ -76,17 +80,18 @@ def ReadFileContent(filepath, shell):
         string, content of file
 
     Raises:
-        IOError if the file does not exist."""
+        IOError if the file does not exist.
+    """
     cmd = "cat %s" % filepath
     results = shell.Execute(cmd)
-    logging.info("%s: Shell command '%s' results: %s", filepath, cmd,
-                 results)
+    logging.info("%s: Shell command '%s' results: %s", filepath, cmd, results)
 
     # checks the exit code
     if results[const.EXIT_CODE][0] != 0:
         raise IOError(results[const.STDERR][0])
 
     return results[const.STDOUT][0]
+
 
 def GetPermission(path, shell):
     """Read the file permission bits of a path.
@@ -103,8 +108,7 @@ def GetPermission(path, shell):
     """
     cmd = "stat -c %%a %s" % path
     results = shell.Execute(cmd)
-    logging.info("%s: Shell command '%s' results: %s", path, cmd,
-                 results)
+    logging.info("%s: Shell command '%s' results: %s", path, cmd, results)
 
     # checks the exit code
     if results[const.EXIT_CODE][0] != 0:
@@ -112,9 +116,10 @@ def GetPermission(path, shell):
 
     accessBits = results[const.STDOUT][0].strip()
     if len(accessBits) != 3:
-        raise IOError("%s: Wrong number of access bits (%s)" %
-                      (path, accessBits))
+        raise IOError("%s: Wrong number of access bits (%s)" % (path,
+                                                                accessBits))
     return accessBits
+
 
 def _HasPermission(permission_bits, groupIndex, permission):
     """Determines if the permission bits grant a permission to a group.
@@ -130,7 +135,8 @@ def _HasPermission(permission_bits, groupIndex, permission):
         True if the group(s) has read permission.
 
     Raises:
-        ValueError if the group or permission bits are invalid"""
+        ValueError if the group or permission bits are invalid
+    """
     if groupIndex >= _PERMISSION_GROUPS:
         raise ValueError("Invalid group: %s" % str(groupIndex))
 
@@ -154,6 +160,7 @@ def _HasPermission(permission_bits, groupIndex, permission):
     # Return true if no group lacks the permission
     return True
 
+
 def IsReadable(permission_bits):
     """Determines if the permission bits grant read permission to any group.
 
@@ -164,9 +171,13 @@ def IsReadable(permission_bits):
         True if any group has read permission.
 
     Raises:
-        ValueError if the group or permission bits are invalid"""
-    return any([_HasPermission(permission_bits, i, _READ_PERMISSION) for i in
-                range(_PERMISSION_GROUPS)])
+        ValueError if the group or permission bits are invalid
+    """
+    return any([
+        _HasPermission(permission_bits, i, _READ_PERMISSION)
+        for i in range(_PERMISSION_GROUPS)
+    ])
+
 
 def IsWritable(permission_bits):
     """Determines if the permission bits grant write permission to any group.
@@ -178,9 +189,13 @@ def IsWritable(permission_bits):
         True if any group has write permission.
 
     Raises:
-        ValueError if the group or permission bits are invalid"""
-    return any([_HasPermission(permission_bits, i, _WRITE_PERMISSION) for i in
-                range(_PERMISSION_GROUPS)])
+        ValueError if the group or permission bits are invalid
+    """
+    return any([
+        _HasPermission(permission_bits, i, _WRITE_PERMISSION)
+        for i in range(_PERMISSION_GROUPS)
+    ])
+
 
 def IsExecutable(permission_bits):
     """Determines if the permission bits grant execute permission to any group.
@@ -192,9 +207,13 @@ def IsExecutable(permission_bits):
         True if any group has execute permission.
 
     Raises:
-        ValueError if the group or permission bits are invalid"""
-    return any([_HasPermission(permission_bits, i, _EXECUTE_PERMISSION) for i in
-                range(_PERMISSION_GROUPS)])
+        ValueError if the group or permission bits are invalid
+    """
+    return any([
+        _HasPermission(permission_bits, i, _EXECUTE_PERMISSION)
+        for i in range(_PERMISSION_GROUPS)
+    ])
+
 
 def IsReadOnly(permission_bits):
     """Determines if the permission bits grant read-only permission.
@@ -209,8 +228,10 @@ def IsReadOnly(permission_bits):
         True if any group has read permission, none have write.
 
     Raises:
-        ValueError if the group or permission bits are invalid"""
+        ValueError if the group or permission bits are invalid
+    """
     return IsReadable(permission_bits) and not IsWritable(permission_bits)
+
 
 def IsWriteOnly(permission_bits):
     """Determines if the permission bits grant write-only permission.
@@ -225,8 +246,10 @@ def IsWriteOnly(permission_bits):
         True if any group has write permission, none have read.
 
     Raises:
-        ValueError if the group or permission bits are invalid"""
+        ValueError if the group or permission bits are invalid
+    """
     return IsWritable(permission_bits) and not IsReadable(permission_bits)
+
 
 def IsReadWrite(permission_bits):
     """Determines if the permission bits grant read/write permissions.
@@ -241,8 +264,10 @@ def IsReadWrite(permission_bits):
         True if read and write permissions are granted to any group(s).
 
     Raises:
-        ValueError if the group or permission bits are invalid"""
+        ValueError if the group or permission bits are invalid
+    """
     return IsReadable(permission_bits) and IsWritable(permission_bits)
+
 
 def assertPermissionsAndExistence(shell, path, check_permission):
     """Asserts that the specified path exists and has the correct permission.
@@ -253,14 +278,11 @@ def assertPermissionsAndExistence(shell, path, check_permission):
                           format and returns True if the permissions are
                           correct, False otherwise.
     """
-    asserts.assertTrue(
-        Exists(path, shell),
-        "%s: File does not exist." % path)
+    asserts.assertTrue(Exists(path, shell), "%s: File does not exist." % path)
     try:
         permission = GetPermission(path, shell)
         asserts.assertTrue(
             check_permission(permission),
-            "%s: File has invalid permissions (%s)" %
-            (path, permission))
+            "%s: File has invalid permissions (%s)" % (path, permission))
     except (ValueError, IOError) as e:
         asserts.fail("Failed to assert permissions: %s" % str(e))

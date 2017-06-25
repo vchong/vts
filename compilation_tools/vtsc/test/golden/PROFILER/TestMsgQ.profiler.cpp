@@ -69,12 +69,12 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of return values does not match. expect: 2, actual: " << (*args).size() << ", method name: configureFmqSyncReadWrite, event type: " << event;
                         break;
                     }
-                    auto *result_0 = msg.add_return_type_hidl();
-                    bool *result_val_0 = reinterpret_cast<bool*> ((*args)[0]);
+                    auto *result_0 __attribute__((__unused__)) = msg.add_return_type_hidl();
+                    bool *result_val_0 __attribute__((__unused__)) = reinterpret_cast<bool*> ((*args)[0]);
                     result_0->set_type(TYPE_SCALAR);
                     result_0->mutable_scalar_value()->set_bool_t((*result_val_0));
-                    auto *result_1 = msg.add_return_type_hidl();
-                    ::android::hardware::MQDescriptorSync<uint16_t> *result_val_1 = reinterpret_cast<::android::hardware::MQDescriptorSync<uint16_t>*> ((*args)[1]);
+                    auto *result_1 __attribute__((__unused__)) = msg.add_return_type_hidl();
+                    ::android::hardware::MQDescriptorSync<uint16_t> *result_val_1 __attribute__((__unused__)) = reinterpret_cast<::android::hardware::MQDescriptorSync<uint16_t>*> ((*args)[1]);
                     result_1->set_type(TYPE_FMQ_SYNC);
                     MessageQueue<uint16_t, kSynchronizedReadWrite> result_1_q((*result_val_1), false);
                     for (int i = 0; i < (int)result_1_q.availableToRead(); i++) {
@@ -111,8 +111,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of arguments does not match. expect: 1, actual: " << (*args).size() << ", method name: getFmqUnsyncWrite, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    bool *arg_val_0 = reinterpret_cast<bool*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    bool *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<bool*> ((*args)[0]);
                     arg_0->set_type(TYPE_SCALAR);
                     arg_0->mutable_scalar_value()->set_bool_t((*arg_val_0));
                     break;
@@ -125,12 +125,12 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of return values does not match. expect: 2, actual: " << (*args).size() << ", method name: getFmqUnsyncWrite, event type: " << event;
                         break;
                     }
-                    auto *result_0 = msg.add_return_type_hidl();
-                    bool *result_val_0 = reinterpret_cast<bool*> ((*args)[0]);
+                    auto *result_0 __attribute__((__unused__)) = msg.add_return_type_hidl();
+                    bool *result_val_0 __attribute__((__unused__)) = reinterpret_cast<bool*> ((*args)[0]);
                     result_0->set_type(TYPE_SCALAR);
                     result_0->mutable_scalar_value()->set_bool_t((*result_val_0));
-                    auto *result_1 = msg.add_return_type_hidl();
-                    ::android::hardware::MQDescriptorUnsync<uint16_t> *result_val_1 = reinterpret_cast<::android::hardware::MQDescriptorUnsync<uint16_t>*> ((*args)[1]);
+                    auto *result_1 __attribute__((__unused__)) = msg.add_return_type_hidl();
+                    ::android::hardware::MQDescriptorUnsync<uint16_t> *result_val_1 __attribute__((__unused__)) = reinterpret_cast<::android::hardware::MQDescriptorUnsync<uint16_t>*> ((*args)[1]);
                     result_1->set_type(TYPE_FMQ_UNSYNC);
                     MessageQueue<uint16_t, kUnsynchronizedWrite> result_1_q((*result_val_1));
                     for (int i = 0; i < (int)result_1_q.availableToRead(); i++) {
@@ -166,8 +166,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of arguments does not match. expect: 1, actual: " << (*args).size() << ", method name: requestWriteFmqSync, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    int32_t *arg_val_0 = reinterpret_cast<int32_t*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    int32_t *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<int32_t*> ((*args)[0]);
                     arg_0->set_type(TYPE_SCALAR);
                     arg_0->mutable_scalar_value()->set_int32_t((*arg_val_0));
                     break;
@@ -180,8 +180,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of return values does not match. expect: 1, actual: " << (*args).size() << ", method name: requestWriteFmqSync, event type: " << event;
                         break;
                     }
-                    auto *result_0 = msg.add_return_type_hidl();
-                    bool *result_val_0 = reinterpret_cast<bool*> ((*args)[0]);
+                    auto *result_0 __attribute__((__unused__)) = msg.add_return_type_hidl();
+                    bool *result_val_0 __attribute__((__unused__)) = reinterpret_cast<bool*> ((*args)[0]);
                     result_0->set_type(TYPE_SCALAR);
                     result_0->mutable_scalar_value()->set_bool_t((*result_val_0));
                     break;
@@ -210,8 +210,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of arguments does not match. expect: 1, actual: " << (*args).size() << ", method name: requestReadFmqSync, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    int32_t *arg_val_0 = reinterpret_cast<int32_t*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    int32_t *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<int32_t*> ((*args)[0]);
                     arg_0->set_type(TYPE_SCALAR);
                     arg_0->mutable_scalar_value()->set_int32_t((*arg_val_0));
                     break;
@@ -224,8 +224,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of return values does not match. expect: 1, actual: " << (*args).size() << ", method name: requestReadFmqSync, event type: " << event;
                         break;
                     }
-                    auto *result_0 = msg.add_return_type_hidl();
-                    bool *result_val_0 = reinterpret_cast<bool*> ((*args)[0]);
+                    auto *result_0 __attribute__((__unused__)) = msg.add_return_type_hidl();
+                    bool *result_val_0 __attribute__((__unused__)) = reinterpret_cast<bool*> ((*args)[0]);
                     result_0->set_type(TYPE_SCALAR);
                     result_0->mutable_scalar_value()->set_bool_t((*result_val_0));
                     break;
@@ -254,8 +254,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of arguments does not match. expect: 1, actual: " << (*args).size() << ", method name: requestWriteFmqUnsync, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    int32_t *arg_val_0 = reinterpret_cast<int32_t*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    int32_t *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<int32_t*> ((*args)[0]);
                     arg_0->set_type(TYPE_SCALAR);
                     arg_0->mutable_scalar_value()->set_int32_t((*arg_val_0));
                     break;
@@ -268,8 +268,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of return values does not match. expect: 1, actual: " << (*args).size() << ", method name: requestWriteFmqUnsync, event type: " << event;
                         break;
                     }
-                    auto *result_0 = msg.add_return_type_hidl();
-                    bool *result_val_0 = reinterpret_cast<bool*> ((*args)[0]);
+                    auto *result_0 __attribute__((__unused__)) = msg.add_return_type_hidl();
+                    bool *result_val_0 __attribute__((__unused__)) = reinterpret_cast<bool*> ((*args)[0]);
                     result_0->set_type(TYPE_SCALAR);
                     result_0->mutable_scalar_value()->set_bool_t((*result_val_0));
                     break;
@@ -298,8 +298,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of arguments does not match. expect: 1, actual: " << (*args).size() << ", method name: requestReadFmqUnsync, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    int32_t *arg_val_0 = reinterpret_cast<int32_t*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    int32_t *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<int32_t*> ((*args)[0]);
                     arg_0->set_type(TYPE_SCALAR);
                     arg_0->mutable_scalar_value()->set_int32_t((*arg_val_0));
                     break;
@@ -312,8 +312,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of return values does not match. expect: 1, actual: " << (*args).size() << ", method name: requestReadFmqUnsync, event type: " << event;
                         break;
                     }
-                    auto *result_0 = msg.add_return_type_hidl();
-                    bool *result_val_0 = reinterpret_cast<bool*> ((*args)[0]);
+                    auto *result_0 __attribute__((__unused__)) = msg.add_return_type_hidl();
+                    bool *result_val_0 __attribute__((__unused__)) = reinterpret_cast<bool*> ((*args)[0]);
                     result_0->set_type(TYPE_SCALAR);
                     result_0->mutable_scalar_value()->set_bool_t((*result_val_0));
                     break;
@@ -342,8 +342,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of arguments does not match. expect: 1, actual: " << (*args).size() << ", method name: requestBlockingRead, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    int32_t *arg_val_0 = reinterpret_cast<int32_t*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    int32_t *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<int32_t*> ((*args)[0]);
                     arg_0->set_type(TYPE_SCALAR);
                     arg_0->mutable_scalar_value()->set_int32_t((*arg_val_0));
                     break;
@@ -382,8 +382,8 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of arguments does not match. expect: 1, actual: " << (*args).size() << ", method name: requestBlockingReadDefaultEventFlagBits, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    int32_t *arg_val_0 = reinterpret_cast<int32_t*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    int32_t *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<int32_t*> ((*args)[0]);
                     arg_0->set_type(TYPE_SCALAR);
                     arg_0->mutable_scalar_value()->set_int32_t((*arg_val_0));
                     break;
@@ -422,12 +422,12 @@ void HIDL_INSTRUMENTATION_FUNCTION_android_hardware_tests_msgq_V1_0_ITestMsgQ(
                         LOG(ERROR) << "Number of arguments does not match. expect: 2, actual: " << (*args).size() << ", method name: requestBlockingReadRepeat, event type: " << event;
                         break;
                     }
-                    auto *arg_0 = msg.add_arg();
-                    int32_t *arg_val_0 = reinterpret_cast<int32_t*> ((*args)[0]);
+                    auto *arg_0 __attribute__((__unused__)) = msg.add_arg();
+                    int32_t *arg_val_0 __attribute__((__unused__)) = reinterpret_cast<int32_t*> ((*args)[0]);
                     arg_0->set_type(TYPE_SCALAR);
                     arg_0->mutable_scalar_value()->set_int32_t((*arg_val_0));
-                    auto *arg_1 = msg.add_arg();
-                    int32_t *arg_val_1 = reinterpret_cast<int32_t*> ((*args)[1]);
+                    auto *arg_1 __attribute__((__unused__)) = msg.add_arg();
+                    int32_t *arg_val_1 __attribute__((__unused__)) = reinterpret_cast<int32_t*> ((*args)[1]);
                     arg_1->set_type(TYPE_SCALAR);
                     arg_1->mutable_scalar_value()->set_int32_t((*arg_val_1));
                     break;

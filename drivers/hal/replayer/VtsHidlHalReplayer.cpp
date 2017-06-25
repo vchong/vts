@@ -13,25 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "replayer/VtsHidlHalReplayer.h"
+#include "VtsHidlHalReplayer.h"
 
 #include <fcntl.h>
 #include <unistd.h>
 #include <fstream>
-#include <iomanip>
 #include <iostream>
-#include <sstream>
 #include <string>
 
-#include <cutils/properties.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/text_format.h>
 
 #include "fuzz_tester/FuzzerBase.h"
-#include "fuzz_tester/FuzzerWrapper.h"
-#include "specification_parser/InterfaceSpecificationParser.h"
-#include "test/vts/proto/ComponentSpecificationMessage.pb.h"
-#include "test/vts/proto/VtsProfilingMessage.pb.h"
 #include "utils/InterfaceSpecUtil.h"
 #include "utils/StringUtil.h"
 #include "utils/VtsProfilingUtil.h"
@@ -54,9 +47,6 @@ bool VtsHidlHalReplayer::ReplayTrace(const string& trace_file,
 
   google::protobuf::io::FileInputStream input(fd);
 
-  // long record_num = 0;
-  string interface = "";
-  FuzzerBase* fuzzer = NULL;
   VtsProfilingRecord call_msg;
   VtsProfilingRecord expected_result_msg;
   while (readOneDelimited(&call_msg, &input) &&
@@ -90,23 +80,20 @@ bool VtsHidlHalReplayer::ReplayTrace(const string& trace_file,
     string package_name = call_msg.package();
     float version = call_msg.version();
     string interface_name = call_msg.interface();
-    // Load spec file and get fuzzer.
-    string full_interface_name =
-        GetFullInterfaceName(package_name, version, interface_name);
-    fuzzer = spec_builder_->GetHidlInterfaceFuzzerBase(
+    FuzzerBase* driver = driver_manager_->GetDriverForHidlHalInterface(
         package_name, version, interface_name, hal_service_name);
-    if (!fuzzer) {
+    if (!driver) {
       cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
       return false;
     }
 
     vts::FunctionSpecificationMessage result_msg;
-    if (!fuzzer->CallFunction(call_msg.func_msg(), callback_socket_name_,
+    if (!driver->CallFunction(call_msg.func_msg(), "" /*callback_socket_name*/,
                               &result_msg)) {
       cerr << __func__ << ": replay function fail." << endl;
       return false;
     }
-    if (!fuzzer->VerifyResults(expected_result_msg.func_msg(), result_msg)) {
+    if (!driver->VerifyResults(expected_result_msg.func_msg(), result_msg)) {
       // Verification is not strict, i.e. if fail, output error message and
       // continue the process.
       cerr << __func__ << ": verification fail." << endl;

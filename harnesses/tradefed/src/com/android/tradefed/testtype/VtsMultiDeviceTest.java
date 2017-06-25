@@ -955,13 +955,16 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
 
         CLog.i("Report message path: %s", reportMsg);
 
-        if (reportMsg != null) {
+        if (reportMsg == null) {
+            CLog.e("Cannot find report message proto file.");
+        } else if (reportMsg.length() > 0) {
             CLog.i("Uploading report message. File size: %s", reportMsg.length());
             VtsDashboardUtil dashboardUtil = new VtsDashboardUtil(configReader);
             dashboardUtil.Upload(reportMsg.getAbsolutePath());
         } else {
-            CLog.e("Cannot find report message proto file.");
+            CLog.i("Result uploading is not enabled.");
         }
+
         FileUtil.recursiveDelete(vtsRunnerLogDir);
         CLog.i("Deleted the runner log dir, %s.", vtsRunnerLogDir);
         if (jsonFilePath != null) {

@@ -21,8 +21,19 @@ from vts.runners.host import keys
 from vts.utils.python.common import vintf_utils
 
 
+def FindHalDescription(hal_desc, hal_package_name):
+    """Find a HAL description whose name is hal_package_name from hal_desc."""
+    for hal_full_name in hal_desc:
+        if hal_desc[hal_full_name].hal_name == hal_package_name:
+            return hal_desc[hal_full_name]
+    return None
+
+
 def IsHalRegisteredInVintfXml(hal, vintf_xml):
     """Checks whether a HAL is registered in a VINTF XML.
+
+    If the given hal is an earlier minor version of what is specified in
+    vintf_xml, it returns True.
 
     Args:
         hal: string, the full name of a HAL (e.g., package@version)
@@ -32,34 +43,52 @@ def IsHalRegisteredInVintfXml(hal, vintf_xml):
         True if found or vintf_xml is malformed, False otherwise.
     """
     result = True
+    if "@" not in hal:
+        logging.error("HAL full name is invalid, %s", hal)
+        return False
+    hal_package, hal_version = hal.split("@")
+    logging.info("HAL package, version = %s, %s", hal_package, hal_version)
+    hal_version_major, hal_version_minor = vintf_utils.ParseHalVersion(
+        hal_version)
+
     hwbinder_hals, passthrough_hals = vintf_utils.GetHalDescriptions(
         vintf_xml)
+    hwbinder_hal_desc = FindHalDescription(hwbinder_hals, hal_package)
+    passthrough_hal_desc = FindHalDescription(passthrough_hals, hal_package)
     if not hwbinder_hals or not passthrough_hals:
         logging.error("can't check precondition due to a "
                   "VINTF XML format error.")
         # Assume it's satisfied.
-    elif (hal not in hwbinder_hals and
-          hal not in passthrough_hals):
+        return True
+    elif (hwbinder_hal_desc is None and passthrough_hal_desc is None):
         logging.warn(
             "The required HAL %s not found in VINTF XML.",
             hal)
-        result = False
-    elif (hal not in hwbinder_hals and
-          hal in passthrough_hals):
+        return False
+    elif (hwbinder_hal_desc is None and passthrough_hal_desc is not None):
         if hasattr(test_instance, keys.ConfigKeys.IKEY_ABI_BITNESS):
             bitness = getattr(test_instance,
                               keys.ConfigKeys.IKEY_ABI_BITNESS)
-            if (bitness not in
-                passthrough_hals[hal].hal_archs):
+            if (bitness not in passthrough_hal_desc.hal_archs):
                 logging.warn(
                     "The required feature %s found as a "
                     "passthrough HAL but the client bitness %s "
                     "unsupported",
                     hal, bitness)
                 result = False
+        hal_desc = passthrough_hal_desc
     else:
+        hal_desc = hwbinder_hal_desc
         logging.info(
             "The feature %s found in VINTF XML", hal)
+    found_version_major = hal_desc.hal_version_major
+    found_version_minor = hal_desc.hal_version_minor
+    if (hal_version_major != found_version_major or
+        hal_version_minor > found_version_minor):
+        logging.warn(
+            "The found HAL version %s@%s is not relevant for %s",
+            found_version_major, found_version_minor, hal_version)
+        result = False
     return result
 
 

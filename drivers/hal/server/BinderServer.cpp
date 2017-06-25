@@ -135,18 +135,18 @@ status_t BnVtsFuzzer::onTransact(uint32_t code, const Parcel& data,
 
 class VtsFuzzerServer : public BnVtsFuzzer {
  public:
-  VtsFuzzerServer(android::vts::SpecificationBuilder& spec_builder,
+  VtsFuzzerServer(android::vts::VtsHalDriverManager* driver_manager,
                   const char* lib_path)
-      : spec_builder_(spec_builder), lib_path_(lib_path) {}
+      : driver_manager_(driver_manager), lib_path_(lib_path) {}
 
   void Exit() { printf("VtsFuzzerServer::Exit\n"); }
 
   int32_t LoadHal(const string& path, int target_class, int target_type,
                   float target_version, const string& module_name) {
     printf("VtsFuzzerServer::LoadHal(%s)\n", path.c_str());
-    bool success = spec_builder_.LoadTargetComponent(
-        path.c_str(), lib_path_, target_class, target_type, target_version,
-        module_name.c_str());
+    bool success = driver_manager_->LoadTargetComponent(
+        path.c_str(), lib_path_, target_class, target_type, target_version, "",
+        "", "", module_name.c_str());
     cout << "Result: " << success << std::endl;
     if (success) {
       return 0;
@@ -164,14 +164,14 @@ class VtsFuzzerServer : public BnVtsFuzzer {
     printf("VtsFuzzerServer::Call(%s)\n", arg.c_str());
     FunctionSpecificationMessage* func_msg = new FunctionSpecificationMessage();
     google::protobuf::TextFormat::MergeFromString(arg, func_msg);
-    const string& result = spec_builder_.CallFunction(func_msg);
+    const string& result = driver_manager_->CallFunction(func_msg);
     return result.c_str();
   }
 
   const char* GetFunctions() {
     printf("Get functions*");
     vts::ComponentSpecificationMessage* spec =
-        spec_builder_.GetComponentSpecification();
+        driver_manager_->GetComponentSpecification();
     if (!spec) {
       return NULL;
     }
@@ -187,16 +187,16 @@ class VtsFuzzerServer : public BnVtsFuzzer {
   }
 
  private:
-  android::vts::SpecificationBuilder& spec_builder_;
+  android::vts::VtsHalDriverManager* driver_manager_;
   const char* lib_path_;
 };
 
 void StartBinderServer(const string& service_name,
-                       android::vts::SpecificationBuilder& spec_builder,
+                       android::vts::VtsHalDriverManager* driver_manager,
                        const char* lib_path) {
   defaultServiceManager()->addService(
       String16(service_name.c_str()),
-      new VtsFuzzerServer(spec_builder, lib_path));
+      new VtsFuzzerServer(driver_manager, lib_path));
   android::ProcessState::self()->startThreadPool();
   IPCThreadState::self()->joinThreadPool();
 }

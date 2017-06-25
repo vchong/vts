@@ -40,6 +40,7 @@ TEST_CASE_TOKEN = "[Test Case]"
 RESULT_LINE_TEMPLATE = TEST_CASE_TOKEN + " %s %s"
 STR_TEST = "test"
 STR_GENERATE = "generate"
+_REPORT_MESSAGE_FILE_NAME = "report_proto.msg"
 
 
 class BaseTestClass(object):
@@ -265,9 +266,16 @@ class BaseTestClass(object):
         if self.log_uploading.enabled:
             self.log_uploading.UploadLogs()
         if self.web.enabled:
-            self.web.GenerateReportMessage(
-                self.results.requested,
-                self.results.executed)
+            message_b = self.web.GenerateReportMessage(self.results.requested,
+                                                       self.results.executed)
+        else:
+            message_b = ''
+
+        report_proto_path = os.path.join(logging.log_path,
+                                         _REPORT_MESSAGE_FILE_NAME)
+        with open(report_proto_path, "wb") as f:
+            f.write(message_b)
+
         return ret
 
     def tearDownClass(self):

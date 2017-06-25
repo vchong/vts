@@ -20,6 +20,8 @@
 #include <sstream>
 #include <string>
 
+#include <assert.h>
+
 #include "utils/StringUtil.h"
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 
@@ -72,14 +74,33 @@ string GetVersionString(float version, bool for_macro) {
   return out.str();
 }
 
-string GetFullInterfaceName(const string& package_name, const float version,
-                            const string& interface_name) {
-  string mutable_package_name = package_name;
-  ReplaceSubString(mutable_package_name, ".", "::");
-  string version_str = GetVersionString(version, true);
-  string full_interface_name =
-      "::" + mutable_package_name + "::" + version_str + "::" + interface_name;
-  return full_interface_name;
+string GetHidlHalDriverLibName(const string& package_name,
+                               const float version) {
+  return package_name + "@" + GetVersionString(version) + "-vts.driver.so";
+}
+
+string GetPackageName(const string& type_name) {
+  string str = type_name.substr(0, type_name.find('V'));
+  if (str.find("::") == 0) {
+    str = str.substr(2);
+  }
+  ReplaceSubString(str, "::", ".");
+  return str;
+}
+
+float GetVersion(const string& type_name) {
+  string str = type_name.substr(type_name.find('V'));
+  string version_str = str.substr(0, str.find("::"));
+  string major_version = version_str.substr(0, str.find("_"));
+  string minor_version = version_str.substr(str.find("_") + 1);
+  // TODO(zhuoyao): handle the case when minor_version >= 10
+  assert(std::stof(minor_version) < 10.0);
+  return std::stof(major_version) + 0.1 * (std::stof(minor_version));
+}
+
+string GetComponentName(const string& type_name) {
+  string str = type_name.substr(type_name.find('V'));
+  return str.substr(str.find("::"));
 }
 
 }  // namespace vts

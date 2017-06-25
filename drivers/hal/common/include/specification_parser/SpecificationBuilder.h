@@ -17,25 +17,17 @@
 #ifndef __VTS_SYSFUZZER_COMMON_SPECPARSER_SPECBUILDER_H__
 #define __VTS_SYSFUZZER_COMMON_SPECPARSER_SPECBUILDER_H__
 
-#include <map>
 #include <queue>
 #include <string>
 
+#include "component_loader/DllLoader.h"
+#include "fuzz_tester/FuzzerBase.h"
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
-
-#include "fuzz_tester/FuzzerWrapper.h"
 
 using namespace std;
 
-#define DEFAULT_SPEC_DIR_PATH "/data/local/tmp/spec/"
-#define SPEC_FILE_EXT ".vts"
-
 namespace android {
 namespace vts {
-
-class FuzzerBase;
-class InterfaceSpecification;
-
 // Builder of an interface specification.
 class SpecificationBuilder {
  public:
@@ -44,95 +36,83 @@ class SpecificationBuilder {
   SpecificationBuilder(const string dir_path, int epoch_count,
                        const string& callback_socket_name);
 
-  // scans the dir and returns an interface specification for a requested
+  // Scans the dir and returns an component specification for a requested
   // component.
-  vts::ComponentSpecificationMessage* FindComponentSpecification(
-      const int target_class, const int target_type, const float target_version,
-      const string submodule_name = "", const string package = "",
-      const string component_name = "");
+  bool FindComponentSpecification(const int component_class,
+                                  const string& package_name,
+                                  const float version,
+                                  const string& component_name,
+                                  const int component_type,
+                                  const string& submodule_name,
+                                  ComponentSpecificationMessage* spec_msg);
 
-  vts::ComponentSpecificationMessage*
-      FindComponentSpecification(const string& component_name);
+  // Create driver for given component.
+  FuzzerBase* GetDriver(const string& driver_lib_path,
+                        const ComponentSpecificationMessage& spec_msg,
+                        const string& hw_binder_service_name,
+                        const uint64_t interface_pt,
+                        bool with_interface_pointer,
+                        const string& dll_file_name,
+                        const string& target_func_name);
+
+  // Create driver for conventioanl HAL submodule.
+  // TODO (zhuoyao): consider to deprecate this method.
+  FuzzerBase* GetDriverForSubModule(
+      const string& spec_lib_file_path,
+      const ComponentSpecificationMessage& spec_msg, void* object_pointer);
 
   // Returns FuzzBase for a given interface specification, and adds all the
   // found functions to the fuzzing job queue.
+  // TODO (zhuoyao): consider to deprecate this method.
   FuzzerBase* GetFuzzerBaseAndAddAllFunctionsToQueue(
-      const vts::ComponentSpecificationMessage& iface_spec_msg,
-      const char* dll_file_name);
-
-  const string& CallFunction(FunctionSpecificationMessage* func_msg);
-
-  const string& GetAttribute(FunctionSpecificationMessage* func_msg);
+      const char* driver_lib_path,
+      const ComponentSpecificationMessage& iface_spec_msg,
+      const char* dll_file_name, const char* hw_service_name);
 
   // Main function for the VTS system fuzzer where dll_file_name is the path of
   // a target component, spec_lib_file_path is the path of a specification
   // library file, and the rest three arguments are the basic information of
   // the target component.
+  // TODO (zhuoyao): consider to deprecate this method.
   bool Process(const char* dll_file_name, const char* spec_lib_file_path,
                int target_class, int target_type, float target_version,
-               const char* target_package, const char* target_component_name);
-
-  bool LoadTargetComponent(const char* dll_file_name,
-                           const char* spec_lib_file_path, int target_class,
-                           int target_type, float target_version,
-                           const char* target_package,
-                           const char* target_component_name,
-                           const char* hw_binder_service_name,
-                           const char* module_name);
-
-  FuzzerBase* GetFuzzerBase(const ComponentSpecificationMessage& iface_spec_msg,
-                            const char* dll_file_name,
-                            const char* target_func_name);
-
-  FuzzerBase* GetFuzzerBaseSubModule(
-      const vts::ComponentSpecificationMessage& iface_spec_msg,
-      void* object_pointer);
-
-  // Returns the loaded interface specification message.
-  ComponentSpecificationMessage* GetComponentSpecification() const;
-
-  // Gets the FuzzerBase pointer for a Hidl Hal interface.
-  FuzzerBase* GetHidlInterfaceFuzzerBase(const string& package_name,
-                                         const float version,
-                                         const string& interface_name,
-                                         const string& hal_service_name);
-
- protected:
-  // Registers a HIDL interface (proxy) in a map.
-  int32_t RegisterHidlInterface(const string& interface_name,
-                                const uint64_t interface_pt);
-
-  // Returns a pre-registered HIDL interface proxy object's pointer address.
-  uint64_t GetHidlInterfacePointer(const int32_t id) const;
-
-  // Returns FuzzerBase pointer of a pre-registered HIDL interface proxy.
-  FuzzerBase* GetHidlInterfaceFuzzerBaseById(const int32_t id) const;
+               const char* target_package, const char* target_component_name,
+               const char* hal_service_name);
 
  private:
-  // A FuzzerWrapper instance.
-  FuzzerWrapper wrapper_;
+  // Internal method to create driver for conventional HAL.
+  FuzzerBase* GetConventionalHalDriver(
+      const string& driver_lib_path,
+      const ComponentSpecificationMessage& spec_msg,
+      const string& dll_file_name, const string& target_func_name);
+
+  // Internal method to create driver for HIDL HAL.
+  FuzzerBase* GetHidlHalDriver(const string& driver_lib_path,
+                               const ComponentSpecificationMessage& spec_msg,
+                               const string& hal_service_name,
+                               const uint64_t interface_pt,
+                               bool with_interface_pt);
+
+  // Internal method to create driver for HIDL HAL with interface pointer.
+  FuzzerBase* LoadDriverWithInterfacePointer(
+      const string& driver_lib_path,
+      const ComponentSpecificationMessage& spec_msg,
+      const uint64_t interface_pt);
+
+  // Helper method to load a driver library with the given path.
+  FuzzerBase* LoadDriver(const string& driver_lib_path,
+                         const ComponentSpecificationMessage& spec_msg);
+
+  // A DLL Loader instance used to load the driver library.
+  DllLoader dll_loader_;
   // the path of a dir which contains interface specification ASCII proto files.
   const string dir_path_;
   // the total number of epochs
   const int epoch_count_;
-  // fuzzing job queue.
-  queue<pair<FunctionSpecificationMessage*, FuzzerBase*>> job_queue_;
-  // Loaded interface specification message.
-  ComponentSpecificationMessage* if_spec_msg_;
-  // TODO: use unique_ptr
-  char* spec_lib_file_path_;
-  char* dll_file_name_;
-  char* module_name_;
-  // HW binder service name only used for HIDL HAL
-  char* hw_binder_service_name_;
   // the server socket port # of the agent.
-  const string& callback_socket_name_;
-  // map for submodule interface specification messages.
-  map<string, ComponentSpecificationMessage*> submodule_if_spec_map_;
-  map<string, FuzzerBase*> submodule_fuzzerbase_map_;
-  // mapping from a nested interface ID to a tuple containing
-  // its interface name, FuzzerBase pointer, and HIDL proxy pointer.
-  map<int32_t, tuple<string, FuzzerBase*, uint64_t>> interface_map_;
+  const string callback_socket_name_;
+  // fuzzing job queue. Used by Process method.
+  queue<pair<FunctionSpecificationMessage*, FuzzerBase*>> job_queue_;
 };
 
 }  // namespace vts

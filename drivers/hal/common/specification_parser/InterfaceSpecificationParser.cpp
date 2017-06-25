@@ -45,6 +45,7 @@ bool InterfaceSpecificationParser::parse(
   in_file.close();
   const string data = str_stream.str();
 
+  is_message->Clear();
   if (!google::protobuf::TextFormat::MergeFromString(data, is_message)) {
     cerr << __FUNCTION__ << ": Can't parse a given proto file " << file_path
          << "." << endl;

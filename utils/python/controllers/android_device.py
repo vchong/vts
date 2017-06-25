@@ -726,15 +726,16 @@ class AndroidDevice(object):
             "rm -f /data/local/tmp/vts_agent_callback*"
         ]
         kill_commands = ["killall vts_hal_agent32", "killall vts_hal_agent64",
-                         "killall fuzzer32", "killall fuzzer64",
+                         "killall vts_hal_driver32",
+                         "killall vts_hal_driver64",
                          "killall vts_shell_driver32",
                          "killall vts_shell_driver64"]
         cleanup_commands.extend(kill_commands)
         chmod_commands = [
             "chmod 755 %s/32/vts_hal_agent32" % DEFAULT_AGENT_BASE_DIR,
             "chmod 755 %s/64/vts_hal_agent64" % DEFAULT_AGENT_BASE_DIR,
-            "chmod 755 %s/32/fuzzer32" % DEFAULT_AGENT_BASE_DIR,
-            "chmod 755 %s/64/fuzzer64" % DEFAULT_AGENT_BASE_DIR,
+            "chmod 755 %s/32/vts_hal_driver32" % DEFAULT_AGENT_BASE_DIR,
+            "chmod 755 %s/64/vts_hal_driver64" % DEFAULT_AGENT_BASE_DIR,
             "chmod 755 %s/32/vts_shell_driver32" % DEFAULT_AGENT_BASE_DIR,
             "chmod 755 %s/64/vts_shell_driver64" % DEFAULT_AGENT_BASE_DIR
         ]
@@ -754,7 +755,7 @@ class AndroidDevice(object):
             cmd = (
                 'adb -s {s} shell LD_LIBRARY_PATH={path}/{bitness} '
                 '{path}/{bitness}/vts_hal_agent{bitness}'
-                ' {path}/32/fuzzer32 {path}/64/fuzzer64 {path}/spec'
+                ' {path}/32/vts_hal_driver32 {path}/64/vts_hal_driver64 {path}/spec'
                 ' {path}/32/vts_shell_driver32 {path}/64/vts_shell_driver64 >> {log} 2>&1'
             ).format(s=self.serial,
                      bitness=bitness,

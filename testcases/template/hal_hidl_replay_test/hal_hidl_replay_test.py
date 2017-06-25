@@ -23,7 +23,7 @@ from vts.runners.host import test_runner
 from vts.testcases.template.binary_test import binary_test
 from vts.testcases.template.hal_hidl_replay_test import hal_hidl_replay_test_case
 from vts.utils.python.common import vintf_utils
-from vts.utils.python.controllers import android_device
+
 from vts.utils.python.os import path_utils
 
 
@@ -100,14 +100,11 @@ class HalHidlReplayTest(binary_test.BinaryTest):
         self.trace_paths = map(str, self.hal_hidl_replay_test_trace_paths)
 
         target_package, target_version = self.hal_hidl_package_name.split("@")
-        custom_ld_library_path = path_utils.JoinTargetPath(self.DEVICE_TMP_DIR,
-                                                           self.abi_bitness)
+        custom_ld_library_path = path_utils.JoinTargetPath(
+            self.DEVICE_TMP_DIR, self.abi_bitness)
         driver_binary_path = path_utils.JoinTargetPath(
             self.DEVICE_TMP_DIR, self.abi_bitness,
-            "fuzzer%s" % self.abi_bitness)
-        target_vts_driver_file_path = path_utils.JoinTargetPath(
-            self.DEVICE_TMP_DIR, self.abi_bitness,
-            "%s@%s-vts.driver.so" % (target_package, target_version))
+            "vts_hal_replayer%s" % self.abi_bitness)
 
         if not self._skip_all_testcases:
             service_names = self.getServiceName()
@@ -125,7 +122,6 @@ class HalHidlReplayTest(binary_test.BinaryTest):
                     test_name += "_" + service_name
                 test_case = hal_hidl_replay_test_case.HalHidlReplayTestCase(
                     trace_path,
-                    target_vts_driver_file_path,
                     service_name,
                     test_suite,
                     test_name,
@@ -141,8 +137,8 @@ class HalHidlReplayTest(binary_test.BinaryTest):
                 trace_file_name = str(os.path.basename(trace_path))
                 target_trace_path = path_utils.JoinTargetPath(
                     self.DEVICE_TMP_DIR, "vts_replay_trace", trace_file_name)
-                cmd_results = self.shell.Execute("rm -f %s" %
-                                                 target_trace_path)
+                cmd_results = self.shell.Execute(
+                    "rm -f %s" % target_trace_path)
                 if not cmd_results or any(cmd_results[const.EXIT_CODE]):
                     logging.warning("Failed to remove: %s", cmd_results)
 

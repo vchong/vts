@@ -15,24 +15,17 @@
  */
 #include "specification_parser/SpecificationBuilder.h"
 
-#include <dirent.h>
-
-#include <iomanip>
-#include <iostream>
-#include <queue>
-#include <string>
-#include <sstream>
-
 #include <cutils/properties.h>
+#include <dirent.h>
+#include <google/protobuf/text_format.h>
+#include <iostream>
 
-#include "fuzz_tester/FuzzerBase.h"
-#include "fuzz_tester/FuzzerWrapper.h"
 #include "specification_parser/InterfaceSpecificationParser.h"
-#include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 #include "utils/InterfaceSpecUtil.h"
 #include "utils/StringUtil.h"
 
-#include <google/protobuf/text_format.h>
+static constexpr const char* kSpecFileExt = ".vts";
+static constexpr const char* kDefaultHwbinderServiceName = "default";
 
 namespace android {
 namespace vts {
@@ -42,339 +35,200 @@ SpecificationBuilder::SpecificationBuilder(const string dir_path,
                                            const string& callback_socket_name)
     : dir_path_(dir_path),
       epoch_count_(epoch_count),
-      if_spec_msg_(NULL),
-      module_name_(NULL),
-      hw_binder_service_name_(NULL),
       callback_socket_name_(callback_socket_name) {}
 
-vts::ComponentSpecificationMessage*
-SpecificationBuilder::FindComponentSpecification(const int target_class,
-                                                 const int target_type,
-                                                 const float target_version,
-                                                 const string submodule_name,
-                                                 const string package,
-                                                 const string component_name) {
+bool SpecificationBuilder::FindComponentSpecification(
+    const int component_class, const string& package_name, const float version,
+    const string& component_name, const int component_type,
+    const string& submodule_name, ComponentSpecificationMessage* spec_msg) {
   DIR* dir;
   struct dirent* ent;
-  cout << __func__ << ": component " << component_name << endl;
 
   // Derive the package-specific dir which contains .vts files
-  string target_dir_path = dir_path_;
-  if (!endsWith(target_dir_path, "/")) {
-    target_dir_path += "/";
+  string driver_lib_dir = dir_path_;
+  if (!endsWith(driver_lib_dir, "/")) {
+    driver_lib_dir += "/";
   }
-  string target_subdir_path = package;
-  ReplaceSubString(target_subdir_path, ".", "/");
-  target_dir_path += target_subdir_path + "/";
+  string package_path = package_name;
+  ReplaceSubString(package_path, ".", "/");
+  driver_lib_dir += package_path + "/";
+  driver_lib_dir += GetVersionString(version);
 
-  stringstream stream;
-  stream << fixed << setprecision(1) << target_version;
-  target_dir_path += stream.str();
-
-  if (!(dir = opendir(target_dir_path.c_str()))) {
-    cerr << __func__ << ": Can't opendir " << target_dir_path << endl;
-    target_dir_path = "";
-    return NULL;
+  if (!(dir = opendir(driver_lib_dir.c_str()))) {
+    cerr << __func__ << ": Can't open dir " << driver_lib_dir << endl;
+    return false;
   }
 
   while ((ent = readdir(dir))) {
-    if (ent->d_type == DT_REG) {
-      if (string(ent->d_name).find(SPEC_FILE_EXT) != std::string::npos) {
-        cout << __func__ << ": Checking a file " << ent->d_name << endl;
-        const string file_path = target_dir_path + "/" + string(ent->d_name);
-        vts::ComponentSpecificationMessage* message =
-            new vts::ComponentSpecificationMessage();
-        if (InterfaceSpecificationParser::parse(file_path.c_str(), message)) {
-          if (message->component_class() != target_class) continue;
-
-          if (message->component_class() != HAL_HIDL) {
-            if (message->component_type() == target_type &&
-                message->component_type_version() == target_version) {
-              if (submodule_name.length() > 0) {
-                if (message->component_class() != HAL_CONVENTIONAL_SUBMODULE ||
-                    message->original_data_structure_name() != submodule_name) {
-                  continue;
-                }
-              }
-              closedir(dir);
-              return message;
-            }
-          } else {
-            if (message->package() == package &&
-                message->component_type_version() == target_version) {
-              if (component_name.length() > 0) {
-                if (message->component_name() != component_name) {
-                  continue;
-                }
-              }
-              closedir(dir);
-              return message;
+    if (ent->d_type == DT_REG &&
+        string(ent->d_name).find(kSpecFileExt) != std::string::npos) {
+      cout << __func__ << ": Checking a file " << ent->d_name << endl;
+      const string file_path = driver_lib_dir + "/" + string(ent->d_name);
+      if (InterfaceSpecificationParser::parse(file_path.c_str(), spec_msg)) {
+        if (spec_msg->component_class() != component_class) {
+          continue;
+        }
+        if (spec_msg->component_class() != HAL_HIDL) {
+          if (spec_msg->component_type() != component_type ||
+              spec_msg->component_type_version() != version) {
+            continue;
+          }
+          if (!submodule_name.empty()) {
+            if (spec_msg->component_class() != HAL_CONVENTIONAL_SUBMODULE ||
+                spec_msg->original_data_structure_name() != submodule_name) {
+              continue;
             }
           }
+          closedir(dir);
+          return true;
+        } else {
+          if (spec_msg->package() != package_name ||
+              spec_msg->component_type_version() != version) {
+            continue;
+          }
+          if (!component_name.empty()) {
+            if (spec_msg->component_name() != component_name) {
+              continue;
+            }
+          }
+          closedir(dir);
+          return true;
         }
-        delete message;
       }
     }
   }
   closedir(dir);
-  return NULL;
+  return false;
 }
 
-FuzzerBase* SpecificationBuilder::GetFuzzerBase(
-    const vts::ComponentSpecificationMessage& iface_spec_msg,
-    const char* dll_file_name, const char* /*target_func_name*/) {
-  cout << __func__ << ":" << __LINE__ << " " << "entry" << endl;
-
-  FuzzerBase* fuzzer = nullptr;
-  if (iface_spec_msg.component_class() == HAL_HIDL) {
-    fuzzer = GetHidlInterfaceFuzzerBase(iface_spec_msg.package(),
-                                        iface_spec_msg.component_type_version(),
-                                        iface_spec_msg.component_name(), "");
+FuzzerBase* SpecificationBuilder::GetDriver(
+    const string& driver_lib_path,
+    const ComponentSpecificationMessage& spec_msg,
+    const string& hw_binder_service_name, const uint64_t interface_pt,
+    bool with_interface_pointer, const string& dll_file_name,
+    const string& target_func_name) {
+  FuzzerBase* driver = nullptr;
+  if (spec_msg.component_class() == HAL_HIDL) {
+    driver = GetHidlHalDriver(driver_lib_path, spec_msg, hw_binder_service_name,
+                              interface_pt, with_interface_pointer);
   } else {
-    fuzzer = wrapper_.GetFuzzer(iface_spec_msg);
-    if (!fuzzer) {
-      cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
-      return NULL;
-    }
-    if (!fuzzer->LoadTargetComponent(dll_file_name)) {
-      cerr << __FUNCTION__ << ": couldn't load target component file, "
-           << dll_file_name << endl;
-      return NULL;
-    }
+    driver = GetConventionalHalDriver(driver_lib_path, spec_msg, dll_file_name,
+                                      target_func_name);
   }
   cout << __func__ << ":" << __LINE__ << " loaded target comp" << endl;
 
-  return fuzzer;
+  return driver;
+}
+
+FuzzerBase* SpecificationBuilder::GetConventionalHalDriver(
+    const string& driver_lib_path,
+    const ComponentSpecificationMessage& spec_msg, const string& dll_file_name,
+    const string& /*target_func_name*/) {
+  FuzzerBase* driver = LoadDriver(driver_lib_path, spec_msg);
+  if (!driver) {
+    cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
+    return nullptr;
+  }
+  if (!driver->LoadTargetComponent(dll_file_name.c_str())) {
+    cerr << __FUNCTION__ << ": couldn't load target component file, "
+         << dll_file_name << endl;
+    return nullptr;
+  }
+  return driver;
   /*
    * TODO: now always return the fuzzer. this change is due to the difficulty
    * in checking nested apis although that's possible. need to check whether
    * Fuzz() found the function, while still distinguishing the difference
    * between that and defined but non-set api.
-  if (!strcmp(target_func_name, "#Open")) return fuzzer;
+  if (!strcmp(target_func_name, "#Open")) return driver;
 
-  for (const vts::FunctionSpecificationMessage& func_msg : iface_spec_msg.api())
+  for (const vts::FunctionSpecificationMessage& func_msg : spec_msg.api())
   {
     cout << "checking " << func_msg.name() << endl;
     if (!strcmp(target_func_name, func_msg.name().c_str())) {
-      return fuzzer;
+      return driver;
     }
   }
   return NULL;
   */
 }
 
-FuzzerBase* SpecificationBuilder::GetFuzzerBaseSubModule(
-    const vts::ComponentSpecificationMessage& iface_spec_msg,
-    void* object_pointer) {
+FuzzerBase* SpecificationBuilder::GetDriverForSubModule(
+    const string& spec_lib_file_path,
+    const ComponentSpecificationMessage& spec_msg, void* object_pointer) {
   cout << __func__ << ":" << __LINE__ << " "
        << "entry object_pointer " << ((uint64_t)object_pointer) << endl;
-  FuzzerWrapper wrapper;
-  if (!wrapper.LoadInterfaceSpecificationLibrary(spec_lib_file_path_)) {
-    cerr << __func__ << " can't load specification lib, "
-         << spec_lib_file_path_ << endl;
-    return NULL;
-  }
-  FuzzerBase* fuzzer = wrapper.GetFuzzer(iface_spec_msg);
-  if (!fuzzer) {
+  FuzzerBase* driver = LoadDriver(spec_lib_file_path, spec_msg);
+  if (!driver) {
     cerr << __FUNCTION__ << ": couldn't get a fuzzer base class" << endl;
-    return NULL;
+    return nullptr;
   }
 
-  // TODO: don't load multiple times. reuse FuzzerBase*.
   cout << __func__ << ":" << __LINE__ << " "
        << "got fuzzer" << endl;
-  if (iface_spec_msg.component_class() == HAL_HIDL) {
+  if (spec_msg.component_class() == HAL_HIDL) {
     cerr << __func__ << " HIDL not supported" << endl;
-    return NULL;
+    return nullptr;
   } else {
-    if (!fuzzer->SetTargetObject(object_pointer)) {
+    if (!driver->SetTargetObject(object_pointer)) {
       cerr << __FUNCTION__ << ": couldn't set target object" << endl;
-      return NULL;
+      return nullptr;
     }
   }
   cout << __func__ << ":" << __LINE__ << " "
        << "loaded target comp" << endl;
-  return fuzzer;
+  return driver;
 }
 
 FuzzerBase* SpecificationBuilder::GetFuzzerBaseAndAddAllFunctionsToQueue(
-    const vts::ComponentSpecificationMessage& iface_spec_msg,
-    const char* dll_file_name) {
-  FuzzerBase* fuzzer = wrapper_.GetFuzzer(iface_spec_msg);
-  if (!fuzzer) {
+    const char* driver_lib_path,
+    const ComponentSpecificationMessage& iface_spec_msg,
+    const char* dll_file_name, const char* hw_service_name) {
+  FuzzerBase* driver = GetDriver(driver_lib_path, iface_spec_msg,
+                                 hw_service_name, 0, false, dll_file_name, "");
+  if (!driver) {
     cerr << __FUNCTION__ << ": couldn't get a fuzzer base class" << endl;
     return NULL;
   }
 
-  if (iface_spec_msg.component_class() == HAL_HIDL) {
-    char get_sub_property[PROPERTY_VALUE_MAX];
-    bool get_stub = false; /* default is binderized */
-    if (property_get("vts.hidl.get_stub", get_sub_property, "") > 0) {
-      if (!strcmp(get_sub_property, "true") || !strcmp(get_sub_property, "True")
-          || !strcmp(get_sub_property, "1")) {
-        get_stub = true;
-      }
-    }
-    const char* service_name;
-    if (hw_binder_service_name_ && strlen(hw_binder_service_name_) > 0) {
-      service_name = hw_binder_service_name_;
-    } else {
-      service_name = iface_spec_msg.package().substr(
-          iface_spec_msg.package().find_last_of(".") + 1).c_str();
-    }
-    if (!fuzzer->GetService(get_stub, service_name)) {
-      cerr << __FUNCTION__ << ": couldn't get service" << endl;
-      return NULL;
-    }
-  } else {
-    if (!fuzzer->LoadTargetComponent(dll_file_name)) {
-      cerr << __FUNCTION__ << ": couldn't load target component file, "
-          << dll_file_name << endl;
-      return NULL;
-    }
-  }
-
-  for (const vts::FunctionSpecificationMessage& func_msg :
+  for (const FunctionSpecificationMessage& func_msg :
        iface_spec_msg.interface().api()) {
     cout << "Add a job " << func_msg.name() << endl;
     FunctionSpecificationMessage* func_msg_copy = func_msg.New();
     func_msg_copy->CopyFrom(func_msg);
-    job_queue_.push(make_pair(func_msg_copy, fuzzer));
+    job_queue_.push(make_pair(func_msg_copy, driver));
   }
-  return fuzzer;
+  return driver;
 }
 
-bool SpecificationBuilder::LoadTargetComponent(
-    const char* dll_file_name, const char* spec_lib_file_path, int target_class,
-    int target_type, float target_version, const char* target_package,
-    const char* target_component_name,
-    const char* hw_binder_service_name, const char* module_name) {
-  cout << __func__ << " entry dll_file_name = " << dll_file_name << endl;
-  if_spec_msg_ =
-      FindComponentSpecification(target_class, target_type, target_version,
-                                 module_name, target_package,
-                                 target_component_name);
-  if (!if_spec_msg_) {
-    cerr << __func__ << ": no interface specification file found for "
-         << "class " << target_class << " type " << target_type << " version "
-         << target_version << endl;
-    return false;
-  }
+FuzzerBase* SpecificationBuilder::GetHidlHalDriver(
+    const string& driver_lib_path,
+    const ComponentSpecificationMessage& spec_msg,
+    const string& hal_service_name, const uint64_t interface_pt,
+    bool with_interface_pt) {
+  string package_name = spec_msg.package();
 
-  if (target_class == HAL_HIDL) {
-    asprintf(&spec_lib_file_path_, "%s@%s-vts.driver.so", target_package,
-             GetVersionString(target_version).c_str());
+  FuzzerBase* driver = nullptr;
+  if (with_interface_pt) {
+    driver =
+        LoadDriverWithInterfacePointer(driver_lib_path, spec_msg, interface_pt);
   } else {
-    spec_lib_file_path_ = (char*)malloc(strlen(spec_lib_file_path) + 1);
-    strcpy(spec_lib_file_path_, spec_lib_file_path);
+    driver = LoadDriver(driver_lib_path, spec_msg);
   }
-  cout << __func__ << " spec lib path " << spec_lib_file_path_ << endl;
-
-  dll_file_name_ = (char*)malloc(strlen(dll_file_name) + 1);
-  strcpy(dll_file_name_, dll_file_name);
-
-  string output;
-  if_spec_msg_->SerializeToString(&output);
-  cout << "loaded ifspec length " << output.length() << endl;
-
-  module_name_ = (char*)malloc(strlen(module_name) + 1);
-  strcpy(module_name_, module_name);
-  cout << __func__ << ":" << __LINE__ << " module_name " << module_name_
-       << endl;
-
-  if (hw_binder_service_name) {
-    hw_binder_service_name_ = (char*)malloc(strlen(hw_binder_service_name) + 1);
-    strcpy(hw_binder_service_name_, hw_binder_service_name);
-    cout << __func__ << ":" << __LINE__ << " hw_binder_service_name "
-         << hw_binder_service_name_ << endl;
-  }
-
-  if (!wrapper_.LoadInterfaceSpecificationLibrary(spec_lib_file_path_)) {
-    cerr << __func__ << ":" << __LINE__ << " lib loading failed" << endl;
-    return false;
-  }
-  return true;
-}
-
-const string empty_string = string();
-
-int32_t SpecificationBuilder::RegisterHidlInterface(
-    const string& interface_name, const uint64_t interface_pt) {
-  FuzzerBase* fuzz_base_pt;
-  int32_t max_id = 0;
-  for (auto it : interface_map_) {
-    if (get<0>(it.second) == interface_name &&
-        get<2>(it.second) == interface_pt) {
-      return it.first;
-    }
-    if (it.first > max_id) {
-      max_id = it.first;
-    }
-  }
-  max_id++;
-  fuzz_base_pt = wrapper_.GetFuzzer(interface_name, interface_pt);
-  interface_map_.insert(make_pair(
-      max_id, make_tuple(interface_name, fuzz_base_pt, interface_pt)));
-  return max_id;
-}
-
-uint64_t SpecificationBuilder::GetHidlInterfacePointer(const int32_t id) const {
-  cout << __func__ << " *** id " << id << endl;
-  auto res = interface_map_.find(id);
-  if (res == interface_map_.end()) return 0;
-  return reinterpret_cast<uint64_t>(get<2>(res->second));
-}
-
-FuzzerBase* SpecificationBuilder::GetHidlInterfaceFuzzerBaseById(
-    const int32_t id) const {
-  cout << __func__ << " *** id " << id << endl;
-  auto res = interface_map_.find(id);
-  if (res == interface_map_.end()) {
-    cerr << "Failed to find FuzzerBase with id: " << id << endl;
-    return nullptr;
-  }
-  cout << __func__ << " *** id " << id << " found" << endl;
-  return reinterpret_cast<FuzzerBase*>(get<1>(res->second));
-}
-
-FuzzerBase* SpecificationBuilder::GetHidlInterfaceFuzzerBase(
-    const string& package_name, const float version,
-    const string& interface_name, const string& hal_service_name) {
-  const string& full_interface_name =
-      GetFullInterfaceName(package_name, version, interface_name);
-  // Search for interface_map_, if found, return directly.
-  for (auto it : interface_map_) {
-    // Note there might be multiple instances of the same interface registered
-    // in the map, for now, just return the first one that matches.
-    if (get<0>(it.second) == full_interface_name) {
-      return get<1>(it.second);
-    }
-  }
-  // Otherwise, try to create a new FuzzerBase based on iface_spec_msg.
-  string service_name;
-  if (!hal_service_name.empty()) {
-    service_name = hal_service_name;
-  } else if (hw_binder_service_name_ && strlen(hw_binder_service_name_) > 0) {
-    service_name = string(hw_binder_service_name_);
-  } else {
-    service_name = package_name.substr(package_name.find_last_of(".") + 1);
-  }
-
-  if (!if_spec_msg_) {
-    if (!LoadTargetComponent("", "", HAL_HIDL, 0, version, package_name.c_str(),
-                             interface_name.c_str(), service_name.c_str(),
-                             "")) {
-      cerr << __func__ << ": can not load target component.";
-      return nullptr;
-    }
-  }
-  FuzzerBase* fuzzer = wrapper_.GetFuzzer(*if_spec_msg_);
-  if (!fuzzer) {
+  if (!driver) {
     cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
     return nullptr;
   }
   cout << __func__ << ":" << __LINE__ << " "
-       << "got fuzzer" << endl;
+       << "got driver" << endl;
+
+  string service_name;
+  if (!hal_service_name.empty()) {
+    service_name = hal_service_name;
+  } else {
+    service_name = kDefaultHwbinderServiceName;
+  }
+
   char get_sub_property[PROPERTY_VALUE_MAX];
   bool get_stub = false; /* default is binderized */
   if (property_get("vts.hidl.get_stub", get_sub_property, "") > 0) {
@@ -383,374 +237,82 @@ FuzzerBase* SpecificationBuilder::GetHidlInterfaceFuzzerBase(
       get_stub = true;
     }
   }
-  if (!fuzzer->GetService(get_stub, service_name.c_str())) {
+  if (!driver->GetService(get_stub, service_name.c_str())) {
     cerr << __FUNCTION__ << ": couldn't get service" << endl;
-    return NULL;
+    return nullptr;
   }
   cout << __func__ << ":" << __LINE__ << " loaded target comp" << endl;
-  return fuzzer;
+  return driver;
 }
 
-const string& SpecificationBuilder::CallFunction(
-    FunctionSpecificationMessage* func_msg) {
-  cout << __func__ << ":" << __LINE__ << " entry" << endl;
-
-  FuzzerBase* func_fuzzer;
-  if (func_msg->submodule_name().size() > 0) {
-    string submodule_name = func_msg->submodule_name();
-    cout << __func__ << " submodule name " << submodule_name << endl;
-    if (submodule_fuzzerbase_map_.find(submodule_name)
-        != submodule_fuzzerbase_map_.end()) {
-      cout << __func__ << " call is for a submodule" << endl;
-      func_fuzzer = submodule_fuzzerbase_map_[submodule_name];
-    } else {
-      cerr << __func__ << " called an API of a non-loaded submodule." << endl;
-      return empty_string;
-    }
-  } else {
-    // If hidl_interface_id is specified, get fuzzer base from the interface_map
-    // directly.
-    if (func_msg->hidl_interface_id() != 0) {
-      func_fuzzer =
-          GetHidlInterfaceFuzzerBaseById(func_msg->hidl_interface_id());
-    } else {
-      if (!if_spec_msg_) {
-        cerr << "interface specification not loaded. " << endl;
-        return empty_string;
-      }
-      func_fuzzer = GetFuzzerBase(*if_spec_msg_, dll_file_name_,
-                                  func_msg->name().c_str());
-    }
+FuzzerBase* SpecificationBuilder::LoadDriver(
+    const string& driver_lib_path,
+    const ComponentSpecificationMessage& spec_msg) {
+  if (!dll_loader_.Load(driver_lib_path.c_str(), false)) {
+    cerr << __func__ << ": failed to load  " << driver_lib_path << endl;
+    return nullptr;
   }
-  cout << __func__ << ":" << __LINE__ << endl;
-  if (!func_fuzzer) {
-    cerr << "can't find FuzzerBase for '" << func_msg->name() << "' using '"
-         << dll_file_name_ << "'" << endl;
-    return empty_string;
+  cout << "DLL loaded " << driver_lib_path << endl;
+  string function_name_prefix = GetFunctionNamePrefix(spec_msg);
+  loader_function func =
+      dll_loader_.GetLoaderFunction(function_name_prefix.c_str());
+  if (!func) {
+    cerr << __func__ << ": function not found." << endl;
+    return nullptr;
   }
-
-  if (func_msg->name() == "#Open") {
-    cout << __func__ << ":" << __LINE__ << " #Open" << endl;
-    if (func_msg->arg().size() > 0) {
-      cout << __func__ << " " << func_msg->arg(0).string_value().message()
-           << endl;
-      func_fuzzer->OpenConventionalHal(
-          func_msg->arg(0).string_value().message().c_str());
-    } else {
-      cout << __func__ << " no arg" << endl;
-      func_fuzzer->OpenConventionalHal();
-    }
-    cout << __func__ << " opened" << endl;
-    // return the return value from open;
-    if (func_msg->return_type().has_type()) {
-      cout << __func__ << " return_type exists" << endl;
-      // TODO handle when the size > 1.
-      if (!strcmp(func_msg->return_type().scalar_type().c_str(), "int32_t")) {
-        cout << __func__ << " return_type is int32_t" << endl;
-        func_msg->mutable_return_type()->mutable_scalar_value()->set_int32_t(0);
-        cout << "result " << endl;
-        // todo handle more types;
-        string* output = new string();
-        google::protobuf::TextFormat::PrintToString(*func_msg, output);
-        return *output;
-      }
-    }
-    cerr << __func__ << " return_type unknown" << endl;
-    string* output = new string();
-    google::protobuf::TextFormat::PrintToString(*func_msg, output);
-    return *output;
-  }
-  cout << __func__ << ":" << __LINE__ << endl;
-
-  void* result;
-  FunctionSpecificationMessage result_msg;
-  func_fuzzer->FunctionCallBegin();
-  cout << __func__ << " Call Function " << func_msg->name() << " parent_path("
-       << func_msg->parent_path() << ")" << endl;
-  // For Hidl HAL, use CallFunction method.
-  if (if_spec_msg_ && if_spec_msg_->component_class() == HAL_HIDL) {
-    if (!func_fuzzer->CallFunction(*func_msg, callback_socket_name_,
-                                   &result_msg)) {
-      cerr << __func__ << " function not found - todo handle more explicitly"
-           << endl;
-      return *(new string("error"));
-    }
-
-    for (int index = 0; index < result_msg.return_type_hidl_size(); index++) {
-      VariableSpecificationMessage* return_val =
-          result_msg.mutable_return_type_hidl(index);
-      if (return_val->hidl_interface_pointer() != 0) {
-        return_val->set_hidl_interface_id(
-            RegisterHidlInterface(return_val->predefined_type(),
-                                  return_val->hidl_interface_pointer()));
-      }
-    }
-  } else {
-    if (!func_fuzzer->Fuzz(func_msg, &result, callback_socket_name_)) {
-      cerr << __func__ << " function not found - todo handle more explicitly"
-           << endl;
-      return *(new string("error"));
-    }
-  }
-  cout << __func__ << ": called" << endl;
-
-  // set coverage data.
-  func_fuzzer->FunctionCallEnd(func_msg);
-
-  if (if_spec_msg_ && if_spec_msg_->component_class() == HAL_HIDL) {
-    string* output = new string();
-    google::protobuf::TextFormat::PrintToString(result_msg, output);
-    return *output;
-  } else {
-    if (func_msg->return_type().type() == TYPE_PREDEFINED) {
-      // TODO: actually handle this case.
-      if (result != NULL) {
-        // loads that interface spec and enqueues all functions.
-        cout << __func__ << " return type: " << func_msg->return_type().type()
-             << endl;
-      } else {
-        cout << __func__ << " return value = NULL" << endl;
-      }
-      cerr << __func__ << " todo: support aggregate" << endl;
-      string* output = new string();
-      google::protobuf::TextFormat::PrintToString(*func_msg, output);
-      return *output;
-    } else if (func_msg->return_type().type() == TYPE_SCALAR) {
-      // TODO handle when the size > 1.
-      if (!strcmp(func_msg->return_type().scalar_type().c_str(), "int32_t")) {
-        func_msg->mutable_return_type()->mutable_scalar_value()->set_int32_t(
-            *((int*)(&result)));
-        cout << "result " << endl;
-        // todo handle more types;
-        string* output = new string();
-        google::protobuf::TextFormat::PrintToString(*func_msg, output);
-        return *output;
-      }
-    } else if (func_msg->return_type().type() == TYPE_SUBMODULE) {
-      cerr << __func__ << "[driver:hal] return type TYPE_SUBMODULE" << endl;
-      if (result != NULL) {
-        // loads that interface spec and enqueues all functions.
-        cout << __func__ << " return type: " << func_msg->return_type().type()
-             << endl;
-      } else {
-        cout << __func__ << " return value = NULL" << endl;
-      }
-      // find a VTS spec for that module
-      string submodule_name = func_msg->return_type().predefined_type().substr(
-          0, func_msg->return_type().predefined_type().size() - 1);
-      vts::ComponentSpecificationMessage* submodule_iface_spec_msg;
-      if (submodule_if_spec_map_.find(submodule_name)
-          != submodule_if_spec_map_.end()) {
-        cout << __func__ << " submodule InterfaceSpecification already loaded"
-             << endl;
-        submodule_iface_spec_msg = submodule_if_spec_map_[submodule_name];
-        func_msg->set_allocated_return_type_submodule_spec(
-            submodule_iface_spec_msg);
-      } else {
-        submodule_iface_spec_msg =
-            FindComponentSpecification(
-                if_spec_msg_->component_class(), if_spec_msg_->component_type(),
-                if_spec_msg_->component_type_version(), submodule_name,
-                if_spec_msg_->package(), if_spec_msg_->component_name());
-        if (!submodule_iface_spec_msg) {
-          cerr << __func__ << " submodule InterfaceSpecification not found" << endl;
-        } else {
-          cout << __func__ << " submodule InterfaceSpecification found" << endl;
-          func_msg->set_allocated_return_type_submodule_spec(
-              submodule_iface_spec_msg);
-          FuzzerBase* func_fuzzer = GetFuzzerBaseSubModule(
-              *submodule_iface_spec_msg, result);
-          submodule_if_spec_map_[submodule_name] = submodule_iface_spec_msg;
-          submodule_fuzzerbase_map_[submodule_name] = func_fuzzer;
-        }
-      }
-      string* output = new string();
-      google::protobuf::TextFormat::PrintToString(*func_msg, output);
-      return *output;
-    }
-  }
-  return *(new string("void"));
+  cout << __func__ << ": function found; trying to call." << endl;
+  FuzzerBase* driver = func();
+  return driver;
 }
 
-const string& SpecificationBuilder::GetAttribute(
-    FunctionSpecificationMessage* func_msg) {
-  if (!wrapper_.LoadInterfaceSpecificationLibrary(spec_lib_file_path_)) {
-    return empty_string;
+FuzzerBase* SpecificationBuilder::LoadDriverWithInterfacePointer(
+    const string& driver_lib_path,
+    const ComponentSpecificationMessage& spec_msg,
+    const uint64_t interface_pt) {
+  // Assumption: no shared library lookup is needed because that is handled
+  // the by the driver's linking dependency.
+  // Example: name (android::hardware::gnss::V1_0::IAGnssRil) converted to
+  // function name (vts_func_4_android_hardware_tests_bar_V1_0_IBar_with_arg)
+  if (!dll_loader_.Load(driver_lib_path.c_str(), false)) {
+    cerr << __func__ << ": failed to load  " << driver_lib_path << endl;
+    return nullptr;
   }
-  cout << __func__ << " "
-       << "loaded if_spec lib" << endl;
-  cout << __func__ << " " << dll_file_name_ << " " << func_msg->name() << endl;
-
-  FuzzerBase* func_fuzzer;
-  if (func_msg->submodule_name().size() > 0) {
-    string submodule_name = func_msg->submodule_name();
-    cout << __func__ << " submodule name " << submodule_name << endl;
-    if (submodule_fuzzerbase_map_.find(submodule_name)
-        != submodule_fuzzerbase_map_.end()) {
-      cout << __func__ << " call is for a submodule" << endl;
-      func_fuzzer = submodule_fuzzerbase_map_[submodule_name];
-    } else {
-      cerr << __func__ << " called an API of a non-loaded submodule." << endl;
-      return empty_string;
-    }
-  } else {
-    func_fuzzer = GetFuzzerBase(*if_spec_msg_, dll_file_name_,
-                                func_msg->name().c_str());
+  cout << "DLL loaded " << driver_lib_path << endl;
+  string function_name_prefix = GetFunctionNamePrefix(spec_msg);
+  function_name_prefix += "_with_arg";
+  loader_function_with_arg func =
+      dll_loader_.GetLoaderFunctionWithArg(function_name_prefix.c_str());
+  if (!func) {
+    cerr << __func__ << ": function not found." << endl;
+    return nullptr;
   }
-  cout << __func__ << ":" << __LINE__ << endl;
-  if (!func_fuzzer) {
-    cerr << "can't find FuzzerBase for " << func_msg->name() << " using "
-         << dll_file_name_ << endl;
-    return empty_string;
-  }
-
-  void* result;
-  cout << __func__ << " Get Atrribute " << func_msg->name() << " parent_path("
-       << func_msg->parent_path() << ")" << endl;
-  if (!func_fuzzer->GetAttribute(func_msg, &result)) {
-    cerr << __func__ << " attribute not found - todo handle more explicitly"
-         << endl;
-    return *(new string("error"));
-  }
-  cout << __func__ << ": called" << endl;
-
-  if (if_spec_msg_ && if_spec_msg_->component_class() == HAL_HIDL) {
-    cout << __func__ << ": for a HIDL HAL" << endl;
-    func_msg->mutable_return_type()->set_type(TYPE_STRING);
-    func_msg->mutable_return_type()->mutable_string_value()->set_message(
-        *(string*)result);
-    func_msg->mutable_return_type()->mutable_string_value()->set_length(
-        ((string*)result)->size());
-    free(result);
-    string* output = new string();
-    google::protobuf::TextFormat::PrintToString(*func_msg, output);
-    return *output;
-  } else {
-    cout << __func__ << ": for a non-HIDL HAL" << endl;
-    if (func_msg->return_type().type() == TYPE_PREDEFINED) {
-      // TODO: actually handle this case.
-      if (result != NULL) {
-        // loads that interface spec and enqueues all functions.
-        cout << __func__ << " return type: " << func_msg->return_type().type()
-             << endl;
-      } else {
-        cout << __func__ << " return value = NULL" << endl;
-      }
-      cerr << __func__ << " todo: support aggregate" << endl;
-      string* output = new string();
-      google::protobuf::TextFormat::PrintToString(*func_msg, output);
-      return *output;
-    } else if (func_msg->return_type().type() == TYPE_SCALAR) {
-      // TODO handle when the size > 1.
-      if (!strcmp(func_msg->return_type().scalar_type().c_str(), "int32_t")) {
-        func_msg->mutable_return_type()->mutable_scalar_value()->set_int32_t(
-            *((int*)(&result)));
-        cout << "result " << endl;
-        // todo handle more types;
-        string* output = new string();
-        google::protobuf::TextFormat::PrintToString(*func_msg, output);
-        return *output;
-      } else if (!strcmp(func_msg->return_type().scalar_type().c_str(), "uint32_t")) {
-        func_msg->mutable_return_type()->mutable_scalar_value()->set_uint32_t(
-            *((int*)(&result)));
-        cout << "result " << endl;
-        // todo handle more types;
-        string* output = new string();
-        google::protobuf::TextFormat::PrintToString(*func_msg, output);
-        return *output;
-      } else if (!strcmp(func_msg->return_type().scalar_type().c_str(), "int16_t")) {
-        func_msg->mutable_return_type()->mutable_scalar_value()->set_int16_t(
-            *((int*)(&result)));
-        cout << "result " << endl;
-        // todo handle more types;
-        string* output = new string();
-        google::protobuf::TextFormat::PrintToString(*func_msg, output);
-        return *output;
-      } else if (!strcmp(func_msg->return_type().scalar_type().c_str(), "uint16_t")) {
-        func_msg->mutable_return_type()->mutable_scalar_value()->set_uint16_t(
-            *((int*)(&result)));
-        cout << "result " << endl;
-        // todo handle more types;
-        string* output = new string();
-        google::protobuf::TextFormat::PrintToString(*func_msg, output);
-        return *output;
-      }
-    } else if (func_msg->return_type().type() == TYPE_SUBMODULE) {
-      cerr << __func__ << "[driver:hal] return type TYPE_SUBMODULE" << endl;
-      if (result != NULL) {
-        // loads that interface spec and enqueues all functions.
-        cout << __func__ << " return type: " << func_msg->return_type().type()
-             << endl;
-      } else {
-        cout << __func__ << " return value = NULL" << endl;
-      }
-      // find a VTS spec for that module
-      string submodule_name = func_msg->return_type().predefined_type().substr(
-          0, func_msg->return_type().predefined_type().size() - 1);
-      vts::ComponentSpecificationMessage* submodule_iface_spec_msg;
-      if (submodule_if_spec_map_.find(submodule_name)
-          != submodule_if_spec_map_.end()) {
-        cout << __func__ << " submodule InterfaceSpecification already loaded"
-             << endl;
-        submodule_iface_spec_msg = submodule_if_spec_map_[submodule_name];
-        func_msg->set_allocated_return_type_submodule_spec(
-            submodule_iface_spec_msg);
-      } else {
-        submodule_iface_spec_msg =
-            FindComponentSpecification(
-                if_spec_msg_->component_class(), if_spec_msg_->component_type(),
-                if_spec_msg_->component_type_version(), submodule_name,
-                if_spec_msg_->package(), if_spec_msg_->component_name());
-        if (!submodule_iface_spec_msg) {
-          cerr << __func__ << " submodule InterfaceSpecification not found" << endl;
-        } else {
-          cout << __func__ << " submodule InterfaceSpecification found" << endl;
-          func_msg->set_allocated_return_type_submodule_spec(
-              submodule_iface_spec_msg);
-          FuzzerBase* func_fuzzer = GetFuzzerBaseSubModule(
-              *submodule_iface_spec_msg, result);
-          submodule_if_spec_map_[submodule_name] = submodule_iface_spec_msg;
-          submodule_fuzzerbase_map_[submodule_name] = func_fuzzer;
-        }
-      }
-      string* output = new string();
-      google::protobuf::TextFormat::PrintToString(*func_msg, output);
-      return *output;
-    }
-  }
-  return *(new string("void"));
+  return func(interface_pt);
 }
 
-bool SpecificationBuilder::Process(const char* dll_file_name,
-                                   const char* spec_lib_file_path,
-                                   int target_class, int target_type,
-                                   float target_version,
-                                   const char* target_package,
-                                   const char* target_component_name) {
-  vts::ComponentSpecificationMessage* interface_specification_message =
-      FindComponentSpecification(target_class, target_type, target_version,
-                                 "", target_package, target_component_name);
-  cout << "ifspec addr " << interface_specification_message << endl;
-
-  if (!interface_specification_message) {
+bool SpecificationBuilder::Process(
+    const char* dll_file_name, const char* spec_lib_file_path, int target_class,
+    int target_type, float target_version, const char* target_package,
+    const char* target_component_name, const char* hal_service_name) {
+  ComponentSpecificationMessage interface_specification_message;
+  if (!FindComponentSpecification(target_class, target_package, target_version,
+                                  target_component_name, target_type, "",
+                                  &interface_specification_message)) {
     cerr << __func__ << ": no interface specification file found for class "
          << target_class << " type " << target_type << " version "
          << target_version << endl;
     return false;
   }
 
-  if (!wrapper_.LoadInterfaceSpecificationLibrary(spec_lib_file_path)) {
+  if (!GetFuzzerBaseAndAddAllFunctionsToQueue(
+          spec_lib_file_path, interface_specification_message, dll_file_name,
+          hal_service_name)) {
     return false;
   }
-
-  if (!GetFuzzerBaseAndAddAllFunctionsToQueue(*interface_specification_message,
-                                              dll_file_name))
-    return false;
 
   for (int i = 0; i < epoch_count_; i++) {
     // by default, breath-first-searching is used.
     if (job_queue_.empty()) {
-      cout << "no more job to process; stopping after epoch " << i << endl;
+      cerr << "no more job to process; stopping after epoch " << i << endl;
       break;
     }
 
@@ -765,7 +327,7 @@ bool SpecificationBuilder::Process(const char* dll_file_name,
     FunctionSpecificationMessage result_msg;
     cout << "Iteration " << (i + 1) << " Function " << func_msg->name() << endl;
     // For Hidl HAL, use CallFunction method.
-    if (interface_specification_message->component_class() == HAL_HIDL) {
+    if (interface_specification_message.component_class() == HAL_HIDL) {
       func_fuzzer->CallFunction(*func_msg, callback_socket_name_, &result_msg);
     } else {
       func_fuzzer->Fuzz(func_msg, &result, callback_socket_name_);
@@ -783,14 +345,15 @@ bool SpecificationBuilder::Process(const char* dll_file_name,
                 submodule_name.back() == '*')) {
           submodule_name.pop_back();
         }
-        vts::ComponentSpecificationMessage* iface_spec_msg =
-            FindComponentSpecification(target_class, target_type,
-                                       target_version, submodule_name);
-        if (iface_spec_msg) {
+        ComponentSpecificationMessage iface_spec_msg;
+        if (FindComponentSpecification(target_class, "", target_version, "",
+                                       target_type, submodule_name,
+                                       &iface_spec_msg)) {
           cout << __FUNCTION__ << " submodule found - " << submodule_name
                << endl;
-          if (!GetFuzzerBaseAndAddAllFunctionsToQueue(*iface_spec_msg,
-                                                      dll_file_name)) {
+          if (!GetFuzzerBaseAndAddAllFunctionsToQueue(
+                  spec_lib_file_path, iface_spec_msg, dll_file_name,
+                  hal_service_name)) {
             return false;
           }
         } else {
@@ -804,12 +367,6 @@ bool SpecificationBuilder::Process(const char* dll_file_name,
   }
 
   return true;
-}
-
-vts::ComponentSpecificationMessage*
-SpecificationBuilder::GetComponentSpecification() const {
-  cout << "ifspec addr get " << if_spec_msg_ << endl;
-  return if_spec_msg_;
 }
 
 }  // namespace vts

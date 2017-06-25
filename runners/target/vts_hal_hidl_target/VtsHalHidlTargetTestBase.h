@@ -64,7 +64,7 @@ class VtsHalHidlTargetTestBase : public ::testing::Test {
   /*
    * Return test case info as string.
    */
-  ::std::string getTestCaseInfo() { return ""; }
+  virtual ::std::string getTestCaseInfo() { return ""; }
 
   /*
    * Get value of system property as string on target

@@ -170,14 +170,14 @@ bool AgentRequestHandler::LaunchDriverService(
         if (driver_hal_spec_dir_path_.length() < 1) {
 #ifndef VTS_AGENT_DRIVER_COMM_BINDER  // socket
           asprintf(&cmd,
-                   "LD_LIBRARY_PATH=%s:$LD_LIBRARY_PATH %s --server "
+                   "LD_LIBRARY_PATH=%s:$LD_LIBRARY_PATH %s "
                    "--server_socket_path=%s "
                    "--callback_socket_name=%s",
                    ld_dir_path.c_str(), driver_binary_path.c_str(),
                    socket_port_flie_path.c_str(), callback_socket_name.c_str());
 #else  // binder
           asprintf(&cmd,
-                   "LD_LIBRARY_PATH=%s:$LD_LIBRARY_PATH %s --server "
+                   "LD_LIBRARY_PATH=%s:$LD_LIBRARY_PATH %s "
                    "--service_name=%s "
                    "--callback_socket_name=%s",
                    ld_dir_path.c_str(), driver_binary_path.c_str(),
@@ -186,18 +186,18 @@ bool AgentRequestHandler::LaunchDriverService(
         } else {
 #ifndef VTS_AGENT_DRIVER_COMM_BINDER  // socket
           asprintf(&cmd,
-                   "LD_LIBRARY_PATH=%s:$LD_LIBRARY_PATH %s --server "
+                   "LD_LIBRARY_PATH=%s:$LD_LIBRARY_PATH %s "
                    "--server_socket_path=%s "
-                   "--spec_dir=%s --callback_socket_name=%s",
+                   "--spec_dir_path=%s --callback_socket_name=%s",
                    ld_dir_path.c_str(), driver_binary_path.c_str(),
                    socket_port_flie_path.c_str(),
                    driver_hal_spec_dir_path_.c_str(),
                    callback_socket_name.c_str());
 #else  // binder
           asprintf(&cmd,
-                   "LD_LIBRARY_PATH=%s:$LD_LIBRARY_PATH %s --server "
+                   "LD_LIBRARY_PATH=%s:$LD_LIBRARY_PATH %s "
                    "--service_name=%s "
-                   "--spec_dir=%s --callback_socket_name=%s",
+                   "--spec_dir_path=%s --callback_socket_name=%s",
                    ld_dir_path.c_str(), driver_binary_path.c_str(),
                    service_name.c_str(), driver_hal_spec_dir_path_.c_str(),
                    callback_socket_name.c_str());
