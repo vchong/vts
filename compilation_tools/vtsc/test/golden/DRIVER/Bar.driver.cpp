@@ -1106,13 +1106,13 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::VerifyResults(const Fu
 }
 
 extern "C" {
-android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_() {
-    return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_android_hardware_tests_bar_V1_0_IBar();
+android::vts::DriverBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_() {
+    return (android::vts::DriverBase*) new android::vts::FuzzerExtended_android_hardware_tests_bar_V1_0_IBar();
 }
 
-android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_with_arg(uint64_t hw_binder_proxy) {
+android::vts::DriverBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_with_arg(uint64_t hw_binder_proxy) {
     ::android::hardware::tests::bar::V1_0::IBar* arg = reinterpret_cast<::android::hardware::tests::bar::V1_0::IBar*>(hw_binder_proxy);
-    android::vts::FuzzerBase* result =
+    android::vts::DriverBase* result =
         new android::vts::FuzzerExtended_android_hardware_tests_bar_V1_0_IBar(
             arg);
     arg->decStrong(arg);

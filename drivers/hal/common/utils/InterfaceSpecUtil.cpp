@@ -16,11 +16,14 @@
 
 #include "utils/InterfaceSpecUtil.h"
 
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 
 #include <assert.h>
+#include <google/protobuf/message.h>
+#include <google/protobuf/text_format.h>
 
 #include "utils/StringUtil.h"
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
@@ -29,6 +32,28 @@ using namespace std;
 
 namespace android {
 namespace vts {
+
+bool ParseInterfaceSpec(const char* file_path,
+                        ComponentSpecificationMessage* message) {
+  ifstream in_file(file_path);
+  stringstream str_stream;
+  if (!in_file.is_open()) {
+    cerr << "Unable to open file. " << file_path << endl;
+    return false;
+  }
+  str_stream << in_file.rdbuf();
+  in_file.close();
+  const string data = str_stream.str();
+
+  message->Clear();
+  if (!google::protobuf::TextFormat::MergeFromString(data, message)) {
+    cerr << __FUNCTION__ << ": Can't parse a given proto file " << file_path
+         << "." << endl;
+    cerr << data << endl;
+    return false;
+  }
+  return true;
+}
 
 string GetFunctionNamePrefix(const ComponentSpecificationMessage& message) {
   stringstream prefix_ss;

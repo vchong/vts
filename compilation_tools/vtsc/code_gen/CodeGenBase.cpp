@@ -30,10 +30,8 @@
 
 #include <hidl-util/Formatter.h>
 
-#include "specification_parser/InterfaceSpecificationParser.h"
-#include "utils/InterfaceSpecUtil.h"
-
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
+#include "utils/InterfaceSpecUtil.h"
 
 #include "VtsCompilerUtils.h"
 #include "code_gen/driver/HalCodeGen.h"
@@ -82,7 +80,7 @@ void TranslateToFile(VtsCompileMode mode,
   string output_dir = output_cpp_file_path_str.substr(0, found + 1);
 
   ComponentSpecificationMessage message;
-  if (!InterfaceSpecificationParser::parse(input_vts_file_path, &message)) {
+  if (!ParseInterfaceSpec(input_vts_file_path, &message)) {
     cerr << __func__ << " can't parse " << input_vts_file_path << endl;
   }
 

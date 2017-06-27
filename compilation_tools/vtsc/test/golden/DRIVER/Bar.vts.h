@@ -10,8 +10,8 @@
 #include <string.h>
 #include <utils/Log.h>
 
-#include <fuzz_tester/FuzzerBase.h>
-#include <fuzz_tester/FuzzerCallbackBase.h>
+#include <driver_base/DriverBase.h>
+#include <driver_base/DriverCallbackBase.h>
 
 #include <android/hardware/tests/bar/1.0/IBar.h>
 #include <hidl/HidlSupport.h>
@@ -36,11 +36,11 @@ namespace vts {
 void MessageTo__android__hardware__tests__bar__V1_0__IBar__SomethingRelated(const VariableSpecificationMessage& var_msg, ::android::hardware::tests::bar::V1_0::IBar::SomethingRelated* arg);
 bool Verify__android__hardware__tests__bar__V1_0__IBar__SomethingRelated(const VariableSpecificationMessage& expected_result, const VariableSpecificationMessage& actual_result);
 void SetResult__android__hardware__tests__bar__V1_0__IBar__SomethingRelated(VariableSpecificationMessage* result_msg, ::android::hardware::tests::bar::V1_0::IBar::SomethingRelated result_value);
-class FuzzerExtended_android_hardware_tests_bar_V1_0_IBar : public FuzzerBase {
+class FuzzerExtended_android_hardware_tests_bar_V1_0_IBar : public DriverBase {
  public:
-    FuzzerExtended_android_hardware_tests_bar_V1_0_IBar() : FuzzerBase(HAL_HIDL), hw_binder_proxy_() {}
+    FuzzerExtended_android_hardware_tests_bar_V1_0_IBar() : DriverBase(HAL_HIDL), hw_binder_proxy_() {}
 
-    explicit FuzzerExtended_android_hardware_tests_bar_V1_0_IBar(::android::hardware::tests::bar::V1_0::IBar* hw_binder_proxy) : FuzzerBase(HAL_HIDL), hw_binder_proxy_(hw_binder_proxy) {}
+    explicit FuzzerExtended_android_hardware_tests_bar_V1_0_IBar(::android::hardware::tests::bar::V1_0::IBar* hw_binder_proxy) : DriverBase(HAL_HIDL), hw_binder_proxy_(hw_binder_proxy) {}
     uint64_t GetHidlInterfaceProxy() const {
         return reinterpret_cast<uintptr_t>(hw_binder_proxy_.get());
     }
@@ -57,8 +57,8 @@ class FuzzerExtended_android_hardware_tests_bar_V1_0_IBar : public FuzzerBase {
 
 
 extern "C" {
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_();
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_with_arg(uint64_t hw_binder_proxy);
+extern android::vts::DriverBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_();
+extern android::vts::DriverBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_with_arg(uint64_t hw_binder_proxy);
 }
 }  // namespace vts
 }  // namespace android

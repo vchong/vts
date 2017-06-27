@@ -415,9 +415,6 @@ class WebFeature(feature_utils.Feature):
 
         self.rest_client.AddAuthToken(post_msg)
 
-        # Write the new address book back to disk.
-        logging.info('Result proto message path: %s', report_proto_path)
-
         message_b = base64.b64encode(post_msg.SerializeToString())
 
         logging.info('Result proto message generated. size: %s',

@@ -10,7 +10,7 @@ namespace android {
 namespace vts {
 static string callback_socket_name_;
 
-class vts_callback_FuzzerExtended_bt_interface_t_bt_callbacks_t : public FuzzerCallbackBase {
+class vts_callback_FuzzerExtended_bt_interface_t_bt_callbacks_t : public DriverCallbackBase {
  public:
     vts_callback_FuzzerExtended_bt_interface_t_bt_callbacks_t(const string& callback_socket_name) {
         callback_socket_name_ = callback_socket_name;
@@ -291,8 +291,8 @@ bool FuzzerExtended_bt_interface_t::VerifyResults(const FunctionSpecificationMes
     return true;
 }
 extern "C" {
-android::vts::FuzzerBase* vts_func_2_7_V1_0_() {
-    return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_bt_interface_t();
+android::vts::DriverBase* vts_func_2_7_V1_0_() {
+    return (android::vts::DriverBase*) new android::vts::FuzzerExtended_bt_interface_t();
 }
 
 }

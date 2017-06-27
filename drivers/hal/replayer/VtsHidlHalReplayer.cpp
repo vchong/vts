@@ -24,10 +24,10 @@
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/text_format.h>
 
-#include "fuzz_tester/FuzzerBase.h"
+#include "VtsProfilingUtil.h"
+#include "driver_base/DriverBase.h"
 #include "utils/InterfaceSpecUtil.h"
 #include "utils/StringUtil.h"
-#include "utils/VtsProfilingUtil.h"
 
 using namespace std;
 
@@ -80,10 +80,10 @@ bool VtsHidlHalReplayer::ReplayTrace(const string& trace_file,
     string package_name = call_msg.package();
     float version = call_msg.version();
     string interface_name = call_msg.interface();
-    FuzzerBase* driver = driver_manager_->GetDriverForHidlHalInterface(
+    DriverBase* driver = driver_manager_->GetDriverForHidlHalInterface(
         package_name, version, interface_name, hal_service_name);
     if (!driver) {
-      cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
+      cerr << __func__ << ": couldn't get a driver base class" << endl;
       return false;
     }
 

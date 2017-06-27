@@ -10,8 +10,8 @@
 #include <string.h>
 #include <utils/Log.h>
 
-#include <fuzz_tester/FuzzerBase.h>
-#include <fuzz_tester/FuzzerCallbackBase.h>
+#include <driver_base/DriverBase.h>
+#include <driver_base/DriverCallbackBase.h>
 
 #include <android/hardware/nfc/1.0/types.h>
 #include <hidl/HidlSupport.h>

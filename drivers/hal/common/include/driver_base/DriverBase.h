@@ -26,10 +26,10 @@ using namespace std;
 namespace android {
 namespace vts {
 
-class FuzzerBase {
+class DriverBase {
  public:
-  FuzzerBase(int target_class);
-  virtual ~FuzzerBase();
+  DriverBase(int target_class);
+  virtual ~DriverBase();
 
   // Loads a target component where the argument is the file path.
   // Returns true iff successful.
@@ -58,9 +58,9 @@ class FuzzerBase {
   };
 
   virtual bool CallFunction(
-            const vts::FunctionSpecificationMessage& /*func_msg*/,
-            const string& /*callback_socket_name*/,
-            vts::FunctionSpecificationMessage* /*result_msg*/) {
+      const vts::FunctionSpecificationMessage& /*func_msg*/,
+      const string& /*callback_socket_name*/,
+      vts::FunctionSpecificationMessage* /*result_msg*/) {
     return false;
   };
 
@@ -82,13 +82,12 @@ class FuzzerBase {
   bool FunctionCallEnd(FunctionSpecificationMessage* msg);
 
   // Scans all GCDA files under a given dir and adds to the message.
-  bool ScanAllGcdaFiles(
-      const string& basepath, FunctionSpecificationMessage* msg);
+  bool ScanAllGcdaFiles(const string& basepath,
+                        FunctionSpecificationMessage* msg);
 
  protected:
-  bool ReadGcdaFile(
-      const string& basepath, const string& filename,
-      FunctionSpecificationMessage* msg);
+  bool ReadGcdaFile(const string& basepath, const string& filename,
+                    FunctionSpecificationMessage* msg);
 
   // a pointer to a HAL data structure of the loaded component.
   struct hw_device_t* device_;

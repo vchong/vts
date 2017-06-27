@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "VtsProfilingUtil.h"
+
 #include <stdint.h>
 
 #include "google/protobuf/io/coded_stream.h"
-#include "utils/VtsProfilingUtil.h"
 
 namespace android {
 namespace vts {

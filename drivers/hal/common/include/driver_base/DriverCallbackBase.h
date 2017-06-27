@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-#ifndef __VTS_SYSFUZZER_COMMON_SPECPARSER_IFSPECPARSER_H__
-#define __VTS_SYSFUZZER_COMMON_SPECPARSER_IFSPECPARSER_H__
+#ifndef __VTS_SYSFUZZER_COMMON_FUZZER_CALLBACK_BASE_H__
+#define __VTS_SYSFUZZER_COMMON_FUZZER_CALLBACK_BASE_H__
+
+#include "component_loader/DllLoader.h"
 
 #include <string>
 
+#include "test/vts/proto/AndroidSystemControlMessage.pb.h"
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 
 using namespace std;
@@ -26,18 +29,21 @@ using namespace std;
 namespace android {
 namespace vts {
 
-// Main class to parse an interface specification from a file.
-class InterfaceSpecificationParser {
+class DriverCallbackBase {
  public:
-  InterfaceSpecificationParser() {}
+  DriverCallbackBase();
+  virtual ~DriverCallbackBase();
 
-  // Parses the given proto text file (1st arg). The parsed result is stored in
-  // the 2nd arg. Returns true iff successful.
-  static bool parse(const char* file_path,
-                    ComponentSpecificationMessage* is_message);
+  static bool Register(const VariableSpecificationMessage& message);
+
+ protected:
+  static const char* GetCallbackID(const string& name);
+
+  static void RpcCallToAgent(const AndroidSystemCallbackRequestMessage& message,
+                             const string& callback_socket_name);
 };
 
 }  // namespace vts
 }  // namespace android
 
-#endif  // __VTS_SYSFUZZER_COMMON_SPECPARSER_IFSPECPARSER_H__
+#endif  // __VTS_SYSFUZZER_COMMON_FUZZER_CALLBACK_BASE_H__

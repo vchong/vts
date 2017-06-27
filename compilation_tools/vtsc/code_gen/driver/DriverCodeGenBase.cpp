@@ -113,7 +113,7 @@ void DriverCodeGenBase::GenerateSourceFile(
 void DriverCodeGenBase::GenerateClassHeader(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
-  out << "class " << fuzzer_extended_class_name << " : public FuzzerBase {"
+  out << "class " << fuzzer_extended_class_name << " : public DriverBase {"
       << "\n";
   out << " public:" << "\n";
 
@@ -176,8 +176,10 @@ void DriverCodeGenBase::GenerateHeaderIncludeFiles(Formatter& out,
   out << "#include <string.h>" << "\n";
   out << "#include <utils/Log.h>" << "\n";
   out << "\n";
-  out << "#include <fuzz_tester/FuzzerBase.h>" << "\n";
-  out << "#include <fuzz_tester/FuzzerCallbackBase.h>" << "\n";
+  out << "#include <driver_base/DriverBase.h>"
+      << "\n";
+  out << "#include <driver_base/DriverCallbackBase.h>"
+      << "\n";
   out << "\n";
   if (message.component_class() == HAL_HIDL &&
       endsWith(message.component_name(), "Callback")) {
@@ -211,8 +213,8 @@ void DriverCodeGenBase::GenerateHeaderGlobalFunctionDeclarations(
   if (print_extern_block) {
     out << "extern \"C\" {" << "\n";
   }
-  out << "extern " << "android::vts::FuzzerBase* " << function_name_prefix
-      << "();\n";
+  out << "extern "
+      << "android::vts::DriverBase* " << function_name_prefix << "();\n";
   if (print_extern_block) {
     out << "}" << "\n";
   }
@@ -226,9 +228,10 @@ void DriverCodeGenBase::GenerateCppBodyGlobalFunctions(
   if (print_extern_block) {
     out << "extern \"C\" {" << "\n";
   }
-  out << "android::vts::FuzzerBase* " << function_name_prefix << "() {\n";
+  out << "android::vts::DriverBase* " << function_name_prefix << "() {\n";
   out.indent();
-  out << "return (android::vts::FuzzerBase*) " << "new android::vts::";
+  out << "return (android::vts::DriverBase*) "
+      << "new android::vts::";
   out << fuzzer_extended_class_name << "();\n";
   out.unindent();
   out << "}\n\n";

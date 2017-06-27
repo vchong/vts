@@ -22,7 +22,6 @@
 #include <VtsDriverCommUtil.h>
 
 #include "driver_manager/VtsHalDriverManager.h"
-#include "specification_parser/SpecificationBuilder.h"
 
 namespace android {
 namespace vts {

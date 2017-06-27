@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "specification_parser/SpecificationBuilder.h"
+#include "component_loader/HalDriverLoader.h"
 
 #include <cutils/properties.h>
 #include <dirent.h>
 #include <google/protobuf/text_format.h>
 #include <iostream>
 
-#include "specification_parser/InterfaceSpecificationParser.h"
 #include "utils/InterfaceSpecUtil.h"
 #include "utils/StringUtil.h"
 
@@ -30,14 +29,13 @@ static constexpr const char* kDefaultHwbinderServiceName = "default";
 namespace android {
 namespace vts {
 
-SpecificationBuilder::SpecificationBuilder(const string dir_path,
-                                           int epoch_count,
-                                           const string& callback_socket_name)
+HalDriverLoader::HalDriverLoader(const string dir_path, int epoch_count,
+                                 const string& callback_socket_name)
     : dir_path_(dir_path),
       epoch_count_(epoch_count),
       callback_socket_name_(callback_socket_name) {}
 
-bool SpecificationBuilder::FindComponentSpecification(
+bool HalDriverLoader::FindComponentSpecification(
     const int component_class, const string& package_name, const float version,
     const string& component_name, const int component_type,
     const string& submodule_name, ComponentSpecificationMessage* spec_msg) {
@@ -64,7 +62,7 @@ bool SpecificationBuilder::FindComponentSpecification(
         string(ent->d_name).find(kSpecFileExt) != std::string::npos) {
       cout << __func__ << ": Checking a file " << ent->d_name << endl;
       const string file_path = driver_lib_dir + "/" + string(ent->d_name);
-      if (InterfaceSpecificationParser::parse(file_path.c_str(), spec_msg)) {
+      if (ParseInterfaceSpec(file_path.c_str(), spec_msg)) {
         if (spec_msg->component_class() != component_class) {
           continue;
         }
@@ -101,13 +99,13 @@ bool SpecificationBuilder::FindComponentSpecification(
   return false;
 }
 
-FuzzerBase* SpecificationBuilder::GetDriver(
+DriverBase* HalDriverLoader::GetDriver(
     const string& driver_lib_path,
     const ComponentSpecificationMessage& spec_msg,
     const string& hw_binder_service_name, const uint64_t interface_pt,
     bool with_interface_pointer, const string& dll_file_name,
     const string& target_func_name) {
-  FuzzerBase* driver = nullptr;
+  DriverBase* driver = nullptr;
   if (spec_msg.component_class() == HAL_HIDL) {
     driver = GetHidlHalDriver(driver_lib_path, spec_msg, hw_binder_service_name,
                               interface_pt, with_interface_pointer);
@@ -120,13 +118,13 @@ FuzzerBase* SpecificationBuilder::GetDriver(
   return driver;
 }
 
-FuzzerBase* SpecificationBuilder::GetConventionalHalDriver(
+DriverBase* HalDriverLoader::GetConventionalHalDriver(
     const string& driver_lib_path,
     const ComponentSpecificationMessage& spec_msg, const string& dll_file_name,
     const string& /*target_func_name*/) {
-  FuzzerBase* driver = LoadDriver(driver_lib_path, spec_msg);
+  DriverBase* driver = LoadDriver(driver_lib_path, spec_msg);
   if (!driver) {
-    cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
+    cerr << __func__ << ": couldn't get a driver base class" << endl;
     return nullptr;
   }
   if (!driver->LoadTargetComponent(dll_file_name.c_str())) {
@@ -153,14 +151,14 @@ FuzzerBase* SpecificationBuilder::GetConventionalHalDriver(
   */
 }
 
-FuzzerBase* SpecificationBuilder::GetDriverForSubModule(
+DriverBase* HalDriverLoader::GetDriverForSubModule(
     const string& spec_lib_file_path,
     const ComponentSpecificationMessage& spec_msg, void* object_pointer) {
   cout << __func__ << ":" << __LINE__ << " "
        << "entry object_pointer " << ((uint64_t)object_pointer) << endl;
-  FuzzerBase* driver = LoadDriver(spec_lib_file_path, spec_msg);
+  DriverBase* driver = LoadDriver(spec_lib_file_path, spec_msg);
   if (!driver) {
-    cerr << __FUNCTION__ << ": couldn't get a fuzzer base class" << endl;
+    cerr << __FUNCTION__ << ": couldn't get a driver base class" << endl;
     return nullptr;
   }
 
@@ -180,14 +178,14 @@ FuzzerBase* SpecificationBuilder::GetDriverForSubModule(
   return driver;
 }
 
-FuzzerBase* SpecificationBuilder::GetFuzzerBaseAndAddAllFunctionsToQueue(
+DriverBase* HalDriverLoader::GetFuzzerBaseAndAddAllFunctionsToQueue(
     const char* driver_lib_path,
     const ComponentSpecificationMessage& iface_spec_msg,
     const char* dll_file_name, const char* hw_service_name) {
-  FuzzerBase* driver = GetDriver(driver_lib_path, iface_spec_msg,
+  DriverBase* driver = GetDriver(driver_lib_path, iface_spec_msg,
                                  hw_service_name, 0, false, dll_file_name, "");
   if (!driver) {
-    cerr << __FUNCTION__ << ": couldn't get a fuzzer base class" << endl;
+    cerr << __FUNCTION__ << ": couldn't get a driver base class" << endl;
     return NULL;
   }
 
@@ -201,14 +199,14 @@ FuzzerBase* SpecificationBuilder::GetFuzzerBaseAndAddAllFunctionsToQueue(
   return driver;
 }
 
-FuzzerBase* SpecificationBuilder::GetHidlHalDriver(
+DriverBase* HalDriverLoader::GetHidlHalDriver(
     const string& driver_lib_path,
     const ComponentSpecificationMessage& spec_msg,
     const string& hal_service_name, const uint64_t interface_pt,
     bool with_interface_pt) {
   string package_name = spec_msg.package();
 
-  FuzzerBase* driver = nullptr;
+  DriverBase* driver = nullptr;
   if (with_interface_pt) {
     driver =
         LoadDriverWithInterfacePointer(driver_lib_path, spec_msg, interface_pt);
@@ -216,7 +214,7 @@ FuzzerBase* SpecificationBuilder::GetHidlHalDriver(
     driver = LoadDriver(driver_lib_path, spec_msg);
   }
   if (!driver) {
-    cerr << __func__ << ": couldn't get a fuzzer base class" << endl;
+    cerr << __func__ << ": couldn't get a driver base class" << endl;
     return nullptr;
   }
   cout << __func__ << ":" << __LINE__ << " "
@@ -245,7 +243,7 @@ FuzzerBase* SpecificationBuilder::GetHidlHalDriver(
   return driver;
 }
 
-FuzzerBase* SpecificationBuilder::LoadDriver(
+DriverBase* HalDriverLoader::LoadDriver(
     const string& driver_lib_path,
     const ComponentSpecificationMessage& spec_msg) {
   if (!dll_loader_.Load(driver_lib_path.c_str(), false)) {
@@ -261,11 +259,11 @@ FuzzerBase* SpecificationBuilder::LoadDriver(
     return nullptr;
   }
   cout << __func__ << ": function found; trying to call." << endl;
-  FuzzerBase* driver = func();
+  DriverBase* driver = func();
   return driver;
 }
 
-FuzzerBase* SpecificationBuilder::LoadDriverWithInterfacePointer(
+DriverBase* HalDriverLoader::LoadDriverWithInterfacePointer(
     const string& driver_lib_path,
     const ComponentSpecificationMessage& spec_msg,
     const uint64_t interface_pt) {
@@ -289,10 +287,12 @@ FuzzerBase* SpecificationBuilder::LoadDriverWithInterfacePointer(
   return func(interface_pt);
 }
 
-bool SpecificationBuilder::Process(
-    const char* dll_file_name, const char* spec_lib_file_path, int target_class,
-    int target_type, float target_version, const char* target_package,
-    const char* target_component_name, const char* hal_service_name) {
+bool HalDriverLoader::Process(const char* dll_file_name,
+                              const char* spec_lib_file_path, int target_class,
+                              int target_type, float target_version,
+                              const char* target_package,
+                              const char* target_component_name,
+                              const char* hal_service_name) {
   ComponentSpecificationMessage interface_specification_message;
   if (!FindComponentSpecification(target_class, target_package, target_version,
                                   target_component_name, target_type, "",
@@ -316,12 +316,12 @@ bool SpecificationBuilder::Process(
       break;
     }
 
-    pair<vts::FunctionSpecificationMessage*, FuzzerBase*> curr_job =
+    pair<vts::FunctionSpecificationMessage*, DriverBase*> curr_job =
         job_queue_.front();
     job_queue_.pop();
 
     vts::FunctionSpecificationMessage* func_msg = curr_job.first;
-    FuzzerBase* func_fuzzer = curr_job.second;
+    DriverBase* func_fuzzer = curr_job.second;
 
     void* result;
     FunctionSpecificationMessage result_msg;

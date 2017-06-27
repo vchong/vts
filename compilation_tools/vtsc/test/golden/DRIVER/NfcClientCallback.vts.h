@@ -10,8 +10,8 @@
 #include <string.h>
 #include <utils/Log.h>
 
-#include <fuzz_tester/FuzzerBase.h>
-#include <fuzz_tester/FuzzerCallbackBase.h>
+#include <driver_base/DriverBase.h>
+#include <driver_base/DriverCallbackBase.h>
 
 #include <VtsDriverCommUtil.h>
 
@@ -26,7 +26,7 @@ using namespace android::hardware::nfc::V1_0;
 namespace android {
 namespace vts {
 
-class Vts_android_hardware_nfc_V1_0_INfcClientCallback : public ::android::hardware::nfc::V1_0::INfcClientCallback, public FuzzerCallbackBase {
+class Vts_android_hardware_nfc_V1_0_INfcClientCallback : public ::android::hardware::nfc::V1_0::INfcClientCallback, public DriverCallbackBase {
  public:
     Vts_android_hardware_nfc_V1_0_INfcClientCallback(const string& callback_socket_name)
         : callback_socket_name_(callback_socket_name) {};

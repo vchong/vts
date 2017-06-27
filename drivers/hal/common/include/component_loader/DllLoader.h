@@ -22,11 +22,11 @@
 namespace android {
 namespace vts {
 
-class FuzzerBase;
+class DriverBase;
 
 // Pointer type for a function in a loaded component.
-typedef FuzzerBase* (*loader_function)();
-typedef FuzzerBase* (*loader_function_with_arg)(uint64_t arg);
+typedef DriverBase* (*loader_function)();
+typedef DriverBase* (*loader_function_with_arg)(uint64_t arg);
 typedef void (*writeout_fn)();
 typedef void (*flush_fn)();
 

@@ -29,7 +29,7 @@
 #include <test/vts/proto/ComponentSpecificationMessage.pb.h>
 #include <test/vts/proto/VtsReportMessage.pb.h>
 
-#include "utils/VtsProfilingUtil.h"
+#include "VtsProfilingUtil.h"
 
 using namespace std;
 using google::protobuf::TextFormat;

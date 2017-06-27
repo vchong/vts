@@ -51,7 +51,8 @@ class VtsProfilingInterface {
   static VtsProfilingInterface& getInstance(const string& trace_file_path);
 
   // returns true if the given message is added to the tracing queue.
-  bool AddTraceEvent(android::hardware::details::HidlInstrumentor::InstrumentationEvent event,
+  bool AddTraceEvent(
+      android::hardware::details::HidlInstrumentor::InstrumentationEvent event,
       const char* package, const char* version, const char* interface,
       const FunctionSpecificationMessage& message);
 
@@ -62,7 +63,7 @@ class VtsProfilingInterface {
   Mutex mutex_;  // Mutex used to synchronize the writing to the trace file.
   bool initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN (VtsProfilingInterface);
+  DISALLOW_COPY_AND_ASSIGN(VtsProfilingInterface);
 };
 
 }  // namespace vts

@@ -376,7 +376,7 @@ void HalHidlCodeGen::GenerateCppBodyGetAttributeFunction(
 void HalHidlCodeGen::GenerateClassConstructionFunction(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
-  out << fuzzer_extended_class_name << "() : FuzzerBase(";
+  out << fuzzer_extended_class_name << "() : DriverBase(";
   if (message.component_name() != "types") {
     out << "HAL_HIDL), " << kInstanceVariableName << "()";
   } else {
@@ -387,7 +387,7 @@ void HalHidlCodeGen::GenerateClassConstructionFunction(Formatter& out,
 
   FQName fqname = GetFQName(message);
   out << "explicit " << fuzzer_extended_class_name << "(" << fqname.cppName()
-      << "* hw_binder_proxy) : FuzzerBase("
+      << "* hw_binder_proxy) : DriverBase("
       << "HAL_HIDL)";
   if (message.component_name() != "types") {
     out << ", " << kInstanceVariableName << "(hw_binder_proxy)";
@@ -408,7 +408,8 @@ void HalHidlCodeGen::GenerateHeaderGlobalFunctionDeclarations(Formatter& out,
 
     string function_name_prefix = GetFunctionNamePrefix(message);
     FQName fqname = GetFQName(message);
-    out << "extern " << "android::vts::FuzzerBase* " << function_name_prefix
+    out << "extern "
+        << "android::vts::DriverBase* " << function_name_prefix
         << "with_arg(uint64_t hw_binder_proxy);\n";
     if (print_extern_block) {
       out << "}" << "\n";
@@ -429,12 +430,13 @@ void HalHidlCodeGen::GenerateCppBodyGlobalFunctions(Formatter& out,
 
     string function_name_prefix = GetFunctionNamePrefix(message);
     FQName fqname = GetFQName(message);
-    out << "android::vts::FuzzerBase* " << function_name_prefix << "with_arg("
+    out << "android::vts::DriverBase* " << function_name_prefix << "with_arg("
         << "uint64_t hw_binder_proxy) {\n";
     out.indent();
     out << fqname.cppName() << "* arg = reinterpret_cast<" << fqname.cppName()
         << "*>(hw_binder_proxy);\n";
-    out << "android::vts::FuzzerBase* result =" << "\n"
+    out << "android::vts::DriverBase* result ="
+        << "\n"
         << "    new android::vts::" << fuzzer_extended_class_name << "(\n"
         << "        arg);\n";
     out << "arg->decStrong(arg);" << "\n";
@@ -470,7 +472,8 @@ void HalHidlCodeGen::GenerateClassHeader(Formatter& out,
     FQName component_fq_name = GetFQName(message);
     string component_name_token = "Vts_" + component_fq_name.tokenName();;
     out << "class " << component_name_token << " : public "
-        << component_fq_name.cppName() << ", public FuzzerCallbackBase {" << "\n";
+        << component_fq_name.cppName() << ", public DriverCallbackBase {"
+        << "\n";
     out << " public:" << "\n";
     out.indent();
     out << component_name_token << "(const string& callback_socket_name)\n"

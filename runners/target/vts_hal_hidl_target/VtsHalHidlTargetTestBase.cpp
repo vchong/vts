@@ -18,6 +18,8 @@
 
 #include <sys/system_properties.h>
 
+using namespace std;
+
 namespace testing {
 
 std::string VtsHalHidlTargetTestBase::PropertyGet(const char* name) {
@@ -40,6 +42,14 @@ bool VtsHalHidlTargetTestBase::VtsGetStub() {
   }
 
   return false;
+}
+
+string VtsHalHidlTargetTestBase::getTestCaseName() const {
+  return UnitTest::GetInstance()->current_test_info()->test_case_name();
+}
+
+string VtsHalHidlTargetTestBase::getTestSuiteName() const {
+  return UnitTest::GetInstance()->current_test_info()->name();
 }
 
 }  // namespace testing

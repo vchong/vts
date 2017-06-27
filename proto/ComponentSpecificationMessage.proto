@@ -412,11 +412,11 @@ message VariableSpecificationMessage {
   optional int32 hidl_interface_id = 241;
 
   // for HIDL HAL, to specify an HIDL interface's client proxy object's
-  // pointer value. Passed from a FuzzerBase instance to the VTS HAL driver
+  // pointer value. Passed from a DriverBase instance to the VTS HAL driver
   // framework as a return value of its CallFunction() method. Another use
-  // case is when this variable is passed to a FuzzerBase instance from the
+  // case is when this variable is passed to a DriverBase instance from the
   // VTS HAL driver framework which can get this value from another
-  // (potentially nested or main) FuzzerBase instance.
+  // (potentially nested or main) DriverBase instance.
   optional uint64 hidl_interface_pointer = 242;
 
   // true if the argument is an input (valid only for the top-level message).

@@ -51,7 +51,6 @@
 #include "test/vts/proto/VtsDriverControlMessage.pb.h"
 
 #include "binder/VtsFuzzerBinderService.h"
-#include "specification_parser/SpecificationBuilder.h"
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 
 using namespace std;

@@ -28,6 +28,11 @@ using namespace std;
 namespace android {
 namespace vts {
 
+// Reads the given file and parse the file contents into a
+// ComponentSpecificationMessage.
+bool ParseInterfaceSpec(const char* file_path,
+                        ComponentSpecificationMessage* message);
+
 // Returns the function name prefix of a given interface specification.
 string GetFunctionNamePrefix(const ComponentSpecificationMessage& message);
 

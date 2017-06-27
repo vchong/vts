@@ -20,8 +20,8 @@
 #include <map>
 #include <string>
 
-#include "fuzz_tester/FuzzerBase.h"
-#include "specification_parser/SpecificationBuilder.h"
+#include "component_loader/HalDriverLoader.h"
+#include "driver_base/DriverBase.h"
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 
 using namespace std;
@@ -64,7 +64,7 @@ class VtsHalDriverManager {
   // the correponding driver instance, otherwise, creates a new driver instance
   // with the given info, registers it in hal_driver_map_ and returns the
   // generated driver instance. This is used by Vts replay test.
-  FuzzerBase* GetDriverForHidlHalInterface(const string& package_name,
+  DriverBase* GetDriverForHidlHalInterface(const string& package_name,
                                            const float version,
                                            const string& interface_name,
                                            const string& hal_service_name);
@@ -93,14 +93,14 @@ class VtsHalDriverManager {
  private:
   // Internal method to register a HAL driver in hal_driver_map_.
   // Returns the driver id of registed driver.
-  DriverId RegisterDriver(std::unique_ptr<FuzzerBase> driver,
+  DriverId RegisterDriver(std::unique_ptr<DriverBase> driver,
                           const ComponentSpecificationMessage& spec_msg,
                           const string& submodule_name,
                           const uint64_t interface_pt);
 
   // Internal method to get the HAL driver based on the driver id. Returns
   // nullptr if no driver instance existes with given id.
-  FuzzerBase* GetDriverById(const int32_t id);
+  DriverBase* GetDriverById(const int32_t id);
 
   // Internal method to get the driver id based on submodule name
   // (for conventional HAL only).
@@ -130,8 +130,8 @@ class VtsHalDriverManager {
   const string callback_socket_name_;
   // A default name for the driver libary name, only used for conventional HAL.
   string default_driver_lib_name_;
-  // A SpecificationBuilder instance.
-  SpecificationBuilder spec_builder_;
+  // A HalDriverLoader instance.
+  HalDriverLoader hal_driver_loader_;
 
   // struct that store the driver instance and its corresponding meta info.
   struct HalDriverInfo {
@@ -142,12 +142,12 @@ class VtsHalDriverManager {
     // Pointer to the HAL client proxy, used for HIDL HAL only.
     uint64_t hidl_hal_proxy_pt;
     // A HAL driver instance.
-    std::unique_ptr<FuzzerBase> driver;
+    std::unique_ptr<DriverBase> driver;
 
     // Constructor for halDriverInfo
     HalDriverInfo(const ComponentSpecificationMessage& spec_msg,
                   const string& submodule_name, const uint64_t interface_pt,
-                  std::unique_ptr<FuzzerBase> driver)
+                  std::unique_ptr<DriverBase> driver)
         : spec_msg(spec_msg),
           submodule_name(submodule_name),
           hidl_hal_proxy_pt(interface_pt),

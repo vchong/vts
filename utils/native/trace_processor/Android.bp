@@ -23,8 +23,8 @@ cc_library_host_shared {
         "libbase",
         "libcutils",
         "libprotobuf-cpp-full",
-        "libvts_common",
         "libvts_multidevice_proto",
+        "libvts_profiling_utils",
     ],
     cflags: [
         "-Wall",

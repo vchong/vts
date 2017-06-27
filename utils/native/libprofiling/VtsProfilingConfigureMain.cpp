@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <iostream>
 #include <android/hidl/manager/1.0/IServiceManager.h>
 #include <cutils/properties.h>
 #include <hidl/ServiceManagement.h>
+#include <iostream>
 
 using namespace std;
 using namespace android;
@@ -38,16 +38,15 @@ bool SetHALInstrumentation() {
   auto listRet = sm->list([&](const auto &interfaces) {
     for (const string &fqInstanceName : interfaces) {
       string::size_type n = fqInstanceName.find("/");
-      if (n == std::string::npos || fqInstanceName.size() == n+1) continue;
+      if (n == std::string::npos || fqInstanceName.size() == n + 1) continue;
 
       hidl_string fqInterfaceName = fqInstanceName.substr(0, n);
-      hidl_string instanceName = fqInstanceName.substr(
-          n+1, std::string::npos);
+      hidl_string instanceName =
+          fqInstanceName.substr(n + 1, std::string::npos);
       Return<sp<IBase>> interfaceRet = sm->get(fqInterfaceName, instanceName);
       if (!interfaceRet.isOk()) {
         fprintf(stderr, "failed to get service %s: %s\n",
-                fqInstanceName.c_str(),
-                interfaceRet.description().c_str());
+                fqInstanceName.c_str(), interfaceRet.description().c_str());
         continue;
       }
       sp<IBase> interface = interfaceRet;
@@ -89,7 +88,7 @@ bool DisableHALProfiling() {
 // Usage examples:
 //   To enable, <binary> enable <lib path>
 //   To disable, <binary> disable clear
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   bool enable_profiling = false;
   if (argc >= 2) {
     if (!strcmp(argv[1], "enable")) {

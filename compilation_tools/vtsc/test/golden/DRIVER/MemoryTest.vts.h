@@ -10,8 +10,8 @@
 #include <string.h>
 #include <utils/Log.h>
 
-#include <fuzz_tester/FuzzerBase.h>
-#include <fuzz_tester/FuzzerCallbackBase.h>
+#include <driver_base/DriverBase.h>
+#include <driver_base/DriverCallbackBase.h>
 
 #include <android/hardware/tests/memory/1.0/IMemoryTest.h>
 #include <hidl/HidlSupport.h>
@@ -21,11 +21,11 @@
 using namespace android::hardware::tests::memory::V1_0;
 namespace android {
 namespace vts {
-class FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest : public FuzzerBase {
+class FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest : public DriverBase {
  public:
-    FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest() : FuzzerBase(HAL_HIDL), hw_binder_proxy_() {}
+    FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest() : DriverBase(HAL_HIDL), hw_binder_proxy_() {}
 
-    explicit FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest(::android::hardware::tests::memory::V1_0::IMemoryTest* hw_binder_proxy) : FuzzerBase(HAL_HIDL), hw_binder_proxy_(hw_binder_proxy) {}
+    explicit FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest(::android::hardware::tests::memory::V1_0::IMemoryTest* hw_binder_proxy) : DriverBase(HAL_HIDL), hw_binder_proxy_(hw_binder_proxy) {}
     uint64_t GetHidlInterfaceProxy() const {
         return reinterpret_cast<uintptr_t>(hw_binder_proxy_.get());
     }
@@ -42,8 +42,8 @@ class FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest : public Fuz
 
 
 extern "C" {
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryTest_();
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryTest_with_arg(uint64_t hw_binder_proxy);
+extern android::vts::DriverBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryTest_();
+extern android::vts::DriverBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryTest_with_arg(uint64_t hw_binder_proxy);
 }
 }  // namespace vts
 }  // namespace android

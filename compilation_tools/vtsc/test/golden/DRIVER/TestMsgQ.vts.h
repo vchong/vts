@@ -10,8 +10,8 @@
 #include <string.h>
 #include <utils/Log.h>
 
-#include <fuzz_tester/FuzzerBase.h>
-#include <fuzz_tester/FuzzerCallbackBase.h>
+#include <driver_base/DriverBase.h>
+#include <driver_base/DriverCallbackBase.h>
 
 #include <android/hardware/tests/msgq/1.0/ITestMsgQ.h>
 #include <hidl/HidlSupport.h>
@@ -25,11 +25,11 @@ namespace vts {
 ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits Random__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits();
 bool Verify__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(const VariableSpecificationMessage& expected_result, const VariableSpecificationMessage& actual_result);
 void SetResult__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(VariableSpecificationMessage* result_msg, ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits result_value);
-class FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ : public FuzzerBase {
+class FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ : public DriverBase {
  public:
-    FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ() : FuzzerBase(HAL_HIDL), hw_binder_proxy_() {}
+    FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ() : DriverBase(HAL_HIDL), hw_binder_proxy_() {}
 
-    explicit FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ(::android::hardware::tests::msgq::V1_0::ITestMsgQ* hw_binder_proxy) : FuzzerBase(HAL_HIDL), hw_binder_proxy_(hw_binder_proxy) {}
+    explicit FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ(::android::hardware::tests::msgq::V1_0::ITestMsgQ* hw_binder_proxy) : DriverBase(HAL_HIDL), hw_binder_proxy_(hw_binder_proxy) {}
     uint64_t GetHidlInterfaceProxy() const {
         return reinterpret_cast<uintptr_t>(hw_binder_proxy_.get());
     }
@@ -46,8 +46,8 @@ class FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ : public FuzzerB
 
 
 extern "C" {
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_();
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_with_arg(uint64_t hw_binder_proxy);
+extern android::vts::DriverBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_();
+extern android::vts::DriverBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_with_arg(uint64_t hw_binder_proxy);
 }
 }  // namespace vts
 }  // namespace android

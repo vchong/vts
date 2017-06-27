@@ -37,7 +37,6 @@
 #include <binder/TextOutput.h>
 
 #include "binder/VtsFuzzerBinderService.h"
-#include "specification_parser/SpecificationBuilder.h"
 
 #include <google/protobuf/text_format.h>
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"

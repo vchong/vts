@@ -41,5 +41,6 @@ cc_binary {
         "libprotobuf-cpp-full",
         "libvts_common",
         "libvts_multidevice_proto",
+        "libvts_profiling_utils",
     ],
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "fuzz_tester/FuzzerCallbackBase.h"
+#include "driver_base/DriverCallbackBase.h"
 
 #include <dirent.h>
 #include <netdb.h>
@@ -34,8 +34,8 @@
 #include <vector>
 
 #include <VtsDriverCommUtil.h>
-#include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 #include "test/vts/proto/AndroidSystemControlMessage.pb.h"
+#include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 
 #include "component_loader/DllLoader.h"
 #include "utils/InterfaceSpecUtil.h"
@@ -47,11 +47,11 @@ namespace vts {
 
 static std::map<string, string> id_map_;
 
-FuzzerCallbackBase::FuzzerCallbackBase() {}
+DriverCallbackBase::DriverCallbackBase() {}
 
-FuzzerCallbackBase::~FuzzerCallbackBase() {}
+DriverCallbackBase::~DriverCallbackBase() {}
 
-bool FuzzerCallbackBase::Register(const VariableSpecificationMessage& message) {
+bool DriverCallbackBase::Register(const VariableSpecificationMessage& message) {
   cout << __func__ << " type = " << message.type() << endl;
   if (!message.is_callback()) {
     cerr << __func__ << " ERROR: argument is not a callback." << endl;
@@ -71,7 +71,7 @@ bool FuzzerCallbackBase::Register(const VariableSpecificationMessage& message) {
   return true;
 }
 
-const char* FuzzerCallbackBase::GetCallbackID(const string& name) {
+const char* DriverCallbackBase::GetCallbackID(const string& name) {
   // TODO: handle when not found.
   cout << __func__ << ":" << __LINE__ << " " << name << endl;
   cout << __func__ << ":" << __LINE__ << " returns '" << id_map_[name].c_str()
@@ -79,7 +79,7 @@ const char* FuzzerCallbackBase::GetCallbackID(const string& name) {
   return id_map_[name].c_str();
 }
 
-void FuzzerCallbackBase::RpcCallToAgent(
+void DriverCallbackBase::RpcCallToAgent(
     const AndroidSystemCallbackRequestMessage& message,
     const string& callback_socket_name) {
   cout << __func__ << ":" << __LINE__ << " id = '" << message.id() << "'"

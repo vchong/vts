@@ -34,8 +34,8 @@ VtsHalDriverManager::VtsHalDriverManager(const string& spec_dir,
                                          const string& callback_socket_name)
     : callback_socket_name_(callback_socket_name),
       default_driver_lib_name_(""),
-      spec_builder_(
-          SpecificationBuilder(spec_dir, epoch_count, callback_socket_name)) {}
+      hal_driver_loader_(
+          HalDriverLoader(spec_dir, epoch_count, callback_socket_name)) {}
 
 DriverId VtsHalDriverManager::LoadTargetComponent(
     const string& dll_file_name, const string& spec_lib_file_path,
@@ -44,7 +44,7 @@ DriverId VtsHalDriverManager::LoadTargetComponent(
     const string& hw_binder_service_name, const string& submodule_name) {
   cout << __func__ << " entry dll_file_name = " << dll_file_name << endl;
   ComponentSpecificationMessage spec_message;
-  if (!spec_builder_.FindComponentSpecification(
+  if (!hal_driver_loader_.FindComponentSpecification(
           component_class, package_name, version, component_name,
           component_type, submodule_name, &spec_message)) {
     cerr << __func__ << ": Faild to load specification for component with "
@@ -65,10 +65,10 @@ DriverId VtsHalDriverManager::LoadTargetComponent(
 
   cout << __func__ << " driver lib path " << driver_lib_path << endl;
 
-  std::unique_ptr<FuzzerBase> hal_driver = nullptr;
-  hal_driver.reset(spec_builder_.GetDriver(driver_lib_path, spec_message,
-                                           hw_binder_service_name, 0, false,
-                                           dll_file_name, ""));
+  std::unique_ptr<DriverBase> hal_driver = nullptr;
+  hal_driver.reset(hal_driver_loader_.GetDriver(driver_lib_path, spec_message,
+                                                hw_binder_service_name, 0,
+                                                false, dll_file_name, ""));
   if (!hal_driver) {
     cerr << "can't load driver for component with class: " << component_class
          << " type: " << component_type << " version: " << version << endl;
@@ -82,7 +82,7 @@ DriverId VtsHalDriverManager::LoadTargetComponent(
 
 string VtsHalDriverManager::CallFunction(
     FunctionSpecificationMessage* func_msg) {
-  FuzzerBase* driver = nullptr;
+  DriverBase* driver = nullptr;
   int component_class = -1;
   string output = "";
   DriverId driver_id = FindDriverIdWithFuncMsg(func_msg);
@@ -158,14 +158,14 @@ string VtsHalDriverManager::CallFunction(
           return_val->hidl_interface_pointer() != 0) {
         string type_name = return_val->predefined_type();
         uint64_t interface_pt = return_val->hidl_interface_pointer();
-        std::unique_ptr<FuzzerBase> driver;
+        std::unique_ptr<DriverBase> driver;
         ComponentSpecificationMessage spec_msg;
         string package_name = GetPackageName(type_name);
         float version = GetVersion(type_name);
         string component_name = GetComponentName(type_name);
-        if (!spec_builder_.FindComponentSpecification(HAL_HIDL, package_name,
-                                                      version, component_name,
-                                                      0, "", &spec_msg)) {
+        if (!hal_driver_loader_.FindComponentSpecification(
+                HAL_HIDL, package_name, version, component_name, 0, "",
+                &spec_msg)) {
           cerr << __func__
                << " Failed to load specification for gnerated interface :"
                << type_name << endl;
@@ -174,9 +174,9 @@ string VtsHalDriverManager::CallFunction(
         string driver_lib_path = GetHidlHalDriverLibName(package_name, version);
         // TODO(zhuoyao): figure out a way to get the service_name.
         string hw_binder_service_name = "default";
-        driver.reset(spec_builder_.GetDriver(driver_lib_path, spec_msg,
-                                             hw_binder_service_name,
-                                             interface_pt, true, "", ""));
+        driver.reset(hal_driver_loader_.GetDriver(driver_lib_path, spec_msg,
+                                                  hw_binder_service_name,
+                                                  interface_pt, true, "", ""));
         int32_t driver_id =
             RegisterDriver(std::move(driver), spec_msg, "", interface_pt);
         return_val->set_hidl_interface_id(driver_id);
@@ -192,7 +192,7 @@ string VtsHalDriverManager::CallFunction(
 
 string VtsHalDriverManager::GetAttribute(
     FunctionSpecificationMessage* func_msg) {
-  FuzzerBase* driver = nullptr;
+  DriverBase* driver = nullptr;
   int component_class = -1;
   string output = "";
   DriverId driver_id = FindDriverIdWithFuncMsg(func_msg);
@@ -234,7 +234,7 @@ string VtsHalDriverManager::GetAttribute(
 }
 
 DriverId VtsHalDriverManager::RegisterDriver(
-    std::unique_ptr<FuzzerBase> driver,
+    std::unique_ptr<DriverBase> driver,
     const ComponentSpecificationMessage& spec_msg, const string& submodule_name,
     const uint64_t interface_pt) {
   DriverId driver_id =
@@ -251,7 +251,7 @@ DriverId VtsHalDriverManager::RegisterDriver(
   return driver_id;
 }
 
-FuzzerBase* VtsHalDriverManager::GetDriverById(const int32_t id) {
+DriverBase* VtsHalDriverManager::GetDriverById(const int32_t id) {
   auto res = hal_driver_map_.find(id);
   if (res == hal_driver_map_.end()) {
     cerr << "Failed to find driver info with id: " << id << endl;
@@ -272,7 +272,7 @@ ComponentSpecificationMessage* VtsHalDriverManager::GetComponentSpecById(
   return &(res->second.spec_msg);
 }
 
-FuzzerBase* VtsHalDriverManager::GetDriverForHidlHalInterface(
+DriverBase* VtsHalDriverManager::GetDriverForHidlHalInterface(
     const string& package_name, const float version,
     const string& interface_name, const string& hal_service_name) {
   ComponentSpecificationMessage spec_msg;
@@ -294,7 +294,7 @@ bool VtsHalDriverManager::FindComponentSpecification(
     const int component_class, const int component_type, const float version,
     const string& submodule_name, const string& package_name,
     const string& component_name, ComponentSpecificationMessage* spec_msg) {
-  return spec_builder_.FindComponentSpecification(
+  return hal_driver_loader_.FindComponentSpecification(
       component_class, package_name, version, component_name, component_type,
       submodule_name, spec_msg);
 }
@@ -396,7 +396,7 @@ DriverId VtsHalDriverManager::FindDriverIdWithFuncMsg(
       return -1;
     }
   } else {
-    // If hidl_interface_id is specified, get fuzzer base from the interface_map
+    // If hidl_interface_id is specified, get driver base from the interface_map
     // directly.
     if (func_msg->hidl_interface_id() != 0) {
       return func_msg->hidl_interface_id();
@@ -485,7 +485,7 @@ string VtsHalDriverManager::ProcessFuncResultsForConventionalHal(
       // Hal the initially loaded, need to change then when we support
       // multi-hal testing.
       ComponentSpecificationMessage* spec_msg = GetComponentSpecById(0);
-      if (spec_builder_.FindComponentSpecification(
+      if (hal_driver_loader_.FindComponentSpecification(
               spec_msg->component_class(), spec_msg->package(),
               spec_msg->component_type_version(), spec_msg->component_name(),
               spec_msg->component_type(), submodule_name,
@@ -493,8 +493,8 @@ string VtsHalDriverManager::ProcessFuncResultsForConventionalHal(
         cout << __func__ << " submodule InterfaceSpecification found" << endl;
         func_msg->set_allocated_return_type_submodule_spec(
             &submodule_iface_spec_msg);
-        std::unique_ptr<FuzzerBase> driver = nullptr;
-        driver.reset(spec_builder_.GetDriverForSubModule(
+        std::unique_ptr<DriverBase> driver = nullptr;
+        driver.reset(hal_driver_loader_.GetDriverForSubModule(
             default_driver_lib_name_, submodule_iface_spec_msg, result));
         RegisterDriver(std::move(driver), submodule_iface_spec_msg,
                        submodule_name, 0);

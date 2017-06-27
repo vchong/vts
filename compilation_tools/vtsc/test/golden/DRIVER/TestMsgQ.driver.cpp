@@ -300,13 +300,13 @@ bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::VerifyResults(co
 }
 
 extern "C" {
-android::vts::FuzzerBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_() {
-    return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ();
+android::vts::DriverBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_() {
+    return (android::vts::DriverBase*) new android::vts::FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ();
 }
 
-android::vts::FuzzerBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_with_arg(uint64_t hw_binder_proxy) {
+android::vts::DriverBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_with_arg(uint64_t hw_binder_proxy) {
     ::android::hardware::tests::msgq::V1_0::ITestMsgQ* arg = reinterpret_cast<::android::hardware::tests::msgq::V1_0::ITestMsgQ*>(hw_binder_proxy);
-    android::vts::FuzzerBase* result =
+    android::vts::DriverBase* result =
         new android::vts::FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ(
             arg);
     arg->decStrong(arg);

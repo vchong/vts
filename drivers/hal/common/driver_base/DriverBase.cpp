@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "fuzz_tester/FuzzerBase.h"
+#include "driver_base/DriverBase.h"
 
 #include <dirent.h>
 #include <stdio.h>
@@ -253,7 +253,7 @@ static void RemoveDir(char* path) {
   remove(path);
 }
 
-FuzzerBase::FuzzerBase(int target_class)
+DriverBase::DriverBase(int target_class)
     : device_(NULL),
       hmi_(NULL),
       target_dll_path_(NULL),
@@ -261,17 +261,13 @@ FuzzerBase::FuzzerBase(int target_class)
       component_filename_(NULL),
       gcov_output_basepath_(NULL) {}
 
-FuzzerBase::~FuzzerBase() { free(component_filename_); }
+DriverBase::~DriverBase() { free(component_filename_); }
 
-void wfn() {
-  cout << __func__ << endl;
-}
+void wfn() { cout << __func__ << endl; }
 
-void ffn() {
-  cout << __func__ << endl;
-}
+void ffn() { cout << __func__ << endl; }
 
-bool FuzzerBase::LoadTargetComponent(const char* target_dll_path) {
+bool DriverBase::LoadTargetComponent(const char* target_dll_path) {
   cout << __func__ << ":" << __LINE__ << " entry" << endl;
   if (target_dll_path && target_dll_path_ &&
       !strcmp(target_dll_path, target_dll_path_)) {
@@ -325,18 +321,18 @@ bool FuzzerBase::LoadTargetComponent(const char* target_dll_path) {
   return true;
 }
 
-bool FuzzerBase::SetTargetObject(void* object_pointer) {
+bool DriverBase::SetTargetObject(void* object_pointer) {
   device_ = NULL;
   hmi_ = reinterpret_cast<struct hw_module_t*>(object_pointer);
   return true;
 }
 
-bool FuzzerBase::GetService(bool /*get_stub*/, const char* /*service_name*/) {
+bool DriverBase::GetService(bool /*get_stub*/, const char* /*service_name*/) {
   cerr << __func__ << " not impl" << endl;
   return false;
 }
 
-int FuzzerBase::OpenConventionalHal(const char* module_name) {
+int DriverBase::OpenConventionalHal(const char* module_name) {
   cout << __func__ << endl;
   if (module_name) cout << __func__ << " " << module_name << endl;
   device_ = target_loader_.OpenConventionalHal(module_name);
@@ -345,7 +341,7 @@ int FuzzerBase::OpenConventionalHal(const char* module_name) {
   return 0;
 }
 
-bool FuzzerBase::Fuzz(vts::ComponentSpecificationMessage* message,
+bool DriverBase::Fuzz(vts::ComponentSpecificationMessage* message,
                       void** result) {
   cout << __func__ << " Fuzzing target component: "
        << "class " << message->component_class() << " type "
@@ -361,7 +357,7 @@ bool FuzzerBase::Fuzz(vts::ComponentSpecificationMessage* message,
   return true;
 }
 
-void FuzzerBase::FunctionCallBegin() {
+void DriverBase::FunctionCallBegin() {
   char product_path[4096];
   char product[128];
   char module_basepath[4096];
@@ -453,33 +449,31 @@ void FuzzerBase::FunctionCallBegin() {
   cout << __func__ << ":" << __LINE__ << " end" << endl;
 }
 
-bool FuzzerBase::ReadGcdaFile(
-    const string& basepath, const string& filename,
-    FunctionSpecificationMessage* msg) {
+bool DriverBase::ReadGcdaFile(const string& basepath, const string& filename,
+                              FunctionSpecificationMessage* msg) {
 #if VTS_GCOV_DEBUG
-      cout << __func__ << ":" << __LINE__
-           << " file = " << dent->d_name << endl;
+  cout << __func__ << ":" << __LINE__ << " file = " << dent->d_name << endl;
 #endif
   if (string(filename).rfind(".gcda") != string::npos) {
     string buffer = basepath + "/" + filename;
     vector<unsigned> processed_data =
-      android::vts::GcdaRawCoverageParser(buffer.c_str()).Parse();
+        android::vts::GcdaRawCoverageParser(buffer.c_str()).Parse();
     for (const auto& data : processed_data) {
       msg->mutable_processed_coverage_data()->Add(data);
     }
 
     FILE* gcda_file = fopen(buffer.c_str(), "rb");
     if (!gcda_file) {
-      cerr << __func__ << ":" << __LINE__
-           << " Unable to open a gcda file. " << buffer << endl;
+      cerr << __func__ << ":" << __LINE__ << " Unable to open a gcda file. "
+           << buffer << endl;
     } else {
-      cout << __func__ << ":" << __LINE__
-           << " Opened a gcda file. " << buffer << endl;
+      cout << __func__ << ":" << __LINE__ << " Opened a gcda file. " << buffer
+           << endl;
       fseek(gcda_file, 0, SEEK_END);
       long gcda_file_size = ftell(gcda_file);
 #if VTS_GCOV_DEBUG
-      cout << __func__ << ":" << __LINE__
-           << " File size " << gcda_file_size << " bytes" << endl;
+      cout << __func__ << ":" << __LINE__ << " File size " << gcda_file_size
+           << " bytes" << endl;
 #endif
       fseek(gcda_file, 0, SEEK_SET);
 
@@ -489,12 +483,11 @@ bool FuzzerBase::ReadGcdaFile(
              << "Unable to allocate memory to read a gcda file. " << endl;
       } else {
         if (fread(gcda_file_buffer, gcda_file_size, 1, gcda_file) != 1) {
-          cerr << __func__ << ":" << __LINE__
-               << "File read error" << endl;
+          cerr << __func__ << ":" << __LINE__ << "File read error" << endl;
         } else {
 #if VTS_GCOV_DEBUG
-          cout << __func__ << ":" << __LINE__
-               << " GCDA field populated." << endl;
+          cout << __func__ << ":" << __LINE__ << " GCDA field populated."
+               << endl;
 #endif
           gcda_file_buffer[gcda_file_size] = '\0';
           NativeCodeCoverageRawDataMessage* raw_msg =
@@ -519,20 +512,19 @@ bool FuzzerBase::ReadGcdaFile(
   return false;
 }
 
-bool FuzzerBase::ScanAllGcdaFiles(
-    const string& basepath, FunctionSpecificationMessage* msg) {
+bool DriverBase::ScanAllGcdaFiles(const string& basepath,
+                                  FunctionSpecificationMessage* msg) {
   DIR* srcdir = opendir(basepath.c_str());
   if (!srcdir) {
-    cerr << __func__ << ":" << __LINE__
-         << " couln't open " << basepath << endl;
+    cerr << __func__ << ":" << __LINE__ << " couln't open " << basepath << endl;
     return false;
   }
 
   struct dirent* dent;
   while ((dent = readdir(srcdir)) != NULL) {
 #if VTS_GCOV_DEBUG
-    cout << __func__ << ":" << __LINE__
-         << " readdir(" << basepath << ") for " << dent->d_name << endl;
+    cout << __func__ << ":" << __LINE__ << " readdir(" << basepath << ") for "
+         << dent->d_name << endl;
 #endif
     struct stat st;
     if (strcmp(dent->d_name, ".") == 0 || strcmp(dent->d_name, "..") == 0) {
@@ -549,14 +541,13 @@ bool FuzzerBase::ScanAllGcdaFiles(
     }
   }
 #if VTS_GCOV_DEBUG
-  cout << __func__ << ":" << __LINE__
-       << " closedir(" << srcdir << ")" << endl;
+  cout << __func__ << ":" << __LINE__ << " closedir(" << srcdir << ")" << endl;
 #endif
   closedir(srcdir);
   return true;
 }
 
-bool FuzzerBase::FunctionCallEnd(FunctionSpecificationMessage* msg) {
+bool DriverBase::FunctionCallEnd(FunctionSpecificationMessage* msg) {
   cout << __func__ << ": gcov flush " << endl;
 #if USE_GCOV
   target_loader_.GcovFlush();
@@ -584,8 +575,8 @@ bool FuzzerBase::FunctionCallEnd(FunctionSpecificationMessage* msg) {
       cerr << "error " << dent->d_name << endl;
       continue;
     }
-    if (!S_ISDIR(st.st_mode)
-        && ReadGcdaFile(gcov_output_basepath_, dent->d_name, msg)) {
+    if (!S_ISDIR(st.st_mode) &&
+        ReadGcdaFile(gcov_output_basepath_, dent->d_name, msg)) {
       break;
     }
   }

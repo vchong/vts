@@ -21,7 +21,7 @@
 #include <string>
 
 #include "component_loader/DllLoader.h"
-#include "fuzz_tester/FuzzerBase.h"
+#include "driver_base/DriverBase.h"
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
 
 using namespace std;
@@ -29,12 +29,12 @@ using namespace std;
 namespace android {
 namespace vts {
 // Builder of an interface specification.
-class SpecificationBuilder {
+class HalDriverLoader {
  public:
   // Constructor where the first argument is the path of a dir which contains
   // all available interface specification files.
-  SpecificationBuilder(const string dir_path, int epoch_count,
-                       const string& callback_socket_name);
+  HalDriverLoader(const string dir_path, int epoch_count,
+                  const string& callback_socket_name);
 
   // Scans the dir and returns an component specification for a requested
   // component.
@@ -47,7 +47,7 @@ class SpecificationBuilder {
                                   ComponentSpecificationMessage* spec_msg);
 
   // Create driver for given component.
-  FuzzerBase* GetDriver(const string& driver_lib_path,
+  DriverBase* GetDriver(const string& driver_lib_path,
                         const ComponentSpecificationMessage& spec_msg,
                         const string& hw_binder_service_name,
                         const uint64_t interface_pt,
@@ -57,14 +57,14 @@ class SpecificationBuilder {
 
   // Create driver for conventioanl HAL submodule.
   // TODO (zhuoyao): consider to deprecate this method.
-  FuzzerBase* GetDriverForSubModule(
+  DriverBase* GetDriverForSubModule(
       const string& spec_lib_file_path,
       const ComponentSpecificationMessage& spec_msg, void* object_pointer);
 
   // Returns FuzzBase for a given interface specification, and adds all the
   // found functions to the fuzzing job queue.
   // TODO (zhuoyao): consider to deprecate this method.
-  FuzzerBase* GetFuzzerBaseAndAddAllFunctionsToQueue(
+  DriverBase* GetFuzzerBaseAndAddAllFunctionsToQueue(
       const char* driver_lib_path,
       const ComponentSpecificationMessage& iface_spec_msg,
       const char* dll_file_name, const char* hw_service_name);
@@ -81,26 +81,26 @@ class SpecificationBuilder {
 
  private:
   // Internal method to create driver for conventional HAL.
-  FuzzerBase* GetConventionalHalDriver(
+  DriverBase* GetConventionalHalDriver(
       const string& driver_lib_path,
       const ComponentSpecificationMessage& spec_msg,
       const string& dll_file_name, const string& target_func_name);
 
   // Internal method to create driver for HIDL HAL.
-  FuzzerBase* GetHidlHalDriver(const string& driver_lib_path,
+  DriverBase* GetHidlHalDriver(const string& driver_lib_path,
                                const ComponentSpecificationMessage& spec_msg,
                                const string& hal_service_name,
                                const uint64_t interface_pt,
                                bool with_interface_pt);
 
   // Internal method to create driver for HIDL HAL with interface pointer.
-  FuzzerBase* LoadDriverWithInterfacePointer(
+  DriverBase* LoadDriverWithInterfacePointer(
       const string& driver_lib_path,
       const ComponentSpecificationMessage& spec_msg,
       const uint64_t interface_pt);
 
   // Helper method to load a driver library with the given path.
-  FuzzerBase* LoadDriver(const string& driver_lib_path,
+  DriverBase* LoadDriver(const string& driver_lib_path,
                          const ComponentSpecificationMessage& spec_msg);
 
   // A DLL Loader instance used to load the driver library.
@@ -112,7 +112,7 @@ class SpecificationBuilder {
   // the server socket port # of the agent.
   const string callback_socket_name_;
   // fuzzing job queue. Used by Process method.
-  queue<pair<FunctionSpecificationMessage*, FuzzerBase*>> job_queue_;
+  queue<pair<FunctionSpecificationMessage*, DriverBase*>> job_queue_;
 };
 
 }  // namespace vts

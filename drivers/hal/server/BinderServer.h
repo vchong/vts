@@ -20,7 +20,6 @@
 #define __VTS_DRIVER_HAL_BINDER_SERVER_
 
 #include "driver_manager/VtsHalDriverManager.h"
-#include "specification_parser/SpecificationBuilder.h"
 
 namespace android {
 namespace vts {

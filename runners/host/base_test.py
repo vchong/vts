@@ -273,6 +273,10 @@ class BaseTestClass(object):
 
         report_proto_path = os.path.join(logging.log_path,
                                          _REPORT_MESSAGE_FILE_NAME)
+
+        if message_b:
+            logging.info('Result proto message path: %s', report_proto_path)
+
         with open(report_proto_path, "wb") as f:
             f.write(message_b)
 

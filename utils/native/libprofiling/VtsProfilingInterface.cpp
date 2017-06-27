@@ -23,9 +23,9 @@
 #include <android-base/logging.h>
 #include <google/protobuf/text_format.h>
 
+#include "VtsProfilingUtil.h"
 #include "test/vts/proto/VtsDriverControlMessage.pb.h"
 #include "test/vts/proto/VtsProfilingMessage.pb.h"
-#include "utils/VtsProfilingUtil.h"
 
 using namespace std;
 
@@ -39,8 +39,7 @@ const int VtsProfilingInterface::kProfilingPointExit = 3;
 VtsProfilingInterface::VtsProfilingInterface(const string& trace_file_path)
     : trace_file_path_(trace_file_path),
       trace_output_(nullptr),
-      initialized_(false) {
-}
+      initialized_(false) {}
 
 VtsProfilingInterface::~VtsProfilingInterface() {
   if (trace_output_) {
@@ -71,9 +70,9 @@ void VtsProfilingInterface::Init() {
   property_get("ro.serialno", device_id, "unknown_device");
   property_get("ro.build.product", product_name, "unknown_product");
 
-  string file_path = trace_file_path_ + "_" + string(product_name) + "_"
-      + string(device_id) + "_" + string(build_number) + "_"
-      + to_string(NanoTime()) + ".vts.trace";
+  string file_path = trace_file_path_ + "_" + string(product_name) + "_" +
+                     string(device_id) + "_" + string(build_number) + "_" +
+                     to_string(NanoTime()) + ".vts.trace";
 
   LOG(INFO) << "Creating new profiler instance with file path: " << file_path;
   int fd = open(file_path.c_str(), O_RDWR | O_CREAT | O_EXCL,
@@ -99,7 +98,7 @@ bool VtsProfilingInterface::AddTraceEvent(
   // Build the VTSProfilingRecord and print it to string.
   VtsProfilingRecord record;
   record.set_timestamp(NanoTime());
-  record.set_event((InstrumentationEventType)static_cast<int>(event));
+  record.set_event((InstrumentationEventType) static_cast<int>(event));
   record.set_package(package);
   record.set_version(stof(version));
   record.set_interface(interface);

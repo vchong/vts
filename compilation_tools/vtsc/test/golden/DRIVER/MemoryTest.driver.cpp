@@ -134,13 +134,13 @@ bool FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest::VerifyResult
 }
 
 extern "C" {
-android::vts::FuzzerBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryTest_() {
-    return (android::vts::FuzzerBase*) new android::vts::FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest();
+android::vts::DriverBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryTest_() {
+    return (android::vts::DriverBase*) new android::vts::FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest();
 }
 
-android::vts::FuzzerBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryTest_with_arg(uint64_t hw_binder_proxy) {
+android::vts::DriverBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryTest_with_arg(uint64_t hw_binder_proxy) {
     ::android::hardware::tests::memory::V1_0::IMemoryTest* arg = reinterpret_cast<::android::hardware::tests::memory::V1_0::IMemoryTest*>(hw_binder_proxy);
-    android::vts::FuzzerBase* result =
+    android::vts::DriverBase* result =
         new android::vts::FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest(
             arg);
     arg->decStrong(arg);

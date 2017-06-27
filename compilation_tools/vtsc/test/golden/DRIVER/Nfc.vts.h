@@ -10,8 +10,8 @@
 #include <string.h>
 #include <utils/Log.h>
 
-#include <fuzz_tester/FuzzerBase.h>
-#include <fuzz_tester/FuzzerCallbackBase.h>
+#include <driver_base/DriverBase.h>
+#include <driver_base/DriverCallbackBase.h>
 
 #include <android/hardware/nfc/1.0/INfc.h>
 #include <hidl/HidlSupport.h>
@@ -25,11 +25,11 @@
 using namespace android::hardware::nfc::V1_0;
 namespace android {
 namespace vts {
-class FuzzerExtended_android_hardware_nfc_V1_0_INfc : public FuzzerBase {
+class FuzzerExtended_android_hardware_nfc_V1_0_INfc : public DriverBase {
  public:
-    FuzzerExtended_android_hardware_nfc_V1_0_INfc() : FuzzerBase(HAL_HIDL), hw_binder_proxy_() {}
+    FuzzerExtended_android_hardware_nfc_V1_0_INfc() : DriverBase(HAL_HIDL), hw_binder_proxy_() {}
 
-    explicit FuzzerExtended_android_hardware_nfc_V1_0_INfc(::android::hardware::nfc::V1_0::INfc* hw_binder_proxy) : FuzzerBase(HAL_HIDL), hw_binder_proxy_(hw_binder_proxy) {}
+    explicit FuzzerExtended_android_hardware_nfc_V1_0_INfc(::android::hardware::nfc::V1_0::INfc* hw_binder_proxy) : DriverBase(HAL_HIDL), hw_binder_proxy_(hw_binder_proxy) {}
     uint64_t GetHidlInterfaceProxy() const {
         return reinterpret_cast<uintptr_t>(hw_binder_proxy_.get());
     }
@@ -46,8 +46,8 @@ class FuzzerExtended_android_hardware_nfc_V1_0_INfc : public FuzzerBase {
 
 
 extern "C" {
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_V1_0_INfc_();
-extern android::vts::FuzzerBase* vts_func_4_android_hardware_nfc_V1_0_INfc_with_arg(uint64_t hw_binder_proxy);
+extern android::vts::DriverBase* vts_func_4_android_hardware_nfc_V1_0_INfc_();
+extern android::vts::DriverBase* vts_func_4_android_hardware_nfc_V1_0_INfc_with_arg(uint64_t hw_binder_proxy);
 }
 }  // namespace vts
 }  // namespace android

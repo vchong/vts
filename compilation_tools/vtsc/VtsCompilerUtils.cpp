@@ -29,7 +29,6 @@
 
 #include <google/protobuf/text_format.h>
 
-#include "specification_parser/InterfaceSpecificationParser.h"
 #include "utils/InterfaceSpecUtil.h"
 #include "utils/StringUtil.h"
 
