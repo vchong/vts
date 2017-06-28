@@ -197,6 +197,12 @@ void HalHidlCodeGen::GenerateDriverFunctionImpl(Formatter& out,
     out << "cout << \"Function: \" << __func__ << \" \" << func_name << endl;"
         << "\n";
 
+    out << "if (hw_binder_proxy_ == nullptr) {\n";
+    out.indent();
+    out << "cerr << \"" << kInstanceVariableName << " is null. \"<< endl;\n";
+    out << "return false;\n";
+    out.unindent();
+    out << "}\n";
     for (auto const& api : message.interface().api()) {
       GenerateDriverImplForMethod(out, message, api);
     }
@@ -433,13 +439,26 @@ void HalHidlCodeGen::GenerateCppBodyGlobalFunctions(Formatter& out,
     out << "android::vts::DriverBase* " << function_name_prefix << "with_arg("
         << "uint64_t hw_binder_proxy) {\n";
     out.indent();
-    out << fqname.cppName() << "* arg = reinterpret_cast<" << fqname.cppName()
+    out << fqname.cppName() << "* arg = nullptr;\n";
+    out << "if (hw_binder_proxy) {\n";
+    out.indent();
+    out << "arg = reinterpret_cast<" << fqname.cppName()
         << "*>(hw_binder_proxy);\n";
+    out.unindent();
+    out << "} else {\n";
+    out.indent();
+    out << "cout << \" Creating DriverBase with null proxy.\" << endl;\n";
+    out.unindent();
+    out << "}\n";
     out << "android::vts::DriverBase* result ="
         << "\n"
         << "    new android::vts::" << fuzzer_extended_class_name << "(\n"
         << "        arg);\n";
+    out << "if (arg != nullptr) {\n";
+    out.indent();
     out << "arg->decStrong(arg);" << "\n";
+    out.unindent();
+    out << "}\n";
     out << "return result;" << "\n";
     out.unindent();
     out << "}\n\n";
@@ -1591,11 +1610,19 @@ void HalHidlCodeGen::GenerateSetResultCodeForTypedVariable(Formatter& out,
              << "but predefined_type is unset." << endl;
         exit(-1);
       }
+      out << result_msg << "->set_predefined_type(\"" << val.predefined_type()
+          << "\");\n";
+      out << "if (" << result_value << " != nullptr) {\n";
+      out.indent();
       out << result_value << "->incStrong(" << result_value << ".get());\n";
       out << result_msg << "->set_hidl_interface_pointer("
           << "reinterpret_cast<uintptr_t>(" << result_value << ".get()));\n";
-      out << result_msg << "->set_predefined_type(\"" << val.predefined_type()
-          << "\");\n";
+      out.unindent();
+      out << "} else {\n";
+      out.indent();
+      out << result_msg << "->set_hidl_interface_pointer(0);\n";
+      out.unindent();
+      out << "}\n";
       break;
     }
     case TYPE_HIDL_MEMORY:

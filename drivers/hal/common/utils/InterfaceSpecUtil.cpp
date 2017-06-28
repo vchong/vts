@@ -105,19 +105,19 @@ string GetHidlHalDriverLibName(const string& package_name,
 }
 
 string GetPackageName(const string& type_name) {
-  string str = type_name.substr(0, type_name.find('V'));
+  string str = type_name.substr(0, type_name.find('V') - strlen("::"));
   if (str.find("::") == 0) {
-    str = str.substr(2);
+    str = str.substr(strlen("::"));
   }
   ReplaceSubString(str, "::", ".");
   return str;
 }
 
 float GetVersion(const string& type_name) {
-  string str = type_name.substr(type_name.find('V'));
+  string str = type_name.substr(type_name.find('V') + 1);
   string version_str = str.substr(0, str.find("::"));
-  string major_version = version_str.substr(0, str.find("_"));
-  string minor_version = version_str.substr(str.find("_") + 1);
+  string major_version = version_str.substr(0, version_str.find("_"));
+  string minor_version = version_str.substr(version_str.find("_") + 1);
   // TODO(zhuoyao): handle the case when minor_version >= 10
   assert(std::stof(minor_version) < 10.0);
   return std::stof(major_version) + 0.1 * (std::stof(minor_version));
@@ -125,7 +125,7 @@ float GetVersion(const string& type_name) {
 
 string GetComponentName(const string& type_name) {
   string str = type_name.substr(type_name.find('V'));
-  return str.substr(str.find("::"));
+  return str.substr(str.find("::") + strlen("::"));
 }
 
 }  // namespace vts

@@ -146,7 +146,7 @@ string VtsHalDriverManager::CallFunction(
       return kErrorString;
     }
   }
-  cout << __func__ << ": called funcation " << func_msg->name() << endl;
+  cout << __func__ << ": called function " << func_msg->name() << endl;
 
   // set coverage data.
   driver->FunctionCallEnd(func_msg);

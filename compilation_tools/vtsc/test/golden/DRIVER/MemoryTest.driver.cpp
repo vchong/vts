@@ -48,6 +48,10 @@ bool FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest::CallFunction
     FunctionSpecificationMessage* result_msg) {
     const char* func_name = func_msg.name().c_str();
     cout << "Function: " << __func__ << " " << func_name << endl;
+    if (hw_binder_proxy_ == nullptr) {
+        cerr << "hw_binder_proxy_ is null. "<< endl;
+        return false;
+    }
     if (!strcmp(func_name, "haveSomeMemory")) {
         ::android::hardware::hidl_memory arg0;
         sp<::android::hidl::allocator::V1_0::IAllocator> ashmemAllocator = ::android::hidl::allocator::V1_0::IAllocator::getService("ashmem");
@@ -139,11 +143,18 @@ android::vts::DriverBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryT
 }
 
 android::vts::DriverBase* vts_func_4_android_hardware_tests_memory_V1_0_IMemoryTest_with_arg(uint64_t hw_binder_proxy) {
-    ::android::hardware::tests::memory::V1_0::IMemoryTest* arg = reinterpret_cast<::android::hardware::tests::memory::V1_0::IMemoryTest*>(hw_binder_proxy);
+    ::android::hardware::tests::memory::V1_0::IMemoryTest* arg = nullptr;
+    if (hw_binder_proxy) {
+        arg = reinterpret_cast<::android::hardware::tests::memory::V1_0::IMemoryTest*>(hw_binder_proxy);
+    } else {
+        cout << " Creating DriverBase with null proxy." << endl;
+    }
     android::vts::DriverBase* result =
         new android::vts::FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest(
             arg);
-    arg->decStrong(arg);
+    if (arg != nullptr) {
+        arg->decStrong(arg);
+    }
     return result;
 }
 

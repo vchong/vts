@@ -70,6 +70,10 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(
     FunctionSpecificationMessage* result_msg) {
     const char* func_name = func_msg.name().c_str();
     cout << "Function: " << __func__ << " " << func_name << endl;
+    if (hw_binder_proxy_ == nullptr) {
+        cerr << "hw_binder_proxy_ is null. "<< endl;
+        return false;
+    }
     if (!strcmp(func_name, "doThis")) {
         float arg0 = 0;
         arg0 = func_msg.arg(0).scalar_value().float_t();
@@ -565,9 +569,13 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(
         for (int i = 0; i < (int)result0.size(); i++) {
             auto *result_val_0_vector_i = result_val_0->add_vector_value();
             result_val_0_vector_i->set_type(TYPE_HIDL_INTERFACE);
-            result0[i]->incStrong(result0[i].get());
-            result_val_0_vector_i->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(result0[i].get()));
             result_val_0_vector_i->set_predefined_type("::android::hardware::tests::foo::V1_0::ISimple");
+            if (result0[i] != nullptr) {
+                result0[i]->incStrong(result0[i].get());
+                result_val_0_vector_i->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(result0[i].get()));
+            } else {
+                result_val_0_vector_i->set_hidl_interface_pointer(0);
+            }
         }
         cout << "called" << endl;
         return true;
@@ -596,9 +604,13 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(
         for (int i = 0; i < (int)result0.size(); i++) {
             auto *result_val_0_vector_i = result_val_0->add_vector_value();
             result_val_0_vector_i->set_type(TYPE_HIDL_INTERFACE);
-            result0[i]->incStrong(result0[i].get());
-            result_val_0_vector_i->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(result0[i].get()));
             result_val_0_vector_i->set_predefined_type("::android::hidl::base::V1_0::IBase");
+            if (result0[i] != nullptr) {
+                result0[i]->incStrong(result0[i].get());
+                result_val_0_vector_i->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(result0[i].get()));
+            } else {
+                result_val_0_vector_i->set_hidl_interface_pointer(0);
+            }
         }
         cout << "called" << endl;
         return true;
@@ -853,9 +865,13 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::CallFunction(
         result_msg->set_name("haveAInterface");
         VariableSpecificationMessage* result_val_0 = result_msg->add_return_type_hidl();
         result_val_0->set_type(TYPE_HIDL_INTERFACE);
-        result0->incStrong(result0.get());
-        result_val_0->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(result0.get()));
         result_val_0->set_predefined_type("::android::hardware::tests::foo::V1_0::ISimple");
+        if (result0 != nullptr) {
+            result0->incStrong(result0.get());
+            result_val_0->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(result0.get()));
+        } else {
+            result_val_0->set_hidl_interface_pointer(0);
+        }
         cout << "called" << endl;
         return true;
     }
@@ -1111,11 +1127,18 @@ android::vts::DriverBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_() {
 }
 
 android::vts::DriverBase* vts_func_4_android_hardware_tests_bar_V1_0_IBar_with_arg(uint64_t hw_binder_proxy) {
-    ::android::hardware::tests::bar::V1_0::IBar* arg = reinterpret_cast<::android::hardware::tests::bar::V1_0::IBar*>(hw_binder_proxy);
+    ::android::hardware::tests::bar::V1_0::IBar* arg = nullptr;
+    if (hw_binder_proxy) {
+        arg = reinterpret_cast<::android::hardware::tests::bar::V1_0::IBar*>(hw_binder_proxy);
+    } else {
+        cout << " Creating DriverBase with null proxy." << endl;
+    }
     android::vts::DriverBase* result =
         new android::vts::FuzzerExtended_android_hardware_tests_bar_V1_0_IBar(
             arg);
-    arg->decStrong(arg);
+    if (arg != nullptr) {
+        arg->decStrong(arg);
+    }
     return result;
 }
 

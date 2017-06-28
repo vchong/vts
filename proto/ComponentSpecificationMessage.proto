@@ -204,11 +204,17 @@ message FunctionSpecificationMessage {
   // a list of arguments.
   repeated VariableSpecificationMessage arg = 21;
 
+  // hidl annotation fields {
+
   // a specification of the call flows of the function.
   repeated CallFlowSpecificationMessage callflow = 31;
+  // if true, will not be fuzz tested.
+  optional bool do_not_fuzz = 32 [default = false];
+
+  // } hidl annotation fields
 
   // whether it is a callback.
-  optional bool is_callback = 41;
+  optional bool is_callback = 41 [deprecated = true];
 
   // when it is a callback.
   optional FunctionPointerSpecificationMessage function_pointer = 42;
@@ -451,6 +457,9 @@ message StructSpecificationMessage {
 
 // To specify an interface of a component
 message InterfaceSpecificationMessage {
+  // whether this interface is a HIDL callback.
+  optional bool is_hidl_callback = 101 [default = false];
+
   // a list of functions exposed by the component.
   repeated FunctionSpecificationMessage api = 2001;
 

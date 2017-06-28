@@ -529,7 +529,10 @@ class AndroidDevice(object):
             raise AndroidDeviceError(
                 "Android device %s does not have an ongoing adb logcat collection."
                 % self.serial)
-        utils.stop_standing_subprocess(self.adb_logcat_process)
+        try:
+            utils.stop_standing_subprocess(self.adb_logcat_process)
+        except utils.VTSUtilsError as e:
+            logging.error("Cannot stop adb logcat. %s", e)
         self.adb_logcat_process = None
 
     def takeBugReport(self, test_name, begin_time):
@@ -780,9 +783,13 @@ class AndroidDevice(object):
     def stopVtsAgent(self):
         """Stop the HAL agent running on the AndroidDevice.
         """
-        if self.vts_agent_process:
+        if not self.vts_agent_process:
+            return
+        try:
             utils.stop_standing_subprocess(self.vts_agent_process)
-            self.vts_agent_process = None
+        except utils.VTSUtilsError as e:
+            logging.error("Cannot stop VTS agent. %s", e)
+        self.vts_agent_process = None
 
     @property
     def product_type(self):

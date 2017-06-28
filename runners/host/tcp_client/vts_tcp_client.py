@@ -241,8 +241,8 @@ class VtsTcpClient(object):
                     self.GetPythonDataOfVariableSpecMsg(vector_value))
             return result
         elif (var_spec_msg.type == CompSpecMsg_pb2.TYPE_HIDL_INTERFACE):
-            logging.info("Val of hidl interface is not fully supported yet.")
-            return ""
+            logging.debug("var_spec_msg: %s", var_spec_msg)
+            return var_spec_msg
 
         raise errors.VtsUnsupportedTypeError(
             "unsupported type %s" % var_spec_msg.type)
@@ -436,6 +436,9 @@ class VtsTcpClient(object):
 
         if recursive and hasattr(result, "import"):
             for imported_interface in getattr(result, "import"):
+                if imported_interface == "android.hidl.base@1.0::types":
+                    logging.warn("import android.hidl.base@1.0::types skipped")
+                    continue
                 imported_result = self.ReadSpecification(
                     imported_interface.split("::")[1],
                     # TODO(yim): derive target_class and

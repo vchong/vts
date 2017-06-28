@@ -313,10 +313,10 @@ class TestResult(object):
             self.requested, self.failed, self.executed, self.passed,
             self.skipped, self.error
         ]
+
         for l in lists:
             indexToRemove = []
-
-            for idx in len(l):
+            for idx in range(len(l)):
                 if (l[idx].test_name == record.test_name and
                         l[idx].test_class == record.test_class):
                     indexToRemove.append(idx)

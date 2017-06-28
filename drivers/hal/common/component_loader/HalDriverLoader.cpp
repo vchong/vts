@@ -220,24 +220,30 @@ DriverBase* HalDriverLoader::GetHidlHalDriver(
   cout << __func__ << ":" << __LINE__ << " "
        << "got driver" << endl;
 
-  string service_name;
-  if (!hal_service_name.empty()) {
-    service_name = hal_service_name;
-  } else {
-    service_name = kDefaultHwbinderServiceName;
-  }
-
-  char get_sub_property[PROPERTY_VALUE_MAX];
-  bool get_stub = false; /* default is binderized */
-  if (property_get("vts.hidl.get_stub", get_sub_property, "") > 0) {
-    if (!strcmp(get_sub_property, "true") ||
-        !strcmp(get_sub_property, "True") || !strcmp(get_sub_property, "1")) {
-      get_stub = true;
+  if (!with_interface_pt) {
+    string service_name;
+    if (!hal_service_name.empty()) {
+      service_name = hal_service_name;
+    } else {
+      service_name = kDefaultHwbinderServiceName;
     }
-  }
-  if (!driver->GetService(get_stub, service_name.c_str())) {
-    cerr << __FUNCTION__ << ": couldn't get service" << endl;
-    return nullptr;
+
+    char get_sub_property[PROPERTY_VALUE_MAX];
+    bool get_stub = false; /* default is binderized */
+    if (property_get("vts.hidl.get_stub", get_sub_property, "") > 0) {
+      if (!strcmp(get_sub_property, "true") ||
+          !strcmp(get_sub_property, "True") || !strcmp(get_sub_property, "1")) {
+        get_stub = true;
+      }
+    }
+    if (!driver->GetService(get_stub, service_name.c_str())) {
+      cerr << __FUNCTION__ << ": couldn't get service" << endl;
+      return nullptr;
+    }
+  } else {
+    cout << __func__ << ":" << __LINE__
+         << " created DriverBase with interface pointer:" << interface_pt
+         << endl;
   }
   cout << __func__ << ":" << __LINE__ << " loaded target comp" << endl;
   return driver;
@@ -277,7 +283,7 @@ DriverBase* HalDriverLoader::LoadDriverWithInterfacePointer(
   }
   cout << "DLL loaded " << driver_lib_path << endl;
   string function_name_prefix = GetFunctionNamePrefix(spec_msg);
-  function_name_prefix += "_with_arg";
+  function_name_prefix += "with_arg";
   loader_function_with_arg func =
       dll_loader_.GetLoaderFunctionWithArg(function_name_prefix.c_str());
   if (!func) {

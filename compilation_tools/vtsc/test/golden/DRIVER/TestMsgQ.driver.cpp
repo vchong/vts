@@ -68,6 +68,10 @@ bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::CallFunction(
     FunctionSpecificationMessage* result_msg) {
     const char* func_name = func_msg.name().c_str();
     cout << "Function: " << __func__ << " " << func_name << endl;
+    if (hw_binder_proxy_ == nullptr) {
+        cerr << "hw_binder_proxy_ is null. "<< endl;
+        return false;
+    }
     if (!strcmp(func_name, "configureFmqSyncReadWrite")) {
         VtsMeasurement vts_measurement;
         vts_measurement.Start();
@@ -305,11 +309,18 @@ android::vts::DriverBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_
 }
 
 android::vts::DriverBase* vts_func_4_android_hardware_tests_msgq_V1_0_ITestMsgQ_with_arg(uint64_t hw_binder_proxy) {
-    ::android::hardware::tests::msgq::V1_0::ITestMsgQ* arg = reinterpret_cast<::android::hardware::tests::msgq::V1_0::ITestMsgQ*>(hw_binder_proxy);
+    ::android::hardware::tests::msgq::V1_0::ITestMsgQ* arg = nullptr;
+    if (hw_binder_proxy) {
+        arg = reinterpret_cast<::android::hardware::tests::msgq::V1_0::ITestMsgQ*>(hw_binder_proxy);
+    } else {
+        cout << " Creating DriverBase with null proxy." << endl;
+    }
     android::vts::DriverBase* result =
         new android::vts::FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ(
             arg);
-    arg->decStrong(arg);
+    if (arg != nullptr) {
+        arg->decStrong(arg);
+    }
     return result;
 }
 
