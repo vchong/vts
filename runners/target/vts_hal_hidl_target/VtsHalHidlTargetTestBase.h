@@ -33,6 +33,9 @@ using ::android::sp;
 // VTS target side test template
 class VtsHalHidlTargetTestBase : public ::testing::Test {
  public:
+  /*
+   * Internal test class setup function.
+   */
   virtual void SetUp() override {
     ALOGI("[Test Case] %s.%s BEGIN", getTestSuiteName().c_str(),
           getTestCaseName().c_str());
@@ -40,9 +43,16 @@ class VtsHalHidlTargetTestBase : public ::testing::Test {
     if (testCaseInfo.size()) {
       ALOGD("Test case info: %s", testCaseInfo.c_str());
     }
+
+    HalHidlSetUp();
   }
 
+  /*
+   * Internal test class tear-down function.
+   */
   virtual void TearDown() override {
+    HalHidlTearDown();
+
     ALOGI("[Test Case] %s.%s END", getTestSuiteName().c_str(),
           getTestCaseName().c_str());
     string testCaseInfo = getTestCaseInfo();
@@ -52,14 +62,16 @@ class VtsHalHidlTargetTestBase : public ::testing::Test {
   }
 
   /*
-   * Return test suite name as string.
+   * HAL HIDL test class setup function.
+   * Will be called in the end of SetUp() function.
    */
-  string getTestSuiteName() const;
+  virtual void HalHidlSetUp() {}
 
   /*
-   * Return test case name as string.
+   * HAL HIDL test class tear-down function.
+   * Will be called in the beginning of TearDown() function.
    */
-  string getTestCaseName() const;
+  virtual void HalHidlTearDown() {}
 
   /*
    * Return test case info as string.
@@ -102,6 +114,16 @@ class VtsHalHidlTargetTestBase : public ::testing::Test {
    * false.
    */
   static bool VtsGetStub();
+
+  /*
+   * Return test suite name as string.
+   */
+  string getTestSuiteName() const;
+
+  /*
+   * Return test case name as string.
+   */
+  string getTestCaseName() const;
 };
 
 }  // namespace testing

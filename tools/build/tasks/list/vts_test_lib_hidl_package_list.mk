@@ -52,6 +52,7 @@ vts_test_lib_hidl_packages := \
   android.hardware.memtrack@1.0-vts.driver \
   android.hardware.nfc@1.0-vts.driver \
   android.hardware.power@1.0-vts.driver \
+  android.hardware.power@1.1-vts.driver \
   android.hardware.radio@1.0-vts.driver \
   android.hardware.radio.deprecated@1.0-vts.driver \
   android.hardware.renderscript@1.0-vts.driver \
@@ -100,6 +101,7 @@ vts_test_lib_hidl_packages := \
   android.hardware.memtrack@1.0-vts.profiler \
   android.hardware.nfc@1.0-vts.profiler \
   android.hardware.power@1.0-vts.profiler \
+  android.hardware.power@1.1-vts.profiler \
   android.hardware.radio@1.0-vts.profiler \
   android.hardware.radio.deprecated@1.0-vts.profiler \
   android.hardware.renderscript@1.0-vts.profiler \
@@ -141,6 +143,7 @@ vts_test_lib_hidl_packages += \
   VtsHalMemtrackV1_0TargetTest \
   VtsHalNfcV1_0TargetTest \
   VtsHalPowerV1_0TargetTest \
+  VtsHalPowerV1_1TargetTest \
   VtsHalRadioV1_0TargetTest \
   VtsHalRenderscriptV1_0TargetTest \
   VtsHalSapV1_0TargetTest \

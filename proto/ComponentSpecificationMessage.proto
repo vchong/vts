@@ -174,8 +174,26 @@ message NativeCodeCoverageRawDataMessage {
 
 // To specify an API call to an interface.
 message FunctionCallMessage {
-  // Name of the interface.
+  // Name of the interface. Not required if hal_driver_id is set.
+  // Currently only used by fuzzer.
   optional bytes hidl_interface_name = 1;
+
+  // HAL driver ID, if set (e.g., >0), use the given driver_id to get the
+  // corresponding driver instance; otherwise, create a new driver based
+  // on the component info (package, version etc.)
+  optional int32 hal_driver_id = 11 [default = -1];
+
+  // Component class, e.g., HIDL HAL or Conventional HAL.
+  optional ComponentClass component_class = 21;
+  // Component type, e.g., BLUETOOTH, used for Conventional HAL only.
+  optional ComponentType component_type = 22;
+  // Component version (e.g., 1.0).
+  optional bytes component_type_version = 23;
+  // Component name (e.g., INfc), used for HIDL HALs only.
+  optional bytes component_name = 24;
+  // Component package name (e.g., android.hardware.nfc).
+  optional bytes package_name = 25;
+
   // Specifies API function and inputs.
   optional FunctionSpecificationMessage api = 100;
 }

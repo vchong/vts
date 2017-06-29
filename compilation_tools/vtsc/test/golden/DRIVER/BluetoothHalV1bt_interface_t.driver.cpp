@@ -43,7 +43,7 @@ class vts_callback_FuzzerExtended_bt_interface_t_bt_callbacks_t : public DriverC
 
 
     static void
-     remote_device_properties_cb(bt_status_t arg0, bt_bdaddr_t* arg1, int32_t arg2, bt_property_t* arg3) {
+     remote_device_properties_cb(bt_status_t arg0, RawAddress* arg1, int32_t arg2, bt_property_t* arg3) {
         AndroidSystemCallbackRequestMessage callback_message;
         callback_message.set_id(GetCallbackID("remote_device_properties_cb"));
         VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
@@ -85,7 +85,7 @@ class vts_callback_FuzzerExtended_bt_interface_t_bt_callbacks_t : public DriverC
 
 
     static void
-     pin_request_cb(bt_bdaddr_t* arg0, bt_bdname_t* arg1, uint32_t arg2, bool arg3) {
+     pin_request_cb(RawAddress* arg0, bt_bdname_t* arg1, uint32_t arg2, bool arg3) {
         AndroidSystemCallbackRequestMessage callback_message;
         callback_message.set_id(GetCallbackID("pin_request_cb"));
         VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
@@ -105,7 +105,7 @@ class vts_callback_FuzzerExtended_bt_interface_t_bt_callbacks_t : public DriverC
 
 
     static void
-     ssp_request_cb(bt_bdaddr_t* arg0, bt_bdname_t* arg1, uint32_t arg2, bt_ssp_variant_t arg3, uint32_t arg4) {
+     ssp_request_cb(RawAddress* arg0, bt_bdname_t* arg1, uint32_t arg2, bt_ssp_variant_t arg3, uint32_t arg4) {
         AndroidSystemCallbackRequestMessage callback_message;
         callback_message.set_id(GetCallbackID("ssp_request_cb"));
         VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
@@ -127,7 +127,7 @@ class vts_callback_FuzzerExtended_bt_interface_t_bt_callbacks_t : public DriverC
 
 
     static void
-     bond_state_changed_cb(bt_status_t arg0, bt_bdaddr_t* arg1, bt_bond_state_t arg2) {
+     bond_state_changed_cb(bt_status_t arg0, RawAddress* arg1, bt_bond_state_t arg2) {
         AndroidSystemCallbackRequestMessage callback_message;
         callback_message.set_id(GetCallbackID("bond_state_changed_cb"));
         VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
@@ -141,7 +141,7 @@ class vts_callback_FuzzerExtended_bt_interface_t_bt_callbacks_t : public DriverC
 
 
     static void
-     acl_state_changed_cb(bt_status_t arg0, bt_bdaddr_t* arg1, bt_acl_state_t arg2) {
+     acl_state_changed_cb(bt_status_t arg0, RawAddress* arg1, bt_acl_state_t arg2) {
         AndroidSystemCallbackRequestMessage callback_message;
         callback_message.set_id(GetCallbackID("acl_state_changed_cb"));
         VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
