@@ -41,6 +41,7 @@
   <option name="compatibility:include-filter" value="VtsHalMemtrackV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0HostProfiling" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0TargetProfiling" />
+  <option name="compatibility:include-filter" value="VtsHalOemLockV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalPowerV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalPowerV1_1TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalRadioV1_0TargetProfiling" />
@@ -53,6 +54,7 @@
   <option name="compatibility:include-filter" value="VtsHalVibratorV1_0HostProfiling" />
   <option name="compatibility:include-filter" value="VtsHalVibratorV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalVrV1_0TargetProfiling" />
+  <option name="compatibility:include-filter" value="VtsHalWeaverV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiNanV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiSupplicantV1_0TargetProfiling" />

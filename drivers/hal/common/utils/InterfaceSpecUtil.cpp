@@ -114,14 +114,10 @@ string GetPackageName(const string& type_name) {
 }
 
 float GetVersion(const string& type_name) {
-  cout << __func__ << " type_name: " << type_name << endl;
   string str = type_name.substr(type_name.find('V') + 1);
   string version_str = str.substr(0, str.find("::"));
-  cout << __func__ << " version_str: " << version_str << endl;
   string major_version = version_str.substr(0, version_str.find("_"));
-  cout << __func__ << " major_version: " << major_version << endl;
   string minor_version = version_str.substr(version_str.find("_") + 1);
-  cout << __func__ << " minor_version: " << minor_version << endl;
   // TODO(zhuoyao): handle the case when minor_version >= 10
   assert(std::stof(minor_version) < 10.0);
   return std::stof(major_version) + 0.1 * (std::stof(minor_version));

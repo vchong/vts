@@ -24,4 +24,6 @@ import "test/vts/proto/ComponentSpecificationMessage.proto";
 message ExecutionSpecificationMessage {
   // Lists API calls.
   repeated FunctionCallMessage function_call = 1;
+  // Used to ensure that garbage bytes cannot be accidentally parsed.
+  optional bool valid = 1000;
 }
