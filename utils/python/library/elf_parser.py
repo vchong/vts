@@ -285,8 +285,14 @@ class ElfParser(object):
         for offset in range(
                 dynsym.offset, dynsym.offset + dynsym.size, dynsym.entry_size):
             sym_info = self._SeekRead8(offset + self._offsets.SYMBOL_INFO)
+            if (sym_info & 0xf) == elf_consts.SYMBOL_NOTYPE:
+                continue
             if sym_info >> 4 not in (elf_consts.SYMBOL_BINDING_GLOBAL,
                                      elf_consts.SYMBOL_BINDING_WEAK):
+                continue
+            sym_sh_index = self._SeekRead16(
+                    offset + self._offsets.SYMBOL_SECTION_INDEX)
+            if sym_sh_index == elf_consts.SHN_UNDEFINED:
                 continue
             name_offset = self._SeekRead32(offset + self._offsets.SYMBOL_NAME)
             sym_names.append(self._SeekReadString(dynstr.offset + name_offset))

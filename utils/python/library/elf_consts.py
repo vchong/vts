@@ -24,6 +24,8 @@ BITNESS_32 = 1
 BITNESS_64 = 2
 # Section type
 SHT_DYNAMIC = 6
+# Section index
+SHN_UNDEFINED = 0
 # Tag in dynamic section
 DT_NULL = 0
 DT_NEEDED = 1
@@ -31,6 +33,8 @@ DT_STRTAB = 5
 # Section name
 DYNSYM = ".dynsym"
 DYNSTR = ".dynstr"
+# Type in symbol table
+SYMBOL_NOTYPE = 0
 # Binding in symbol table
 SYMBOL_BINDING_GLOBAL = 1
 SYMBOL_BINDING_WEAK = 2
@@ -53,6 +57,7 @@ class ElfOffsets32(object):
     # Offset from symbol table entry
     SYMBOL_NAME = 0x00
     SYMBOL_INFO = 0x0c
+    SYMBOL_SECTION_INDEX = 0x0e
 
 
 class ElfOffsets64(object):
@@ -72,3 +77,4 @@ class ElfOffsets64(object):
     # Offset from symbol table entry
     SYMBOL_NAME = 0x00
     SYMBOL_INFO = 0x04
+    SYMBOL_SECTION_INDEX = 0x06
