@@ -16,6 +16,7 @@
 <configuration description="VTS Main Test Plan">
   <include name="everything" />
   <option name="compatibility:skip-all-system-status-check" value="true" />
+  <option name="max-log-size" value="200" />
   <object type="vts-vendor-config" class="com.android.tradefed.util.VtsVendorConfigFileUtil" />
   <target_preparer class="com.android.tradefed.targetprep.VtsDeviceInfoCollector" />
   <target_preparer class="com.android.tradefed.targetprep.VtsTestPlanResultReporter" />

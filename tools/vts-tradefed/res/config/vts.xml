@@ -31,6 +31,7 @@
   <option name="compatibility:include-filter" value="VtsHalRadioV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalRenderscriptV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalWifiV1_0Target" />
+  <option name="compatibility:include-filter" value="VtsHalWifiV1_1Target" />
   <option name="compatibility:include-filter" value="VtsHalWifiNanV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalWifiOffloadV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalWifiSupplicantV1_0Target" />

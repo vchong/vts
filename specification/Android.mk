@@ -60,6 +60,7 @@ vtslib_interfacespec_shared_libraries := \
   libprotobuf-cpp-full \
 
 vtslib_interfacespec_static_libraries := \
+  libbluetooth-types
 
 include $(CLEAR_VARS)
 

@@ -56,6 +56,7 @@
   <option name="compatibility:include-filter" value="VtsHalVibratorV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalVrV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiV1_0TargetProfiling" />
+  <option name="compatibility:include-filter" value="VtsHalWifiV1_1TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiNanV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiSupplicantV1_0TargetProfiling" />
 </configuration>
