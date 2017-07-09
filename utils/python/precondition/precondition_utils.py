@@ -29,7 +29,7 @@ def FindHalDescription(hal_desc, hal_package_name):
     return None
 
 
-def IsHalRegisteredInVintfXml(hal, vintf_xml):
+def IsHalRegisteredInVintfXml(hal, vintf_xml, bitness):
     """Checks whether a HAL is registered in a VINTF XML.
 
     If the given hal is an earlier minor version of what is specified in
@@ -38,6 +38,7 @@ def IsHalRegisteredInVintfXml(hal, vintf_xml):
     Args:
         hal: string, the full name of a HAL (e.g., package@version)
         vintf_xml: string, the VINTF XML content.
+        bitness, string, currently tested ABI bitness (e.g., 32 or 64).
 
     Returns:
         True if found or vintf_xml is malformed, False otherwise.
@@ -66,9 +67,7 @@ def IsHalRegisteredInVintfXml(hal, vintf_xml):
             hal)
         return False
     elif (hwbinder_hal_desc is None and passthrough_hal_desc is not None):
-        if hasattr(test_instance, keys.ConfigKeys.IKEY_ABI_BITNESS):
-            bitness = getattr(test_instance,
-                              keys.ConfigKeys.IKEY_ABI_BITNESS)
+        if bitness:
             if (bitness not in passthrough_hal_desc.hal_archs):
                 logging.warn(
                     "The required feature %s found as a "
@@ -173,14 +172,16 @@ def CanRunHidlHalTest(test_instance, dut, shell=None):
             logging.debug("precondition-lshal used to retrieve VINTF xml.")
 
     if vintf_xml:
-        result = IsHalRegisteredInVintfXml(hal, vintf_xml)
+        result = IsHalRegisteredInVintfXml(hal, vintf_xml,
+                                           test_instance.abi_bitness)
         if not result and use_lshal:
             # this is for when a test is configured to use the runtime HAL
             # service availability (the default mode for HIDL tests).
             # if a HAL is in vendor/manifest.xml, test is supposed to fail
             # even though a respective HIDL HAL service is not running.
             vintf_xml = dut.getVintfXml(use_lshal=False)
-            return IsHalRegisteredInVintfXml(hal, vintf_xml)
+            return IsHalRegisteredInVintfXml(hal, vintf_xml,
+                                             test_instance.abi_bitness)
         return result
 
     return True

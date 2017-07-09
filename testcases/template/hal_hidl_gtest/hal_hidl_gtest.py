@@ -93,19 +93,22 @@ class HidlHalGTest(gtest_binary_test.GtestBinaryTest):
         """Skips the test case if thermal throttling lasts for 30 seconds."""
         super(HidlHalGTest, self).setUp()
 
-        if self._skip_if_thermal_throttling:
+        if (self._skip_if_thermal_throttling and
+            getattr(self, "_cpu_freq", None)):
             self._cpu_freq.SkipIfThermalThrottling(retry_delay_secs=30)
 
     def tearDown(self):
         """Skips the test case if there is thermal throttling."""
-        if self._skip_if_thermal_throttling:
+        if (self._skip_if_thermal_throttling and
+            getattr(self, "_cpu_freq", None)):
             self._cpu_freq.SkipIfThermalThrottling()
 
         super(HidlHalGTest, self).tearDown()
 
     def tearDownClass(self):
         """Turns off CPU frequency scaling."""
-        if not self._skip_all_testcases:
+        if (not self._skip_all_testcases and
+            getattr(self, "_cpu_freq", None)):
             logging.info("Enable CPU frequency scaling")
             self._cpu_freq.EnableCpuScaling()
 
