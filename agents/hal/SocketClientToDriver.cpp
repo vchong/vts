@@ -85,9 +85,12 @@ int32_t VtsDriverSocketClient::LoadHal(const string& file_path,
 
   VtsDriverControlResponseMessage response_message;
   if (!VtsSocketRecvMessage(&response_message)) return -1;
-  cout << __func__ << " response code: " << response_message.response_code()
-       << endl;
-  return response_message.response_code();
+  if (response_message.response_code() != VTS_DRIVER_RESPONSE_SUCCESS) {
+    cerr << __func__ << "Failed to load the selected HAL." << endl;
+    return -1;
+  }
+  cout << __func__ << "Loaded the selected HAL." << endl;
+  return response_message.return_value();
 }
 
 const char* VtsDriverSocketClient::GetFunctions() {
@@ -159,6 +162,7 @@ const char* VtsDriverSocketClient::Call(const string& arg, const string& uid) {
     return NULL;
   }
   strcpy(result, response_message.return_message().c_str());
+  cout << __func__ << " result: " << result << endl;
   return result;
 }
 

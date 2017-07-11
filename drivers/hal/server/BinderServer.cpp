@@ -161,9 +161,9 @@ class VtsFuzzerServer : public BnVtsFuzzer {
 
   const char* Call(const string& arg) {
     printf("VtsFuzzerServer::Call(%s)\n", arg.c_str());
-    FunctionSpecificationMessage* func_msg = new FunctionSpecificationMessage();
-    google::protobuf::TextFormat::MergeFromString(arg, func_msg);
-    const string& result = driver_manager_->CallFunction(func_msg);
+    FunctionCallMessage* call_msg = new FunctionCallMessage();
+    google::protobuf::TextFormat::MergeFromString(arg, call_msg);
+    const string& result = driver_manager_->CallFunction(call_msg);
     return result.c_str();
   }
 

@@ -40,6 +40,8 @@ class VtsDriverHalSocketServer : public VtsDriverCommUtil {
  protected:
   void Exit();
 
+  // Load a Hal driver with the given info (package, version etc.),
+  // returns the loaded hal driver id if scuccess, -1 otherwise.
   int32_t LoadHal(const string& path, int target_class, int target_type,
                   float target_version, const string& target_package,
                   const string& target_component_name,

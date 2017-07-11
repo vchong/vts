@@ -46,19 +46,17 @@
 #include <string>
 
 #include <VtsDriverCommUtil.h>
-
 #include <google/protobuf/text_format.h>
-#include "test/vts/proto/VtsDriverControlMessage.pb.h"
 
-#include "binder/VtsFuzzerBinderService.h"
 #include "test/vts/proto/ComponentSpecificationMessage.pb.h"
+#include "test/vts/proto/VtsDriverControlMessage.pb.h"
 
 using namespace std;
 
 namespace android {
 namespace vts {
 
-void VtsDriverHalSocketServer::Exit() { printf("VtsFuzzerServer::Exit\n"); }
+void VtsDriverHalSocketServer::Exit() { printf("VtsHalDriverServer::Exit\n"); }
 
 int32_t VtsDriverHalSocketServer::LoadHal(const string& path, int target_class,
                                           int target_type, float target_version,
@@ -66,28 +64,24 @@ int32_t VtsDriverHalSocketServer::LoadHal(const string& path, int target_class,
                                           const string& target_component_name,
                                           const string& hw_binder_service_name,
                                           const string& module_name) {
-  printf("VtsFuzzerServer::LoadHal(%s)\n", path.c_str());
-  bool success = driver_manager_->LoadTargetComponent(
+  printf("VtsHalDriverServer::LoadHal(%s)\n", path.c_str());
+  int32_t driver_id = driver_manager_->LoadTargetComponent(
       path.c_str(), lib_path_, target_class, target_type, target_version,
       target_package.c_str(), target_component_name.c_str(),
       hw_binder_service_name.c_str(), module_name.c_str());
-  cout << "Result: " << success << std::endl;
-  if (success) {
-    return 0;
-  } else {
-    return -1;
-  }
+  cout << "Result: " << driver_id << std::endl;
+  return driver_id;
 }
 
 int32_t VtsDriverHalSocketServer::Status(int32_t type) {
-  printf("VtsFuzzerServer::Status(%i)\n", type);
+  printf("VtsHalDriverServer::Status(%i)\n", type);
   return 0;
 }
 
 const char* VtsDriverHalSocketServer::ReadSpecification(
     const string& name, int target_class, int target_type, float target_version,
     const string& target_package) {
-  printf("VtsFuzzerServer::ReadSpecification(%s)\n", name.c_str());
+  printf("VtsHalDriverServer::ReadSpecification(%s)\n", name.c_str());
   ComponentSpecificationMessage msg;
   driver_manager_->FindComponentSpecification(target_class, target_type,
                                               target_version, "",
@@ -98,36 +92,35 @@ const char* VtsDriverHalSocketServer::ReadSpecification(
 }
 
 const char* VtsDriverHalSocketServer::Call(const string& arg) {
-  cout << "VtsFuzzerServer::Call(" << arg << ")" << endl;
-  FunctionSpecificationMessage* func_msg = new FunctionSpecificationMessage();
-  cout << __func__ << ":" << __LINE__ << endl;
-  google::protobuf::TextFormat::MergeFromString(arg, func_msg);
-  cout << __func__ << ":" << __LINE__ << endl;
-  const string& result = driver_manager_->CallFunction(func_msg);
-  cout << __func__ << ":" << __LINE__ << endl;
+  cout << "VtsHalDriverServer::Call(" << arg << ")" << endl;
+  FunctionCallMessage* call_msg = new FunctionCallMessage();
+  google::protobuf::TextFormat::MergeFromString(arg, call_msg);
+  const string& result = driver_manager_->CallFunction(call_msg);
+  cout << __func__ << ":" << __LINE__ << " result: " << result.c_str() << endl;
   return result.c_str();
 }
 
 const char* VtsDriverHalSocketServer::GetAttribute(const string& arg) {
-  printf("%s(%s)\n", __func__, arg.c_str());
-  FunctionSpecificationMessage* func_msg = new FunctionSpecificationMessage();
-  google::protobuf::TextFormat::MergeFromString(arg, func_msg);
-  const string& result = driver_manager_->GetAttribute(func_msg);
-  printf("%s: done\n", __func__);
+  cout << "VtsHalDriverServer::GetAttribute(" << arg << ")" << endl;
+  // printf("%s(%s)\n", __func__, arg.c_str());
+  FunctionCallMessage* call_msg = new FunctionCallMessage();
+  google::protobuf::TextFormat::MergeFromString(arg, call_msg);
+  const string& result = driver_manager_->GetAttribute(call_msg);
+  cout << "VtsHalDriverServer::GetAttribute doen" << endl;
   return result.c_str();
 }
 
 string VtsDriverHalSocketServer::ListFunctions() const {
-  cout << "VtsFuzzerServer::" << __func__ << endl;
+  cout << "VtsHalDriverServer::" << __func__ << endl;
   vts::ComponentSpecificationMessage* spec =
       driver_manager_->GetComponentSpecification();
   string output;
   if (!spec) {
     return output;
   }
-  cout << "VtsFuzzerServer::" << __func__ << " serialize" << endl;
+  cout << "VtsHalDriverServer::" << __func__ << " serialize" << endl;
   if (google::protobuf::TextFormat::PrintToString(*spec, &output)) {
-    cout << "VtsFuzzerServer::" << __func__ << " result length "
+    cout << "VtsHalDriverServer::" << __func__ << " result length "
          << output.length() << endl;
     return output;
   } else {
@@ -154,7 +147,7 @@ bool VtsDriverHalSocketServer::ProcessOneCommand() {
       break;
     }
     case LOAD_HAL: {
-      int32_t result = LoadHal(
+      int32_t driver_id = LoadHal(
           command_message.file_path(), command_message.target_class(),
           command_message.target_type(), command_message.target_version(),
           command_message.target_package(),
@@ -162,8 +155,12 @@ bool VtsDriverHalSocketServer::ProcessOneCommand() {
           command_message.hw_binder_service_name(),
           command_message.module_name());
       VtsDriverControlResponseMessage response_message;
-      response_message.set_response_code(VTS_DRIVER_RESPONSE_SUCCESS);
-      response_message.set_return_value(result);
+      if (driver_id == -1) {
+        response_message.set_response_code(VTS_DRIVER_RESPONSE_FAIL);
+      } else {
+        response_message.set_response_code(VTS_DRIVER_RESPONSE_SUCCESS);
+      }
+      response_message.set_return_value(driver_id);
       if (VtsSocketSendMessage(response_message)) return true;
       break;
     }

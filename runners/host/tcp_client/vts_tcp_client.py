@@ -166,7 +166,15 @@ class VtsTcpClient(object):
             hw_binder_service_name=hw_binder_service_name)
         resp = self.RecvResponse()
         logging.info("resp for LAUNCH_DRIVER_SERVICE: %s", resp)
-        return (resp.response_code == SysMsg_pb2.SUCCESS)
+        if driver_type == SysMsg_pb2.VTS_DRIVER_TYPE_HAL_HIDL \
+                or driver_type == SysMsg_pb2.VTS_DRIVER_TYPE_HAL_CONVENTIONAL \
+                or driver_type == SysMsg_pb2.VTS_DRIVER_TYPE_HAL_LEGACY:
+            if resp.response_code == SysMsg_pb2.SUCCESS:
+                return int(resp.result)
+            else:
+                return -1
+        else:
+            return (resp.response_code == SysMsg_pb2.SUCCESS)
 
     def ListApis(self):
         """RPC to LIST_APIS."""
@@ -244,8 +252,8 @@ class VtsTcpClient(object):
             logging.debug("var_spec_msg: %s", var_spec_msg)
             return var_spec_msg
 
-        raise errors.VtsUnsupportedTypeError(
-            "unsupported type %s" % var_spec_msg.type)
+        raise errors.VtsUnsupportedTypeError("unsupported type %s" %
+                                             var_spec_msg.type)
 
     def CallApi(self, arg, caller_uid=None):
         """RPC to CALL_API."""

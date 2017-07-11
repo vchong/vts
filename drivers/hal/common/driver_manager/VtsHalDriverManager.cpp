@@ -25,6 +25,7 @@
 
 static constexpr const char* kErrorString = "error";
 static constexpr const char* kVoidString = "void";
+static constexpr const int kInvalidDriverId = -1;
 
 namespace android {
 namespace vts {
@@ -50,7 +51,7 @@ DriverId VtsHalDriverManager::LoadTargetComponent(
     cerr << __func__ << ": Faild to load specification for component with "
          << "class: " << component_class << " type: " << component_type
          << " version: " << version << endl;
-    return -1;
+    return kInvalidDriverId;
   }
   cout << "loaded specification for component with class: " << component_class
        << " type: " << component_type << " version: " << version << endl;
@@ -72,7 +73,7 @@ DriverId VtsHalDriverManager::LoadTargetComponent(
   if (!hal_driver) {
     cerr << "can't load driver for component with class: " << component_class
          << " type: " << component_type << " version: " << version << endl;
-    return -1;
+    return kInvalidDriverId;
   }
 
   // TODO (zhuoyao): get hidl_proxy_pointer for loaded hidl hal dirver.
@@ -80,78 +81,70 @@ DriverId VtsHalDriverManager::LoadTargetComponent(
   return RegisterDriver(std::move(hal_driver), spec_message, "", interface_pt);
 }
 
-string VtsHalDriverManager::CallFunction(
-    FunctionSpecificationMessage* func_msg) {
-  DriverBase* driver = nullptr;
-  int component_class = -1;
+string VtsHalDriverManager::CallFunction(FunctionCallMessage* call_msg) {
   string output = "";
-  DriverId driver_id = FindDriverIdWithFuncMsg(func_msg);
-  if (driver_id == -1) {
-    cerr << "can't find driver for '" << func_msg->name() << endl;
-    return kErrorString;
-  }
-
-  component_class = GetComponentSpecById(driver_id)->component_class();
-  driver = GetDriverById(driver_id);
+  DriverBase* driver = GetDriverWithCallMsg(*call_msg);
   if (!driver) {
+    cerr << "can't find driver for package: " << call_msg->package_name()
+         << " version: " << call_msg->component_type_version() << endl;
     return kErrorString;
   }
 
   // Special process to open conventional hal.
-  if (func_msg->name() == "#Open") {
+  FunctionSpecificationMessage* api = call_msg->mutable_api();
+  if (call_msg->component_class() != HAL_HIDL && api->name() == "#Open") {
     cout << __func__ << ":" << __LINE__ << " #Open" << endl;
-    if (func_msg->arg().size() > 0) {
+    if (api->arg().size() > 0) {
       cout << __func__ << " open conventional hal with arg:"
-           << func_msg->arg(0).string_value().message() << endl;
-      driver->OpenConventionalHal(
-          func_msg->arg(0).string_value().message().c_str());
+           << api->arg(0).string_value().message() << endl;
+      driver->OpenConventionalHal(api->arg(0).string_value().message().c_str());
     } else {
       cout << __func__ << " open conventional hal with no arg" << endl;
       driver->OpenConventionalHal();
     }
     // return the return value from open;
-    if (func_msg->return_type().has_type()) {
+    if (api->return_type().has_type()) {
       cout << __func__ << " return_type exists" << endl;
       // TODO handle when the size > 1.
-      if (!strcmp(func_msg->return_type().scalar_type().c_str(), "int32_t")) {
+      if (!strcmp(api->return_type().scalar_type().c_str(), "int32_t")) {
         cout << __func__ << " return_type is int32_t" << endl;
-        func_msg->mutable_return_type()->mutable_scalar_value()->set_int32_t(0);
+        api->mutable_return_type()->mutable_scalar_value()->set_int32_t(0);
         cout << "result " << endl;
         // todo handle more types;
-        google::protobuf::TextFormat::PrintToString(*func_msg, &output);
+        google::protobuf::TextFormat::PrintToString(*api, &output);
         return output;
       }
     }
     cerr << __func__ << " return_type unknown" << endl;
-    google::protobuf::TextFormat::PrintToString(*func_msg, &output);
+    google::protobuf::TextFormat::PrintToString(*api, &output);
     return output;
   }
 
   void* result;
   FunctionSpecificationMessage result_msg;
   driver->FunctionCallBegin();
-  cout << __func__ << " Call Function " << func_msg->name() << " parent_path("
-       << func_msg->parent_path() << ")" << endl;
+  cout << __func__ << " Call Function " << api->name() << " parent_path("
+       << api->parent_path() << ")" << endl;
   // For Hidl HAL, use CallFunction method.
-  if (component_class == HAL_HIDL) {
-    if (!driver->CallFunction(*func_msg, callback_socket_name_, &result_msg)) {
-      cerr << __func__
-           << " Failed to call function: " << func_msg->DebugString() << endl;
+  if (call_msg->component_class() == HAL_HIDL) {
+    if (!driver->CallFunction(*api, callback_socket_name_, &result_msg)) {
+      cerr << __func__ << " Failed to call function: " << api->DebugString()
+           << endl;
       return kErrorString;
     }
   } else {
-    if (!driver->Fuzz(func_msg, &result, callback_socket_name_)) {
-      cerr << __func__
-           << " Failed to call function: " << func_msg->DebugString() << endl;
+    if (!driver->Fuzz(api, &result, callback_socket_name_)) {
+      cerr << __func__ << " Failed to call function: " << api->DebugString()
+           << endl;
       return kErrorString;
     }
   }
-  cout << __func__ << ": called function " << func_msg->name() << endl;
+  cout << __func__ << ": called function " << api->name() << endl;
 
   // set coverage data.
-  driver->FunctionCallEnd(func_msg);
+  driver->FunctionCallEnd(api);
 
-  if (component_class == HAL_HIDL) {
+  if (call_msg->component_class() == HAL_HIDL) {
     for (int index = 0; index < result_msg.return_type_hidl_size(); index++) {
       auto* return_val = result_msg.mutable_return_type_hidl(index);
       if (return_val->type() == TYPE_HIDL_INTERFACE &&
@@ -185,50 +178,44 @@ string VtsHalDriverManager::CallFunction(
     google::protobuf::TextFormat::PrintToString(result_msg, &output);
     return output;
   } else {
-    return ProcessFuncResultsForConventionalHal(func_msg, result);
+    return ProcessFuncResultsForConventionalHal(api, result);
   }
   return kVoidString;
 }
 
-string VtsHalDriverManager::GetAttribute(
-    FunctionSpecificationMessage* func_msg) {
-  DriverBase* driver = nullptr;
-  int component_class = -1;
+string VtsHalDriverManager::GetAttribute(FunctionCallMessage* call_msg) {
   string output = "";
-  DriverId driver_id = FindDriverIdWithFuncMsg(func_msg);
-  if (driver_id == -1) {
-    cerr << "can't find driver for '" << func_msg->name() << endl;
-    return kErrorString;
-  }
-  driver = GetDriverById(driver_id);
-  component_class = GetComponentSpecById(driver_id)->component_class();
+  DriverBase* driver = GetDriverWithCallMsg(*call_msg);
   if (!driver) {
+    cerr << "can't find driver for package: " << call_msg->package_name()
+         << " version: " << call_msg->component_type_version() << endl;
     return kErrorString;
   }
 
   void* result;
-  cout << __func__ << " Get Atrribute " << func_msg->name() << " parent_path("
-       << func_msg->parent_path() << ")" << endl;
-  if (!driver->GetAttribute(func_msg, &result)) {
+  FunctionSpecificationMessage* api = call_msg->mutable_api();
+  cout << __func__ << " Get Atrribute " << api->name() << " parent_path("
+       << api->parent_path() << ")" << endl;
+  if (!driver->GetAttribute(api, &result)) {
     cerr << __func__ << " attribute not found - todo handle more explicitly"
          << endl;
     return kErrorString;
   }
   cout << __func__ << ": called" << endl;
 
-  if (component_class == HAL_HIDL) {
+  if (call_msg->component_class() == HAL_HIDL) {
     cout << __func__ << ": for a HIDL HAL" << endl;
-    func_msg->mutable_return_type()->set_type(TYPE_STRING);
-    func_msg->mutable_return_type()->mutable_string_value()->set_message(
+    api->mutable_return_type()->set_type(TYPE_STRING);
+    api->mutable_return_type()->mutable_string_value()->set_message(
         *(string*)result);
-    func_msg->mutable_return_type()->mutable_string_value()->set_length(
+    api->mutable_return_type()->mutable_string_value()->set_length(
         ((string*)result)->size());
     free(result);
     string* output = new string();
-    google::protobuf::TextFormat::PrintToString(*func_msg, output);
+    google::protobuf::TextFormat::PrintToString(*api, output);
     return *output;
   } else {
-    return ProcessFuncResultsForConventionalHal(func_msg, result);
+    return ProcessFuncResultsForConventionalHal(api, result);
   }
   return kVoidString;
 }
@@ -239,7 +226,7 @@ DriverId VtsHalDriverManager::RegisterDriver(
     const uint64_t interface_pt) {
   DriverId driver_id =
       FindDriverIdInternal(spec_msg, submodule_name, interface_pt, true);
-  if (driver_id == -1) {
+  if (driver_id == kInvalidDriverId) {
     driver_id = hal_driver_map_.size();
     hal_driver_map_.insert(
         make_pair(driver_id, HalDriverInfo(spec_msg, submodule_name,
@@ -281,7 +268,7 @@ DriverBase* VtsHalDriverManager::GetDriverForHidlHalInterface(
   spec_msg.set_component_type_version(version);
   spec_msg.set_component_name(interface_name);
   int32_t driver_id = FindDriverIdInternal(spec_msg);
-  if (driver_id == -1) {
+  if (driver_id == kInvalidDriverId) {
     string driver_lib_path = GetHidlHalDriverLibName(package_name, version);
     driver_id =
         LoadTargetComponent("", driver_lib_path, HAL_HIDL, 0, version,
@@ -313,29 +300,29 @@ DriverId VtsHalDriverManager::FindDriverIdInternal(
     const uint64_t interface_pt, bool with_interface_pointer) {
   if (!spec_msg.has_component_class()) {
     cerr << __func__ << " Component class not specified. " << endl;
-    return -1;
+    return kInvalidDriverId;
   }
   if (spec_msg.component_class() == HAL_HIDL) {
     if (!spec_msg.has_package() || spec_msg.package().empty()) {
       cerr << __func__ << " Package name is requried but not specified. "
            << endl;
-      return -1;
+      return kInvalidDriverId;
     }
     if (!spec_msg.has_component_type_version()) {
       cerr << __func__ << " Package version is requried but not specified. "
            << endl;
-      return -1;
+      return kInvalidDriverId;
     }
     if (!spec_msg.has_component_name() || spec_msg.component_name().empty()) {
       cerr << __func__ << " Component name is requried but not specified. "
            << endl;
-      return -1;
+      return kInvalidDriverId;
     }
   } else {
     if (submodule_name.empty()) {
       cerr << __func__ << " Submodule name is requried but not specified. "
            << endl;
-      return -1;
+      return kInvalidDriverId;
     }
   }
   for (auto it = hal_driver_map_.begin(); it != hal_driver_map_.end(); ++it) {
@@ -379,38 +366,47 @@ DriverId VtsHalDriverManager::FindDriverIdInternal(
       }
     }
   }
-  return -1;
+  return kInvalidDriverId;
 }
 
-DriverId VtsHalDriverManager::FindDriverIdWithFuncMsg(
-    FunctionSpecificationMessage* func_msg) {
-  if (func_msg->submodule_name().size() > 0) {
-    string submodule_name = func_msg->submodule_name();
-    cout << __func__ << " submodule name " << submodule_name << endl;
-    DriverId driver_id = FindDriverIdWithSubModuleName(submodule_name);
-    if (driver_id != -1) {
-      cout << __func__ << " call is for a submodule" << endl;
-      return driver_id;
-    } else {
-      cerr << __func__ << " called an API of a non-loaded submodule." << endl;
-      return -1;
-    }
+DriverBase* VtsHalDriverManager::GetDriverWithCallMsg(
+    const FunctionCallMessage& call_msg) {
+  DriverId driver_id = kInvalidDriverId;
+  // If call_mag contains driver_id, use that given driver id.
+  if (call_msg.has_hal_driver_id() &&
+      call_msg.hal_driver_id() != kInvalidDriverId) {
+    driver_id = call_msg.hal_driver_id();
   } else {
-    // If hidl_interface_id is specified, get driver base from the interface_map
-    // directly.
-    if (func_msg->hidl_interface_id() != 0) {
-      return func_msg->hidl_interface_id();
-    } else {
-      // No driver is registered,
-      if (hal_driver_map_.size() == 0) {
-        cerr << __func__ << " called an API of a non-loaded hal." << endl;
-        return -1;
+    // Otherwise, try to find a registed driver matches the given info. e.g.,
+    // submodule_name, package_name, version etc.
+    FunctionSpecificationMessage api = call_msg.api();
+    if (api.submodule_name().size() > 0) {
+      string submodule_name = api.submodule_name();
+      cout << __func__ << " submodule name " << submodule_name << endl;
+      DriverId driver_id = FindDriverIdWithSubModuleName(submodule_name);
+      if (driver_id != kInvalidDriverId) {
+        cout << __func__ << " call is for a submodule" << endl;
+      } else {
+        cerr << __func__ << " called an API of a non-loaded submodule." << endl;
+        return nullptr;
       }
-      // TODO(zhuoyao): under the current assumption, driver_id = 0 means the
-      // Hal the initially loaded, need to change then when we support
-      // multi-hal testing.
-      return 0;
+    } else {
+      ComponentSpecificationMessage spec_msg;
+      spec_msg.set_component_class(call_msg.component_class());
+      spec_msg.set_package(call_msg.package_name());
+      spec_msg.set_component_type_version(
+          stof(call_msg.component_type_version()));
+      spec_msg.set_component_name(call_msg.component_name());
+      driver_id = FindDriverIdInternal(spec_msg);
     }
+  }
+
+  if (driver_id == kInvalidDriverId) {
+    cerr << "can't find driver ID for package: " << call_msg.package_name()
+         << " version: " << call_msg.component_type_version() << endl;
+    return nullptr;
+  } else {
+    return GetDriverById(driver_id);
   }
 }
 
@@ -475,7 +471,7 @@ string VtsHalDriverManager::ProcessFuncResultsForConventionalHal(
         0, func_msg->return_type().predefined_type().size() - 1);
     ComponentSpecificationMessage submodule_iface_spec_msg;
     DriverId driver_id = FindDriverIdWithSubModuleName(submodule_name);
-    if (driver_id != -1) {
+    if (driver_id != kInvalidDriverId) {
       cout << __func__ << " submodule InterfaceSpecification already loaded"
            << endl;
       ComponentSpecificationMessage* spec_msg = GetComponentSpecById(driver_id);

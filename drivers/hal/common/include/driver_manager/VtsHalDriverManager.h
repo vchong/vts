@@ -57,7 +57,7 @@ class VtsHalDriverManager {
   // TODO (zhuoyao): use FunctionCallMessage instead of
   // FunctionSpecificationMessage which contains info such as component name and
   // driver id.
-  string CallFunction(FunctionSpecificationMessage* func_msg);
+  string CallFunction(FunctionCallMessage* func_msg);
 
   // Searches hal_driver_map_ for Hidl HAL driver instance with the given
   // package name, version and component (interface) name. If found, returns
@@ -88,7 +88,7 @@ class VtsHalDriverManager {
   // Used to serve the GetAttribute request from host. Only supported by
   // conventional HAL.
   // TODO (zhuoyao): consider deprecate this method.
-  string GetAttribute(FunctionSpecificationMessage* func_msg);
+  string GetAttribute(FunctionCallMessage* func_msg);
 
  private:
   // Internal method to register a HAL driver in hal_driver_map_.
@@ -102,13 +102,12 @@ class VtsHalDriverManager {
   // nullptr if no driver instance existes with given id.
   DriverBase* GetDriverById(const int32_t id);
 
+  // Internal method to get the HAL driver based on FunctionCallMessage.
+  DriverBase* GetDriverWithCallMsg(const FunctionCallMessage& call_msg);
+
   // Internal method to get the driver id based on submodule name
   // (for conventional HAL only).
   DriverId FindDriverIdWithSubModuleName(const string& submodule_name);
-
-  // Internal method to find the driver id based on
-  // FunctionSpecificationMessage.
-  DriverId FindDriverIdWithFuncMsg(FunctionSpecificationMessage* func_msg);
 
   // Internal method to find the driver id based on component spec and
   // (for Hidl HAL) address to the hidl proxy.
