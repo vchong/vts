@@ -598,7 +598,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
 
         JSONArray testBedArray = (JSONArray) jsonObject.get("test_bed");
         if (testBedArray.length() == 0) {
-            JSONObject device = new JSONObject();
+            JSONObject testBedItemObject = new JSONObject();
             String testName;
             if (mTestModuleName != null) {
                 testName = mTestModuleName;
@@ -615,12 +615,12 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
                 }
             }
             CLog.logAndDisplay(LogLevel.INFO, "Setting test name as %s", testName);
-            device.put(NAME, testName);
-            device.put(ANDROIDDEVICE, deviceArray);
-            testBedArray.put(device);
+            testBedItemObject.put(NAME, testName);
+            testBedItemObject.put(ANDROIDDEVICE, deviceArray);
+            testBedArray.put(testBedItemObject);
         } else if (testBedArray.length() == 1) {
-            JSONObject device = (JSONObject) testBedArray.get(0);
-            device.put(ANDROIDDEVICE, deviceArray);
+            JSONObject testBedItemObject = (JSONObject) testBedArray.get(0);
+            testBedItemObject.put(ANDROIDDEVICE, deviceArray);
         } else {
             CLog.e("Multi-device not yet supported: %d devices requested",
                     testBedArray.length());
