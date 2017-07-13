@@ -28,7 +28,7 @@
   <option name="compatibility:include-filter" value="VtsHalRadioV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalRadioV1_1Target" />
   <option name="compatibility:include-filter" value="VtsHalRenderscriptV1_0Target" />
-  <option name="compatibility:include-filter" value="VtsHalWifiV1_0Target" />
+  <option name="compatibility:include-filter" value="VtsHalWifiV1_0Host" />
   <option name="compatibility:include-filter" value="VtsHalWifiV1_1Target" />
   <option name="compatibility:include-filter" value="VtsHalWifiNanV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalWifiOffloadV1_0Target" />
@@ -62,6 +62,7 @@
   <option name="compatibility:include-filter" value="VtsHalUsbV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalUsbV1_1Target" />
   <option name="compatibility:include-filter" value="VtsHalVibratorV1_0Target" />
+  <option name="compatibility:include-filter" value="VtsHalVibratorV1_1Target" />
   <option name="compatibility:include-filter" value="VtsHalVrV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalWeaverV1_0Target" />
 
