@@ -46,7 +46,7 @@ import org.json.JSONObject;
  * This is used when one wants to do such setup and cleanup operations in Java instead of the
  * VTS Python runner, Python test template, or Python test case.
  */
-@OptionClass(alias = "push-file")
+@OptionClass(alias = "hidl-profiler-preparer")
 public class HidlProfilerPreparer implements ITargetCleaner, IAbiReceiver {
     private static final String LOG_TAG = "HidlProfilerPreparer";
 

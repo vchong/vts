@@ -22,7 +22,7 @@ using namespace std;
 
 namespace testing {
 
-std::string VtsHalHidlTargetTestBase::PropertyGet(const char* name) {
+string VtsHalHidlTargetTestBase::PropertyGet(const char* name) {
   char value[PROP_VALUE_MAX] = {0};
   __system_property_get(name, value);
   return value;
