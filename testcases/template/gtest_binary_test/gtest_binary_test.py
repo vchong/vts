@@ -78,7 +78,7 @@ class GtestBinaryTest(binary_test.BinaryTest):
         ld_library_path = self.ld_library_path[
             tag] if tag in self.ld_library_path else None
         profiling_library_path = self.profiling_library_path[
-            tag] if tag in self.ld_library_path else None
+            tag] if tag in self.profiling_library_path else None
 
         args += " --gtest_list_tests"
         list_test_case = binary_test_case.BinaryTestCase(

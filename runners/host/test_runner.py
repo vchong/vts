@@ -25,6 +25,8 @@ import os
 import pkgutil
 import signal
 import sys
+import thread
+import threading
 
 from vts.runners.host import base_test
 from vts.runners.host import config_parser
@@ -98,18 +100,36 @@ def runTestClass(test_class):
     test_identifiers = [(test_cls_name, None)]
 
     for config in test_configs:
+        if keys.ConfigKeys.KEY_TEST_MAX_TIMEOUT in config:
+            timeout_sec = int(config[keys.ConfigKeys.KEY_TEST_MAX_TIMEOUT]) / 1000.0
+        else:
+            timeout_sec = 60 * 60 * 3
+            logging.warning("%s unspecified. Set timeout to %s seconds.",
+                            keys.ConfigKeys.KEY_TEST_MAX_TIMEOUT, timeout_sec)
+        # The default SIGINT handler sends KeyboardInterrupt to main thread.
+        # On Windows, raising CTRL_C_EVENT, which is received as SIGINT,
+        # has no effect on non-console process. interrupt_main() works but
+        # does not unblock main thread's IO immediately.
+        timeout_func = (raiseSigint if not utils.is_on_windows() else
+                        thread.interrupt_main)
+        sig_timer = threading.Timer(timeout_sec, timeout_func)
+
         tr = TestRunner(config, test_identifiers)
         tr.parseTestConfig(config)
         try:
-            # Create console signal handler to make sure TestRunner is stopped
-            # in the event of termination.
-            handler = config_parser.gen_term_signal_handler([tr])
-            signal.signal(signal.SIGTERM, handler)
-            signal.signal(signal.SIGINT, handler)
+            sig_timer.start()
             tr.runTestClass(test_class, None)
+        except KeyboardInterrupt as e:
+            logging.exception("Aborted by timeout or ctrl+C: %s", e)
         finally:
+            sig_timer.cancel()
             tr.stop()
             return tr.results
+
+
+def raiseSigint():
+    """Raises SIGINT."""
+    os.kill(os.getpid(), signal.SIGINT)
 
 
 class TestRunner(object):

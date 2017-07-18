@@ -29,6 +29,7 @@ class ConfigKeys(object):
     KEY_TESTBED_NAME = "name"
     KEY_TEST_PATHS = "test_paths"
     KEY_TEST_SUITE = "test_suite"
+    KEY_TEST_MAX_TIMEOUT = "test_max_timeout"
 
     # Keys in test suite
     KEY_INCLUDE_FILTER = "include_filter"
