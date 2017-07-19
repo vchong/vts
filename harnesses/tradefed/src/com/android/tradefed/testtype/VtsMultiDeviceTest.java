@@ -109,7 +109,7 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
     static final String BINARY_TEST_TYPE_HOST_BINARY_TEST = "host_binary_test";
     static final String ENABLE_COVERAGE = "enable_coverage";
     static final String ENABLE_PROFILING = "enable_profiling";
-    static final String GTEST_BATCH_MODE = "gtest_match_mode";
+    static final String GTEST_BATCH_MODE = "gtest_batch_mode";
     static final String SAVE_TRACE_FIEL_REMOTE = "save_trace_file_remote";
     static final String OUTPUT_COVERAGE_REPORT = "output_coverage_report";
     static final String GLOBAL_COVERAGE = "global_coverage";

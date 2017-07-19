@@ -26,6 +26,7 @@
   <!-- From vts-hal.xml -->
   <option name="compatibility:include-filter" value="VtsHalBluetoothV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalBootV1_0Target" />
+  <option name="compatibility:include-filter" value="VtsHalDumpstateV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalIrV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalRadioV1_0Target" />

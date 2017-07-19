@@ -63,6 +63,7 @@ vts_test_bin_packages += \
 # Binder tests.
 vts_test_bin_packages += \
     binderDriverInterfaceTest \
+    binderDriverInterfaceTest_IPC_32 \
     binderValueTypeTest \
     binderLibTest \
     binderTextOutputTest \
