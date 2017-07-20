@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
+#define LOG_TAG "VtsHalHidlTargetTestEnvBase"
+
 #include "VtsHalHidlTargetTestEnvBase.h"
 
 #include <string>
 
 #include <utils/Log.h>
-
-#define LOG_TAG "VtsHalHidlTargetTestEnvBase"
 
 static constexpr const char* kListFlag = "--list_registered_services";
 static constexpr const char* kServceInstanceFlag = "--hal_service_instance";
