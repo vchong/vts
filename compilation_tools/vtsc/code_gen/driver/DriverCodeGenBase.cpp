@@ -250,8 +250,9 @@ void DriverCodeGenBase::GenerateFuzzFunctionForSubStruct(
       << "\n";
 
   out << "bool GetAttribute_" << parent_path << message.name()
-      << "(FunctionSpecificationMessage* func_msg," << "\n";
-  out << "            void** result);"
+      << "(FunctionSpecificationMessage* /*func_msg*/,"
+      << "\n";
+  out << "            void** /*result*/);"
       << "\n";
 
   for (auto const& sub_struct : message.sub_struct()) {

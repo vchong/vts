@@ -196,6 +196,8 @@ void HalHidlCodeGen::GenerateDriverFunctionImpl(Formatter& out,
     out << "const char* func_name = func_msg.name().c_str();" << "\n";
     out << "cout << \"Function: \" << __func__ << \" \" << func_name << endl;"
         << "\n";
+    out << "cout << \"Callback socket name: \" << callback_socket_name << endl;"
+        << "\n";
 
     out << "if (hw_binder_proxy_ == nullptr) {\n";
     out.indent();

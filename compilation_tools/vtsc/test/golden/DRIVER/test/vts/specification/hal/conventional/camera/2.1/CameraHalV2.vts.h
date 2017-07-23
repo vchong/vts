@@ -28,12 +28,12 @@ class FuzzerExtended_camera_module_t : public DriverBase {
     bool GetAttribute(FunctionSpecificationMessage* func_msg, void** result);
         bool Fuzz__common(FunctionSpecificationMessage* func_msg,
                     void** result, const string& callback_socket_name);
-        bool GetAttribute__common(FunctionSpecificationMessage* func_msg,
-                    void** result);
+        bool GetAttribute__common(FunctionSpecificationMessage* /*func_msg*/,
+                    void** /*result*/);
             bool Fuzz__common_methods(FunctionSpecificationMessage* func_msg,
                         void** result, const string& callback_socket_name);
-            bool GetAttribute__common_methods(FunctionSpecificationMessage* func_msg,
-                        void** result);
+            bool GetAttribute__common_methods(FunctionSpecificationMessage* /*func_msg*/,
+                        void** /*result*/);
  private:
 };
 
