@@ -103,7 +103,7 @@ class BinaryTestCase(object):
         working_directory = ('cd %s &&' % self.working_directory
                              if self.working_directory else '')
 
-        envp = 'env %s' % self.envp if self.envp else ''
+        envp = 'env %s ' % self.envp if self.envp else ''
         ld_library_path = ('LD_LIBRARY_PATH=%s ' % self.ld_library_path
                            if self.ld_library_path else '')
 
