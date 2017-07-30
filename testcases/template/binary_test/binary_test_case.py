@@ -100,7 +100,7 @@ class BinaryTestCase(object):
         Returns:
             String, a command to run the test.
         '''
-        working_directory = ('cd %s &&' % self.working_directory
+        working_directory = ('cd %s && ' % self.working_directory
                              if self.working_directory else '')
 
         envp = 'env %s ' % self.envp if self.envp else ''
@@ -109,7 +109,7 @@ class BinaryTestCase(object):
 
         if ld_library_path:
             envp = ('{}{}'.format(envp, ld_library_path)
-                    if envp else 'env %s' % ld_library_path)
+                    if envp else 'env %s ' % ld_library_path)
 
         args = ' %s' % self.args if self.args else ''
 

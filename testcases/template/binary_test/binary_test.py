@@ -15,7 +15,8 @@
 #
 
 import logging
-import os
+import os.path
+import posixpath as targetpath
 import time
 
 from vts.runners.host import asserts
@@ -29,6 +30,9 @@ from vts.utils.python.precondition import precondition_utils
 from vts.utils.python.web import feature_utils
 
 from vts.testcases.template.binary_test import binary_test_case
+
+DATA_NATIVETEST = 'data/nativetest'
+DATA_NATIVETEST64 = '%s64' % DATA_NATIVETEST
 
 
 class BinaryTest(base_test.BaseTestClass):
@@ -52,8 +56,8 @@ class BinaryTest(base_test.BaseTestClass):
     DEVICE_TMP_DIR = '/data/local/tmp'
     TAG_DELIMITER = '::'
     PUSH_DELIMITER = '->'
-    DEFAULT_TAG_32 = '_32bit'
-    DEFAULT_TAG_64 = '_64bit'
+    DEFAULT_TAG_32 = '_%s' % const.SUFFIX_32BIT
+    DEFAULT_TAG_64 = '_%s' % const.SUFFIX_64BIT
     DEFAULT_LD_LIBRARY_PATH_32 = '/data/local/tmp/32/'
     DEFAULT_LD_LIBRARY_PATH_64 = '/data/local/tmp/64/'
     DEFAULT_PROFILING_LIBRARY_PATH_32 = '/data/local/tmp/32/'
@@ -363,19 +367,42 @@ class BinaryTest(base_test.BaseTestClass):
         push_only = dst is not None and dst == ''
 
         if not dst:
-            if tag in self.working_directory:
-                dst = path_utils.JoinTargetPath(self.working_directory[tag],
-                                                os.path.basename(src))
-            else:
-                dst = path_utils.JoinTargetPath(
-                    self.DEVICE_TMP_DIR,
-                    'binary_test_temp_%s' % self.__class__.__name__, tag,
-                    os.path.basename(src))
+            parent = self.working_directory[
+                tag] if tag in self.working_directory else self._GetDefaultBinaryPushDstPath(
+                    src, tag)
+            dst = path_utils.JoinTargetPath(parent, os.path.basename(src))
 
         if push_only:
             tag = None
 
         return str(src), str(dst), tag
+
+    def _GetDefaultBinaryPushDstPath(self, src, tag):
+        '''Get default binary push destination path.
+
+        This method is called to get default push destination path when
+        it is not specified.
+
+        If binary source path contains 'data/nativetest[64]', then the binary
+        will be pushed to /data/nativetest[64] instead of /data/local/tmp
+
+        Args:
+            src: string, source path of binary
+            tag: string, tag of binary source
+
+        Returns:
+            string, default push path
+        '''
+        src_lower = src.lower()
+        if DATA_NATIVETEST64 in src_lower:
+            parent_path = targetpath.sep + DATA_NATIVETEST64
+        elif DATA_NATIVETEST in src_lower:
+            parent_path = targetpath.sep + DATA_NATIVETEST
+        else:
+            parent_path = self.DEVICE_TMP_DIR
+
+        return targetpath.join(
+            parent_path, 'vts_binary_test_%s' % self.__class__.__name__, tag)
 
     def CreateTestCase(self, path, tag=''):
         '''Create a list of TestCase objects from a binary path.
