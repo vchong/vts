@@ -59,29 +59,12 @@ class HalHidlReplayTest(binary_test.BinaryTest):
 
     def getServiceName(self):
         """Get service name(s) for the given hal."""
-        service_names = set()
-        vintf_xml = self._dut.getVintfXml()
-        if not vintf_xml:
-            logging.error("fail to get vintf xml file")
-            return service_names
-        hwbinder_hals, passthrough_hals = vintf_utils.GetHalDescriptions(
-            vintf_xml)
-        if not hwbinder_hals and not passthrough_hals:
-            logging.error("fail to get hal descriptions")
-            return service_names
-        hwbinder_hal_info = hwbinder_hals.get(self.hal_hidl_package_name)
-        passthrough_hal_info = passthrough_hals.get(self.hal_hidl_package_name)
-        if not hwbinder_hal_info and not passthrough_hal_info:
-            logging.error("hal %s does not exit", self.hal_hidl_package_name)
-            return service_names
-        if hwbinder_hal_info:
-            for hal_interface in hwbinder_hal_info.hal_interfaces:
-                for hal_interface_instance in hal_interface.hal_interface_instances:
-                    service_names.add(hal_interface_instance)
-        if passthrough_hal_info:
-            for hal_interface in passthrough_hal_info.hal_interfaces:
-                for hal_interface_instance in hal_interface.hal_interface_instances:
-                    service_names.add(hal_interface_instance)
+        cmd = "lshal --neat -i | grep -oP %s::[a-zA-Z]+/.+ | sort -u" % \
+              self.hal_hidl_package_name
+        out = str(self._dut.adb.shell(cmd)).split()
+        service_names = map(lambda x: x[x.find('/') + 1:], out)
+        logging.info("registered service: %s with name: %s" %
+                     (self.hal_hidl_package_name, ' '.join(service_names)))
         return service_names
 
     # @Override
