@@ -119,6 +119,8 @@ vts_test_lib_hidl_packages := \
   android.hardware.renderscript@1.0-vts.profiler \
   android.hardware.sensors@1.0-vts.profiler \
   android.hardware.soundtrigger@2.0-vts.profiler \
+  android.hardware.tetheroffload.config@1.0-vts.profiler \
+  android.hardware.tetheroffload.control@1.0-vts.profiler \
   android.hardware.thermal@1.0-vts.profiler \
   android.hardware.tv.cec@1.0-vts.profiler \
   android.hardware.tv.input@1.0-vts.profiler \
@@ -170,6 +172,8 @@ vts_test_lib_hidl_packages += \
   VtsHalSapV1_0TargetTest \
   VtsHalSensorsV1_0TargetTest \
   VtsHalSoundtriggerV2_0TargetTest \
+  VtsHalTetheroffloadConfigV1_0TargetTest \
+  VtsHalTetheroffloadControlV1_0TargetTest \
   VtsHalThermalV1_0TargetTest \
   thermal_hidl_stress_test \
   VtsHalTvInputV1_0TargetTest \
