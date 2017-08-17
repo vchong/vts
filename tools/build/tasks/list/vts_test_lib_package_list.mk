@@ -123,6 +123,13 @@ vts_test_lib_packages += \
     libnstest_root \
     libnstest_public \
     libnstest_public_internal \
+    ld_preload_test_helper \
+    ld_preload_test_helper_lib1 \
+    ld_preload_test_helper_lib2 \
+    ld_config_test_helper \
+    ld_config_test_helper_lib1 \
+    ld_config_test_helper_lib2 \
+    ld_config_test_helper_lib3
 
 # for drm tests
 vts_test_lib_packages += \
