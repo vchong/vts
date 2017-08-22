@@ -104,9 +104,7 @@ for %%J in (%OPTIONAL_JARS%) do (
 :: skip loading shared libraries for host-side executables
 
 :: include any host-side test jars
-for %%F in ("%VTS_ROOT%\android-vts\testcases\*.jar") do (
-    set JAR_PATH=!JAR_PATH!;%%F
-)
+set JAR_PATH=%JAR_PATH%;%VTS_ROOT%\android-vts\testcases\*
 echo JAR_PATH=%JAR_PATH%
 
 cd %VTS_ROOT%/android-vts/testcases
