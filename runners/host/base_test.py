@@ -16,17 +16,19 @@
 
 import logging
 import os
+import re
 
 from vts.proto import VtsReportMessage_pb2 as ReportMsg
 from vts.runners.host import asserts
+from vts.runners.host import const
 from vts.runners.host import errors
 from vts.runners.host import keys
 from vts.runners.host import logger
 from vts.runners.host import records
 from vts.runners.host import signals
 from vts.runners.host import utils
-from vts.runners.host import const
 from vts.utils.python.controllers import android_device
+from vts.utils.python.common import filter_utils
 from vts.utils.python.common import list_utils
 from vts.utils.python.coverage import coverage_utils
 from vts.utils.python.profiling import profiling_utils
@@ -41,6 +43,9 @@ RESULT_LINE_TEMPLATE = TEST_CASE_TOKEN + " %s %s"
 STR_TEST = "test"
 STR_GENERATE = "generate"
 _REPORT_MESSAGE_FILE_NAME = "report_proto.msg"
+_BUG_REPORT_FILE_PREFIX = "bugreport"
+_BUG_REPORT_FILE_EXTENSION = ".zip"
+_ANDROID_DEVICES = '_android_devices'
 
 
 class BaseTestClass(object):
@@ -74,8 +79,10 @@ class BaseTestClass(object):
         profiling: ProfilingFeature, object storing profiling feature util for test run
         _skip_all_testcases: A boolean, can be set by a subclass in
                              setUpClass() to skip all test cases.
+        _bug_report_on_failure: bool, whether to catch bug report at the end
+                                of failed test cases.
+        test_filter: Filter object to filter test names.
     """
-
     TAG = None
 
     def __init__(self, configs):
@@ -102,12 +109,26 @@ class BaseTestClass(object):
             ],
             default_value=[])
 
-        self.include_filter = self.ExpandFilterBitness(
-            list_utils.ExpandItemDelimiters(
-                list_utils.ItemsToStr(self.include_filter), ','))
-        self.exclude_filter = self.ExpandFilterBitness(
-            list_utils.ExpandItemDelimiters(
-                list_utils.ItemsToStr(self.exclude_filter), ','))
+        # TODO(yuexima): remove include_filter and exclude_filter from class attributes
+        # after confirming all modules no longer have reference to them
+        self.include_filter = list_utils.ExpandItemDelimiters(
+            list_utils.ItemsToStr(self.include_filter), ',')
+        self.exclude_filter = list_utils.ExpandItemDelimiters(
+            list_utils.ItemsToStr(self.exclude_filter), ',')
+        exclude_over_include = self.getUserParam(
+            keys.ConfigKeys.KEY_EXCLUDE_OVER_INCLUDE, default_value=None)
+        self.test_module_name = self.getUserParam(keys.ConfigKeys.KEY_TESTBED_NAME,
+                                             default_value=None)
+        self.test_filter = filter_utils.Filter(
+            self.include_filter,
+            self.exclude_filter,
+            enable_regex=True,
+            exclude_over_include=exclude_over_include,
+            enable_negative_pattern=True,
+            enable_module_name_prefix_matching=True,
+            module_name=self.test_module_name)
+        self.test_filter.ExpandBitness()
+        logging.info('Test filter: %s' % self.test_filter)
 
         # TODO: get abi information differently for multi-device support.
         # Set other optional parameters
@@ -131,13 +152,21 @@ class BaseTestClass(object):
         self.log_uploading = log_uploading_utils.LogUploadingFeature(
             self.user_params, web=self.web)
         self._skip_all_testcases = False
+        self._bug_report_on_failure = self.getUserParam(
+            keys.ConfigKeys.IKEY_BUG_REPORT_ON_FAILURE, default_value=False)
 
     @property
     def android_devices(self):
-        """returns a list of AndroidDevice objects"""
-        if not hasattr(self, '_android_devices'):
-            self._android_devices = self.registerController(android_device)
-        return self._android_devices
+        """Returns a list of AndroidDevice objects"""
+        if not hasattr(self, _ANDROID_DEVICES):
+            setattr(self, _ANDROID_DEVICES,
+                    self.registerController(android_device))
+        return getattr(self, _ANDROID_DEVICES)
+
+    @android_devices.setter
+    def android_devices(self, devices):
+        """Set the list of AndroidDevice objects"""
+        setattr(self, _ANDROID_DEVICES, devices)
 
     def __enter__(self):
         return self
@@ -344,13 +373,14 @@ class BaseTestClass(object):
         called.
         """
         record = self._current_record
-        test_name = record.test_name
         logging.error(record.details)
         begin_time = logger.epochToLogLineTimestamp(record.begin_time)
-        logging.info(RESULT_LINE_TEMPLATE, test_name, record.result)
+        logging.info(RESULT_LINE_TEMPLATE, record.test_name, record.result)
         if self.web.enabled:
             self.web.SetTestResult(ReportMsg.TEST_CASE_RESULT_FAIL)
-        self.onFail(test_name, begin_time)
+        self.onFail(record.test_name, begin_time)
+        if self._bug_report_on_failure:
+            self.CatchBugReport('%s-%s' % (self.TAG, record.test_name))
 
     def onFail(self, test_name, begin_time):
         """A function that is executed upon a test case failure.
@@ -442,6 +472,8 @@ class BaseTestClass(object):
         if self.web.enabled:
             self.web.SetTestResult(ReportMsg.TEST_CASE_RESULT_EXCEPTION)
         self.onException(test_name, begin_time)
+        if self._bug_report_on_failure:
+            self.CatchBugReport('%s-%s' % (self.TAG, record.test_name))
 
     def onException(self, test_name, begin_time):
         """A function that is executed upon an unhandled exception from a test
@@ -492,30 +524,7 @@ class BaseTestClass(object):
         """
         self._current_record.addTable(name, rows)
 
-    def ExpandFilterBitness(self, input_list):
-        '''Expand filter items with bitness suffix.
-
-        If a filter item contains bitness suffix, only test name with that tag will be included
-        in output.
-        Otherwise, both 32bit and 64bit suffix will be paired to the test name in output
-        list.
-
-        Args:
-            input_list: list of string, the list to expand
-
-        Returns:
-            A list of string
-        '''
-        result = []
-        for item in input_list:
-            result.append(str(item))
-            if (not item.endswith(const.SUFFIX_32BIT) and
-                    not item.endswith(const.SUFFIX_64BIT)):
-                result.append("%s_%s" % (item, const.SUFFIX_32BIT))
-                result.append("%s_%s" % (item, const.SUFFIX_64BIT))
-        return list_utils.DeduplicateKeepOrder(result)
-
-    def filterOneTest(self, test_name):
+    def filterOneTest(self, test_name, test_filter=None):
         """Check test filters for a test name.
 
         The first layer of filter is user defined test filters:
@@ -538,26 +547,43 @@ class BaseTestClass(object):
 
         Args:
             test_name: string, name of a test
+            test_filter: Filter object, test filter
 
         Raises:
             signals.TestSilent if a test should not be executed
             signals.TestSkip if a test should be logged but not be executed
         """
-        if self.include_filter:
-            if test_name not in self.include_filter:
-                msg = "Test case '%s' not in include filter %s." % (
-                    test_name, self.include_filter)
-                logging.info(msg)
-                raise signals.TestSilent(msg)
-        elif test_name in self.exclude_filter:
-            msg = "Test case '%s' in exclude filter %s." % (
-                test_name, self.exclude_filter)
-            logging.info(msg)
-            raise signals.TestSilent(msg)
+        self._filterOneTestThroughTestFilter(test_name, test_filter)
+        self._filterOneTestThroughAbiBitness(test_name)
+
+    def _filterOneTestThroughTestFilter(self, test_name, test_filter=None):
+        """Check test filter for the given test name.
+
+        Args:
+            test_name: string, name of a test
+
+        Raises:
+            signals.TestSilent if a test should not be executed
+            signals.TestSkip if a test should be logged but not be executed
+        """
+        if not test_filter:
+            test_filter = self.test_filter
+
+        if not test_filter.Filter(test_name):
+            raise signals.TestSilent("Test case '%s' did not pass filters.")
 
         if self._skip_all_testcases:
             raise signals.TestSkip("All test cases skipped.")
 
+    def _filterOneTestThroughAbiBitness(self, test_name):
+        """Check test filter for the given test name.
+
+        Args:
+            test_name: string, name of a test
+
+        Raises:
+            signals.TestSilent if a test should not be executed
+        """
         asserts.skipIf(
             self.abi_bitness and
             ((self.skip_on_32bit_abi is True) and self.abi_bitness == "32") or
@@ -874,3 +900,23 @@ class BaseTestClass(object):
         This function should clean up objects initialized in the constructor by
         user.
         """
+
+    def CatchBugReport(self, prefix=''):
+        """Get device bugreport through adb command.
+
+        Args:
+            prefix: string, file name prefix. Usually in format of
+                    <test_module>-<test_case>
+        """
+        if prefix:
+            prefix = re.sub('[^\w\-_\. ]', '_', prefix) + '_'
+
+        for i in range(len(self.android_devices)):
+            device = self.android_devices[i]
+            bug_report_file_name = prefix + _BUG_REPORT_FILE_PREFIX + str(
+                i) + _BUG_REPORT_FILE_EXTENSION
+            bug_report_file_path = os.path.join(logging.log_path,
+                                                bug_report_file_name)
+
+            logging.info('Catching bugreport %s' % bug_report_file_path)
+            device.adb.bugreport(bug_report_file_path)

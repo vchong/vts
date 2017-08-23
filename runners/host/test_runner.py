@@ -96,6 +96,9 @@ def runTestClass(test_class):
         except IndexError:
             logging.error("No valid config file found.")
             sys.exit(1)
+        except Exception as e:
+            logging.error("Unexpected exception")
+            logging.exception(e)
 
     test_identifiers = [(test_cls_name, None)]
 
@@ -121,6 +124,9 @@ def runTestClass(test_class):
             tr.runTestClass(test_class, None)
         except KeyboardInterrupt as e:
             logging.exception("Aborted by timeout or ctrl+C: %s", e)
+        except Exception as e:
+            logging.error("Unexpected exception")
+            logging.exception(e)
         finally:
             sig_timer.cancel()
             tr.stop()
@@ -426,6 +432,9 @@ class TestRunner(object):
                         ("Abort all subsequent test classes. Reason: "
                          "%s"), e)
                     raise
+        except Exception as e:
+            logging.error("Unexpected exception")
+            logging.exception(e)
         finally:
             self.unregisterControllers()
 

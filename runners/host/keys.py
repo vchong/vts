@@ -34,6 +34,7 @@ class ConfigKeys(object):
     # Keys in test suite
     KEY_INCLUDE_FILTER = "include_filter"
     KEY_EXCLUDE_FILTER = "exclude_filter"
+    KEY_EXCLUDE_OVER_INCLUDE = "exclude_over_include"
 
     # Keys for binary tests
     IKEY_BINARY_TEST_SOURCE = "binary_test_source"
@@ -59,6 +60,8 @@ class ConfigKeys(object):
 
     IKEY_BUILD = "build"
     IKEY_DATA_FILE_PATH = "data_file_path"
+
+    IKEY_BUG_REPORT_ON_FAILURE = "bug_report_on_failure"
 
     # sub fields of test_bed
     IKEY_ANDROID_DEVICE = "AndroidDevice"

@@ -80,7 +80,7 @@ class GtestBinaryTest(binary_test.BinaryTest):
         profiling_library_path = self.profiling_library_path[
             tag] if tag in self.profiling_library_path else None
 
-        args += " --gtest_list_tests"
+        gtest_list_args = args + " --gtest_list_tests"
         list_test_case = binary_test_case.BinaryTestCase(
             'gtest_list_tests',
             path,
@@ -91,12 +91,14 @@ class GtestBinaryTest(binary_test.BinaryTest):
             ld_library_path,
             profiling_library_path,
             envp=envp,
-            args=args)
+            args=gtest_list_args)
         cmd = ['chmod 755 %s' % path, list_test_case.GetRunCommand()]
         cmd_results = self.shell.Execute(cmd)
         if any(cmd_results[const.EXIT_CODE]
                ):  # gtest binary doesn't exist or is corrupted
-            logging.error('Failed to list test cases from binary %s' % path)
+            logging.error(
+                'Failed to list test cases from %s. Command: %s, Result: %s.' %
+                (path, cmd, cmd_results))
 
         test_cases = []
 
@@ -109,7 +111,8 @@ class GtestBinaryTest(binary_test.BinaryTest):
                 test_name = line.split('#')[0].strip()
                 test_case = gtest_test_case.GtestTestCase(
                     test_suite, test_name, path, tag, self.PutTag,
-                    working_directory, ld_library_path, profiling_library_path)
+                    working_directory, ld_library_path, profiling_library_path,
+                    envp=envp, args=args)
                 logging.info('Gtest test case: %s' % test_case)
                 test_cases.append(test_case)
             else:  # Test suite name
@@ -176,7 +179,8 @@ class GtestBinaryTest(binary_test.BinaryTest):
                 for line in stdout.split('\n'):
                     logging.info(line)
 
-        asserts.assertFalse(command_results[const.EXIT_CODE][1],
+        asserts.assertFalse(
+            command_results[const.EXIT_CODE][1],
             'Failed to show Gtest XML output: %s' % command_results)
 
         root = xml.etree.ElementTree.fromstring(xml_str)

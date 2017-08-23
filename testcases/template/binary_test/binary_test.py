@@ -109,8 +109,10 @@ class BinaryTest(base_test.BaseTestClass):
             for token in self.binary_test_envp:
                 tag = ''
                 path = token
-                if self.TAG_DELIMITER in token:
-                    tag, path = token.split(self.TAG_DELIMITER)
+                split = token.find(self.TAG_DELIMITER)
+                if split >= 0:
+                    tag, arg = token[:split], token[
+                        split + len(self.TAG_DELIMITER):]
                 if tag in self.envp:
                     self.envp[tag] += ' %s' % path
                 else:
@@ -122,8 +124,10 @@ class BinaryTest(base_test.BaseTestClass):
             for token in self.binary_test_args:
                 tag = ''
                 arg = token
-                if self.TAG_DELIMITER in token:
-                    tag, arg = token.split(self.TAG_DELIMITER)
+                split = token.find(self.TAG_DELIMITER)
+                if split >= 0:
+                    tag, arg = token[:split], token[
+                        split + len(self.TAG_DELIMITER):]
                 if tag in self.args:
                     self.args[tag] += ' %s' % arg
                 else:
