@@ -28,7 +28,6 @@
   <option name="compatibility:include-filter" value="VtsHalBluetoothV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalCameraProviderV2_4TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalConfigstoreV1_0TargetProfiling" />
-  <option name="compatibility:include-filter" value="VtsHalConfigstoreV1_1TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalContexthubV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalDrmV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalGatekeeperV1_0TargetProfiling" />
