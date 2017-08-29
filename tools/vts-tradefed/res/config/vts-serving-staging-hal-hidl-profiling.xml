@@ -18,7 +18,6 @@
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts-star" />
   <option name="vts-plan-result:plan-name" value="vts-serving-staging-hal-hidl-profiling" />
-  <option name="vts-plan-result:default-type" value="staging" />
 
   <option name="compatibility:include-filter" value="VtsHalAudioV2_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalAudioEffectV2_0TargetProfiling" />
