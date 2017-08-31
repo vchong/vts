@@ -60,17 +60,21 @@ class VtsHalHidlTargetTestEnvBase : public ::testing::Environment {
   void init(int* argc, char** argv);
 
   /*
+   * Adds a hal sevice identified into registeredHalServices_.
+   */
+  template <class T>
+  void registerTestService() {
+    registerTestService(T::descriptor);
+  }
+
+  /*
    * Gets the service name for a hal instance. Returns empty string if the hal
    * instance is unkonwn (not in hal_instances_).
    */
-  string getServiceName(string instanceName);
-
-  /*
-   * Adds a hal sevice identified with the package_name, version and
-   * interface name into registeredHalServices_.
-   */
-  void registerTestService(string package, string version,
-                           string interfaceName);
+  template <class T>
+  string getServiceName() {
+    return getServiceName(T::descriptor);
+  }
 
  private:
   /*
@@ -89,6 +93,16 @@ class VtsHalHidlTargetTestEnvBase : public ::testing::Environment {
    * Prints all registered sercives.
    */
   void listRegisteredServices();
+
+  /*
+   * Internal method to get the service name for a hal instance.
+   */
+  string getServiceName(string instanceName);
+
+  /*
+   * Internal method to register a HAL sevice identified with the FQName.
+   */
+  void registerTestService(string FQName);
 
   /*
    * Internal method to add a hal service instance.

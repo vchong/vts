@@ -66,6 +66,7 @@
   <option name="compatibility:include-filter" value="VtsHalTetherOffloadConfigV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalTetherOffloadControlV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalThermalV1_0Target" />
+  <option name="compatibility:include-filter" value="VtsHalThermalV1_1Target" />
   <option name="compatibility:include-filter" value="VtsHalUsbV1_0Target" />
   <option name="compatibility:include-filter" value="VtsHalUsbV1_1Target" />
   <option name="compatibility:include-filter" value="VtsHalVibratorV1_0Target" />

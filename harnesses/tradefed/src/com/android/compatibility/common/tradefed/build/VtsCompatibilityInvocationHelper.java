@@ -15,7 +15,7 @@
  */
 package com.android.compatibility.common.tradefed.build;
 
-import com.android.compatibility.SuiteInfo;
+import com.android.tradefed.testtype.suite.TestSuiteInfo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,10 +33,12 @@ public class VtsCompatibilityInvocationHelper {
         if (mTestCasesDir == null) {
             String rootDirPath = null;
 
-            rootDirPath = System.getProperty(String.format("%s_ROOT", SuiteInfo.NAME), rootDirPath);
+            rootDirPath = System.getProperty(String.format("%s_ROOT",
+                    TestSuiteInfo.getInstance().getName()), rootDirPath);
             if (rootDirPath == null || rootDirPath.trim().equals("")) {
                 throw new IllegalArgumentException(
-                        String.format("Missing install path property %s_ROOT", SuiteInfo.NAME));
+                        String.format("Missing install path property %s_ROOT",
+                                TestSuiteInfo.getInstance().getName()));
             }
 
             File testCaseDir = new File(rootDirPath, "android-vts/testcases");
