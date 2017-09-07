@@ -13,11 +13,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<configuration description="VTS Serving Plan for HIDL HAL Systracing (Staging)">
+<configuration description="VTS Performance Plan with Systrac">
   <include name="vts-base" />
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts-star" />
-  <option name="vts-plan-result:plan-name" value="vts-serving-staging-hal-hidl-systrace" />
+  <option name="vts-plan-result:plan-name" value="vts-performance-systrace" />
 
   <option name="compatibility:include-filter" value="HwBinderBinderizeLatencySystraceTest" />
   <option name="compatibility:include-filter" value="HwBinderBinderizePerformanceSystraceTest" />

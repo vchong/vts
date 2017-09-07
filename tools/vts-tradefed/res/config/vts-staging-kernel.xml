@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2016 The Android Open Source Project
+<!-- Copyright (C) 2017 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,14 +13,14 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<configuration description="VTS Serving Plan for System (Staging)">
+<configuration description="VTS Serving Plan for Kernel Staging Tests">
   <include name="vts-base" />
   <option name="plan" value="vts" />
-  <option name="test-tag" value="vts-star" />
-  <option name="vts-plan-result:plan-name" value="vts-serving-staging-system" />
+  <option name="test-tag" value="vts" />
+  <option name="vts-plan-result:plan-name" value="vts-serving-staging-kernel" />
 
-  <option name="compatibility:include-filter" value="CameraITSTest" />
-  <option name="compatibility:include-filter" value="MemorySystemStressTest" />
-  <option name="compatibility:include-filter" value="VtsAppCameraStressTest" />
+  <option name="compatibility:include-filter" value="SecurityPoCKernelTestStaging" />
+  <option name="compatibility:include-filter" value="VtsKernelLinuxKselftestStaging" />
+  <option name="compatibility:include-filter" value="VtsKernelLtpStaging" />
 
 </configuration>

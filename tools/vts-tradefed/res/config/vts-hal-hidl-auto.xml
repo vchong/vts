@@ -13,15 +13,15 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<configuration description="VTS Serving Plan for HIDL HALs - TV/x86 (Staging)">
-  <include name="vts-base" />
-  <option name="plan" value="vts" />
-  <option name="test-tag" value="vts" />
-  <option name="vts-plan-result:plan-name" value="vts-serving-staging-hal-hidl-tv" />
+<configuration description="VTS Serving Plan for HIDL HALs - Auto">
+    <include name="vts-base" />
+    <option name="plan" value="vts" />
+    <option name="test-tag" value="vts" />
+    <option name="vts-plan-result:plan-name" value="vts-hal-hidl-auto" />
 
-  <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:gtest-batch-mode:true" />
-  <option name="compatibility:include-filter" value="VtsHalTvCecV1_0Host" />
-  <option name="compatibility:include-filter" value="VtsHalTvInputV1_0Host" />
-  <option name="compatibility:include-filter" value="VtsHalTvInputV1_0Target" />
+    <option name="compatibility:include-filter" value="VtsHalBroadcastradioV1_1TargetTest" />
+    <option name="compatibility:include-filter" value="VtsHalEvsV1_0Target" />
+    <option name="compatibility:include-filter" value="VtsHalAutomotiveVehicleV2_0Host" />
+    <option name="compatibility:include-filter" value="VtsHalAutomotiveVehicleV2_1Host" />
 
 </configuration>

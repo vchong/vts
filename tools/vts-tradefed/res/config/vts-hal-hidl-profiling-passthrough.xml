@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) The Android Open Source Project
+<!-- Copyright (C) 2017 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,12 +13,15 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<configuration description="VTS Serving Plan for HIDL HAL Profiling (Staging)">
+<configuration description="VTS HIDL HAL Profiling Plan in passthrough mode">
   <include name="vts-base" />
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts-star" />
-  <option name="vts-plan-result:plan-name" value="vts-serving-staging-hal-hidl-profiling" />
+  <option name="vts-plan-result:plan-name" value="vts-hal-hidl-profiling-passthrough" />
 
+  <!--  Set passthrough-mode for all tests -->
+  <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:passthrough-mode:true" />
+  <!--  Include all profiling tests -->
   <option name="compatibility:include-filter" value="VtsHalAudioV2_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalAudioEffectV2_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalBiometricsFingerprintV2_1TargetProfiling" />
@@ -33,7 +36,6 @@
   <option name="compatibility:include-filter" value="VtsHalGnssV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalGraphicsComposerV2_1TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalGraphicsMapperV2_0TargetProfiling" />
-  <option name="compatibility:include-filter" value="VtsHalHealthV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalIrV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalKeymasterV3_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalLightV2_0TargetProfiling" />
@@ -41,8 +43,6 @@
   <option name="compatibility:include-filter" value="VtsHalNeuralnetworksV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0HostProfiling" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0TargetProfiling" />
-  <option name="compatibility:include-filter" value="VtsHalOemHookV1_0Host" />
-  <option name="compatibility:include-filter" value="VtsHalOemLockV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalPowerV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalPowerV1_1TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalRadioV1_0TargetProfiling" />
@@ -55,10 +55,8 @@
   <option name="compatibility:include-filter" value="VtsHalVibratorV1_0HostProfiling" />
   <option name="compatibility:include-filter" value="VtsHalVibratorV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalVrV1_0TargetProfiling" />
-  <option name="compatibility:include-filter" value="VtsHalWeaverV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiV1_1TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiNanV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalWifiSupplicantV1_0TargetProfiling" />
-
 </configuration>

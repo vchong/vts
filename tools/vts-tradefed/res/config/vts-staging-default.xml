@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2017 The Android Open Source Project
+<!-- Copyright (C) 2016 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,15 +13,19 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<configuration description="VTS Serving Plan for HIDL HALs - Auto">
+<configuration description="VTS Serving Plan for Staging(new) tests">
+
     <include name="vts-base" />
     <option name="plan" value="vts" />
     <option name="test-tag" value="vts" />
-    <option name="vts-plan-result:plan-name" value="vts-serving-staging-hal-hidl-auto" />
+    <option name="vts-plan-result:plan-name" value="vts-staging-default" />
 
-    <option name="compatibility:include-filter" value="VtsHalBroadcastradioV1_1TargetTest" />
-    <option name="compatibility:include-filter" value="VtsHalEvsV1_0Target" />
-    <option name="compatibility:include-filter" value="VtsHalAutomotiveVehicleV2_0Host" />
-    <option name="compatibility:include-filter" value="VtsHalAutomotiveVehicleV2_1Host" />
+    <!-- for System -->
+    <option name="compatibility:include-filter" value="MemorySystemStressTest" />
+    <option name="compatibility:include-filter" value="VtsAppCameraStressTest" />
+
+    <!-- for VNDK -->
+    <option name="compatibility:include-filter" value="VtsVndkAbi" />
+    <option name="compatibility:include-filter" value="VtsVndkOpenLibraries" />
 
 </configuration>
