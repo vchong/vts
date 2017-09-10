@@ -12,10 +12,9 @@ and partners.
 
  * __vts__: For all default VTS tests.
  * __vts-fuzz__: For all default VTS fuzz tests.
- * __vts-hidl-hal__: For all default VTS HIDL (Hardware Interface Definition Language) HAL (hardware abstraction layer) module tests.
- * __vts-hal-hidl-profiling__: For all default VTS HIDL HAL performance
-    profiling tests.
- * __vts-hal-hild-replay__: For all default VTS HIDL HAL replay tests.
+ * __vts-hal__: For all default VTS HAL (hardware abstraction layer) module tests.
+ * __vts-hal-profiling__: For all default VTS HAL performance profiling tests.
+ * __vts-hal-replay__: For all default VTS HAL replay tests.
  * __vts-kernel__: For all default VTS kernel tests.
  * __vts-library__: For all default VTS library tests.
  * __vts-performance__: For all default VTS performance tests
@@ -34,8 +33,8 @@ The following plans are also available for development purposes.
  * __vts-codelab__: For VTS codelab.
  * __vts-codelab-multi-device__: For VTS codelab of multi-device testing.
  * __vts-gce__: For VTS tests which can be run on Google Compute Engine (GCE)
- * __vts-hal-hidl-auto__: For VTS automotive vehicle HAL test.
- * __vts-hal-hidl-tv__: For VTS tv HAL test.
+ * __vts-hal-auto__: For VTS automotive vehicle HAL test.
+ * __vts-hal-tv__: For VTS tv HAL test.
  * __vts-host__: For VTS host-driven tests.
  * __vts-performance-systrace__: For VTS performance tests with systrace
    enabled.

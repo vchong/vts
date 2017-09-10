@@ -13,11 +13,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<configuration description="VTS HIDL HAL Profiling Plan in passthrough mode">
+<configuration description="VTS HAL Profiling Plan in passthrough mode">
   <include name="vts-base" />
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts-star" />
-  <option name="vts-plan-result:plan-name" value="vts-hal-hidl-profiling-passthrough" />
+  <option name="vts-plan-result:plan-name" value="vts-hal-profiling-passthrough" />
 
   <!--  Set passthrough-mode for all tests -->
   <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:passthrough-mode:true" />
