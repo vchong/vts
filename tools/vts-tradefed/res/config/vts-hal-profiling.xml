@@ -13,11 +13,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<configuration description="VTS HIDL HAL Profiling Plan">
+<configuration description="VTS HAL Profiling Plan">
   <include name="vts-base" />
   <option name="plan" value="vts" />
   <option name="test-tag" value="vts-star" />
-  <option name="vts-plan-result:plan-name" value="vts-hal-hidl-profiling" />
+  <option name="vts-plan-result:plan-name" value="vts-hal-profiling" />
 
   <option name="compatibility:include-filter" value="VtsHalAudioV2_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalAudioEffectV2_0TargetProfiling" />

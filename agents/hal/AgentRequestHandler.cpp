@@ -312,28 +312,12 @@ bool AgentRequestHandler::ReadSpecification(
     return false;
   }
 
-  const char* result = client->ReadSpecification(
-      command_message.service_name(),
-      command_message.target_class(),
-      command_message.target_type(),
-      command_message.target_version() / 100.0,
+  const string& result = client->ReadSpecification(
+      command_message.service_name(), command_message.target_class(),
+      command_message.target_type(), command_message.target_version() / 100.0f,
       command_message.target_package());
 
-  AndroidSystemControlResponseMessage response_msg;
-  if (result != NULL && strlen(result) > 0) {
-    cout << "[agent] Call: success" << endl;
-    response_msg.set_response_code(SUCCESS);
-    response_msg.set_result(result);
-  } else {
-    cout << "[agent] Call: fail" << endl;
-    response_msg.set_response_code(FAIL);
-    response_msg.set_reason("Failed to call the api.");
-  }
-  bool succ = VtsSocketSendMessage(response_msg);
-#ifndef VTS_AGENT_DRIVER_COMM_BINDER  // socket
-  free((void*)result);
-#endif
-  return succ;
+  return SendApiResult("ReadSpecification", result);
 }
 
 bool AgentRequestHandler::ListApis() {
@@ -349,25 +333,7 @@ bool AgentRequestHandler::ListApis() {
 #endif
     return false;
   }
-  const char* result = client->GetFunctions();
-  if (result != NULL) {
-    cout << "GetFunctions: len " << strlen(result) << endl;
-  }
-
-  AndroidSystemControlResponseMessage response_msg;
-  if (result != NULL && strlen(result) > 0) {
-    response_msg.set_response_code(SUCCESS);
-    response_msg.set_spec(string(result));
-  } else {
-    response_msg.set_response_code(FAIL);
-    response_msg.set_reason("Failed to get the functions.");
-  }
-
-  bool succ = VtsSocketSendMessage(response_msg);
-#ifndef VTS_AGENT_DRIVER_COMM_BINDER  // socket
-  free((void*)result);
-#endif
-  return succ;
+  return SendApiResult("GetAttribute", "", client->GetFunctions());
 }
 
 bool AgentRequestHandler::CallApi(const string& call_payload,
@@ -385,22 +351,7 @@ bool AgentRequestHandler::CallApi(const string& call_payload,
     return false;
   }
 
-  const char* result = client->Call(call_payload, uid);
-  AndroidSystemControlResponseMessage response_msg;
-  if (result != NULL && strlen(result) > 0) {
-    cout << "[agent] Call: success" << endl;
-    response_msg.set_response_code(SUCCESS);
-    response_msg.set_result(result);
-  } else {
-    cout << "[agent] Call: fail" << endl;
-    response_msg.set_response_code(FAIL);
-    response_msg.set_reason("Failed to call the api.");
-  }
-  bool succ = VtsSocketSendMessage(response_msg);
-#ifndef VTS_AGENT_DRIVER_COMM_BINDER  // socket
-  free((void*)result);
-#endif
-  return succ;
+  return SendApiResult("Call", client->Call(call_payload, uid));
 }
 
 bool AgentRequestHandler::GetAttribute(const string& payload) {
@@ -417,23 +368,28 @@ bool AgentRequestHandler::GetAttribute(const string& payload) {
     return false;
   }
 
-  const char* result = client->GetAttribute(payload);
+  return SendApiResult("GetAttribute", client->GetAttribute(payload));
+}
 
+bool AgentRequestHandler::SendApiResult(const string& func_name,
+                                        const string& result,
+                                        const string& spec) {
   AndroidSystemControlResponseMessage response_msg;
-  if (result != NULL && strlen(result) > 0) {
+  if (result.size() > 0 || spec.size() > 0) {
     cout << "[agent] Call: success" << endl;
     response_msg.set_response_code(SUCCESS);
-    response_msg.set_result(result);
+    if (result.size() > 0) {
+      response_msg.set_result(result);
+    }
+    if (spec.size() > 0) {
+      response_msg.set_spec(spec);
+    }
   } else {
     cout << "[agent] Call: fail" << endl;
     response_msg.set_response_code(FAIL);
-    response_msg.set_reason("Failed to call the api.");
+    response_msg.set_reason("Failed to call api function: " + func_name);
   }
-  bool succ = VtsSocketSendMessage(response_msg);
-#ifndef VTS_AGENT_DRIVER_COMM_BINDER  // socket
-  free((void*)result);
-#endif
-  return succ;
+  return VtsSocketSendMessage(response_msg);
 }
 
 bool AgentRequestHandler::DefaultResponse() {
@@ -457,23 +413,21 @@ bool AgentRequestHandler::ExecuteShellCommand(
     return false;
   }
 
-  VtsDriverControlResponseMessage* result_message = client->ExecuteShellCommand(
-      command_message.shell_command());
+  auto result_message =
+      client->ExecuteShellCommand(command_message.shell_command());
 
   AndroidSystemControlResponseMessage response_msg;
 
-  if (result_message == NULL) {
+  if (result_message) {
+    CreateSystemControlResponseFromDriverControlResponse(*result_message,
+                                                         &response_msg);
+  } else {
     cout << "ExecuteShellCommand: failed to call the api" << endl;
     response_msg.set_response_code(FAIL);
     response_msg.set_reason("Failed to call the api.");
-  } else {
-    CreateSystemControlResponseFromDriverControlResponse(
-        *result_message, &response_msg);
-    delete(result_message);
   }
 
-  bool succ = VtsSocketSendMessage(response_msg);
-  return succ;
+  return VtsSocketSendMessage(response_msg);
 }
 
 void AgentRequestHandler::CreateSystemControlResponseFromDriverControlResponse(

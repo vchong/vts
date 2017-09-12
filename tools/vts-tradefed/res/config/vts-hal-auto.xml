@@ -13,14 +13,15 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<configuration description="VTS Serving Plan for HIDL HAL Profiling - TV/x86">
-  <include name="vts-base" />
-  <option name="plan" value="vts" />
-  <option name="test-tag" value="vts-star" />
-  <option name="vts-plan-result:plan-name" value="vts-hal-hidl-profiling-tv" />
+<configuration description="VTS Serving Plan for HALs - Auto">
+    <include name="vts-base" />
+    <option name="plan" value="vts" />
+    <option name="test-tag" value="vts" />
+    <option name="vts-plan-result:plan-name" value="vts-hal-auto" />
 
-  <option name="compatibility:include-filter" value="VtsHalTvCecV1_0HostProfiling" />
-  <option name="compatibility:include-filter" value="VtsHalTvInputV1_0HostProfiling" />
-  <option name="compatibility:include-filter" value="VtsHalTvInputV1_0TargetProfiling" />
+    <option name="compatibility:include-filter" value="VtsHalBroadcastradioV1_1TargetTest" />
+    <option name="compatibility:include-filter" value="VtsHalEvsV1_0Target" />
+    <option name="compatibility:include-filter" value="VtsHalAutomotiveVehicleV2_0Host" />
+    <option name="compatibility:include-filter" value="VtsHalAutomotiveVehicleV2_1Host" />
 
 </configuration>

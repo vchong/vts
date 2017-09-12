@@ -100,9 +100,9 @@ status_t BnVtsFuzzer::onTransact(uint32_t code, const Parcel& data,
     }
     case CALL: {
       const char* arg = data.readCString();
-      const char* result = Call(arg);
+      const string& result = Call(arg);
 
-      ALOGD("BnVtsFuzzer::%s call(%s) = %i", __FUNCTION__, arg, result);
+      ALOGD("BnVtsFuzzer::%s call(%s) = %i", __FUNCTION__, arg, result.c_str());
       if (reply == NULL) {
         ALOGE("reply == NULL");
         abort();
@@ -110,7 +110,7 @@ status_t BnVtsFuzzer::onTransact(uint32_t code, const Parcel& data,
 #ifdef VTS_FUZZER_BINDER_DEBUG
       alog << reply << endl;
 #endif
-      reply->writeCString(result);
+      reply->writeCString(result.c_str());
       break;
     }
     case GET_FUNCTIONS: {
@@ -159,12 +159,11 @@ class VtsFuzzerServer : public BnVtsFuzzer {
     return 0;
   }
 
-  const char* Call(const string& arg) {
+  string Call(const string& arg) {
     printf("VtsFuzzerServer::Call(%s)\n", arg.c_str());
     FunctionCallMessage* call_msg = new FunctionCallMessage();
     google::protobuf::TextFormat::MergeFromString(arg, call_msg);
-    const string& result = driver_manager_->CallFunction(call_msg);
-    return result.c_str();
+    return driver_manager_->CallFunction(call_msg);
   }
 
   const char* GetFunctions() {
