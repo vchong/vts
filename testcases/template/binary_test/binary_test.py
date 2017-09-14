@@ -182,27 +182,29 @@ class BinaryTest(base_test.BaseTestClass):
 
         self.testcases = []
         self.tags = set()
-        self.CreateTestCases()
-        cmd = list(
-            set('chmod 755 %s' % test_case.path
-                for test_case in self.testcases))
-        cmd_results = self.shell.Execute(cmd)
-        if any(cmd_results[const.EXIT_CODE]):
-            logging.error('Failed to set permission to some of the binaries:\n'
-                          '%s\n%s', cmd, cmd_results)
+        if self.CreateTestCases():
+            cmd = list(
+                set('chmod 755 %s' % test_case.path
+                    for test_case in self.testcases))
+            cmd_results = self.shell.Execute(cmd)
+            if any(cmd_results[const.EXIT_CODE]):
+                logging.error('Failed to set permission to some of the binaries:\n'
+                              '%s\n%s', cmd, cmd_results)
 
-        stop_requested = False
+            stop_requested = False
 
-        if getattr(self, keys.ConfigKeys.IKEY_BINARY_TEST_DISABLE_FRAMEWORK,
-                   False):
-            # Stop Android runtime to reduce interference.
-            self._dut.stop()
-            stop_requested = True
+            if getattr(self, keys.ConfigKeys.IKEY_BINARY_TEST_DISABLE_FRAMEWORK,
+                       False):
+                # Stop Android runtime to reduce interference.
+                self._dut.stop()
+                stop_requested = True
 
-        if getattr(self, keys.ConfigKeys.IKEY_BINARY_TEST_STOP_NATIVE_SERVERS,
-                   False):
-            # Stops all (properly configured) native servers.
-            results = self._dut.setProp(self.SYSPROP_VTS_NATIVE_SERVER, "1")
+            if getattr(self, keys.ConfigKeys.IKEY_BINARY_TEST_STOP_NATIVE_SERVERS,
+                       False):
+                # Stops all (properly configured) native servers.
+                results = self._dut.setProp(self.SYSPROP_VTS_NATIVE_SERVER, "1")
+                stop_requested = True
+        else:
             stop_requested = True
 
         if stop_requested:
@@ -255,6 +257,9 @@ class BinaryTest(base_test.BaseTestClass):
                     self.testcases.extend(testcase)
                 else:
                     self.testcases.append(testcase)
+
+        if type(self.testcases) is not list or len(self.testcases) == 0:
+            asserts.fail("No test case is found or generated.")
 
     def PutTag(self, name, tag):
         '''Put tag on name and return the resulting string.
