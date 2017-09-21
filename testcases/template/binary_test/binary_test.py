@@ -196,12 +196,13 @@ class BinaryTest(base_test.BaseTestClass):
         if getattr(self, keys.ConfigKeys.IKEY_BINARY_TEST_DISABLE_FRAMEWORK,
                    False):
             # Stop Android runtime to reduce interference.
+            logging.debug("Stops the Android framework.")
             self._dut.stop()
             stop_requested = True
 
         if getattr(self, keys.ConfigKeys.IKEY_BINARY_TEST_STOP_NATIVE_SERVERS,
                    False):
-            # Stops all (properly configured) native servers.
+            logging.debug("Stops all properly configured native servers.")
             results = self._dut.setProp(self.SYSPROP_VTS_NATIVE_SERVER, "1")
             stop_requested = True
 
@@ -256,6 +257,9 @@ class BinaryTest(base_test.BaseTestClass):
                 else:
                     self.testcases.append(testcase)
 
+        if type(self.testcases) is not list or len(self.testcases) == 0:
+            asserts.fail("No test case is found or generated.")
+
     def PutTag(self, name, tag):
         '''Put tag on name and return the resulting string.
 
@@ -297,12 +301,13 @@ class BinaryTest(base_test.BaseTestClass):
         '''Perform clean-up tasks'''
         if getattr(self, keys.ConfigKeys.IKEY_BINARY_TEST_STOP_NATIVE_SERVERS,
                    False):
-            # Restarts all (properly configured) native servers.
+            logging.debug("Restarts all properly configured native servers.")
             results = self._dut.setProp(self.SYSPROP_VTS_NATIVE_SERVER, "0")
 
         # Restart Android runtime.
         if getattr(self, keys.ConfigKeys.IKEY_BINARY_TEST_DISABLE_FRAMEWORK,
                    False):
+            logging.debug("Starts the Android framework.")
             self._dut.start()
 
         # Retrieve coverage if applicable

@@ -60,7 +60,7 @@ class GtestBinaryTest(binary_test.BinaryTest):
             tag: string, a tag that will be appended to the end of test name
 
         Returns:
-            A list of GtestTestCase objects.
+            A list of GtestTestCase objects on success; an empty list otherwise.
             In non-batch mode, each object respresents a test case in the
             gtest binary located at the provided path. Usually there are more
             than one object returned.
@@ -94,13 +94,13 @@ class GtestBinaryTest(binary_test.BinaryTest):
             args=gtest_list_args)
         cmd = ['chmod 755 %s' % path, list_test_case.GetRunCommand()]
         cmd_results = self.shell.Execute(cmd)
+        test_cases = []
         if any(cmd_results[const.EXIT_CODE]
                ):  # gtest binary doesn't exist or is corrupted
             logging.error(
                 'Failed to list test cases from %s. Command: %s, Result: %s.' %
                 (path, cmd, cmd_results))
-
-        test_cases = []
+            return test_cases
 
         test_suite = ''
         for line in cmd_results[const.STDOUT][1].split('\n'):

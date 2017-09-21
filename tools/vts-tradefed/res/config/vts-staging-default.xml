@@ -28,4 +28,7 @@
     <option name="compatibility:include-filter" value="VtsVndkAbi" />
     <option name="compatibility:include-filter" value="VtsVndkOpenLibraries" />
 
+    <!-- IOmxStore -->
+    <option name="compatibility:include-filter" value="VtsHalMediaOmxStoreV1_0Host" />
+
 </configuration>
