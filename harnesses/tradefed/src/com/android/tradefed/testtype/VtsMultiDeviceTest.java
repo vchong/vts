@@ -184,6 +184,12 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
                     + "this can override precondition-lshal option.")
     private String mPreconditionVintf = null;
 
+    @Option(name = "precondition-vintf-override",
+            description = "If precondition-lshal is present and precondition-vintf is not, "
+                    + "set precondition-vintf to the value of precondition-lshal. "
+                    + "The test runner will find the HAL in manifest.xml instead of lshal.")
+    private boolean mPreconditionVintfOverride = false;
+
     @Option(name = "use-stdout-logs",
             description = "Flag that determines whether to use std:out to parse output.")
     private boolean mUseStdoutLogs = false;
@@ -786,6 +792,16 @@ IRuntimeHintProvider, ITestCollector, IBuildReceiver, IAbiReceiver {
         if (mPreconditionVintf != null) {
             jsonObject.put(PRECONDITION_VINTF, mPreconditionVintf);
             CLog.i("Added %s to the Json object", PRECONDITION_VINTF);
+        }
+
+        if (mPreconditionVintfOverride && mPreconditionLshal != null) {
+            if (mPreconditionVintf == null) {
+                jsonObject.put(PRECONDITION_VINTF, mPreconditionLshal);
+                CLog.i("Added %s to the Json object, overriding %s", PRECONDITION_VINTF,
+                        PRECONDITION_LSHAL);
+            } else {
+                CLog.w("Ignored precondition-vintf-override as precondition-vintf is present");
+            }
         }
 
         if (!mBinaryTestProfilingLibraryPath.isEmpty()) {

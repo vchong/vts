@@ -19,6 +19,8 @@
   <option name="test-tag" value="vts" />
   <option name="vts-plan-result:plan-name" value="vts" />
 
+  <option name="compatibility:test-arg" value="com.android.tradefed.testtype.VtsMultiDeviceTest:precondition-vintf-override:true" />
+
   <!-- For Treble-specific validations -->
   <option name="compatibility:include-filter" value="VtsTreblePlatformVersionTest" />
   <option name="compatibility:include-filter" value="VtsTrebleVintfTest" />
