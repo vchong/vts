@@ -36,106 +36,109 @@ namespace vts {
 
 const char* const HalHidlCodeGen::kInstanceVariableName = "hw_binder_proxy_";
 
-void HalHidlCodeGen::GenerateCppBodyCallbackFunction(Formatter& out,
-    const ComponentSpecificationMessage& message,
+void HalHidlCodeGen::GenerateCppBodyInterfaceImpl(
+    Formatter& out, const ComponentSpecificationMessage& message,
     const string& /*fuzzer_extended_class_name*/) {
-  if (endsWith(message.component_name(), "Callback")) {
-    out << "\n";
-    FQName component_fq_name = GetFQName(message);
-    for (const auto& api : message.interface().api()) {
-      // Generate return statement.
-      if (CanElideCallback(api)) {
-        out << "::android::hardware::Return<"
-            << GetCppVariableType(api.return_type_hidl(0), &message) << "> ";
-      } else {
-        out << "::android::hardware::Return<void> ";
-      }
-      // Generate function call.
-      string full_method_name = "Vts_" + component_fq_name.tokenName() + "::"
-          + api.name();
-      out << full_method_name << "(\n";
-      out.indent();
-      for (int index = 0; index < api.arg_size(); index++) {
-        const auto& arg = api.arg(index);
-        if (!isConstType(arg.type())) {
-          out << GetCppVariableType(arg, &message);
-        } else {
-          out << GetCppVariableType(arg, &message, true);
-        }
-        out << " arg" << index << " __attribute__((__unused__))";
-        if (index != (api.arg_size() - 1))
-          out << ",\n";
-      }
-      if (api.return_type_hidl_size() == 0 || CanElideCallback(api)) {
-        out << ") {" << "\n";
-      } else {  // handle the case of callbacks.
-        out << (api.arg_size() != 0 ? ", " : "");
-        out << "std::function<void(";
-        for (int index = 0; index < api.return_type_hidl_size(); index++) {
-          const auto& return_val = api.return_type_hidl(index);
-          if (!isConstType(return_val.type())) {
-            out << GetCppVariableType(return_val, &message);
-          } else {
-            out << GetCppVariableType(return_val, &message, true);
-          }
-          out << " arg" << index;
-          if (index != (api.return_type_hidl_size() - 1))
-            out << ",";
-        }
-        out << ")>) {" << "\n";
-      }
-      out << "cout << \"" << api.name() << " called\" << endl;" << "\n";
-      out << "AndroidSystemCallbackRequestMessage callback_message;" << "\n";
-      out << "callback_message.set_id(GetCallbackID(\"" << api.name() << "\"));" << "\n";
-      out << "callback_message.set_name(\"" << full_method_name << "\");" << "\n";
-      for (int index = 0; index < api.arg_size(); index++) {
-        out << "VariableSpecificationMessage* var_msg" << index << " = "
-            << "callback_message.add_arg();\n";
-        GenerateSetResultCodeForTypedVariable(out, api.arg(index),
-                                              "var_msg" + std::to_string(index),
-                                              "arg" + std::to_string(index));
-      }
-      out << "RpcCallToAgent(callback_message, callback_socket_name_);" << "\n";
-
-      // TODO(zhuoyao): return the received results from host.
-      if (CanElideCallback(api)) {
-        const auto& return_val = api.return_type_hidl(0);
-        const auto& type = return_val.type();
-        if (type == TYPE_SCALAR) {
-          out << "return static_cast<"
-              << GetCppVariableType(return_val.scalar_type()) << ">(0);\n";
-        } else if (type == TYPE_ENUM || type == TYPE_MASK) {
-          if (return_val.has_predefined_type()) {
-            std::string predefined_type_name = return_val.predefined_type();
-            ReplaceSubString(predefined_type_name, "::", "__");
-            out << "return Random" << predefined_type_name << "();\n";
-          } else {
-            cerr << __func__ << " ENUM doesn't have predefined type" << endl;
-            exit(-1);
-          }
-        } else {
-          out << "return nullptr;\n";
-        }
-      } else {
-        out << "return ::android::hardware::Void();\n";
-      }
-      out.unindent();
-      out << "}" << "\n";
-      out << "\n";
+  out << "\n";
+  FQName component_fq_name = GetFQName(message);
+  for (const auto& api : message.interface().api()) {
+    // Generate return statement.
+    if (CanElideCallback(api)) {
+      out << "::android::hardware::Return<"
+          << GetCppVariableType(api.return_type_hidl(0), &message) << "> ";
+    } else {
+      out << "::android::hardware::Return<void> ";
     }
-
-    string component_name_token = "Vts_" + component_fq_name.tokenName();
-    out << "sp<" << component_fq_name.cppName() << "> VtsFuzzerCreate"
-        << component_name_token << "(const string& callback_socket_name)";
-    out << " {" << "\n";
+    // Generate function call.
+    string full_method_name =
+        "Vts_" + component_fq_name.tokenName() + "::" + api.name();
+    out << full_method_name << "(\n";
     out.indent();
-    out << "static sp<" << component_fq_name.cppName() << "> result;\n";
-    out << "result = new " << component_name_token << "(callback_socket_name);"
-        << "\n";
-    out << "return result;\n";
+    for (int index = 0; index < api.arg_size(); index++) {
+      const auto& arg = api.arg(index);
+      if (!isConstType(arg.type())) {
+        out << GetCppVariableType(arg, &message);
+      } else {
+        out << GetCppVariableType(arg, &message, true);
+      }
+      out << " arg" << index << " __attribute__((__unused__))";
+      if (index != (api.arg_size() - 1)) out << ",\n";
+    }
+    if (api.return_type_hidl_size() == 0 || CanElideCallback(api)) {
+      out << ") {\n";
+    } else {  // handle the case of callbacks.
+      out << (api.arg_size() != 0 ? ", " : "");
+      out << "std::function<void(";
+      for (int index = 0; index < api.return_type_hidl_size(); index++) {
+        const auto& return_val = api.return_type_hidl(index);
+        if (!isConstType(return_val.type())) {
+          out << GetCppVariableType(return_val, &message);
+        } else {
+          out << GetCppVariableType(return_val, &message, true);
+        }
+        out << " arg" << index;
+        if (index != (api.return_type_hidl_size() - 1)) {
+          out << ",";
+        }
+      }
+      out << ")>) {\n";
+    }
+    out << "cout << \"" << api.name() << " called\" << endl;\n";
+    out << "AndroidSystemCallbackRequestMessage callback_message;\n";
+    out << "callback_message.set_id(GetCallbackID(\"" << api.name()
+        << "\"));\n";
+    out << "callback_message.set_name(\"" << full_method_name << "\");\n";
+    for (int index = 0; index < api.arg_size(); index++) {
+      out << "VariableSpecificationMessage* var_msg" << index << " = "
+          << "callback_message.add_arg();\n";
+      GenerateSetResultCodeForTypedVariable(out, api.arg(index),
+                                            "var_msg" + std::to_string(index),
+                                            "arg" + std::to_string(index));
+    }
+    out << "RpcCallToAgent(callback_message, callback_socket_name_);\n";
+
+    // TODO(zhuoyao): return the received results from host.
+    if (CanElideCallback(api)) {
+      const auto& return_val = api.return_type_hidl(0);
+      const auto& type = return_val.type();
+      if (type == TYPE_SCALAR) {
+        out << "return static_cast<"
+            << GetCppVariableType(return_val.scalar_type()) << ">(0);\n";
+      } else if (type == TYPE_ENUM || type == TYPE_MASK) {
+        if (return_val.has_predefined_type()) {
+          std::string predefined_type_name = return_val.predefined_type();
+          ReplaceSubString(predefined_type_name, "::", "__");
+          if (type == TYPE_ENUM) {
+            out << "return static_cast< " << GetCppVariableType(return_val)
+                << ">(Random" << predefined_type_name << "());\n";
+          } else {
+            out << "return Random" << predefined_type_name << "();\n";
+          }
+        } else {
+          cerr << __func__ << " ENUM doesn't have predefined type" << endl;
+          exit(-1);
+        }
+      } else {
+        out << "return nullptr;\n";
+      }
+    } else {
+      out << "return ::android::hardware::Void();\n";
+    }
     out.unindent();
-    out << "}" << "\n" << "\n";
+    out << "}"
+        << "\n";
+    out << "\n";
   }
+
+  string component_name_token = "Vts_" + component_fq_name.tokenName();
+  out << "sp<" << component_fq_name.cppName() << "> VtsFuzzerCreate"
+      << component_name_token << "(const string& callback_socket_name) {\n";
+  out.indent();
+  out << "static sp<" << component_fq_name.cppName() << "> result;\n";
+  out << "result = new " << component_name_token << "(callback_socket_name);\n";
+  out << "return result;\n";
+  out.unindent();
+  out << "}\n\n";
 }
 
 void HalHidlCodeGen::GenerateScalarTypeInC(Formatter& out, const string& type) {
@@ -182,8 +185,7 @@ void HalHidlCodeGen::GenerateCppBodyFuzzFunction(
 void HalHidlCodeGen::GenerateDriverFunctionImpl(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
-  if (message.component_name() != "types"
-      && !endsWith(message.component_name(), "Callback")) {
+  if (message.component_name() != "types") {
     out << "bool " << fuzzer_extended_class_name << "::CallFunction("
         << "\n";
     out.indent();
@@ -365,8 +367,7 @@ void HalHidlCodeGen::GenerateSyncCallbackFunctionImpl(Formatter& out,
 void HalHidlCodeGen::GenerateCppBodyGetAttributeFunction(
     Formatter& out, const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
-  if (message.component_name() != "types" &&
-      !endsWith(message.component_name(), "Callback")) {
+  if (message.component_name() != "types") {
     out << "bool " << fuzzer_extended_class_name << "::GetAttribute(" << "\n";
     out.indent();
     out << "FunctionSpecificationMessage* /*func_msg*/,"
@@ -406,8 +407,7 @@ void HalHidlCodeGen::GenerateClassConstructionFunction(Formatter& out,
 void HalHidlCodeGen::GenerateHeaderGlobalFunctionDeclarations(Formatter& out,
     const ComponentSpecificationMessage& message,
     const bool print_extern_block) {
-  if (message.component_name() != "types"
-      && !endsWith(message.component_name(), "Callback")) {
+  if (message.component_name() != "types") {
     if (print_extern_block) {
       out << "extern \"C\" {" << "\n";
     }
@@ -428,8 +428,7 @@ void HalHidlCodeGen::GenerateHeaderGlobalFunctionDeclarations(Formatter& out,
 void HalHidlCodeGen::GenerateCppBodyGlobalFunctions(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name, const bool print_extern_block) {
-  if (message.component_name() != "types"
-      && !endsWith(message.component_name(), "Callback")) {
+  if (message.component_name() != "types") {
     if (print_extern_block) {
       out << "extern \"C\" {" << "\n";
     }
@@ -473,114 +472,98 @@ void HalHidlCodeGen::GenerateCppBodyGlobalFunctions(Formatter& out,
 void HalHidlCodeGen::GenerateClassHeader(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
-  if (message.component_name() != "types"
-      && !endsWith(message.component_name(), "Callback")) {
+  if (message.component_name() != "types") {
     for (const auto attribute : message.interface().attribute()) {
       GenerateAllFunctionDeclForAttribute(out, attribute);
     }
     DriverCodeGenBase::GenerateClassHeader(out, message,
                                            fuzzer_extended_class_name);
-  } else if (message.component_name() == "types") {
+  } else {
     for (const auto attribute : message.attribute()) {
       GenerateAllFunctionDeclForAttribute(out, attribute);
     };
-  } else if (endsWith(message.component_name(), "Callback")) {
-    for (const auto attribute : message.interface().attribute()) {
-      GenerateAllFunctionDeclForAttribute(out, attribute);
-    }
+  }
+}
 
-    out << "\n";
-    FQName component_fq_name = GetFQName(message);
-    string component_name_token = "Vts_" + component_fq_name.tokenName();;
-    out << "class " << component_name_token << " : public "
-        << component_fq_name.cppName() << ", public DriverCallbackBase {"
-        << "\n";
-    out << " public:" << "\n";
+void HalHidlCodeGen::GenerateHeaderInterfaceImpl(
+    Formatter& out, const ComponentSpecificationMessage& message) {
+  out << "\n";
+  FQName component_fq_name = GetFQName(message);
+  string component_name_token = "Vts_" + component_fq_name.tokenName();
+  out << "class " << component_name_token << " : public "
+      << component_fq_name.cppName() << ", public DriverCallbackBase {\n";
+  out << " public:\n";
+  out.indent();
+  out << component_name_token << "(const string& callback_socket_name)\n"
+      << "    : callback_socket_name_(callback_socket_name) {};\n\n";
+  out << "virtual ~" << component_name_token << "()"
+      << " = default;\n\n";
+  for (const auto& api : message.interface().api()) {
+    // Generate return statement.
+    if (CanElideCallback(api)) {
+      out << "::android::hardware::Return<"
+          << GetCppVariableType(api.return_type_hidl(0), &message) << "> ";
+    } else {
+      out << "::android::hardware::Return<void> ";
+    }
+    // Generate function call.
+    out << api.name() << "(\n";
     out.indent();
-    out << component_name_token << "(const string& callback_socket_name)\n"
-        << "    : callback_socket_name_(callback_socket_name) {};" << "\n";
-    out << "\n";
-    out << "virtual ~" << component_name_token << "()"
-        << " = default;" << "\n";
-    out << "\n";
-    for (const auto& api : message.interface().api()) {
-      // Generate return statement.
-      if (CanElideCallback(api)) {
-        out << "::android::hardware::Return<"
-            << GetCppVariableType(api.return_type_hidl(0), &message) << "> ";
+    for (int index = 0; index < api.arg_size(); index++) {
+      const auto& arg = api.arg(index);
+      if (!isConstType(arg.type())) {
+        out << GetCppVariableType(arg, &message);
       } else {
-        out << "::android::hardware::Return<void> ";
+        out << GetCppVariableType(arg, &message, true);
       }
-      // Generate function call.
-      out << api.name() << "(\n";
-      out.indent();
-      for (int index = 0; index < api.arg_size(); index++) {
-        const auto& arg = api.arg(index);
-        if (!isConstType(arg.type())) {
-          out << GetCppVariableType(arg, &message);
+      out << " arg" << index;
+      if (index != (api.arg_size() - 1)) out << ",\n";
+    }
+    if (api.return_type_hidl_size() == 0 || CanElideCallback(api)) {
+      out << ") override;\n\n";
+    } else {  // handle the case of callbacks.
+      out << (api.arg_size() != 0 ? ", " : "");
+      out << "std::function<void(";
+      for (int index = 0; index < api.return_type_hidl_size(); index++) {
+        const auto& return_val = api.return_type_hidl(index);
+        if (!isConstType(return_val.type())) {
+          out << GetCppVariableType(return_val, &message);
         } else {
-          out << GetCppVariableType(arg, &message, true);
+          out << GetCppVariableType(return_val, &message, true);
         }
         out << " arg" << index;
-        if (index != (api.arg_size() - 1))
-          out << ",\n";
+        if (index != (api.return_type_hidl_size() - 1)) out << ",";
       }
-      if (api.return_type_hidl_size() == 0 || CanElideCallback(api)) {
-        out << ") override;" << "\n\n";
-      } else {  // handle the case of callbacks.
-        out << (api.arg_size() != 0 ? ", " : "");
-        out << "std::function<void(";
-        for (int index = 0; index < api.return_type_hidl_size(); index++) {
-          const auto& return_val = api.return_type_hidl(index);
-          if (!isConstType(return_val.type())) {
-            out << GetCppVariableType(return_val, &message);
-          } else {
-            out << GetCppVariableType(return_val, &message, true);
-          }
-          out << " arg" << index;
-          if (index != (api.return_type_hidl_size() - 1))
-            out << ",";
-        }
-        out << ")>) override;" << "\n\n";
-      }
-      out.unindent();
+      out << ")>) override;\n\n";
     }
-    out << "\n";
     out.unindent();
-    out << " private:" << "\n";
-    out.indent();
-    out << "string callback_socket_name_;\n";
-    out.unindent();
-    out << "};" << "\n";
-    out << "\n";
-
-    out << "sp<" << component_fq_name.cppName() << "> VtsFuzzerCreate"
-        << component_name_token << "(const string& callback_socket_name);"
-        << "\n";
-    out << "\n";
   }
+  out << "\n";
+  out.unindent();
+  out << " private:\n";
+  out.indent();
+  out << "string callback_socket_name_;\n";
+  out.unindent();
+  out << "};\n\n";
+
+  out << "sp<" << component_fq_name.cppName() << "> VtsFuzzerCreate"
+      << component_name_token << "(const string& callback_socket_name);\n\n";
 }
 
 void HalHidlCodeGen::GenerateClassImpl(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
-  if (message.component_name() != "types"
-      && !endsWith(message.component_name(), "Callback")) {
+  if (message.component_name() != "types") {
     for (auto attribute : message.interface().attribute()) {
       GenerateAllFunctionImplForAttribute(out, attribute);
     }
     GenerateGetServiceImpl(out, message, fuzzer_extended_class_name);
     DriverCodeGenBase::GenerateClassImpl(out, message,
                                          fuzzer_extended_class_name);
-  } else if (message.component_name() == "types") {
+  } else {
     for (auto attribute : message.attribute()) {
       GenerateAllFunctionImplForAttribute(out, attribute);
     }
-  } else if (endsWith(message.component_name(), "Callback")) {
-    for (auto attribute : message.interface().attribute()) {
-      GenerateAllFunctionImplForAttribute(out, attribute);
-    }
-    GenerateCppBodyCallbackFunction(out, message, fuzzer_extended_class_name);
   }
 }
 
@@ -653,8 +636,7 @@ void HalHidlCodeGen::GenerateSourceIncludeFiles(Formatter& out,
 void HalHidlCodeGen::GenerateAdditionalFuctionDeclarations(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& /*fuzzer_extended_class_name*/) {
-  if (message.component_name() != "types"
-      && !endsWith(message.component_name(), "Callback")) {
+  if (message.component_name() != "types") {
     out << "bool GetService(bool get_stub, const char* service_name);"
         << "\n\n";
   }
@@ -684,7 +666,8 @@ void HalHidlCodeGen::GenerateRandomFunctionDeclForAttribute(Formatter& out,
       return;
     }
     string attribute_name = ClearStringWithNameSpaceAccess(attribute.name());
-    out << attribute.name() << " " << "Random" << attribute_name << "();\n";
+    out << attribute.enum_value().scalar_type() << " "
+        << "Random" << attribute_name << "();\n";
   }
 }
 
@@ -697,8 +680,8 @@ void HalHidlCodeGen::GenerateRandomFunctionImplForAttribute(Formatter& out,
       return;
     }
     string attribute_name = ClearStringWithNameSpaceAccess(attribute.name());
-    out << attribute.name() << " " << "Random" << attribute_name << "() {"
-        << "\n";
+    out << attribute.enum_value().scalar_type() << " Random" << attribute_name
+        << "() {\n";
     out.indent();
     out << attribute.enum_value().scalar_type() << " choice = " << "("
         << attribute.enum_value().scalar_type() << ") " << "rand() / "
@@ -731,11 +714,13 @@ void HalHidlCodeGen::GenerateRandomFunctionImplForAttribute(Formatter& out,
             << attribute.enum_value().scalar_type() << "\n";
         exit(-1);
       }
-      out << ") return " << attribute.name() << "::"
-          << attribute.enum_value().enumerator(index) << ";" << "\n";
+      out << ") return static_cast<" << attribute.enum_value().scalar_type()
+          << ">(" << attribute.name()
+          << "::" << attribute.enum_value().enumerator(index) << ");\n";
     }
-    out << "return " << attribute.name() << "::"
-        << attribute.enum_value().enumerator(0) << ";" << "\n";
+    out << "return static_cast<" << attribute.enum_value().scalar_type() << ">("
+        << attribute.name() << "::" << attribute.enum_value().enumerator(0)
+        << ");\n";
     out.unindent();
     out << "}" << "\n";
   }
@@ -1218,8 +1203,7 @@ void HalHidlCodeGen::GenerateDriverImplForTypedVariable(Formatter& out,
 void HalHidlCodeGen::GenerateVerificationFunctionImpl(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
-  if (message.component_name() != "types"
-      && !endsWith(message.component_name(), "Callback")) {
+  if (message.component_name() != "types") {
     // Generate the main profiler function.
     out << "\nbool " << fuzzer_extended_class_name;
     out.indent();
@@ -1743,7 +1727,8 @@ bool HalHidlCodeGen::isElidableType(const VariableType& type) {
 }
 
 bool HalHidlCodeGen::isConstType(const VariableType& type) {
-  if (type == TYPE_ARRAY || type == TYPE_VECTOR || type == TYPE_REF) {
+  if (type == TYPE_ARRAY || type == TYPE_VECTOR || type == TYPE_REF ||
+      type == TYPE_HIDL_INTERFACE) {
     return true;
   }
   if (isElidableType(type)) {

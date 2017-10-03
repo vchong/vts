@@ -113,6 +113,7 @@ void DriverCodeGenBase::GenerateSourceFile(
 void DriverCodeGenBase::GenerateClassHeader(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
+  GenerateHeaderInterfaceImpl(out, message);
   out << "class " << fuzzer_extended_class_name << " : public DriverBase {"
       << "\n";
   out << " public:" << "\n";
@@ -157,7 +158,7 @@ void DriverCodeGenBase::GenerateClassHeader(Formatter& out,
 void DriverCodeGenBase::GenerateClassImpl(Formatter& out,
     const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
-  GenerateCppBodyCallbackFunction(out, message, fuzzer_extended_class_name);
+  GenerateCppBodyInterfaceImpl(out, message, fuzzer_extended_class_name);
   GenerateCppBodyFuzzFunction(out, message, fuzzer_extended_class_name);
   GenerateCppBodyGetAttributeFunction(out, message, fuzzer_extended_class_name);
   GenerateDriverFunctionImpl(out, message, fuzzer_extended_class_name);
@@ -181,8 +182,7 @@ void DriverCodeGenBase::GenerateHeaderIncludeFiles(Formatter& out,
   out << "#include <driver_base/DriverCallbackBase.h>"
       << "\n";
   out << "\n";
-  if (message.component_class() == HAL_HIDL &&
-      endsWith(message.component_name(), "Callback")) {
+  if (message.component_class() == HAL_HIDL) {
     out << "#include <VtsDriverCommUtil.h>" << "\n";
     out << "\n";
   }

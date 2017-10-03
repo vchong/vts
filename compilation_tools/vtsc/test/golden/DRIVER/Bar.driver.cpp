@@ -53,6 +53,547 @@ bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::GetService(bool get_st
     return true;
 }
 
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::doThis(
+    float arg0 __attribute__((__unused__))) {
+    cout << "doThis called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("doThis"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::doThis");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("float_t");
+    var_msg0->mutable_scalar_value()->set_float_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<int32_t> Vts_android_hardware_tests_bar_V1_0_IBar::doThatAndReturnSomething(
+    int64_t arg0 __attribute__((__unused__))) {
+    cout << "doThatAndReturnSomething called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("doThatAndReturnSomething"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::doThatAndReturnSomething");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("int64_t");
+    var_msg0->mutable_scalar_value()->set_int64_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return static_cast<int32_t>(0);
+}
+
+::android::hardware::Return<double> Vts_android_hardware_tests_bar_V1_0_IBar::doQuiteABit(
+    int32_t arg0 __attribute__((__unused__)),
+    int64_t arg1 __attribute__((__unused__)),
+    float arg2 __attribute__((__unused__)),
+    double arg3 __attribute__((__unused__))) {
+    cout << "doQuiteABit called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("doQuiteABit"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::doQuiteABit");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("int32_t");
+    var_msg0->mutable_scalar_value()->set_int32_t(arg0);
+    VariableSpecificationMessage* var_msg1 = callback_message.add_arg();
+    var_msg1->set_type(TYPE_SCALAR);
+    var_msg1->set_scalar_type("int64_t");
+    var_msg1->mutable_scalar_value()->set_int64_t(arg1);
+    VariableSpecificationMessage* var_msg2 = callback_message.add_arg();
+    var_msg2->set_type(TYPE_SCALAR);
+    var_msg2->set_scalar_type("float_t");
+    var_msg2->mutable_scalar_value()->set_float_t(arg2);
+    VariableSpecificationMessage* var_msg3 = callback_message.add_arg();
+    var_msg3->set_type(TYPE_SCALAR);
+    var_msg3->set_scalar_type("double_t");
+    var_msg3->mutable_scalar_value()->set_double_t(arg3);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return static_cast<double>(0);
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::doSomethingElse(
+    const ::android::hardware::hidl_array<int32_t,15>& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_array<int32_t,32>& arg0)>) {
+    cout << "doSomethingElse called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("doSomethingElse"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::doSomethingElse");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_ARRAY);
+    var_msg0->set_vector_size(1);
+    for (int i = 0; i < 1; i++) {
+        auto *var_msg0_array_i = var_msg0->add_vector_value();
+        var_msg0_array_i->set_type(TYPE_SCALAR);
+        var_msg0_array_i->set_scalar_type("int32_t");
+        var_msg0_array_i->mutable_scalar_value()->set_int32_t(arg0[i]);
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::doStuffAndReturnAString(
+    std::function<void(const ::android::hardware::hidl_string& arg0)>) {
+    cout << "doStuffAndReturnAString called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("doStuffAndReturnAString"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::doStuffAndReturnAString");
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::mapThisVector(
+    const ::android::hardware::hidl_vec<int32_t>& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_vec<int32_t>& arg0)>) {
+    cout << "mapThisVector called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("mapThisVector"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::mapThisVector");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_VECTOR);
+    var_msg0->set_vector_size(arg0.size());
+    for (int i = 0; i < (int)arg0.size(); i++) {
+        auto *var_msg0_vector_i = var_msg0->add_vector_value();
+        var_msg0_vector_i->set_type(TYPE_SCALAR);
+        var_msg0_vector_i->set_scalar_type("int32_t");
+        var_msg0_vector_i->mutable_scalar_value()->set_int32_t(arg0[i]);
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::callMe(
+    const sp<::android::hardware::tests::foo::V1_0::IFooCallback>& arg0 __attribute__((__unused__))) {
+    cout << "callMe called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("callMe"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::callMe");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_HIDL_CALLBACK);
+    /* ERROR: TYPE_HIDL_CALLBACK is not supported yet. */
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<::android::hardware::tests::foo::V1_0::IFoo::SomeEnum> Vts_android_hardware_tests_bar_V1_0_IBar::useAnEnum(
+    ::android::hardware::tests::foo::V1_0::IFoo::SomeEnum arg0 __attribute__((__unused__))) {
+    cout << "useAnEnum called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("useAnEnum"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::useAnEnum");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_ENUM);
+    SetResult__android__hardware__tests__foo__V1_0__IFoo__SomeEnum(var_msg0, arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return static_cast< ::android::hardware::tests::foo::V1_0::IFoo::SomeEnum>(Random__android__hardware__tests__foo__V1_0__IFoo__SomeEnum());
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::haveAGooberVec(
+    const ::android::hardware::hidl_vec<::android::hardware::tests::foo::V1_0::IFoo::Goober>& arg0 __attribute__((__unused__))) {
+    cout << "haveAGooberVec called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveAGooberVec"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::haveAGooberVec");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_VECTOR);
+    var_msg0->set_vector_size(arg0.size());
+    for (int i = 0; i < (int)arg0.size(); i++) {
+        auto *var_msg0_vector_i = var_msg0->add_vector_value();
+        var_msg0_vector_i->set_type(TYPE_STRUCT);
+        SetResult__android__hardware__tests__foo__V1_0__IFoo__Goober(var_msg0_vector_i, arg0[i]);
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::haveAGoober(
+    const ::android::hardware::tests::foo::V1_0::IFoo::Goober& arg0 __attribute__((__unused__))) {
+    cout << "haveAGoober called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveAGoober"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::haveAGoober");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_STRUCT);
+    SetResult__android__hardware__tests__foo__V1_0__IFoo__Goober(var_msg0, arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::haveAGooberArray(
+    const ::android::hardware::hidl_array<::android::hardware::tests::foo::V1_0::IFoo::Goober,20>& arg0 __attribute__((__unused__))) {
+    cout << "haveAGooberArray called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveAGooberArray"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::haveAGooberArray");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_ARRAY);
+    var_msg0->set_vector_size(1);
+    for (int i = 0; i < 1; i++) {
+        auto *var_msg0_array_i = var_msg0->add_vector_value();
+        var_msg0_array_i->set_type(TYPE_STRUCT);
+        auto *var_msg0_array_i_q = var_msg0_array_i->add_struct_value();
+        var_msg0_array_i_q->set_type(TYPE_SCALAR);
+        var_msg0_array_i_q->set_scalar_type("int32_t");
+        var_msg0_array_i_q->mutable_scalar_value()->set_int32_t(arg0[i].q);
+        var_msg0_array_i_q->set_name("q");
+        auto *var_msg0_array_i_name = var_msg0_array_i->add_struct_value();
+        var_msg0_array_i_name->set_type(TYPE_STRING);
+        var_msg0_array_i_name->mutable_string_value()->set_message(arg0[i].name.c_str());
+        var_msg0_array_i_name->mutable_string_value()->set_length(arg0[i].name.size());
+        var_msg0_array_i_name->set_name("name");
+        auto *var_msg0_array_i_address = var_msg0_array_i->add_struct_value();
+        var_msg0_array_i_address->set_type(TYPE_STRING);
+        var_msg0_array_i_address->mutable_string_value()->set_message(arg0[i].address.c_str());
+        var_msg0_array_i_address->mutable_string_value()->set_length(arg0[i].address.size());
+        var_msg0_array_i_address->set_name("address");
+        auto *var_msg0_array_i_numbers = var_msg0_array_i->add_struct_value();
+        var_msg0_array_i_numbers->set_type(TYPE_ARRAY);
+        var_msg0_array_i_numbers->set_vector_size(1);
+        for (int i = 0; i < 1; i++) {
+            auto *var_msg0_array_i_numbers_array_i = var_msg0_array_i_numbers->add_vector_value();
+            var_msg0_array_i_numbers_array_i->set_type(TYPE_SCALAR);
+            var_msg0_array_i_numbers_array_i->set_scalar_type("double_t");
+            var_msg0_array_i_numbers_array_i->mutable_scalar_value()->set_double_t(arg0[i].numbers[i]);
+        }
+        var_msg0_array_i_numbers->set_name("numbers");
+        auto *var_msg0_array_i_fumble = var_msg0_array_i->add_struct_value();
+        var_msg0_array_i_fumble->set_type(TYPE_STRUCT);
+        SetResult__android__hardware__tests__foo__V1_0__IFoo__Fumble(var_msg0_array_i_fumble, arg0[i].fumble);
+        var_msg0_array_i_fumble->set_name("fumble");
+        auto *var_msg0_array_i_gumble = var_msg0_array_i->add_struct_value();
+        var_msg0_array_i_gumble->set_type(TYPE_STRUCT);
+        SetResult__android__hardware__tests__foo__V1_0__IFoo__Fumble(var_msg0_array_i_gumble, arg0[i].gumble);
+        var_msg0_array_i_gumble->set_name("gumble");
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::haveATypeFromAnotherFile(
+    const ::android::hardware::tests::foo::V1_0::Abc& arg0 __attribute__((__unused__))) {
+    cout << "haveATypeFromAnotherFile called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveATypeFromAnotherFile"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::haveATypeFromAnotherFile");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_STRUCT);
+    SetResult__android__hardware__tests__foo__V1_0__Abc(var_msg0, arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::haveSomeStrings(
+    const ::android::hardware::hidl_array<::android::hardware::hidl_string,3>& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_array<::android::hardware::hidl_string,2>& arg0)>) {
+    cout << "haveSomeStrings called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveSomeStrings"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::haveSomeStrings");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_ARRAY);
+    var_msg0->set_vector_size(1);
+    for (int i = 0; i < 1; i++) {
+        auto *var_msg0_array_i = var_msg0->add_vector_value();
+        var_msg0_array_i->set_type(TYPE_STRING);
+        var_msg0_array_i->mutable_string_value()->set_message(arg0[i].c_str());
+        var_msg0_array_i->mutable_string_value()->set_length(arg0[i].size());
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::haveAStringVec(
+    const ::android::hardware::hidl_vec<::android::hardware::hidl_string>& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_vec<::android::hardware::hidl_string>& arg0)>) {
+    cout << "haveAStringVec called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveAStringVec"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::haveAStringVec");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_VECTOR);
+    var_msg0->set_vector_size(arg0.size());
+    for (int i = 0; i < (int)arg0.size(); i++) {
+        auto *var_msg0_vector_i = var_msg0->add_vector_value();
+        var_msg0_vector_i->set_type(TYPE_STRING);
+        var_msg0_vector_i->mutable_string_value()->set_message(arg0[i].c_str());
+        var_msg0_vector_i->mutable_string_value()->set_length(arg0[i].size());
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::transposeMe(
+    const ::android::hardware::hidl_array<float, 3,5>& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_array<float, 5,3>& arg0)>) {
+    cout << "transposeMe called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("transposeMe"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::transposeMe");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_ARRAY);
+    var_msg0->set_vector_size(1);
+    for (int i = 0; i < 1; i++) {
+        auto *var_msg0_array_i = var_msg0->add_vector_value();
+        var_msg0_array_i->set_type(TYPE_ARRAY);
+        var_msg0_array_i->set_vector_size(1);
+        for (int i = 0; i < 1; i++) {
+            auto *var_msg0_array_i_array_i = var_msg0_array_i->add_vector_value();
+            var_msg0_array_i_array_i->set_type(TYPE_SCALAR);
+            var_msg0_array_i_array_i->set_scalar_type("float_t");
+            var_msg0_array_i_array_i->mutable_scalar_value()->set_float_t(arg0[i][i]);
+        }
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::callingDrWho(
+    const ::android::hardware::tests::foo::V1_0::IFoo::MultiDimensional& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::tests::foo::V1_0::IFoo::MultiDimensional& arg0)>) {
+    cout << "callingDrWho called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("callingDrWho"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::callingDrWho");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_STRUCT);
+    SetResult__android__hardware__tests__foo__V1_0__IFoo__MultiDimensional(var_msg0, arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::transpose(
+    const ::android::hardware::tests::foo::V1_0::IFoo::StringMatrix5x3& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::tests::foo::V1_0::IFoo::StringMatrix3x5& arg0)>) {
+    cout << "transpose called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("transpose"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::transpose");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_STRUCT);
+    SetResult__android__hardware__tests__foo__V1_0__IFoo__StringMatrix5x3(var_msg0, arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::transpose2(
+    const ::android::hardware::hidl_array<::android::hardware::hidl_string, 5,3>& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_array<::android::hardware::hidl_string, 3,5>& arg0)>) {
+    cout << "transpose2 called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("transpose2"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::transpose2");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_ARRAY);
+    var_msg0->set_vector_size(1);
+    for (int i = 0; i < 1; i++) {
+        auto *var_msg0_array_i = var_msg0->add_vector_value();
+        var_msg0_array_i->set_type(TYPE_ARRAY);
+        var_msg0_array_i->set_vector_size(1);
+        for (int i = 0; i < 1; i++) {
+            auto *var_msg0_array_i_array_i = var_msg0_array_i->add_vector_value();
+            var_msg0_array_i_array_i->set_type(TYPE_STRING);
+            var_msg0_array_i_array_i->mutable_string_value()->set_message(arg0[i][i].c_str());
+            var_msg0_array_i_array_i->mutable_string_value()->set_length(arg0[i][i].size());
+        }
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::sendVec(
+    const ::android::hardware::hidl_vec<uint8_t>& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_vec<uint8_t>& arg0)>) {
+    cout << "sendVec called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("sendVec"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::sendVec");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_VECTOR);
+    var_msg0->set_vector_size(arg0.size());
+    for (int i = 0; i < (int)arg0.size(); i++) {
+        auto *var_msg0_vector_i = var_msg0->add_vector_value();
+        var_msg0_vector_i->set_type(TYPE_SCALAR);
+        var_msg0_vector_i->set_scalar_type("uint8_t");
+        var_msg0_vector_i->mutable_scalar_value()->set_uint8_t(arg0[i]);
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::sendVecVec(
+    std::function<void(const ::android::hardware::hidl_vec<::android::hardware::hidl_vec<uint8_t>>& arg0)>) {
+    cout << "sendVecVec called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("sendVecVec"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::sendVecVec");
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::haveAVectorOfInterfaces(
+    const ::android::hardware::hidl_vec<sp<::android::hardware::tests::foo::V1_0::ISimple>>& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_vec<sp<::android::hardware::tests::foo::V1_0::ISimple>>& arg0)>) {
+    cout << "haveAVectorOfInterfaces called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveAVectorOfInterfaces"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::haveAVectorOfInterfaces");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_VECTOR);
+    var_msg0->set_vector_size(arg0.size());
+    for (int i = 0; i < (int)arg0.size(); i++) {
+        auto *var_msg0_vector_i = var_msg0->add_vector_value();
+        var_msg0_vector_i->set_type(TYPE_HIDL_INTERFACE);
+        var_msg0_vector_i->set_predefined_type("::android::hardware::tests::foo::V1_0::ISimple");
+        if (arg0[i] != nullptr) {
+            arg0[i]->incStrong(arg0[i].get());
+            var_msg0_vector_i->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(arg0[i].get()));
+        } else {
+            var_msg0_vector_i->set_hidl_interface_pointer(0);
+        }
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::haveAVectorOfGenericInterfaces(
+    const ::android::hardware::hidl_vec<sp<::android::hidl::base::V1_0::IBase>>& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_vec<sp<::android::hidl::base::V1_0::IBase>>& arg0)>) {
+    cout << "haveAVectorOfGenericInterfaces called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveAVectorOfGenericInterfaces"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::haveAVectorOfGenericInterfaces");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_VECTOR);
+    var_msg0->set_vector_size(arg0.size());
+    for (int i = 0; i < (int)arg0.size(); i++) {
+        auto *var_msg0_vector_i = var_msg0->add_vector_value();
+        var_msg0_vector_i->set_type(TYPE_HIDL_INTERFACE);
+        var_msg0_vector_i->set_predefined_type("::android::hidl::base::V1_0::IBase");
+        if (arg0[i] != nullptr) {
+            arg0[i]->incStrong(arg0[i].get());
+            var_msg0_vector_i->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(arg0[i].get()));
+        } else {
+            var_msg0_vector_i->set_hidl_interface_pointer(0);
+        }
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::echoNullInterface(
+    const sp<::android::hardware::tests::foo::V1_0::IFooCallback>& arg0 __attribute__((__unused__)), std::function<void(bool arg0,const sp<::android::hardware::tests::foo::V1_0::IFooCallback>& arg1)>) {
+    cout << "echoNullInterface called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("echoNullInterface"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::echoNullInterface");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_HIDL_CALLBACK);
+    /* ERROR: TYPE_HIDL_CALLBACK is not supported yet. */
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::createMyHandle(
+    std::function<void(const ::android::hardware::tests::foo::V1_0::IFoo::MyHandle& arg0)>) {
+    cout << "createMyHandle called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("createMyHandle"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::createMyHandle");
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::createHandles(
+    uint32_t arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_vec<::android::hardware::hidl_handle>& arg0)>) {
+    cout << "createHandles called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("createHandles"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::createHandles");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("uint32_t");
+    var_msg0->mutable_scalar_value()->set_uint32_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::closeHandles(
+    ) {
+    cout << "closeHandles called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("closeHandles"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::closeHandles");
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::thisIsNew(
+    ) {
+    cout << "thisIsNew called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("thisIsNew"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::thisIsNew");
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::expectNullHandle(
+    const ::android::hardware::hidl_handle& arg0 __attribute__((__unused__)),
+    const ::android::hardware::tests::foo::V1_0::Abc& arg1 __attribute__((__unused__)), std::function<void(bool arg0,bool arg1)>) {
+    cout << "expectNullHandle called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("expectNullHandle"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::expectNullHandle");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_HANDLE);
+    /* ERROR: TYPE_HANDLE is not supported yet. */
+    VariableSpecificationMessage* var_msg1 = callback_message.add_arg();
+    var_msg1->set_type(TYPE_STRUCT);
+    SetResult__android__hardware__tests__foo__V1_0__Abc(var_msg1, arg1);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_bar_V1_0_IBar::takeAMask(
+    ::android::hardware::tests::foo::V1_0::IFoo::BitField arg0 __attribute__((__unused__)),
+    uint8_t arg1 __attribute__((__unused__)),
+    const ::android::hardware::tests::foo::V1_0::IFoo::MyMask& arg2 __attribute__((__unused__)),
+    uint8_t arg3 __attribute__((__unused__)), std::function<void(::android::hardware::tests::foo::V1_0::IFoo::BitField arg0,uint8_t arg1,uint8_t arg2,uint8_t arg3)>) {
+    cout << "takeAMask called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("takeAMask"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::takeAMask");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_ENUM);
+    SetResult__android__hardware__tests__foo__V1_0__IFoo__BitField(var_msg0, arg0);
+    VariableSpecificationMessage* var_msg1 = callback_message.add_arg();
+    var_msg1->set_type(TYPE_MASK);
+    var_msg1->set_scalar_type("uint8_t");
+    var_msg1->mutable_scalar_value()->set_uint8_t(arg1);
+    VariableSpecificationMessage* var_msg2 = callback_message.add_arg();
+    var_msg2->set_type(TYPE_STRUCT);
+    SetResult__android__hardware__tests__foo__V1_0__IFoo__MyMask(var_msg2, arg2);
+    VariableSpecificationMessage* var_msg3 = callback_message.add_arg();
+    var_msg3->set_type(TYPE_MASK);
+    var_msg3->set_scalar_type("uint8_t");
+    var_msg3->mutable_scalar_value()->set_uint8_t(arg3);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<sp<::android::hardware::tests::foo::V1_0::ISimple>> Vts_android_hardware_tests_bar_V1_0_IBar::haveAInterface(
+    const sp<::android::hardware::tests::foo::V1_0::ISimple>& arg0 __attribute__((__unused__))) {
+    cout << "haveAInterface called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveAInterface"));
+    callback_message.set_name("Vts_android_hardware_tests_bar_V1_0_IBar::haveAInterface");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_HIDL_INTERFACE);
+    var_msg0->set_predefined_type("::android::hardware::tests::foo::V1_0::ISimple");
+    if (arg0 != nullptr) {
+        arg0->incStrong(arg0.get());
+        var_msg0->set_hidl_interface_pointer(reinterpret_cast<uintptr_t>(arg0.get()));
+    } else {
+        var_msg0->set_hidl_interface_pointer(0);
+    }
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return nullptr;
+}
+
+sp<::android::hardware::tests::bar::V1_0::IBar> VtsFuzzerCreateVts_android_hardware_tests_bar_V1_0_IBar(const string& callback_socket_name) {
+    static sp<::android::hardware::tests::bar::V1_0::IBar> result;
+    result = new Vts_android_hardware_tests_bar_V1_0_IBar(callback_socket_name);
+    return result;
+}
+
 bool FuzzerExtended_android_hardware_tests_bar_V1_0_IBar::Fuzz(
     FunctionSpecificationMessage* /*func_msg*/,
     void** /*result*/, const string& /*callback_socket_name*/) {

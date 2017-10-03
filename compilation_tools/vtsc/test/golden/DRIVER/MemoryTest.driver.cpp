@@ -31,6 +31,44 @@ bool FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest::GetService(b
     return true;
 }
 
+
+::android::hardware::Return<void> Vts_android_hardware_tests_memory_V1_0_IMemoryTest::haveSomeMemory(
+    const ::android::hardware::hidl_memory& arg0 __attribute__((__unused__)), std::function<void(const ::android::hardware::hidl_memory& arg0)>) {
+    cout << "haveSomeMemory called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("haveSomeMemory"));
+    callback_message.set_name("Vts_android_hardware_tests_memory_V1_0_IMemoryTest::haveSomeMemory");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_HIDL_MEMORY);
+    /* ERROR: TYPE_HIDL_MEMORY is not supported yet. */
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_memory_V1_0_IMemoryTest::fillMemory(
+    const ::android::hardware::hidl_memory& arg0 __attribute__((__unused__)),
+    uint8_t arg1 __attribute__((__unused__))) {
+    cout << "fillMemory called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("fillMemory"));
+    callback_message.set_name("Vts_android_hardware_tests_memory_V1_0_IMemoryTest::fillMemory");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_HIDL_MEMORY);
+    /* ERROR: TYPE_HIDL_MEMORY is not supported yet. */
+    VariableSpecificationMessage* var_msg1 = callback_message.add_arg();
+    var_msg1->set_type(TYPE_SCALAR);
+    var_msg1->set_scalar_type("uint8_t");
+    var_msg1->mutable_scalar_value()->set_uint8_t(arg1);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+sp<::android::hardware::tests::memory::V1_0::IMemoryTest> VtsFuzzerCreateVts_android_hardware_tests_memory_V1_0_IMemoryTest(const string& callback_socket_name) {
+    static sp<::android::hardware::tests::memory::V1_0::IMemoryTest> result;
+    result = new Vts_android_hardware_tests_memory_V1_0_IMemoryTest(callback_socket_name);
+    return result;
+}
+
 bool FuzzerExtended_android_hardware_tests_memory_V1_0_IMemoryTest::Fuzz(
     FunctionSpecificationMessage* /*func_msg*/,
     void** /*result*/, const string& /*callback_socket_name*/) {

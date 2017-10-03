@@ -61,8 +61,11 @@ class HalHidlCodeGen : public DriverCodeGenBase {
       const ComponentSpecificationMessage& message,
       const string& fuzzer_extended_class_name) override;
 
-  void GenerateCppBodyCallbackFunction(Formatter& out,
-      const ComponentSpecificationMessage& message,
+  void GenerateHeaderInterfaceImpl(
+      Formatter& out, const ComponentSpecificationMessage& message) override;
+
+  void GenerateCppBodyInterfaceImpl(
+      Formatter& out, const ComponentSpecificationMessage& message,
       const string& fuzzer_extended_class_name) override;
 
   void GenerateClassConstructionFunction(Formatter& out,
@@ -96,10 +99,15 @@ class HalHidlCodeGen : public DriverCodeGenBase {
   void GeneratePrivateMemberDeclarations(Formatter& out,
       const ComponentSpecificationMessage& message) override;
 
+ private:
   void GenerateCppBodyFuzzFunction(Formatter& out,
       const StructSpecificationMessage& message,
       const string& fuzzer_extended_class_name,
       const string& original_data_structure_name, const string& parent_path);
+
+  // Generates the code to declar the impl class for an interface.
+  void GenerateClassDecalrationForInterface(
+      Formatter& out, const ComponentSpecificationMessage& message);
 
   // Generates a scalar type in C/C++.
   void GenerateScalarTypeInC(Formatter& out, const string& type);

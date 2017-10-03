@@ -45,10 +45,6 @@ class LegacyHalCodeGen : public HalCodeGen {
       const ComponentSpecificationMessage& message,
       const string& fuzzer_extended_class_name) override;
 
-  void GenerateCppBodyCallbackFunction(Formatter& /*out*/,
-      const ComponentSpecificationMessage& /*message*/,
-      const string& /*fuzzer_extended_class_name*/) override {};
-
   void GenerateClassConstructionFunction(Formatter& out,
       const ComponentSpecificationMessage& message,
       const string& fuzzer_extended_class_name) override;
