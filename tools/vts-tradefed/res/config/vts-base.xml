@@ -18,6 +18,7 @@
   <option name="compatibility:skip-all-system-status-check" value="true" />
   <option name="max-log-size" value="200" />
   <object type="vts-vendor-config" class="com.android.tradefed.util.VtsVendorConfigFileUtil" />
+  <result_reporter class="com.android.compatibility.common.tradefed.result.VtsResultReporter" />
   <target_preparer class="com.android.tradefed.targetprep.VtsDeviceInfoCollector" />
   <target_preparer class="com.android.tradefed.targetprep.VtsTestPlanResultReporter" />
   <template-include name="reporters" default="basic-reporters" />
