@@ -47,8 +47,30 @@ class Vts_android_hardware_nfc_V1_0_INfcClientCallback : public ::android::hardw
 
 sp<::android::hardware::nfc::V1_0::INfcClientCallback> VtsFuzzerCreateVts_android_hardware_nfc_V1_0_INfcClientCallback(const string& callback_socket_name);
 
+class FuzzerExtended_android_hardware_nfc_V1_0_INfcClientCallback : public DriverBase {
+ public:
+    FuzzerExtended_android_hardware_nfc_V1_0_INfcClientCallback() : DriverBase(HAL_HIDL), hw_binder_proxy_() {}
+
+    explicit FuzzerExtended_android_hardware_nfc_V1_0_INfcClientCallback(::android::hardware::nfc::V1_0::INfcClientCallback* hw_binder_proxy) : DriverBase(HAL_HIDL), hw_binder_proxy_(hw_binder_proxy) {}
+    uint64_t GetHidlInterfaceProxy() const {
+        return reinterpret_cast<uintptr_t>(hw_binder_proxy_.get());
+    }
+ protected:
+    bool Fuzz(FunctionSpecificationMessage* func_msg, void** result, const string& callback_socket_name);
+    bool CallFunction(const FunctionSpecificationMessage& func_msg, const string& callback_socket_name, FunctionSpecificationMessage* result_msg);
+    bool VerifyResults(const FunctionSpecificationMessage& expected_result, const FunctionSpecificationMessage& actual_result);
+    bool GetAttribute(FunctionSpecificationMessage* func_msg, void** result);
+    bool GetService(bool get_stub, const char* service_name);
+
+ private:
+    sp<::android::hardware::nfc::V1_0::INfcClientCallback> hw_binder_proxy_;
+};
 
 
+extern "C" {
+extern android::vts::DriverBase* vts_func_4_android_hardware_nfc_V1_0_INfcClientCallback_();
+extern android::vts::DriverBase* vts_func_4_android_hardware_nfc_V1_0_INfcClientCallback_with_arg(uint64_t hw_binder_proxy);
+}
 }  // namespace vts
 }  // namespace android
 #endif

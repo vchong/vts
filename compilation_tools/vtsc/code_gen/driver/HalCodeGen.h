@@ -46,8 +46,8 @@ class HalCodeGen : public DriverCodeGenBase {
       const ComponentSpecificationMessage& message,
       const string& fuzzer_extended_class_name) override;
 
-  void GenerateCppBodyCallbackFunction(Formatter& out,
-      const ComponentSpecificationMessage& message,
+  void GenerateCppBodyInterfaceImpl(
+      Formatter& out, const ComponentSpecificationMessage& message,
       const string& fuzzer_extended_class_name) override;
 
   void GenerateClassConstructionFunction(Formatter& out,

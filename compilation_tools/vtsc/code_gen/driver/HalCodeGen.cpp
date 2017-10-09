@@ -35,8 +35,7 @@ namespace vts {
 
 const char* const HalCodeGen::kInstanceVariableName = "device_";
 
-
-void HalCodeGen::GenerateCppBodyCallbackFunction(
+void HalCodeGen::GenerateCppBodyInterfaceImpl(
     Formatter& out, const ComponentSpecificationMessage& message,
     const string& fuzzer_extended_class_name) {
   bool first_callback = true;

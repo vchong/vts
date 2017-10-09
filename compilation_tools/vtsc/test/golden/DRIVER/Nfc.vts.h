@@ -13,6 +13,8 @@
 #include <driver_base/DriverBase.h>
 #include <driver_base/DriverCallbackBase.h>
 
+#include <VtsDriverCommUtil.h>
+
 #include <android/hardware/nfc/1.0/INfc.h>
 #include <hidl/HidlSupport.h>
 #include <android/hardware/nfc/1.0/INfcClientCallback.h>
@@ -25,6 +27,42 @@
 using namespace android::hardware::nfc::V1_0;
 namespace android {
 namespace vts {
+
+class Vts_android_hardware_nfc_V1_0_INfc : public ::android::hardware::nfc::V1_0::INfc, public DriverCallbackBase {
+ public:
+    Vts_android_hardware_nfc_V1_0_INfc(const string& callback_socket_name)
+        : callback_socket_name_(callback_socket_name) {};
+
+    virtual ~Vts_android_hardware_nfc_V1_0_INfc() = default;
+
+    ::android::hardware::Return<::android::hardware::nfc::V1_0::NfcStatus> open(
+        const sp<::android::hardware::nfc::V1_0::INfcClientCallback>& arg0) override;
+
+    ::android::hardware::Return<uint32_t> write(
+        const ::android::hardware::hidl_vec<uint8_t>& arg0) override;
+
+    ::android::hardware::Return<::android::hardware::nfc::V1_0::NfcStatus> coreInitialized(
+        const ::android::hardware::hidl_vec<uint8_t>& arg0) override;
+
+    ::android::hardware::Return<::android::hardware::nfc::V1_0::NfcStatus> prediscover(
+        ) override;
+
+    ::android::hardware::Return<::android::hardware::nfc::V1_0::NfcStatus> close(
+        ) override;
+
+    ::android::hardware::Return<::android::hardware::nfc::V1_0::NfcStatus> controlGranted(
+        ) override;
+
+    ::android::hardware::Return<::android::hardware::nfc::V1_0::NfcStatus> powerCycle(
+        ) override;
+
+
+ private:
+    string callback_socket_name_;
+};
+
+sp<::android::hardware::nfc::V1_0::INfc> VtsFuzzerCreateVts_android_hardware_nfc_V1_0_INfc(const string& callback_socket_name);
+
 class FuzzerExtended_android_hardware_nfc_V1_0_INfc : public DriverBase {
  public:
     FuzzerExtended_android_hardware_nfc_V1_0_INfc() : DriverBase(HAL_HIDL), hw_binder_proxy_() {}

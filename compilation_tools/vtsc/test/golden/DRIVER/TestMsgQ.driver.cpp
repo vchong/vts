@@ -16,11 +16,11 @@ namespace vts {
 ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits EnumValue__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(const ScalarDataValueMessage& arg) {
     return (::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits) arg.uint32_t();
 }
-::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits Random__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits() {
+uint32_t Random__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits() {
     uint32_t choice = (uint32_t) rand() / 2;
-    if (choice == (uint32_t) 1) return ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits::FMQ_NOT_EMPTY;
-    if (choice == (uint32_t) 2) return ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits::FMQ_NOT_FULL;
-    return ::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits::FMQ_NOT_EMPTY;
+    if (choice == (uint32_t) 1) return static_cast<uint32_t>(::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits::FMQ_NOT_EMPTY);
+    if (choice == (uint32_t) 2) return static_cast<uint32_t>(::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits::FMQ_NOT_FULL);
+    return static_cast<uint32_t>(::android::hardware::tests::msgq::V1_0::ITestMsgQ::EventFlagBits::FMQ_NOT_EMPTY);
 }
 bool Verify__android__hardware__tests__msgq__V1_0__ITestMsgQ__EventFlagBits(const VariableSpecificationMessage& expected_result __attribute__((__unused__)), const VariableSpecificationMessage& actual_result __attribute__((__unused__))){
     if (actual_result.scalar_value().uint32_t() != expected_result.scalar_value().uint32_t()) { return false; }
@@ -49,6 +49,140 @@ bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::GetService(bool 
         initialized = true;
     }
     return true;
+}
+
+
+::android::hardware::Return<void> Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::configureFmqSyncReadWrite(
+    std::function<void(bool arg0,const ::android::hardware::MQDescriptorSync<uint16_t>& arg1)>) {
+    cout << "configureFmqSyncReadWrite called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("configureFmqSyncReadWrite"));
+    callback_message.set_name("Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::configureFmqSyncReadWrite");
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::getFmqUnsyncWrite(
+    bool arg0 __attribute__((__unused__)), std::function<void(bool arg0,const ::android::hardware::MQDescriptorUnsync<uint16_t>& arg1)>) {
+    cout << "getFmqUnsyncWrite called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("getFmqUnsyncWrite"));
+    callback_message.set_name("Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::getFmqUnsyncWrite");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("bool_t");
+    var_msg0->mutable_scalar_value()->set_bool_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<bool> Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestWriteFmqSync(
+    int32_t arg0 __attribute__((__unused__))) {
+    cout << "requestWriteFmqSync called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("requestWriteFmqSync"));
+    callback_message.set_name("Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestWriteFmqSync");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("int32_t");
+    var_msg0->mutable_scalar_value()->set_int32_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return static_cast<bool>(0);
+}
+
+::android::hardware::Return<bool> Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestReadFmqSync(
+    int32_t arg0 __attribute__((__unused__))) {
+    cout << "requestReadFmqSync called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("requestReadFmqSync"));
+    callback_message.set_name("Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestReadFmqSync");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("int32_t");
+    var_msg0->mutable_scalar_value()->set_int32_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return static_cast<bool>(0);
+}
+
+::android::hardware::Return<bool> Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestWriteFmqUnsync(
+    int32_t arg0 __attribute__((__unused__))) {
+    cout << "requestWriteFmqUnsync called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("requestWriteFmqUnsync"));
+    callback_message.set_name("Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestWriteFmqUnsync");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("int32_t");
+    var_msg0->mutable_scalar_value()->set_int32_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return static_cast<bool>(0);
+}
+
+::android::hardware::Return<bool> Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestReadFmqUnsync(
+    int32_t arg0 __attribute__((__unused__))) {
+    cout << "requestReadFmqUnsync called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("requestReadFmqUnsync"));
+    callback_message.set_name("Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestReadFmqUnsync");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("int32_t");
+    var_msg0->mutable_scalar_value()->set_int32_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return static_cast<bool>(0);
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestBlockingRead(
+    int32_t arg0 __attribute__((__unused__))) {
+    cout << "requestBlockingRead called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("requestBlockingRead"));
+    callback_message.set_name("Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestBlockingRead");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("int32_t");
+    var_msg0->mutable_scalar_value()->set_int32_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestBlockingReadDefaultEventFlagBits(
+    int32_t arg0 __attribute__((__unused__))) {
+    cout << "requestBlockingReadDefaultEventFlagBits called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("requestBlockingReadDefaultEventFlagBits"));
+    callback_message.set_name("Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestBlockingReadDefaultEventFlagBits");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("int32_t");
+    var_msg0->mutable_scalar_value()->set_int32_t(arg0);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+::android::hardware::Return<void> Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestBlockingReadRepeat(
+    int32_t arg0 __attribute__((__unused__)),
+    int32_t arg1 __attribute__((__unused__))) {
+    cout << "requestBlockingReadRepeat called" << endl;
+    AndroidSystemCallbackRequestMessage callback_message;
+    callback_message.set_id(GetCallbackID("requestBlockingReadRepeat"));
+    callback_message.set_name("Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ::requestBlockingReadRepeat");
+    VariableSpecificationMessage* var_msg0 = callback_message.add_arg();
+    var_msg0->set_type(TYPE_SCALAR);
+    var_msg0->set_scalar_type("int32_t");
+    var_msg0->mutable_scalar_value()->set_int32_t(arg0);
+    VariableSpecificationMessage* var_msg1 = callback_message.add_arg();
+    var_msg1->set_type(TYPE_SCALAR);
+    var_msg1->set_scalar_type("int32_t");
+    var_msg1->mutable_scalar_value()->set_int32_t(arg1);
+    RpcCallToAgent(callback_message, callback_socket_name_);
+    return ::android::hardware::Void();
+}
+
+sp<::android::hardware::tests::msgq::V1_0::ITestMsgQ> VtsFuzzerCreateVts_android_hardware_tests_msgq_V1_0_ITestMsgQ(const string& callback_socket_name) {
+    static sp<::android::hardware::tests::msgq::V1_0::ITestMsgQ> result;
+    result = new Vts_android_hardware_tests_msgq_V1_0_ITestMsgQ(callback_socket_name);
+    return result;
 }
 
 bool FuzzerExtended_android_hardware_tests_msgq_V1_0_ITestMsgQ::Fuzz(
