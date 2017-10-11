@@ -15,6 +15,7 @@
  */
 package com.android.compatibility.common.tradefed.result;
 
+import com.android.tradefed.log.LogUtil.CLog;
 import java.util.Map;
 
 /** Override the result reporter to specify vendor device information in the VTS report. */
@@ -23,6 +24,11 @@ public class VtsResultReporter extends ResultReporter {
     private static final String BUILD_VENDOR_MANUFACTURER = "build_vendor_manufacturer";
     private static final String BUILD_VENDOR_MODEL = "build_vendor_model";
 
+    /** Determine if the property is empty or not. */
+    private static boolean isEmptyProperty(String property) {
+        return (property == null || property.trim().isEmpty() || property.equals("null"));
+    }
+
     /** Override the vendor fingerprint and manufacturer in the report. */
     @Override
     protected void addDeviceBuildInfoToResult() {
@@ -30,6 +36,13 @@ public class VtsResultReporter extends ResultReporter {
         String vendorFingerprint = props.get(BUILD_VENDOR_FINGERPRINT);
         String vendorManufacturer = props.get(BUILD_VENDOR_MANUFACTURER);
         String vendorModel = props.get(BUILD_VENDOR_MODEL);
-        addDeviceBuildInfoToResult(vendorFingerprint, vendorManufacturer, vendorModel);
+        if (!isEmptyProperty(vendorFingerprint) && !isEmptyProperty(vendorManufacturer)
+                && !isEmptyProperty(vendorModel)) {
+            addDeviceBuildInfoToResult(vendorFingerprint, vendorManufacturer, vendorModel);
+        } else {
+            CLog.w(String.format(
+                    "Vendor build information missing. Fingerprint: '%s', manufacturer: '%s', model: '%s'",
+                    vendorFingerprint, vendorManufacturer, vendorModel));
+        }
     }
 }
