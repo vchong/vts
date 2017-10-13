@@ -32,6 +32,7 @@ public class VtsResultReporter extends ResultReporter {
     /** Override the vendor fingerprint and manufacturer in the report. */
     @Override
     protected void addDeviceBuildInfoToResult() {
+        super.addDeviceBuildInfoToResult();
         Map<String, String> props = mapBuildInfo();
         String vendorFingerprint = props.get(BUILD_VENDOR_FINGERPRINT);
         String vendorManufacturer = props.get(BUILD_VENDOR_MANUFACTURER);
