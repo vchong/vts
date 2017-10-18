@@ -144,7 +144,7 @@ vts_test_lib_hidl_packages += \
   VtsHalConfigstoreV1_0TargetTest \
   VtsHalContexthubV1_0TargetTest \
   VtsHalDrmV1_0TargetTest \
-  VtsHalDumpstateV1_0Target \
+  VtsHalDumpstateV1_0TargetTest \
   VtsHalGatekeeperV1_0TargetTest \
   VtsHalGnssV1_0TargetTest \
   VtsHalGraphicsComposerV2_1TargetTest \
