@@ -39,7 +39,6 @@
   <option name="compatibility:include-filter" value="VtsHalKeymasterV3_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalLightV2_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalMemtrackV1_0TargetProfiling" />
-  <option name="compatibility:include-filter" value="VtsHalNeuralnetworksV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0HostProfiling" />
   <option name="compatibility:include-filter" value="VtsHalNfcV1_0TargetProfiling" />
   <option name="compatibility:include-filter" value="VtsHalOemHookV1_0Host" />
