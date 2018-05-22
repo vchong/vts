@@ -23,6 +23,8 @@ function vts_multidevice_create_image {
   rm ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/vibrator/ -rf
   rm ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/vr/ -rf
   rm ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/tv/ -rf
+  rm ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/keymaster/ -rf
+  rm ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/gatekeeper/ -rf
   . ${ANDROID_BUILD_TOP}/build/make/envsetup.sh
   cd ${ANDROID_BUILD_TOP}; lunch $1
   cd ${ANDROID_BUILD_TOP}/test/vts; mma -j 32 && cd ${ANDROID_BUILD_TOP}; make vts adb -j 32
@@ -36,6 +38,9 @@ function vts_multidevice_create_image {
   cp ${ANDROID_BUILD_TOP}/test/vts-testcase/hal/vibrator ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/ -rf
   cp ${ANDROID_BUILD_TOP}/test/vts-testcase/hal/vr ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/ -rf
   cp ${ANDROID_BUILD_TOP}/test/vts-testcase/hal/tv ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/ -rf
+  echo "cp f km gk"
+  cp ${ANDROID_BUILD_TOP}/test/vts-testcase/hal/keymaster ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/ -rf
+  cp ${ANDROID_BUILD_TOP}/test/vts-testcase/hal/gatekeeper ${ANDROID_BUILD_TOP}/test/vts/testcases/hal/ -rf
 }
 
 vts_multidevice_create_image $1
